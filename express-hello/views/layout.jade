@@ -1,0 +1,49 @@
+doctype html
+html(lang="zh_CN",ng-app="y9App")
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible",content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+        title= title
+        link(rel='stylesheet', href='/js/bootstrap/css/bootstrap.css')
+        link(rel='stylesheet',href= '/stylesheets/app.css')
+    body.body-master.container-fluid
+        script(src="/js/jQuery/jQuery-2.1.4.min.js")
+        script(src="/js/angular/angular.min.js")
+        script(src="/js/angular/angular-route.min.js")
+        script(src="/js/bootstrap/js/bootstrap.min.js")
+        script(src="/js/app.js")
+
+        div(ng-controller="navCtrl")
+            //导航条
+            nav.navbar.navbar-inverse.navbar-fixed-top
+                div.navbar-header
+                    button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#navbar",
+                    aria-expanded="false", aria-controls="navbar")
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(href="#") {{inst.title}}
+
+                div.collapse.navbar-collapse(id="navbar")
+                    div.navbar-left
+                        ul.nav.navbar-nav
+                            li
+                                a(href="/home")
+                                    span.glyphicon.glyphicon-home
+                                    span 主页
+                            li
+                                a(href="#/view1") 视图1
+                            li
+                                a(href="#/view2") 视图2
+                            li
+                                a(href="#") 常用布局功能
+                            li
+                                a(href="#") 列表
+                            li
+                                a(href="#") 列订单管理
+                    div.navbar-right
+
+        block content
+
+
