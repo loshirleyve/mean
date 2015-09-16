@@ -4,7 +4,7 @@ html(lang="zh_CN",ng-app="y9App")
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible",content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
-        title= title
+        title= platform.complete +" | "+ platform.name
         link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap.css')
         link(rel='stylesheet',href= '/stylesheets/app.css')
     body.body-master.container-fluid
@@ -23,7 +23,7 @@ html(lang="zh_CN",ng-app="y9App")
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand(href="#") {{inst.title}}
+                    a.navbar-brand(href="#") #{inst.simpleName}
 
                 div.collapse.navbar-collapse(id="navbar")
                     div.navbar-left

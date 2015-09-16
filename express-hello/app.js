@@ -11,13 +11,17 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 //自定义组件,存放常用公共组件
+
 var common = require("./lib/common.js");
+var security = require("./lib/mars-security.js")
+
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,14 +33,12 @@ app.use(session({secret: '12345', saveUninitialized: true, resave: false}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//初始化Session
-app.use(function (req, res, next) {
-    if (!session.inst) {
-        var params = common.getInst("leon");
-        session.inst = params;
-    }
-    next();
-});
+//自定义公共组件
+app.use(common({demo: "这是中间件初始化参数!"}));
+
+//安全组件
+app.use(security.configure());
+app.use(security.filter(app));
 
 app.use('/', routes);
 app.use('/users', users);

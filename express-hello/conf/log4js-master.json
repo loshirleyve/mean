@@ -1,0 +1,20 @@
+{
+  "appenders": [
+    {
+      "type": "clustered",
+      "appenders": [
+        {
+          "type": "console"
+        },
+        {
+          "type": "dateFile",
+          "filename": "logs/log4js.log",
+          "pattern": "-yyyy-MM-dd",
+          "alwaysIncludePattern": true,
+          "pollInterval": 1,
+          "category": "dateFileLog"
+        }
+      ]
+    }
+  ]
+}
