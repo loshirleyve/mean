@@ -10,7 +10,7 @@ var app = angular.module('y9App', ['ngRoute', 'y9App.filters', 'y9App.services',
         $routeProvider.when('/demo/jumbotron', {templateUrl: 'view/demo/jumbotron.html', controller: "MyCtrl2"});
         $routeProvider.when('/demo/list', {templateUrl: 'view/demo/list.html', controller: "MyCtrl2"});
         $routeProvider.when('/order/order-list', {
-            templateUrl: 'view/order/order-list.html',
+            templateUrl: 'view/order/workorder-list.html',
             controller: "OrderListCtrl"
         });
         $routeProvider.when('/order/order-detail', {
