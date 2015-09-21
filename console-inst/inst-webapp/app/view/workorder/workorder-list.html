@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>顶聚科技 | 订单管理</title>
+    <title>顶聚科技 | 工单管理</title>
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
@@ -36,7 +36,7 @@
     <div class="col-md-12">
         <ul class="breadcrumb" style="margin-bottom: 8px;">
             <li><a href="#/home"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
-            <li class="active">订单列表</li>
+            <li class="active">工单列表</li>
         </ul>
     </div>
 </div>
@@ -46,10 +46,16 @@
     <div class="col-md-12">
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-default active">
-                <input type="radio" name="options" id="allorder" autocomplete="off" checked>全部订单</label>
+                <input type="radio" name="options" id="allworkorder" autocomplete="off" checked>全部</label>
             </label>
             <label class="btn btn-default">
-                <input type="radio" name="options" id="confirmorder" autocomplete="off">待确认订单</label>
+                <input type="radio" name="options" id="untreated" autocomplete="off">未处理</label>
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="options" id="unassigned" autocomplete="off">未分配</label>
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="options" id="treated" autocomplete="off">已处理</label>
             </label>
         </div>
     </div>
@@ -61,10 +67,10 @@
         <div class="alert alert-info alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
 
-            <h4>新订单</h4>
+            <h4>新工单</h4>
 
             <hr>
-            有6张新的订单等待确认。</hr>
+            有6张新的工单等待确认。</hr>
 
             <a data-dismiss="alert" class="alert-link">立即处理.</a>
         </div>
@@ -108,157 +114,115 @@
                 <tbody>
                 <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">客户名称</th>
-                    <th class="text-center">订单编号</th>
-                    <th class="text-center">订单名称</th>
-                    <th class="text-center">购买人</th>
-                    <th class="text-center">销售顾问</th>
-                    <th class="text-center">专属顾问</th>
-                    <th class="text-center">销售金额</th>
-                    <th class="text-center">实际金额</th>
-                    <th class="text-center">状态</th>
+                    <th class="text-center">工单号</th>
+                    <th class="text-center">工单名称</th>
+                    <th class="text-center">分配人</th>
+                    <th class="text-center">分配日期</th>
+                    <th class="text-center">处理人</th>
+                    <th class="text-center">计划开始日期</th>
+                    <th class="text-center">实际开始日期</th>
+                    <th class="text-center">计划完成日期</th>
+                    <th class="text-center">实际完成日期</th>
+                    <th class="text-center">距离完成期限(天)</th>
+                    <th class="text-center">工单状态</th>
                     <th class="text-center">创建日期</th>
                     <th class="text-center">操作</th>
                 </tr>
                 <tr>
                     <td>1</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
                     <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
+                    <td>2015-09-17 16:00:20</td>
                     <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
-                    <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
-                    <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>深圳市顶聚科技有限公司</td>
-                    <td>10000002315418</td>
-                    <td>代理记账</td>
-                    <td>黄黎</td>
-                    <td>袁欢</td>
-                    <td>袁欢</td>
-                    <td class="text-right">￥3600.00</td>
-                    <td class="text-right">￥3200.00</td>
-                    <td>待支付</td>
-                    <td>2015-9-10 10:25:38</td>
-                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
                 </tr>
                 </tbody>
             </table>
