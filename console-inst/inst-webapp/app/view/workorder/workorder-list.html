@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh_CN" ng-app="y9App">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>顶聚科技 | 工单管理</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="../../css/app.css"/>
+</head>
+<body class="container-fluid" data-spy="scroll" data-target="#navScrollspy">
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-1.4.5.min.js"></script>
+-->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../lib/angular/angular.js"></script>
+<script src="../../lib/angular/angular-route.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4.min.js"></script>-->
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.min.js"></script>-->
+
+<script src="../../js/services.js"></script>
+<script src="../../js/filters.js"></script>
+<script src="../../js/directives.js"></script>
+<script src="../../js/app.js"></script>
+<script src="../../js/controllers.js"></script>
+
+<!--整体结构表格 -->
+<div class="row">
+    <!-- 当前页面导航。同时表达本页面功能名称 -->
+    <div class="col-md-12">
+        <ul class="breadcrumb" style="margin-bottom: 8px;">
+            <li><a href="#/home"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+            <li class="active">工单列表</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 列表全局过滤按钮组 -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default active">
+                <input type="radio" name="options" id="allworkorder" autocomplete="off" checked>全部</label>
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="options" id="untreated" autocomplete="off">未处理</label>
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="options" id="unassigned" autocomplete="off">未分配</label>
+            </label>
+            <label class="btn btn-default">
+                <input type="radio" name="options" id="treated" autocomplete="off">已处理</label>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- 订单新消息提醒，默认是关闭的，在检索到数据后显示 -->
+<div class="row">
+    <div class="col-md-12" style="margin-top: 10px;">
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+            <h4>新工单</h4>
+
+            <hr>
+            有6张新的工单等待确认。</hr>
+
+            <a data-dismiss="alert" class="alert-link">立即处理.</a>
+        </div>
+    </div>
+</div>
+
+<!--订单列表表格-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- 设置为响应式表格 当页面宽度不够显示表格内容时会出现滚动条-->
+        <div class="table-responsive">
+            <!-- table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格 -->
+            <table class="table table-striped table-bordered table-hover table-condensed" style="margin-bottom: 5px;">
+                <!--添加表格脚部，用于分页选择-->
+                <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <nav>
+                            <ul class="pagination" style="margin:1px;">
+                                <li class="disabled">
+                                    <a href="#" aria-label="上一页">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="下一页">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
+                </tfoot>
+
+                <tbody>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">工单号</th>
+                    <th class="text-center">工单名称</th>
+                    <th class="text-center">分配人</th>
+                    <th class="text-center">分配日期</th>
+                    <th class="text-center">处理人</th>
+                    <th class="text-center">计划开始日期</th>
+                    <th class="text-center">实际开始日期</th>
+                    <th class="text-center">计划完成日期</th>
+                    <th class="text-center">实际完成日期</th>
+                    <th class="text-center">距离完成期限(天)</th>
+                    <th class="text-center">工单状态</th>
+                    <th class="text-center">创建日期</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/order/order-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>10000002316105</td>
+                    <td>咨询服务-前期</td>
+                    <td>黄黎</td>
+                    <td>2015-09-17 16:00:20</td>
+                    <td>黄黎</td>
+                    <td>2015-09-18 15:58:53</td>
+                    <td class="text-right"></td>
+                    <td class="text-right">2015-09-22 15:58:53</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>未开始</td>
+                    <td></td>
+                    <td><a href="#/workorder/workorder-detail" class="btn btn-default btn-sm">查看</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
