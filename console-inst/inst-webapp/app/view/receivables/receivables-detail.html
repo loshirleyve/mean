@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>顶聚科技 | 收款详情</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="../../css/app.css"/>
+</head>
+<body class="container-fluid" data-spy="scroll" data-target="#navScrollspy">
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-1.4.5.min.js"></script>
+-->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../lib/angular/angular.js"></script>
+<script src="../../lib/angular/angular-route.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4.min.js"></script>-->
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.min.js"></script>-->
+
+<!--整体结构表格 -->
+<div class="row">
+    <!-- 当前页面导航。同时表达本页面功能名称 -->
+    <div class="col-md-12">
+        <ul class="breadcrumb" style="margin-bottom: 8px;">
+            <li><a href="#/home"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+            <li><a href="#/receivables/receivables-list">收款列表</a></li>
+            <li class="active">收款详情</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="nav navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">收款详情</p>
+            </div>
+            <div class="navbar-right" style="margin-right: 0px;">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/view1">上一单</a></li>
+                    <li><a href="#/view1">下一单</a></li>
+                    <li><a href="#/view1">收款</a></li>
+                    <li><a href="#/view1">返回</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h5 id="receivablesinfo">基本信息</h5>
+                </div>
+                <form class="form-horizontal">
+                    <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
+                        <label class="col-sm-2 control-label">收款单ID：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">10000002315426</p><!--form-control-static 文字垂直居中-->
+                        </div>
+
+                        <label class="col-sm-2 control-label">购买内容：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">顶聚科技购买咨询服务</p>
+                        </div>
+
+                        <label class="col-sm-2 control-label">付款方式：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">在线支付</p>
+                        </div>
+
+                        <label class="col-sm-2 control-label">应收金额：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">￥1,000.00</p>
+                        </div>
+
+                        <label class="col-sm-2 control-label">已收金额：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">￥0.00</p>
+                        </div>
+
+                        <label class="col-sm-2 control-label">锁定金额：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">￥0.00</p>
+                        </div>
+
+                        <label class="col-sm-2 control-label">代收款金额：</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">￥1,000.00</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h5 id="receivablesdetail">产品列表</h5>
+                </div>
+                <div class="table-responsive" style="margin: 20px 20px 20px;">
+                    <!-- table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格 -->
+                    <table class="table table-striped table-bordered table-hover table-condensed "
+                           style="margin-bottom: 5px;">
+                        <tbody>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">付款金额</th>
+                            <th class="text-center">付款方式</th>
+                            <th class="text-center">收款人</th>
+                            <th class="text-center">收款出纳</th>
+                            <th class="text-center">收款状态</th>
+                            <th class="text-center">付款日期</th>
+                            <th class="text-center">说明</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td class="text-center">1000</td>
+                            <td class="text-center">支付宝</td>
+                            <td class="text-center">黄黎</td>
+                            <td class="text-center">黄黎</td>
+                            <td class="text-center">等待确认</td>
+                            <td class="text-center">2015-09-15 23:09:56</td>
+                            <td class="text-center">支付宝安全支付</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-2" id="navScrollspy">
+
+        <div data-spy="affix" data-offset-top="200" data-offset-bottom="10">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="" data-target="#receivablesinfo">基本信息</a></li>
+                <li><a href="#receivablesdetail">收款明细</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
