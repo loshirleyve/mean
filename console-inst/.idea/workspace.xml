@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cce9d80e-9b84-49ea-ab63-cb4f635f10b6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inst-webapp/app/index-ck.html" afterPath="$PROJECT_DIR$/inst-webapp/app/index-ck.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-detail.html" afterPath="$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-list.html" afterPath="$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-list.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="console-inst.iws" />
@@ -39,8 +37,8 @@
       <file leaf-file-name="workorder-list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.8529415">
-              <caret line="85" column="117" selection-start-line="85" selection-start-column="90" selection-end-line="85" selection-end-column="117" />
+            <state vertical-scroll-proportion="-2.235294">
+              <caret line="160" column="111" selection-start-line="160" selection-start-column="111" selection-end-line="160" selection-end-column="111" />
               <folding>
                 <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -51,8 +49,8 @@
       <file leaf-file-name="workorder-detail.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45553538">
-              <caret line="147" column="25" selection-start-line="147" selection-start-column="25" selection-end-line="147" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.58246344">
+              <caret line="77" column="74" selection-start-line="77" selection-start-column="74" selection-end-line="77" selection-end-column="74" />
               <folding>
                 <element signature="n#style#0;n#ul#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#nav#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -305,7 +303,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14169382" sideWeight="0.48511904" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13192183" sideWeight="0.49702382" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.117263846" sideWeight="0.49702382" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -711,8 +709,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.8529415">
-          <caret line="85" column="117" selection-start-line="85" selection-start-column="90" selection-end-line="85" selection-end-column="117" />
+        <state vertical-scroll-proportion="-2.235294">
+          <caret line="160" column="111" selection-start-line="160" selection-start-column="111" selection-end-line="160" selection-end-column="111" />
           <folding>
             <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
@@ -721,8 +719,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/inst-webapp/app/view/workorder/workorder-detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45553538">
-          <caret line="147" column="25" selection-start-line="147" selection-start-column="25" selection-end-line="147" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.58246344">
+          <caret line="77" column="74" selection-start-line="77" selection-start-column="74" selection-end-line="77" selection-end-column="74" />
           <folding>
             <element signature="n#style#0;n#ul#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#nav#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />

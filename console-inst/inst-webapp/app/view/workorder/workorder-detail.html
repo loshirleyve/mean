@@ -44,10 +44,39 @@
             </div>
             <div class="navbar-right" style="margin-right: 0px;">
                 <ul class="nav navbar-nav">
-                    <li><a href="#/view1">下一单</a></li>
-                    <li><a href="#/view1">开始做</a></li>
-                    <li><a href="#/view1">查看订单</a></li>
-                    <li><a href="#/view1">返回</a></li>
+                    <li>
+                        <!-- Button trigger modal -->
+                        <a href="#">
+                            下一单
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Button trigger modal -->
+                        <a data-toggle="modal" data-target="#start">
+                            开始做
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="start" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">附言</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="../order/order-detail.html">查看订单</a></li>
+                    <li><a href="../workorder/workorder-list.html">返回</a></li>
                 </ul>
             </div>
         </nav>
@@ -199,7 +228,7 @@
                 <div >
                     <div class="col-md-11 text-right">
                         <p>2015-09-01 18:17:15</p>
-                        6666
+                        <div class="bg-info">6666</div>
                     </div>
                     <div class="col-md-1" style="margin-bottom: 5px;">
                         <img src="http://www.placehold.it/70x70" class="img-responsive center-block" alt="Responsive image">
@@ -207,7 +236,7 @@
 
                     <div class="col-md-11 text-right">
                         <p>2015-09-01 18:17:15</p>
-                        6666
+                        <div class="bg-info">6666</div>
                     </div>
                     <div class="col-md-1" style="margin-bottom: 5px;">
                         <img src="http://www.placehold.it/70x70" class="img-responsive center-block" alt="Responsive image">
@@ -215,7 +244,7 @@
 
                     <div class="col-md-11 text-right">
                         <p>2015-09-01 18:17:15</p>
-                        6666
+                        <div class="bg-info">6666</div>
                     </div>
                     <div class="col-md-1" style="margin-bottom: 5px;">
                         <img src="http://www.placehold.it/70x70" class="img-responsive center-block" alt="Responsive image">
@@ -223,7 +252,7 @@
 
                     <div class="col-md-11 text-right">
                         <p>2015-09-01 18:17:15</p>
-                        6666
+                        <div class="bg-info">6666</div>
                     </div>
                     <div class="col-md-1" style="margin-bottom: 5px;">
                         <img src="http://www.placehold.it/70x70" class="img-responsive center-block" alt="Responsive image">
