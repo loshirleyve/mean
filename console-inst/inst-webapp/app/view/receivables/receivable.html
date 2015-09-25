@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh_CN" ng-app="y9App">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>顶聚科技 | 收款管理</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="../../css/app.css"/>
+</head>
+<body class="container-fluid">
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-1.4.5.min.js"></script>
+-->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../lib/angular/angular.js"></script>
+<script src="../../lib/angular/angular-route.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4.min.js"></script>-->
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.min.js"></script>-->
+
+<script src="../../js/services.js"></script>
+<script src="../../js/filters.js"></script>
+<script src="../../js/directives.js"></script>
+<script src="../../js/app.js"></script>
+<script src="../../js/controllers.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="nav navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">收款确认</p>
+            </div>
+            <div class="navbar-right" style="margin-right: 0px;">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/view1">确认收款</a></li>
+                    <li><a href="#/view1">返回</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal">
+                    <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
+                        <label class="col-md-3 control-label">购买内容:</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">顶聚科技购买咨询服务</p><!--form-control-static 文字垂直居中-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">付款方式:</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">在线支付</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">应收金额:</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">￥1,000.00</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">已收金额:</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">￥0.00</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">锁定金额:</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">￥0.00</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">本次收款金额:</label>
+
+                        <div class="col-md-9">
+                            <input class="form-control" type="number" value="1000"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">本次收款方式:</label>
+
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>---请选择---</option>
+                                <option>支付宝</option>
+                                <option>微支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">收款人:</label>
+
+                        <div class="col-md-9">
+                            <button type="button" class="btn btn-primary">选择</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">说明:</label>
+
+                        <div class="col-md-9">
+                            <textarea class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
