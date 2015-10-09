@@ -85,243 +85,257 @@
 
 <div class="row">
 
-    <div class="col-md-10">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h5 id="receivablesinfo">基本信息</h5>
+<div class="col-md-10">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h5 id="receivablesinfo">基本信息</h5>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
+                    <label class="col-sm-2 control-label">收款单ID：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">10000002315426</p><!--form-control-static 文字垂直居中-->
+                    </div>
+
+                    <label class="col-sm-2 control-label">购买内容：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">顶聚科技购买咨询服务</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">付款方式：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">在线支付</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">应收金额：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">￥1,000.00</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">已收金额：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">￥0.00</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">锁定金额：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">￥0.00</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">代收款金额：</label>
+
+                    <div class="col-sm-10">
+                        <p class="form-control-static">￥1,000.00</p>
+                    </div>
                 </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h5 id="receivablesdetail">产品列表</h5>
+            </div>
+            <div class="table-responsive" style="margin: 20px 20px 20px;">
+                <!-- table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格 -->
+                <table class="table table-striped table-bordered table-hover table-condensed "
+                       style="margin-bottom: 5px;">
+                    <tbody>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">付款金额</th>
+                        <th class="text-center">付款方式</th>
+                        <th class="text-center">收款人</th>
+                        <th class="text-center">收款出纳</th>
+                        <th class="text-center">收款状态</th>
+                        <th class="text-center">付款日期</th>
+                        <th class="text-center">说明</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td class="text-center">1000</td>
+                        <td class="text-center">支付宝</td>
+                        <td class="text-center">黄黎</td>
+                        <td class="text-center">黄黎</td>
+                        <td class="text-center">等待确认</td>
+                        <td class="text-center">2015-09-15 23:09:56</td>
+                        <td class="text-center">支付宝安全支付</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-2" id="navScrollspy">
+    <div data-spy="affix" data-offset-top="200" data-offset-bottom="10">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="" data-target="#receivablesinfo">基本信息</a></li>
+            <li><a href="#receivablesdetail">收款明细</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 弹出层 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">收款确认</h4>
+            </div>
+            <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
-                        <label class="col-sm-2 control-label">收款单ID：</label>
+                        <label class="col-md-3 control-label">购买内容:</label>
 
-                        <div class="col-sm-10">
-                            <p class="form-control-static">10000002315426</p><!--form-control-static 文字垂直居中-->
+                        <div class="col-md-9">
+                            <p class="form-control-static">顶聚科技购买咨询服务</p><!--form-control-static 文字垂直居中-->
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">付款方式:</label>
 
-                        <label class="col-sm-2 control-label">购买内容：</label>
-
-                        <div class="col-sm-10">
-                            <p class="form-control-static">顶聚科技购买咨询服务</p>
-                        </div>
-
-                        <label class="col-sm-2 control-label">付款方式：</label>
-
-                        <div class="col-sm-10">
+                        <div class="col-md-9">
                             <p class="form-control-static">在线支付</p>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">应收金额:</label>
 
-                        <label class="col-sm-2 control-label">应收金额：</label>
-
-                        <div class="col-sm-10">
+                        <div class="col-md-9">
                             <p class="form-control-static">￥1,000.00</p>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">已收金额:</label>
 
-                        <label class="col-sm-2 control-label">已收金额：</label>
-
-                        <div class="col-sm-10">
+                        <div class="col-md-9">
                             <p class="form-control-static">￥0.00</p>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">锁定金额:</label>
 
-                        <label class="col-sm-2 control-label">锁定金额：</label>
-
-                        <div class="col-sm-10">
+                        <div class="col-md-9">
                             <p class="form-control-static">￥0.00</p>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">本次收款金额:</label>
 
-                        <label class="col-sm-2 control-label">代收款金额：</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="number" value="1000"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">本次收款方式:</label>
 
-                        <div class="col-sm-10">
-                            <p class="form-control-static">￥1,000.00</p>
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>---请选择---</option>
+                                <option>支付宝</option>
+                                <option>微支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">收款人:</label>
+
+                        <div class="col-md-9">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                                选择
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">说明:</label>
+
+                        <div class="col-md-9">
+                            <textarea class="form-control"></textarea>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h5 id="receivablesdetail">产品列表</h5>
-                </div>
-                <div class="table-responsive" style="margin: 20px 20px 20px;">
-                    <!-- table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格 -->
-                    <table class="table table-striped table-bordered table-hover table-condensed "
-                           style="margin-bottom: 5px;">
-                        <tbody>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">付款金额</th>
-                            <th class="text-center">付款方式</th>
-                            <th class="text-center">收款人</th>
-                            <th class="text-center">收款出纳</th>
-                            <th class="text-center">收款状态</th>
-                            <th class="text-center">付款日期</th>
-                            <th class="text-center">说明</th>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">1000</td>
-                            <td class="text-center">支付宝</td>
-                            <td class="text-center">黄黎</td>
-                            <td class="text-center">黄黎</td>
-                            <td class="text-center">等待确认</td>
-                            <td class="text-center">2015-09-15 23:09:56</td>
-                            <td class="text-center">支付宝安全支付</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">确认收款</button>
                 </div>
             </div>
         </div>
-
     </div>
-
-    <div class="col-md-2" id="navScrollspy">
-        <div data-spy="affix" data-offset-top="200" data-offset-bottom="10">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="" data-target="#receivablesinfo">基本信息</a></li>
-                <li><a href="#receivablesdetail">收款明细</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- 弹出层 -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">收款确认</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
-                            <label class="col-md-3 control-label">购买内容:</label>
-
-                            <div class="col-md-9">
-                                <p class="form-control-static">顶聚科技购买咨询服务</p><!--form-control-static 文字垂直居中-->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">付款方式:</label>
-
-                            <div class="col-md-9">
-                                <p class="form-control-static">在线支付</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">应收金额:</label>
-
-                            <div class="col-md-9">
-                                <p class="form-control-static">￥1,000.00</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">已收金额:</label>
-
-                            <div class="col-md-9">
-                                <p class="form-control-static">￥0.00</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">锁定金额:</label>
-
-                            <div class="col-md-9">
-                                <p class="form-control-static">￥0.00</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">本次收款金额:</label>
-
-                            <div class="col-md-9">
-                                <input class="form-control" type="number" value="1000"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">本次收款方式:</label>
-
-                            <div class="col-md-9">
-                                <select class="form-control">
-                                    <option>---请选择---</option>
-                                    <option>支付宝</option>
-                                    <option>微支付</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">收款人:</label>
-
-                            <div class="col-md-9">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">选择</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">说明:</label>
-
-                            <div class="col-md-9">
-                                <textarea class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary">确认收款</button>
+</div>
+<!-- 弹出层 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">选择用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="main" class="col-md-5">
+                        <ul id="mixed">
+                            <li><span>深圳市顶聚科技有限公司</span>
+                                <ul>
+                                    <li><span>行政部</span></li>
+                                    <li><span>销售部</span></li>
+                                    <li><span>测试部</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="container-fluid col-md-7">
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>头像</th>
+                                <th>编号</th>
+                                <th>姓名</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><img></td>
+                                <td>001</td>
+                                <td>廖志祥</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><img></td>
+                                <td>002</td>
+                                <td>廖志祥</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><img></td>
+                                <td>003</td>
+                                <td>廖志祥</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- 弹出层 -->
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel2">选择用户</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div id="main" class="col-md-5">
-                            <ul id="mixed">
-                                <li><span>深圳市顶聚科技有限公司</span>
-                                    <ul>
-                                        <li><span>行政部</span></li>
-                                        <li><span>销售部</span></li>
-                                        <li><span>测试部</span></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="container-fluid col-md-7">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <th>#</th>
-                                    <th>头像</th>
-                                    <th>编号</th>
-                                    <th>姓名</th>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td><img></td>
-                                    <td>001</td>
-                                    <td>廖志祥</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">确认</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确认</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
