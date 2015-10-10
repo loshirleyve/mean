@@ -14,7 +14,7 @@ router.get("/home",function(req,res,next){
 
 router.get('/home', function (req, res, next) {
     debug("/home 转发页面路由!");
-    res.render('home');
+    res.render('index');
 });
 
 
