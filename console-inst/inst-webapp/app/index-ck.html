@@ -19,10 +19,10 @@
 <style type="text/css">
     .color{background-color: #0063dc}
 </style>
-<body class="body-master">
+<body class="body-master" ng-app="mainApp" ng-controller="mainCtrl">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#/home">顶聚科技</a>
+            <a class="navbar-brand" href="#/home">{{inst}}</a>
         </div>
         <div class="navbar-left">
             <ul class="nav navbar-nav">
@@ -36,12 +36,6 @@
 
     <!-- 首页 -->
     <div class="col-md-12">
-        <!--这里是首页-->
-
-        <!--<img src="http://www.placehold.it/200x200" class="img-responsive" alt="Responsive image">-->
-
-        <!--<div>图片下面</div>-->
-
         <div class="row">
             <div class="col-md-12">
                 <!-- 16:9 aspect ratio -->
@@ -58,4 +52,12 @@
         </div>
     </nav>
 </body>
+
+<script type="text/javascript">
+    angular.module('mainApp',[])
+            .controller('mainCtrl',function($scope){
+                $scope.inst = "顶聚科技";
+            });
+
+</script>
 </html>
