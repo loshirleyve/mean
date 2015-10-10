@@ -28,11 +28,11 @@
 <script type="text/javascript">
     function initTrees() {
         $("#black").treeview({
-            url: "source.php"
+            url: "../../lib/jQuery/source.php"
         })
 
         $("#mixed").treeview({
-            url: "source.php",
+            url: "../../lib/jQuery/source.php",
             // add some additional, dynamic data and request with POST
             ajax: {
                 data: {
@@ -150,14 +150,14 @@
                        style="margin-bottom: 5px;">
                     <tbody>
                     <tr>
-                        <th class="text-center">#</th>
-                        <th class="text-center">付款金额</th>
-                        <th class="text-center">付款方式</th>
-                        <th class="text-center">收款人</th>
-                        <th class="text-center">收款出纳</th>
-                        <th class="text-center">收款状态</th>
-                        <th class="text-center">付款日期</th>
-                        <th class="text-center">说明</th>
+                        <th class="text-center col-md-0.5">#</th>
+                        <th class="text-center col-md-1">付款金额</th>
+                        <th class="text-center col-md-1">付款方式</th>
+                        <th class="text-center col-md-1">收款人</th>
+                        <th class="text-center col-md-1">收款出纳</th>
+                        <th class="text-center col-md-1">收款状态</th>
+                        <th class="text-center col-md-2.5">付款日期</th>
+                        <th class="text-center col-md-4">说明</th>
                     </tr>
                     <tr>
                         <td class="text-center">1</td>
