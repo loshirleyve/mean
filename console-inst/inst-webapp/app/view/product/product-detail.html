@@ -96,73 +96,72 @@
                 </tr>
                 <tr>
                     <td colspan="8">
-                        <div class="row collapse.in col-md-10 " id="collapseExample">
-                            <form class="form-horizontal">
-                                <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
-                                    <label class="col-md-4 control-label">产品logo：</label>
+                        <form class="form-horizontal collapse in col-md-10" id="collapseExample">
+                            <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
+                                <label class="col-md-4 control-label">产品logo：</label>
 
-                                    <div class="col-md-8">
-                                        <p class="form-control-static">
-                                            <button type="button" class="btn btn-primary">选择</button>
-                                        </p>
-                                        <!--form-control-static 文字垂直居中-->
-                                    </div>
-
-                                    <label class="col-md-4 control-label">产品名称：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><input class="form-control" type="text"
-                                                                              value="代理记账"></p>
-                                    </div>
-
-                                    <label class="col-md-4 control-label">产品价格：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><input class="form-control disabled"
-                                                                              type="text" value="0"></p>
-                                    </div>
-
-                                    <label class="col-md-4 control-label">服务类型：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><select class="form-control">
-                                            <option>请选择</option>
-                                            <option>服务产品</option>
-                                            <option>实体产品</option>
-                                        </select></p>
-                                    </div>
-
-                                    <label class="col-md-4 control-label">服务天数：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><input class="form-control" type="number"
-                                                                              value="1">
-                                        </p>
-                                    </div>
-
-                                    <label class="col-md-4 control-label">服务详情：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><input class="form-control" type="text"
-                                                                              value="为企业提供一站式税务服务。帮助企业进行经营财务账务进行记录，并完成纳税申报">
-                                        </p>
-                                    </div>
-
-                                    <label class="col-md-4 control-label">详情链接：</label>
-
-                                    <div class="col-md-8">
-                                        <p class="form-control-static"><input class="form-control" type="text"
-                                                                              value="http://120.24.84.201:9080/inst/product/manager/detail.yun9?productid=10000001519207">
-                                        </p>
-                                    </div>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#myModal3">选择
+                                        </button>
+                                    </p>
+                                    <!--form-control-static 文字垂直居中-->
                                 </div>
-                                <div class="col-md-12 text-center">
-                                    <button type="button" class="btn btn-primary ">确认</button>
-                                    <button type="button" class="btn btn-default ">取消</button>
-                                </div>
-                            </form>
 
-                        </div>
+                                <label class="col-md-4 control-label">产品名称：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><input class="form-control" type="text"
+                                                                          value="代理记账"></p>
+                                </div>
+
+                                <label class="col-md-4 control-label">产品价格：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><input class="form-control disabled"
+                                                                          type="text" value="0"></p>
+                                </div>
+
+                                <label class="col-md-4 control-label">服务类型：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><select class="form-control">
+                                        <option>请选择</option>
+                                        <option>服务产品</option>
+                                        <option>实体产品</option>
+                                    </select></p>
+                                </div>
+
+                                <label class="col-md-4 control-label">服务天数：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><input class="form-control" type="number"
+                                                                          value="1">
+                                    </p>
+                                </div>
+
+                                <label class="col-md-4 control-label">服务详情：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><input class="form-control" type="text"
+                                                                          value="为企业提供一站式税务服务。帮助企业进行经营财务账务进行记录，并完成纳税申报">
+                                    </p>
+                                </div>
+
+                                <label class="col-md-4 control-label">详情链接：</label>
+
+                                <div class="col-md-8">
+                                    <p class="form-control-static"><input class="form-control" type="text"
+                                                                          value="http://120.24.84.201:9080/inst/product/manager/detail.yun9?productid=10000001519207">
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-primary ">确认</button>
+                                <button type="button" class="btn btn-default ">取消</button>
+                            </div>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -528,6 +527,27 @@
             </div>
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-primary " data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹出层 -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">图片选择</h4>
+            </div>
+            <div class="modal-body">
+                <img src="http://www.placehold.it/70x70" class="img-responsive">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
             </div>
         </div>
     </div>
