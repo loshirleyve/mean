@@ -29,9 +29,9 @@
     <!-- 当前页面导航。同时表达本页面功能名称 -->
     <div class="col-md-12">
         <ul class="breadcrumb" style="margin-bottom: 8px;">
-            <li><a href="clientmanager.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+            <li><a href="../../index.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
             <li><a href="client-list.html">客户列表</a></li>
-            <li class="active" id="top">新增客户</li>
+            <li class="active" id="topp">新增客户</li>
         </ul>
     </div>
 </div>
@@ -52,190 +52,207 @@
 </div>
 
 <div class="row">
-
     <div class="col-md-10">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h5 id="baseinfo">基本信息</h5>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h5 id="baseinfo">基本信息</h5>
+            </div>
+            <form class="form-horizontal" style="margin: 20px 20px 20px;">
+                <div class="form-group row">
+                    <label for="ID" class="col-sm-2 control-label">ID</label>
+
+                    <div class="col-sm-10">
+                        <input id="ID" type="text" class="form-control" disabled>
+                    </div>
                 </div>
-                <form class="form-horizontal" style="margin: 20px 20px 20px;">
-                    <div class="form-group">
-                        <label for="ID" class="col-sm-2 control-label">ID</label>
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 control-label">名称</label>
 
-                        <div class="col-sm-2">
-                            <input id="ID" type="text" class="form-control" disabled>
-                        </div>
-                        <label for="name" class="col-sm-2 control-label">名称</label>
-
-                        <div class="col-sm-2">
-                            <input id="name" type="text" class="form-control">
-                        </div>
-                        <label for="abbr" class="col-sm-2 control-label">简称</label>
-
-                        <div class="col-sm-2">
-                            <input id="abbr" type="text" class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <input id="name" type="text" class="form-control">
                     </div>
-                    <div class="form-group form-horizontal">
-                        <label for="num" class="col-sm-2 control-label">编号</label>
+                </div>
+                <div class="form-group row">
+                    <label for="abbr" class="col-sm-2 control-label">简称</label>
 
-                        <div class="col-sm-2">
-                            <input id="num" type="text" class="form-control">
-                        </div>
-                        <label for="industry" class="col-sm-2 control-label">行业</label>
-
-                        <div class="col-sm-2">
-                            <select class="btn-sm" id="industry">
-                                <option>&nbsp;---请选择---&nbsp;</option>
-                                <option>小微企业</option>
-                                <option>外贸</option>
-                            </select>
-                        </div>
-                        <label for="type" class="col-sm-2 control-label">类型</label>
-
-                        <div class="col-sm-2">
-                            <select class="btn-sm" id="type">
-                                <option>&nbsp;---请选择---&nbsp;</option>
-                                <option>企业</option>
-                                <option>个体经营者</option>
-                                <option>自然人</option>
-                            </select>
-                        </div>
+                    <div class="col-sm-10">
+                        <input id="abbr" type="text" class="form-control">
                     </div>
-                    <!-- Add the extra clearfix for only the required viewport -->
-                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group row">
+                    <label for="num" class="col-sm-2 control-label">编号</label>
 
-                    <div class="form-group form-horizontal">
-                        <label for="level" class="col-sm-2 control-label">级别</label>
-
-                        <div class="col-sm-2">
-                            <select class="btn-sm" id="level">
-                                <option>&nbsp;---请选择---&nbsp;</option>
-                                <option>A类</option>
-                                <option>B类</option>
-                                <option>C类</option>
-                            </select>
-                        </div>
-
-                        <label for="source" class="col-sm-2 control-label">来源</label>
-
-                        <div class="col-sm-2">
-                            <select class="btn-sm" id="source">
-                                <option>&nbsp;---请选择---&nbsp;</option>
-                                <option>网络渠道</option>
-                                <option>发单</option>
-                                <option>客户推荐</option>
-                                <option>同行介绍</option>
-                                <option>市场合作</option>
-                            </select>
-                        </div>
-                        <label for="scale" class="col-sm-2 control-label">规模</label>
-
-                        <div class="col-sm-2">
-                            <input id="scale" type="text" class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <input id="num" type="text" class="form-control">
                     </div>
-                    <div class="form-group form-horizontal">
-                        <label for="contactman" class="col-sm-2 control-label">联系人</label>
+                </div>
+                <div class="form-group row">
+                    <label for="industry" class="col-sm-2 control-label">行业</label>
 
-                        <div class="col-sm-2">
-                            <input id="contactman" type="text" class="form-control">
-                        </div>
-                        <label for="phone" class="col-sm-2 control-label">电话</label>
-
-                        <div class="col-sm-2">
-                            <input id="phone" type="text" class="form-control">
-                        </div>
-                        <label for="post" class="col-sm-2 control-label">职位</label>
-
-                        <div class="col-sm-2">
-                            <select class="btn-sm" id="post">
-                                <option>&nbsp;---请选择---&nbsp;</option>
-                                <option>法人</option>
-                                <option>老板</option>
-                                <option>负责人</option>
-                                <option>介绍人</option>
-                            </select>
-                        </div>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="industry">
+                            <option>---请选择---</option>
+                            <option>小微企业</option>
+                            <option>外贸</option>
+                        </select>
                     </div>
 
-                    <!-- Add the extra clearfix for only the required viewport -->
-                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group row">
+                    <label for="type" class="col-sm-2 control-label">类型</label>
 
-                    <div class="form-group form-horizontal">
-                        <label for="area" class="col-sm-2 control-label">地区</label>
-
-                        <div class="col-sm-4">
-                            <input id="area" type="text" class="form-control">
-                        </div>
-                        <label for="address" class="col-sm-2 control-label">地址</label>
-
-                        <div class="col-sm-4">
-                            <input id="address" type="text" class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="type">
+                            <option>---请选择---</option>
+                            <option>企业</option>
+                            <option>个体经营者</option>
+                            <option>自然人</option>
+                        </select>
                     </div>
-                    <div class="form-group form-horizontal">
-                        <label for="inst" class="col-sm-2 control-label">客户机构</label>
 
-                        <div class="col-sm-4">
-                            <input id="inst" type="text" class="form-control">
-                        </div>
-                        <label for="manager" class="col-sm-2 control-label">客户管理员</label>
+                </div>
+                <div class="form-group row">
+                    <label for="level" class="col-sm-2 control-label">级别</label>
 
-                        <div class="col-sm-4">
-                            <input id="manager" type="text" class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="level">
+                            <option>---请选择---</option>
+                            <option>A类</option>
+                            <option>B类</option>
+                            <option>C类</option>
+                        </select>
                     </div>
-                    <div class="form-group form-horizontal">
-                        <label for="createtime" class="col-sm-2 control-label">创建时间</label>
 
-                        <div class="col-sm-4">
-                            <input id="createtime" type="text" class="form-control">
-                        </div>
-                        <label for="updatetime" class="col-sm-2 control-label">更新时间</label>
+                </div>
+                <div class="form-group row">
+                    <label for="source" class="col-sm-2 control-label">来源</label>
 
-                        <div class="col-sm-4">
-                            <input id="updatetime" type="text" class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="source">
+                            <option>---请选择---</option>
+                            <option>网络渠道</option>
+                            <option>发单</option>
+                            <option>客户推荐</option>
+                            <option>同行介绍</option>
+                            <option>市场合作</option>
+                        </select>
                     </div>
-                    <div class="form-group form-horizontal">
-                        <label for="remark" class="col-sm-2 control-label">备注</label>
 
-                        <div class="col-sm-10">
-                            <textarea id="remark" class="form-control" rows="3"></textarea>
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label for="scale" class="col-sm-2 control-label">规模</label>
+
+                    <div class="col-sm-10">
+                        <input id="scale" type="text" class="form-control">
                     </div>
-                    <div id="bottom" class="text-center">
+
+                </div>
+                <div class="form-group row">
+                    <label for="contactman" class="col-sm-2 control-label">联系人</label>
+
+                    <div class="col-sm-10">
+                        <input id="contactman" type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="phone" class="col-sm-2 control-label">电话</label>
+
+                    <div class="col-sm-10">
+                        <input id="phone" type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="post" class="col-sm-2 control-label">职位</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control" id="post">
+                            <option>---请选择---</option>
+                            <option>法人</option>
+                            <option>老板</option>
+                            <option>负责人</option>
+                            <option>介绍人</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="area" class="col-sm-2 control-label">地区</label>
+
+                    <div class="col-sm-10">
+                        <input id="area" type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="address" class="col-sm-2 control-label">地址</label>
+
+                    <div class="col-sm-10">
+                        <input id="address" type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="inst" class="col-sm-2 control-label">客户机构</label>
+
+                    <div class="col-sm-10">
+                        <input id="inst" type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="manager" class="col-sm-2 control-label">客户管理员</label>
+
+                    <div class="col-sm-10">
+                        <input id="manager" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <label for="createtime" class="col-sm-2 control-label">创建时间</label>
+
+                    <div class="col-sm-10">
+                        <input id="createtime" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="updatetime" class="col-sm-2 control-label">更新时间</label>
+
+                    <div class="col-sm-10">
+                        <input id="updatetime" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <label for="remark" class="col-sm-2 control-label">备注</label>
+
+                    <div class="col-sm-10">
+                        <textarea id="remark" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div id="bottomp" class="text-center">
                         <a href="#" class="btn btn-primary">确定</a>
                         <a href="#" class="btn btn-default" data-dismiss="modal">取消</a>
                     </div>
-                </form>
-            </div>
+                </div>
+
+            </form>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+    </div>
     </div>
 
     <div class="col-md-2" id="navScrollspy">
 
         <div data-spy="affix" data-offset-top="200" data-offset-bottom="10">
             <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#top" data-target="#top">返回顶部</a></li>
-                <li><a href="#bottom">跳到底部</a></li>
+                <li class="active"><a href="" data-target="#topp">返回顶部</a></li>
+                <li><a href="#bottomp">跳到底部</a></li>
             </ul>
         </div>
     </div>
-
 </div>
 </body>
 </html>
