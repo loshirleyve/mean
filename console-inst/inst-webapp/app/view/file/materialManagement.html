@@ -13,36 +13,22 @@
     <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="ToolTip.js" type="text/javascript"></script>
     <style type="text/css">
+        .no{
+            list-style:none;
+            display: none;
+        }
         .img {
             height: 145px;
             width: 145px;
         }
     </style>
-    <!--
-    <script type="text/css">
-        .img-retina(@file-1x; @file-2x; @width-1x; @height-1x) {
-            background-image: url("@{file-1x}");
-
-            @media
-            only screen and (-webkit-min-device-pixel-ratio: 2),
-            only screen and (   min--moz-device-pixel-ratio: 2),
-            only screen and (     -o-min-device-pixel-ratio: 2/1),
-            only screen and (        min-device-pixel-ratio: 2),
-            only screen and (                min-resolution: 192dpi),
-            only screen and (                min-resolution: 2dppx) {
-                background-image: url("@{file-2x}");
-                background-size: @width-1x @height-1x;
+    <script type="text/javascript">
+        function show(){
+            if(document.getElementById("fileManage").style.display=='block'){
+                document.getElementById("fileManage").style.display='none';
+            }else{
+                document.getElementById("fileManage").style.display='block';
             }
-        }
-
-         /*Usage*/
-           .jumbotron {
-           .img-retina("/img/bg-1x.png", "/img/bg-2x.png", 100px, 100px);
-           }
-    </script>-->
-    <script>
-        function viewOriginalImg(){
-            x.show("查看原图");
         }
     </script>
 
@@ -64,7 +50,12 @@
     <div class="col-md-12">
         <nav class="nav navbar-default">
             <div class="navbar-header">
-                <p class="navbar-brand">素材文件</p>
+                <ul><a href="javascript:show()"><h4>文件管理<span class="caret"></span></h4></a> </ul>
+                <ul class="no" id="fileManage">
+                    <li><a href="#">素材管理</a></li>
+                    <li><a href="systemFile.html">系统文件</a></li>
+                    <li><a href="userFile.html">用户文件</a></li>
+                </ul>
             </div>
             <div class="navbar-right" style="margin-right: 40px">
                 <ul class="nav navbar-nav">
