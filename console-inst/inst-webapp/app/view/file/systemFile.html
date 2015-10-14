@@ -9,20 +9,24 @@
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.css">
     <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
     <link rel="stylesheet" href="../../css/app.css">
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../../lib/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-        .no{
-            display: none;/*隐藏当前元素*/
+        .no {
+            display: none; /*隐藏当前元素*/
+        }
+        .img {
+            width: 145px;
+            height: 145px;
         }
     </style>
     <script type="text/javascript">
-        function show(){
-            if(document.getElementById("delete").style.display=='block'){
-                document.getElementById("delete").style.display='none';
-            }else{
-                document.getElementById("delete").style.display='block';
+        function show() {
+            if (document.getElementById("delete").style.display == 'block') {
+                document.getElementById("delete").style.display = 'none';
+            } else {
+                document.getElementById("delete").style.display = 'block';
             }
         }
     </script>
@@ -50,16 +54,16 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <div class="no" id="delete" style="width: 40px">
-                        <a href="#">删除</a>
+                            <a href="#">删除</a>
                         </div>
                     </li>
                     <li>
                         <div style="width: 40px">
-                        <a href="javascript:location.reload()">刷新</a></div>
+                            <a href="javascript:location.reload()">刷新</a></div>
                     </li>
                     <li>
                         <div style="width: 40px">
-                        <a href="#"data-toggle="modal" data-target="#myUpload">上传</a></div>
+                            <a href="#" data-toggle="modal" data-target="#myUpload">上传</a></div>
                     </li>
                 </ul>
             </div>
@@ -94,15 +98,14 @@
 
 <div class="media" style="margin-left: 40px">
     <div class="media-left">
-        <a href="../img/ic_launcher" onclick="javascript:show()">
-        <!--<a href="../img/ic_launcher">-->
-            <img class="media-object" width="145px" height="145px" src="../img/ic_launcher"
+        <a href="../img/ic_launcher" onclick="javascript:show()" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <!--<a href="../img/ic_launcher">-->
+            <img class="media-object img" src="../img/ic_launcher"
                  alt="...">
-        <!--</a>-->
+            <!--</a>-->
         </a>
     </div>
 </div>
 
-<div class="mark">√</div>
 </body>
 </html>
