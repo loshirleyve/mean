@@ -73,7 +73,7 @@
                     <th class="text-center col-md-1">促销价格</th>
                     <th class="text-center col-md-2">产品类型</th>
                     <th class="text-center col-md-1">办理天数</th>
-                    <th class="text-center col-md-2">操作</th>
+                    <th class="text-center col-md-1">操作</th>
                 </tr>
                 <tr>
                     <td class="text-center">1</td>
@@ -86,82 +86,83 @@
                     <td class="text-center">
                         <button data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
                                 aria-controls="collapseExample"
-                                class="btn btn-default btn-sm">收起
-                        </button>
-                        <button data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                aria-controls="collapseExample"
-                                class="btn btn-default btn-sm hidden">编辑
+                                class="btn btn-default btn-sm">编辑
                         </button>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="8">
-                        <form class="form-horizontal collapse in col-md-10" id="collapseExample">
-                            <div class="form-group"><!--control-label的文本采用右对齐方式并且垂直居中-->
-                                <label class="col-md-4 control-label">产品logo：</label>
+                    <td colspan="8" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class=" collapse  col-md-10" id="collapseExample">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+                                    <!--control-label的文本采用右对齐方式并且垂直居中-->
+                                    <label class="col-md-4 control-label">产品logo:</label>
 
-                                <div class="col-md-8">
-                                    <p class="form-control-static">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#myModal3">选择
-                                        </button>
-                                    </p>
-                                    <!--form-control-static 文字垂直居中-->
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal4">选择
+                                            </button>
+                                        </p>
+                                        <!--form-control-static 文字垂直居中-->
+                                    </div>
+
+                                    <label class="col-md-4 control-label">产品名称:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="代理记账"></p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">产品价格:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control disabled"
+                                                                              type="text" value="0"></p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">服务类型:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><select class="form-control">
+                                            <option>请选择</option>
+                                            <option>服务产品</option>
+                                            <option>实体产品</option>
+                                        </select></p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">服务天数:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+
+                                    <label class="col-md-4 control-label">服务详情:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="为企业提供一站式税务服务。帮助企业进行经营财务账务进行记录，并完成纳税申报">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">详情链接:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="http://120.24.84.201:9080/inst/product/manager/detail.yun9?productid=10000001519207">
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <label class="col-md-4 control-label">产品名称：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><input class="form-control" type="text"
-                                                                          value="代理记账"></p>
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
                                 </div>
-
-                                <label class="col-md-4 control-label">产品价格：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><input class="form-control disabled"
-                                                                          type="text" value="0"></p>
-                                </div>
-
-                                <label class="col-md-4 control-label">服务类型：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><select class="form-control">
-                                        <option>请选择</option>
-                                        <option>服务产品</option>
-                                        <option>实体产品</option>
-                                    </select></p>
-                                </div>
-
-                                <label class="col-md-4 control-label">服务天数：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><input class="form-control" type="number"
-                                                                          value="1">
-                                    </p>
-                                </div>
-
-                                <label class="col-md-4 control-label">服务详情：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><input class="form-control" type="text"
-                                                                          value="为企业提供一站式税务服务。帮助企业进行经营财务账务进行记录，并完成纳税申报">
-                                    </p>
-                                </div>
-
-                                <label class="col-md-4 control-label">详情链接：</label>
-
-                                <div class="col-md-8">
-                                    <p class="form-control-static"><input class="form-control" type="text"
-                                                                          value="http://120.24.84.201:9080/inst/product/manager/detail.yun9?productid=10000001519207">
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 text-center">
-                                <button type="button" class="btn btn-primary ">确认</button>
-                                <button type="button" class="btn btn-default ">取消</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -198,31 +199,80 @@
                     <td class="text-center">1.到客户公司拜访与法人或者主要的联系人见面2.告知客户我们公司的服务内容及流程3.告知客户签订第三方协议事项。</td>
                     <td class="text-center">1</td>
                     <td class="text-center">1</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                    <td class="text-center"><a data-toggle="collapse" data-target="#collapseExample2"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample"
+                                               class="btn btn-default btn-sm">编辑</a><a
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">开立基本户</td>
-                    <td class="text-center">次</td>
-                    <td class="text-center">提醒客户去银行开公司基本户，并告知客户办理方法。在客户办理完成后收取客户的开户许可证原件.</td>
-                    <td class="text-center">5</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
-                </tr>
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">国税报到地税征管鉴定</td>
-                    <td class="text-center">次</td>
-                    <td class="text-center">1、向国税局提交公司税务相关资料 2、向地税提交公司税务资料</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                    <td colspan="7" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class="collapse  col-md-10" id="collapseExample2">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+
+                                    <label class="col-md-4 control-label">阶段名称:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="拜访"></p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">阶段职责:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control "
+                                                                              type="text" value="次"></p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">服务类型:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><select class="form-control">
+                                            <option>请选择</option>
+                                            <option>服务产品</option>
+                                            <option>实体产品</option>
+                                        </select>
+                                        </p>
+                                        按次服务，自购买之日起<input class="form-control col-md-1"
+                                                          value="1"/>天开始服务[格式:大于0的整数值],
+                                        共提供<input class="form-control col-md-1"
+                                                  value="1"/>次服务
+                                    </div>
+
+                                    <label class="col-md-4 control-label">办理天数:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">排序:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">阶段说明:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="介绍服务内容以及事项。">
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -257,8 +307,8 @@
                     <td class="text-center">文本</td>
                     <td class="text-center"></td>
                     <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 <tr>
                     <td class="text-center">2</td>
@@ -267,8 +317,8 @@
                     <td class="text-center">图片</td>
                     <td class="text-center"></td>
                     <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 <tr>
                     <td class="text-center">3</td>
@@ -277,8 +327,8 @@
                     <td class="text-center">文件</td>
                     <td class="text-center"></td>
                     <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -309,24 +359,41 @@
                     <td class="text-center">辅助客户在银行开立基本账户</td>
                     <td class="text-center">1</td>
                     <td class="text-center"><a
+                            data-toggle="collapse" data-target="#collapseExample3"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
                             class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">与银行签订三方协议</td>
-                    <td class="text-center">2</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
-                </tr>
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">国地税征管鉴定</td>
-                    <td class="text-center">3</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                    <td colspan="4" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class="collapse  col-md-10" id="collapseExample3">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+                                    <label class="col-md-4 control-label">内容描述:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><textarea class="form-control"></textarea>
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">排序:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -366,9 +433,68 @@
                     <td class="text-center">全城</td>
                     <td class="text-center">否</td>
                     <td class="text-center">2</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                    <td class="text-center"><a data-toggle="collapse" data-target="#collapseExample4"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample"
+                                               class="btn btn-default btn-sm">编辑</a><a
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class="collapse  col-md-10" id="collapseExample4">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+
+                                    <label class="col-md-4 control-label">分组logo:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal4">选择
+                                            </button>
+                                        </p>
+
+                                    </div>
+
+                                    <label class="col-md-4 control-label">分组名称:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">精选
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal4">选择
+                                            </button>
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-4 control-label">是否置顶:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">
+                                            <label class="control-label"><input type="radio" name="yesorno" checked/>是
+                                            </label>
+                                            <label class="control-label"><input type="radio" name="yesorno"/>否 </label>
+                                        </p>
+
+                                    </div>
+
+                                    <label class="col-md-4 control-label">排序:</label>
+
+                                    <div class="col-md-8">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -393,7 +519,7 @@
                     <th class="text-center col-md-2">分类名称</th>
                     <th class="text-center col-md-4.5">分类编号</th>
                     <th class="text-center col-md-1">价格</th>
-                    <th class="text-center col-md-1">所属服务阶段</th>
+                    <th class="text-center col-md-2">所属服务阶段</th>
                     <th class="text-center col-md-1">排序</th>
                     <th class="text-center col-md-2">操作</th>
                 </tr>
@@ -405,30 +531,84 @@
                     <td class="text-center"></td>
                     <td class="text-center">1</td>
                     <td class="text-center"><a
+                            data-toggle="collapse" data-target="#collapseExample5"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
                             class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 <tr>
-                    <td class="text-center">2</td>
-                    <td class="text-center">西安市莲湖区</td>
-                    <td class="text-center">2</td>
-                    <td class="text-center">3600</td>
-                    <td class="text-center"></td>
-                    <td class="text-center">2</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
-                </tr>
-                <tr>
-                    <td class="text-center">3</td>
-                    <td class="text-center">西安市未央区</td>
-                    <td class="text-center">3</td>
-                    <td class="text-center">3600</td>
-                    <td class="text-center"></td>
-                    <td class="text-center">3</td>
-                    <td class="text-center"><a
-                            class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                    <td colspan="9" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class="collapse  col-md-10" id="collapseExample5">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+
+                                    <label class="col-md-2 control-label">选择分类地域:</label>
+
+                                    <div class="col-md-10">
+                                        <p class="form-control-static">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal4">选择
+                                            </button>
+                                        </p>
+
+                                    </div>
+
+                                    <label class="col-md-2 control-label">分类名称:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><input class="form-control" type="text"
+                                                                              value="西安市新城区">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-2 control-label">分类编号:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static">
+                                            <input class="form-control" type="text"
+                                                   value="1">
+                                        </p>
+
+                                    </div>
+
+                                    <label class="col-md-2 control-label">价格:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-2 control-label">排序:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+
+                                    <label class="col-md-2 control-label">所属服务阶段:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><select class="form-control">
+                                            <option>请选择</option>
+                                            <option>服务产品</option>
+                                            <option>实体产品</option>
+                                        </select>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -463,8 +643,58 @@
                     </td>
                     <td class="text-center">文本</td>
                     <td class="text-center"><a
+                            data-toggle="collapse" data-target="#collapseExample6"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
                             class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding: 0;border-bottom: 0;border-top: 0">
+                        <div class="collapse  col-md-10" id="collapseExample6">
+                            <form class="form-horizontal">
+                                <div class="form-group ">
+
+                                    <label class="col-md-2 control-label">标题:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static">
+                                            <input class="form-control" type="text"
+                                                   value="服务内容">
+                                        </p>
+
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="col-md-2 control-label">类型:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><select class="form-control">
+                                            <option>请选择</option>
+                                            <option>文本</option>
+                                            <option>图片</option>
+                                        </select>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+
+                                    <label class="col-md-2 control-label">内容:</label>
+
+                                    <div class="col-md-4">
+                                        <p class="form-control-static"><input class="form-control" type="number"
+                                                                              value="1">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-primary ">确认</button>
+                                    <button type="button" class="btn btn-default ">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td class="text-center">2</td>
@@ -475,7 +705,8 @@
                     <td class="text-center">文本</td>
                     <td class="text-center"><a
                             class="btn btn-default btn-sm">编辑</a><a
-                            class="btn btn-default btn-sm">删除</a></td>
+                            class="btn btn-default btn-sm" data-toggle="modal"
+                            data-target="#myModal3">删除</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -533,7 +764,23 @@
 </div>
 
 <!-- 弹出层 -->
-<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade bs-example-modal-sm" id="myModal3" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content text-center">
+            <div class="modal-body text-center">
+                <p>确定要删除吗！</p>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary " data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹出层 -->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
