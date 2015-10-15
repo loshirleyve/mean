@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>顶聚科技 | 系统文件</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="../../css/app.css">
+    <script src="../../lib/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        .no {
+            list-style: none;
+            display: none; /*隐藏当前元素*/
+        }
+        .img {
+            width: 145px;
+            height: 145px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function show(){
+            if(document.getElementById("sysFile").style.display=='block'){
+                document.getElementById("sysFile").style.display='none';
+            }else{
+                document.getElementById("sysFile").style.display='block';
+            }
+        }
+    </script>
+</head>
+<body class="container-fluid">
+<!--整体结构表格 -->
+<div class="row">
+    <!-- 当前页面导航。同时表达本页面功能名称 -->
+    <div class="col-md-12">
+        <ul class="breadcrumb" style="margin-bottom: 8px;">
+            <li><a href="../../index.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+            <li class="active">系统文件</li>
+            <li>系统文件</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="nav navbar-default">
+            <div class="navbar-header">
+                <div class="navbar-header">
+                    <ul><a href="javascript:show()"><h4>文件管理<span class="caret"></span></h4></a> </ul>
+                    <ul class="no" id="sysFile">
+                        <li><a href="materialManagement.html">素材管理</a></li>
+                        <li><a href="#">系统文件</a></li>
+                        <li><a href="userFile.html">用户文件</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-right" style="margin-right: 40px">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">删除</a>
+                    </li>
+                    <li>
+                        <a href="javascript:location.reload()">刷新</a>
+                    </li>
+                    <li>
+                        <a href="#"data-toggle="modal" data-target="#myUpload">上传</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<!--Modal-->
+<div class="modal fade" id="myUpload" tabindex="-1" role="dialog" aria-labelledby="myUploadLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myUploadLabel">文件上传</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <input type="file" id="exampleInputFile">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="media" style="margin-left: 40px">
+    <div class="media-left">
+        <a href="../img/ic_launcher" onclick="javascript:show()" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <!--<a href="../img/ic_launcher">-->
+            <img class="media-object img" src="../img/ic_launcher"
+                 alt="...">
+            <!--</a>-->
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
