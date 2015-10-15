@@ -1,0 +1,14 @@
+//
+   Created by Leon on 15/10/15.
+
+extends ../layout/layout
+
+block titleContent
+    title 错误
+
+block content
+    div.jumbotron
+        h1 服务器错误
+        p #{message}
+        p #{error}
+        a.btn.btn-primary.btn-lg(href="/home",role="button")首页

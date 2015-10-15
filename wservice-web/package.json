@@ -1,0 +1,29 @@
+{
+  "name": "wservice-web",
+  "version": "1.0.0",
+  "description": "企业服务后台管理web应用",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@dev.yun9.com:git-console.git"
+  },
+  "keywords": [
+    "wservice"
+  ],
+  "author": "Leon",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "morgan": "^1.6.1",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.3.0",
+    "util": "^0.10.3"
+  }
+}
