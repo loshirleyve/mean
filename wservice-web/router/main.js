@@ -10,12 +10,10 @@ var express = require("express");
 var router = express.Router();
 var debug = require("debug")("wservice-router-index");
 
-router.get("/hello", function (req, res, next) {
-    debug("访问/hello");
-    res.send("Hello World!");
+
+router.get("/home", function (req, res, next) {
+    res.render("home");
 });
-
-
 
 
 module.exports = router;
