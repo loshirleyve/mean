@@ -9,20 +9,26 @@
     <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.css">
     <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
     <link rel="stylesheet" href="../../css/app.css">
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../../lib/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-        .no{
-            display: none;/*隐藏当前元素*/
+        .no {
+            list-style: none;
+            display: none; /*隐藏当前元素*/
+        }
+        .img {
+            width: 145px;
+            height: 145px;
         }
     </style>
+
     <script type="text/javascript">
         function show(){
-            if(document.getElementById("delete").style.display=='block'){
-                document.getElementById("delete").style.display='none';
+            if(document.getElementById("sysFile").style.display=='block'){
+                document.getElementById("sysFile").style.display='none';
             }else{
-                document.getElementById("delete").style.display='block';
+                document.getElementById("sysFile").style.display='block';
             }
         }
     </script>
@@ -44,22 +50,25 @@
     <div class="col-md-12">
         <nav class="nav navbar-default">
             <div class="navbar-header">
-                <p class="navbar-brand">素材文件</p>
+                <div class="navbar-header">
+                    <ul><a href="javascript:show()"><h4>文件管理<span class="caret"></span></h4></a> </ul>
+                    <ul class="no" id="sysFile">
+                        <li><a href="materialManagement.html">素材管理</a></li>
+                        <li><a href="#">系统文件</a></li>
+                        <li><a href="userFile.html">用户文件</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-right" style="margin-right: 40px; margin-top: 20px">
+            <div class="navbar-right" style="margin-right: 40px">
                 <ul class="nav navbar-nav">
                     <li>
-                        <div class="no" id="delete" style="width: 40px">
                         <a href="#">删除</a>
-                        </div>
                     </li>
                     <li>
-                        <div style="width: 40px">
-                        <a href="javascript:location.reload()">刷新</a></div>
+                        <a href="javascript:location.reload()">刷新</a>
                     </li>
                     <li>
-                        <div style="width: 40px">
-                        <a href="#"data-toggle="modal" data-target="#myUpload">上传</a></div>
+                        <a href="#"data-toggle="modal" data-target="#myUpload">上传</a>
                     </li>
                 </ul>
             </div>
@@ -94,15 +103,14 @@
 
 <div class="media" style="margin-left: 40px">
     <div class="media-left">
-        <a href="../img/ic_launcher" onclick="javascript:show()">
-        <!--<a href="../img/ic_launcher">-->
-            <img class="media-object" width="145px" height="145px" src="../img/ic_launcher"
+        <a href="../img/ic_launcher" onclick="javascript:show()" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <!--<a href="../img/ic_launcher">-->
+            <img class="media-object img" src="../img/ic_launcher"
                  alt="...">
-        <!--</a>-->
+            <!--</a>-->
         </a>
     </div>
 </div>
 
-<div class="mark">√</div>
 </body>
 </html>

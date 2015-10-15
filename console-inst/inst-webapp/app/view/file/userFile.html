@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="../../css/app.css">
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .no{
+            list-style:none;
+            display: none;
+        }
+        .img {
+            height: 145px;
+            width: 145px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function show(){
+            if(document.getElementById("userFile").style.display=='block'){
+                document.getElementById("userFile").style.display='none';
+            }else{
+                document.getElementById("userFile").style.display='block';
+            }
+        }
+    </script>
 </head>
 <body class="container-fluid">
 <!--整体结构表格 -->
@@ -29,7 +49,14 @@
     <div class="col-md-12">
         <nav class="nav navbar-default">
             <div class="navbar-header">
-                <p class="navbar-brand">素材文件</p>
+                <div class="navbar-header">
+                    <ul><a href="javascript:show()"><h4>文件管理<span class="caret"></span></h4></a> </ul>
+                    <ul class="no" id="userFile">
+                        <li><a href="materialManagement.html">素材管理</a></li>
+                        <li><a href="systemFile.html">系统文件</a></li>
+                        <li><a href="#">用户文件</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="navbar-right" style="margin-right: 40px">
                 <ul class="nav navbar-nav">
@@ -75,36 +102,29 @@
 
 <div class="media" style="margin-left: 40px">
     <div class="media-left">
-        <a href="../img/0">
-            <img class="media-object" width="145px" height="145px" src="../img/0"
+        <a href="../img/0" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <img class="media-object img"  src="../img/0" alt="...">
+        </a>
+    </div>
+    <div class="media-left">
+        <a href="../img/1" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <img class="media-object img" src="../img/1" alt="...">
+        </a>
+    </div>
+    <div class="media-left">
+        <a href="../img/2" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <img class="media-object img"  src="../img/2"
                  alt="...">
         </a>
     </div>
     <div class="media-left">
-        <a href="../img/1">
-            <img class="media-object" width="145px" height="145px"
-                 src="../img/1"
-                 alt="...">
+        <a href="../img/3" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <img class="media-object img" src="../img/3" alt="...">
         </a>
     </div>
     <div class="media-left">
-        <a href="../img/2">
-            <img class="media-object" width="145px" height="145px" src="../img/2"
-                 alt="...">
-        </a>
-    </div>
-    <div class="media-left">
-        <a href="../img/3">
-            <img class="media-object" width="145px" height="145px"
-                 src="../img/3"
-                 alt="...">
-        </a>
-    </div>
-    <div class="media-left">
-        <a href="../img/4">
-            <img class="media-object" width="145px" height="145px"
-                 src="../img/4"
-                 alt="...">
+        <a href="../img/4" data-toggle="tooltip" data-placement="bottom" title="点击打开原图">
+            <img class="media-object img" src="../img/4" alt="...">
         </a>
     </div>
 </div>
