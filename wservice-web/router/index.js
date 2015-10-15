@@ -8,6 +8,7 @@
 
 var main = require("./main");
 var auth = require("./auth");
+var order = require("./order");
 
 module.exports = function (app) {
 
@@ -17,5 +18,7 @@ module.exports = function (app) {
     //认证路由器
     app.use("/auth", auth);
 
+
+    app.use("/order", order);
 
 };
