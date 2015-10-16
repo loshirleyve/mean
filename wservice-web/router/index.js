@@ -9,14 +9,10 @@
 var main = require("./main");
 var auth = require("./auth");
 var order = require("./order");
-<<<<<<< HEAD
 var receivable=require("./receivable");
 var product=require("./product");
-=======
 var client = require("./client");
 var file = require("./file");
->>>>>>> dev-shirley
-
 module.exports = function (app) {
 
     //使用主路由器
@@ -28,7 +24,7 @@ module.exports = function (app) {
 
     app.use("/order", order);
 
-<<<<<<< HEAD
+
     //收款列表
     app.use("/receivable",receivable);
 
@@ -44,9 +40,8 @@ module.exports = function (app) {
     //产品列表
     app.use("/product/productDetail",product);
 
-=======
+
     app.use("/client", client);
 
     app.use("/file", file);
->>>>>>> dev-shirley
 };
