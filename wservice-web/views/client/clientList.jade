@@ -7,200 +7,219 @@ block titleContent
     title #{title}
 
 block content
-    div.row
-        div.col-md-12
-            div.btn-group(data-toggle="buttons")
-                label.btn.btn-default.active 全部客户
-                    input(type="radio", name="options", id="clientlist", autocomplete="off", checked)
-                label.btn.btn-default 已初始化客户
-                    input(type="radio", name="options", id="clientlist", autocomplete="off", checked)
-                label.btn.btn-default 未初始化客户
-                    input(type="radio", name="options", id="clientlist", autocomplete="off", checked)
-            a.btn.btn-default.glyphicon.glyphicon-search.pull-right(data-toggle="modal", data-target="#clientSearch")
+    body
+    // 整体结构表格
+    .row
+        // 当前页面导航。同时表达本页面功能名称
+        .col-md-12
+            ul.breadcrumb(style='margin-bottom: 8px;')
+                li
+                    a(href='../../index.html')
+                        span.glyphicon.glyphicon-home
+                        |  首页
+                li.active 客户管理
+    // 列表全局过滤按钮组
+    .row
+        .col-md-12
+            .btn-group(data-toggle='buttons')
+                label.btn.btn-default.active
+                    input#clientlist(type='radio', name='options', autocomplete='off', checked='')
+                    | 全部客户
+                label.btn.btn-default
+                    input(type='radio', name='options', autocomplete='off', checked='')
+                    | 已初始化客户
+                label.btn.btn-default(data-toggle='modal', data-target='.new-client.html')
+                    input(type='radio', name='options', autocomplete='off')
+                    | 未初始化客户
+            a.btn.btn-default.glyphicon.glyphicon-search.pull-right(data-toggle='modal', data-target='#clientSearch')
             a.btn.btn-default.pull-right(href="../client/newClient") 新增客户
-            div.modal.fade(id="clientSearch", tabindex="-1", role="dialog", aria-labelledby="clientSerachLabel")
-                div.modal-content
-                    div.modal-header
-                        button.close(type="button", data-dismiss="modal", aria-label="Close")
-                            span.modal-title(id="clientSearchLabel") &times;
-                        h4.modal-title(id="clientSearchLabel") 客户搜索
-                    div.modal-body
-                        form.form-horizontal
-                            div.row.form-group
-                                label.col-sm-2.control-label 联系人
-                                div.col-sm-8
-                                    input.form-control(placeholder="联系人")
-                            div.row.form-group
-                                label.col-sm-2.control-label 客户名称
-                                div.col-sm-8
-                                    input.form-control(placeholder="客户名称")
-                            div.row
-                                label.col-sm-2.control-label 客户行业
-                                div.col-sm-8
-                                    select.form-control
-                                        option &nbsp;---请选择---&nbsp;
-                                        option 小微企业
-                                        option 外贸
-                            div.row
-                                label.col-sm-2.control-label 客户类型
-                                div.col-sm-8
-                                    select.form-control
-                                        option &nbsp;---请选择---&nbsp;
-                                        option 企业
-                                        option 个体经营者
-                                        option 自然人
-                            div.row
-                                label.col-sm-2.control-label 客户级别
-                                div.col-sm-8
-                                    select.form-control
-                                        option &nbsp;---请选择---&nbsp;
-                                        option A类
-                                        option B类
-                                        option C类
-                            div.row
-                                label.col-sm-2.control-label 客户来源
-                                div.col-sm-8
-                                    select.form-control
-                                        option &nbsp;---请选择---&nbsp;
-                                        option 网络渠道
-                                        option 发单
-                                        option 客户推荐
-                                        option 同行介绍
-                                        option 市场合作
-                    div.modal-footer
-                        button.btn.btn-default(type="button", data-dismiss="modal") 取消
-                        button.btn.btn-primary(type="button") 确定
-
-    //div.row
-    //    div.col-md-12
-    //        div.modal.fade.bs-example-modal-lg(tabindex="-1", role="dialog", aria-labelledby="myLargeModalLabel")
-    //            div.modal-dialog.modal-lg
-    //                fiv.modal-content
-    //                    div.modal-header
-    //                        button.close(type="button", data-dismiss="modal", aria-label="Close")
-    //                            span(aria-hidden="true") &times;
-    //                        h4.modal-title(id="addClientLabel") 新增客户
-    //                    div.modal-body
-    //                        form
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label ID
-    //                                div.clo-sm-10
-    //                                    input.form-control(type="text", disabled)
-    //                                label.col-sm-2.control-label 名称
-    //                                div.clo-sm-10
-    //                                    input.form-control(type="text")
-    //                                label.col-sm-2.control-label 简称
-    //                                div.clo-sm-10
-    //                                    input.form-control(type="text")
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 编号
-    //                                div.clo-sm-10
-    //                                    input.form-control(type="text", disabled)
-    //                                label.col-sm-2.control-label 行业
-    //                                div.clo-sm-10
-    //                                    select.form-control
-    //                                        option &nbsp;---请选择---&nbsp;
-    //                                        option 小微企业
-    //                                        option 外贸
-    //                                label.col-sm-2.control-label 类型
-    //                                div.clo-sm-10
-    //                                    select.form-control
-    //                                        option &nbsp;---请选择---&nbsp;
-    //                                        option 企业
-    //                                        option 个体经营者
-    //                                        option 自然人
-    //                            div.clearfix
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 级别
-    //                                div.col-sm-2
-    //                                    select.btn-sm
-    //                                        option &nbsp;---请选择---&nbsp;
-    //                                        option A类
-    //                                        option B类
-    //                                        option C类
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 来源
-    //                                div.col-sm-2
-    //                                    select.btn-sm
-    //                                        option &nbsp;---请选择---&nbsp;
-    //                                        option 网络渠道
-    //                                        option 客户推荐
-    //                                        option 同行介绍
-    //                                        option 市场合作
-    //                                div.col-sm-2
-    //                                    input.form-control.input-sm(type="text")
-    //                            div.form-control.form-horizontal
-    //                                label.col-sm-2.control-label 联系人
-    //                                div.col-sm-2
-    //                                    input.form-control.input-sm
-    //                                label.col-sm-2.control-label 电话
-    //                                div.col-sm-2
-    //                                    input.form-control.input-sm
-    //                                label.col-sm-2.control-label 职位
-    //                                div.col-sm-2
-    //                                    select.btn-sm
-    //                                        option &nbsp;---请选择---&nbsp;
-    //                                        option 法人
-    //                                        option 老板
-    //                                        option 负责人
-    //                                        option 介绍人
-    //                            div.clearfix
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 地区
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //                                label.col-sm-2.control-label 地址
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 客户机构
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //                                label.col-sm-2.control-label 客户管理员
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 创建时间
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //                                label.col-sm-2.control-label 更新时间
-    //                                div.col-sm-4
-    //                                    input.form-control.input-sm
-    //
-    //                            div.form-group.form-horizontal
-    //                                label.col-sm-2.control-label 备注
-    //                                div.col-sm-10
-    //                                    textarea.form-control.input-sm(rows="3")
-    //                            div.text-center
-    //                                a.btn.btn-primary(href="#") 确定
-    //                                a.btn.btn-primary(href="#" data-dismiss="modal") 取消
-
-    //客户列表表格
-    div.row(style="margin-top:10px;")
-        div.col-md-12
-            div.table-responsive
-                table.table.table-striped.table-bordered.table-hover.table-condensed(style="margin-botton:5px;")
+            #clientSearch.modal.fade(tabindex='-1', role='dialog', aria-labelledby='clientSearchLabel')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#clientSearchLabel.modal-title 客户搜索
+                        .modal-body
+                            form.form-horizontal
+                                .row.form-group
+                                    label.col-sm-3.control-label 联系人
+                                    .col-sm-9
+                                        input.form-control(placeholder='联系人')
+                                .row.form-group
+                                    label.col-sm-3.control-label 客户名称
+                                    .col-sm-9
+                                        input.form-control(placeholder='客户名称')
+                                .row.form-group
+                                    label.col-sm-3.control-label 客户行业
+                                    .col-sm-9
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option 小微企业
+                                            option 外贸
+                                .row.form-group
+                                    label.col-sm-3.control-label 客户类型
+                                    .col-sm-9
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option 企业
+                                            option 个体经营者
+                                            option 自然人
+                                .row.form-group
+                                    label.col-sm-3.control-label 客户级别
+                                    .col-sm-9
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option A类
+                                            option B类
+                                            option C类
+                                .row.form-group
+                                    label.col-sm-3.control-label 客户来源
+                                    .col-sm-9
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option 网络渠道
+                                            option 发单
+                                            option 客户推荐
+                                            option 同行介绍
+                                            option 市场合作
+                        .modal-footer
+                            button.btn.btn-default(type='button', data-dismiss='modal') 取消
+                            button.btn.btn-primary(type='button') 确定
+    .row
+        .col-md-12
+            .modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+                .modal-dialog.modal-lg
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h4#addClientLabel.modal-title 新增客户
+                        .modal-body
+                            form
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label ID
+                                    .col-sm-10
+                                        input.form-control(type='text', disabled='')
+                                    label.col-sm-2.control-label 名称
+                                    .col-sm-10
+                                        input.form-control(type='text')
+                                    label.col-sm-2.control-label 简称
+                                    .col-sm-10
+                                        input.form-control(type='text')
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 编号
+                                    .col-sm-10
+                                        input.form-control(type='text')
+                                    label.col-sm-2.control-label 行业
+                                    .col-sm-10
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option 小微企业
+                                            option 外贸
+                                    label.col-sm-2.control-label 类型
+                                    .col-sm-10
+                                        select.form-control
+                                            option  ---请选择--- 
+                                            option 企业
+                                            option 个体经营者
+                                            option 自然人
+                                // Add the extra clearfix for only the required viewport
+                                .clearfix
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 级别
+                                    .col-sm-2
+                                        select.btn-sm
+                                            option  ---请选择--- 
+                                            option A类
+                                            option B类
+                                            option C类
+                                    label.col-sm-2.control-label 来源
+                                    .col-sm-2
+                                        select.btn-sm
+                                            option  ---请选择--- 
+                                            option 网络渠道
+                                            option 发单
+                                            option 客户推荐
+                                            option 同行介绍
+                                            option 市场合作
+                                    label.col-sm-2.control-label 规模
+                                    .col-sm-2
+                                        input.form-control.input-sm(type='text')
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 联系人
+                                    .col-sm-2
+                                        input.form-control.input-sm(type='text')
+                                    label.col-sm-2.control-label 电话
+                                    .col-sm-2
+                                        input.form-control.input-sm(type='text')
+                                    label.col-sm-2.control-label 职位
+                                    .col-sm-2
+                                        select.btn-sm
+                                            option  ---请选择--- 
+                                            option 法人
+                                            option 老板
+                                            option 负责人
+                                            option 介绍人
+                                // Add the extra clearfix for only the required viewport
+                                .clearfix
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 地区
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                    label.col-sm-2.control-label 地址
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 客户机构
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                    label.col-sm-2.control-label 客户管理员
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 创建时间
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                    label.col-sm-2.control-label 更新时间
+                                    .col-sm-4
+                                        input.form-control.input-sm(type='text')
+                                .form-group.form-horizontal
+                                    label.col-sm-2.control-label 备注
+                                    .col-sm-10
+                                        textarea.form-control.input-sm(rows='3')
+                                .text-center
+                                    a.btn.btn-primary(href='#') 确定
+                                    a.btn.btn-default(href='#', data-dismiss='modal') 取消
+    // 客户列表表格
+    .row(style='margin-top: 10px;')
+        .col-md-12
+            // 设置为响应式表格 当页面宽度不够显示表格内容时会出现滚动条
+            .table-responsive
+                // table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格
+                table.table.table-striped.table-bordered.table-hover.table-condensed(style='margin-bottom: 5px;')
+                    // 添加表格脚部，用于分页选择
                     tfoot
                         tr
-                            td(colspan="12")
+                            td(colspan='12')
                                 nav
-                                    ul.pagination(style:"margin:1px;")
+                                    ul.pagination(style='margin:1px;')
                                         li.disabled
-                                            a(href="#", aria-label="上一页")
-                                                span(aria-hidden="true") &laquo;
+                                            a(href='#', aria-label='上一页')
+                                                span(aria-hidden='true') «
                                         li.active
-                                            a(href="#") 1
+                                            a(href='#') 1
                                         li
-                                            a(href="#") 2
+                                            a(href='#') 2
                                         li
-                                            a(href="#") 3
+                                            a(href='#') 3
                                         li
-                                            a(href="#") 4
+                                            a(href='#') 4
                                         li
-                                            a(href="#") 5
+                                            a(href='#') 5
                                         li
-                                            a(href="#", aria-label="下一页")
-                                                span(aria-hidden="true") &raquo;
+                                            a(href='#', aria-label='下一页')
+                                                span(aria-hidden='true') »
                     tbody
                         tr
                             th.text-center #
@@ -214,74 +233,92 @@ block content
                             th.text-center 创建日期
                             th.text-center 操作
                         tr
-                            td.text-center 1
-                            td.text-center eeeeeeee
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 客户推荐
-                            td.text-center eeeeeeee
-                            td.text-center 43433333333
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 1
+                            td eeeeeeee
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 客户推荐
+                            td eeeeeeee
+                            td 43433333333
+                            td
+                                | 2015-09-23
+                                br
+                                |  10:45:42
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
                         tr
-                            td.text-center 2
-                            td.text-center wwwwwww
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 客户推荐
-                            td.text-center wwww
-                            td.text-center 33322222222
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 2
+                            td wwwwwww
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 客户推荐
+                            td wwww
+                            td 33322222222
+                            td
+                                | 2015-9-10
+                                br
+                                |  10:25:38
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
                         tr
-                            td.text-center 3
-                            td.text-center aaaaa
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 市场合作
-                            td.text-center aaaaa
-                            td.text-center 32322222222
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 3
+                            td aaaaa
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 市场合作
+                            td aaaaa
+                            td 32322222222
+                            td
+                                | 2015-9-10
+                                br
+                                |  10:25:38
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
                         tr
-                            td.text-center 4
-                            td.text-center aaaaa
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 市场合作
-                            td.text-center aaaaa
-                            td.text-center 32322222222
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 4
+                            td aaaaa
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 市场合作
+                            td aaaaa
+                            td 32322222222
+                            td
+                                | 2015-9-10
+                                br
+                                |  10:25:38
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
                         tr
-                            td.text-center 5
-                            td.text-center aaaaa
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 市场合作
-                            td.text-center aaaaa
-                            td.text-center 32322222222
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 5
+                            td aaaaa
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 市场合作
+                            td aaaaa
+                            td 32322222222
+                            td
+                                | 2015-9-10
+                                br
+                                |  10:25:38
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
                         tr
-                            td.text-center 6
-                            td.text-center aaaaa
-                            td.text-center 外贸
-                            td.text-center 自然人
-                            td.text-center C类
-                            td.text-center 市场合作
-                            td.text-center aaaaa
-                            td.text-center 32322222222
-                            td.text-center 2015-09-23 10:45:42
-                            td.text-center
+                            td 6
+                            td aaaaa
+                            td 外贸
+                            td 自然人
+                            td C类
+                            td 市场合作
+                            td aaaaa
+                            td 32322222222
+                            td
+                                | 2015-9-10
+                                br
+                                |  10:25:38
+                            td
                                 a.btn.btn-default.btn-sm(href="../client/clientDetail") 详情/编辑
