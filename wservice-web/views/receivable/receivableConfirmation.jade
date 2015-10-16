@@ -1,0 +1,153 @@
+//
+   Created by rxy on 15/10/16.
+
+extends ../layout/layout-nav
+
+block titleContent
+    title #{title}
+block content
+    div.row
+        div.col-md-12
+            ul.breadcrumb(style="margin-bottom:8px")
+                li
+                    a(href="#home")
+                        span.glyphicon.glyphicon-home 首页
+                li
+                    a(href="/receivable") 收款列表
+                li
+                    a(href="/receivable/receivableDetail") 收款详情
+                li.active 收款
+
+    div.row
+        div.col-md-12
+            div.nav.navbar-default
+                div.navbar-header
+                    p.navbar-brand 收款确认
+                div.navbar-right(style="margin-right: 0px;")
+                    ul.nav.navbar-nav
+                        li
+                            a(data-toggle="modal",data-target="#myModal2") 确认收款
+                        li
+                            a(href="/receivable/receivableDetail") 返回
+
+    div.row
+        div.col-md-10
+            div.row
+                div.col-md-12
+                    form.form-horizontal
+                        div.form-group
+                            label.col-md-3.control-label 购买内容:
+                            div.col-md-9
+                                p.form-control-static  顶聚科技购买咨询服务
+                        div.form-group
+                            label.col-md-3.control-label 付款方式:
+                            div.col-md-9
+                                p.form-control-static  在线支付
+                        div.form-group
+                            label.col-md-3.control-label 应收金额:
+                            div.col-md-9
+                                p.form-control-static  ￥1,000.00
+                        div.form-group
+                            label.col-md-3.control-label 已收金额:
+                            div.col-md-9
+                                p.form-control-static  ￥0.00
+                        div.form-group
+                            label.col-md-3.control-label 锁定金额:
+                            div.col-md-9
+                                p.form-control-static  ￥0.00
+                        div.form-group
+                            label.col-md-3.control-label 本次收款金额:
+                            div.col-md-9
+                                input.form-control(type="number",value="1000")
+                        div.form-group
+                            label.col-md-3.control-label 本次收款方式:
+                            div.col-md-9
+                                select.form-control
+                                    option --请选择--
+                                    option 支付宝
+                                    option 未支付
+                        div.form-group
+                            label.col-md-3.control-label 收款人:
+                            div.col-md-9
+                                button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal") 选择
+                        div.form-group
+                            label.col-md-3.control-label 说明:
+                            div.col-md-9
+                                textarea.form-control
+
+    div#myModal.modal.fade(tabindex="-1",role="dialog",aria-labelledby="myModalLabel")
+        div.modal-dialog(role="document")
+            div.modal-content
+                div.modal-header
+                    button.close(type="button",data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true")&times;
+                    h4.modal-title 选择用户
+                div.modal-body
+                    div.row
+                        div.tree.col-md-5
+                            ul
+                                li
+                                    span 深圳市顶聚科技有限公司
+                                    ul
+                                        li
+                                            span 行政部
+                                            span 销售部
+                                            span 测试部
+
+                        div.container-fluid.col-md-7
+                            table.table.table-bordered.table-hover
+                                tbody
+                                    tr
+                                        th.text-center #
+                                        th.text-center 头像
+                                        th.text-center 编号
+                                        th.text-center 姓名
+                                    tr
+                                        td.text-center 1
+                                        td.text-center
+                                            img.img-responsive(src="http://www.placehold.it/30x30")
+                                        td.text-center 001
+                                        td.text-center 廖志祥
+                                    tr
+                                        td.text-center 2
+                                        td.text-center
+                                            img.img-responsive(src="http://www.placehold.it/30x30")
+                                        td.text-center 002
+                                        td.text-center 阮小玉
+                                    tr
+                                        td.text-center 3
+                                        td.text-center
+                                            img.img-responsive(src="http://www.placehold.it/30x30")
+                                        td.text-center 003
+                                        td.text-center 黄黎
+                                    tr
+                                        td.text-center 4
+                                        td.text-center
+                                            img.img-responsive(src="http://www.placehold.it/30x30")
+                                        td.text-center 004
+                                        td.text-center 黄炳龙
+                    div.modal-footer
+                        button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                        button.btn.btn-primary(type="button",data-dismiss="modal") 确认
+
+    div#myModal2.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+        div.modal-dialog.modal-sm(role="document")
+            div.modal-content.text-centent
+                div.modal-body.text-center
+                    b 确定要完成本次收款确认吗？
+                    div.modal-footer
+                        button.btn.btn-default(type="button",data-dismiss="modal") 取消
+                        button.btn.btn-primary(type="button",data-dismiss="modal",data-toggle="modal",data-target="#myModal3") 确认
+
+    div#myModal3.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+        div.modal-dialog.modal-sm(role="document")
+            div.modal-content.text-centent
+                div.modal-body.text-center
+                    b 确定收款成功！
+                    div.modal-footer
+                        button.btn.btn-default(type="button",data-dismiss="modal") 取消
+                        button.btn.btn-primary(type="button",data-dismiss="modal") 确认
+
+
+
+
