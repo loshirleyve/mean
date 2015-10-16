@@ -1,0 +1,69 @@
+extends  ../layout/layout-nav
+
+
+block titleContent
+    title #{title}
+
+
+block content
+    body
+    // 整体结构表格
+    .row
+        // 当前页面导航。同时表达本页面功能名称
+        .col-md-12
+            ul.breadcrumb(style='margin-bottom: 8px;')
+                li
+                    a(href='../../index.html')
+                        span.glyphicon.glyphicon-home
+                        |  首页
+                li.active 文件管理
+                li 素材管理
+    .row
+        .col-md-12
+            nav.nav.navbar-default
+                .navbar-header
+                    .navbar-header
+                        div.dropdown
+                        ul
+                            a(id="dLable", type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+                                h4
+                                    | 文件管理
+                                    span.caret
+                            ul.dropdown-menu.nav.navbar-nav
+                                li
+                                    a(href="#") 素材管理
+                                li
+                                    a(href="../file/systemFile") 系统文件
+                                li
+                                    a(href="../file/userFile") 用户文件
+                .navbar-right(style='margin-right: 40px')
+                    ul.nav.navbar-nav
+                        li
+                            a(href='#') 删除
+                        li
+                            a(href='javascript:location.reload()') 刷新
+                        li
+                            a(href='#', data-toggle='modal', data-target='#myUpload') 上传
+    // Modal
+    #myUpload.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myUploadLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') ×
+                    h4#myUploadLabel.modal-title 文件上传
+                .modal-body
+                    form
+                        .form-group
+                            label(for='exampleInputFile') File input
+                            input#exampleInputFile(type='file')
+                .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') 关闭
+                    button.btn.btn-primary(type='button') 确定
+    .media(style='margin-left: 40px')
+        .media-left
+            a(href="image/5.png", data-toggle='tooltip', data-placement='bottom', title='点击打开原图')
+                img.media-object.img(src="image/5.png", alt='...')
+        .media-left
+            a(href="image/5.png", src='image/5.png', data-toggle='tooltip', data-placement='bottom', title='点击打开原图')
+                img.media-object.img(src="image/5.png", alt='...')
