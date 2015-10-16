@@ -22,7 +22,10 @@ module.exports = function (app) {
 
     app.use("/order", order);
 
-    //收款
+    //收款列表
     app.use("/receivable",receivable);
+
+    //收款详情
+    app.use("/receivable/receivalbeDetail",receivable);
 
 };
