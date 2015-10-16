@@ -14,6 +14,13 @@ router.get("/",function(req,res,next)
     });
 });
 
+router.get("/receivableDetail",function(req,res,next)
+{
+    res.render("receivable/receivableDetail",{
+        "title":"收款详情"
+    });
+});
+
 
 
 module.exports = router;
