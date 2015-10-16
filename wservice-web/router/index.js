@@ -9,6 +9,7 @@
 var main = require("./main");
 var auth = require("./auth");
 var order = require("./order");
+var receivable=require("./receivable");
 
 module.exports = function (app) {
 
@@ -20,5 +21,8 @@ module.exports = function (app) {
 
 
     app.use("/order", order);
+
+    //收款
+    app.use("/receivable",receivable);
 
 };
