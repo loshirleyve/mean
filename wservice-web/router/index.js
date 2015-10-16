@@ -40,8 +40,9 @@ module.exports = function (app) {
     //产品列表
     app.use("/product/productDetail",product);
 
-
+    //客户
     app.use("/client", client);
 
+    //文件
     app.use("/file", file);
 };
