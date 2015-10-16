@@ -9,6 +9,8 @@
 var main = require("./main");
 var auth = require("./auth");
 var order = require("./order");
+var client = require("./client");
+var file = require("./file");
 
 module.exports = function (app) {
 
@@ -21,4 +23,7 @@ module.exports = function (app) {
 
     app.use("/order", order);
 
+    app.use("/client", client);
+
+    app.use("/file", file);
 };
