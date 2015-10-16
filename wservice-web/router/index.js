@@ -10,6 +10,7 @@ var main = require("./main");
 var auth = require("./auth");
 var order = require("./order");
 var receivable=require("./receivable");
+var product=require("./product");
 
 module.exports = function (app) {
 
@@ -30,5 +31,11 @@ module.exports = function (app) {
 
     //收款确认
     app.use("/receivable/receivableConfirmation",receivable);
+
+    //产品列表
+    app.use("/product",product);
+
+    //产品列表
+    app.use("/product/productDetail",product);
 
 };
