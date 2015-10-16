@@ -21,6 +21,13 @@ router.get("/receivableDetail",function(req,res,next)
     });
 });
 
+router.get("/receivableConfirmation",function(req,res,next)
+{
+    res.render("receivable/receivableConfirmation",{
+        "title":"收款确认"
+    });
+});
+
 
 
 module.exports = router;

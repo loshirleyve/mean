@@ -28,4 +28,7 @@ module.exports = function (app) {
     //收款详情
     app.use("/receivable/receivalbeDetail",receivable);
 
+    //收款确认
+    app.use("/receivable/receivableConfirmation",receivable);
+
 };
