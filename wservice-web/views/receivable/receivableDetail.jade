@@ -1,0 +1,106 @@
+//
+   Created by rxy on 15/10/16.
+
+extends ../layout/layout-nav
+
+block titleContent
+    title #{title}
+block content
+    div.row
+        div.col-md-12
+            ul.breadcrumb(style="margin-bottom:8px")
+                li
+                    a(href="#home")
+                        span.glyphicon.glyphicon-home 首页
+                li
+                    a(href="/receivable") 收款列表
+                li.active 收款详情
+
+    div.row
+        div.col-md-12
+            div.nav.navbar-default
+                div.navbar-header
+                    p.navbar-brand 收款详情
+                div.navbar-right(style="margin-right: 0px;")
+                    ul.nav.navbar-nav
+                        li
+                            a(href="") 上一单
+                    ul.nav.navbar-nav
+                        li
+                            a(href="") 下一单
+                    ul.nav.navbar-nav
+                        li
+                            a(href="/receivable/receivableConfirmation") 收款
+                    ul.nav.navbar-nav
+                        li
+                            a(href="/receivable") 返回
+
+    div.row
+        div.col-md-10
+            div.row
+                div.col-md-12
+                    div.page-header
+                        h5#receivableinfo 基本信息
+                    form.form-horizontal
+                        div.form-group
+                            label.col-sm-2.control-label 收款单ID:
+                            div.col-sm-10
+                                p.form-control-static 10000002315426
+
+                            label.col-sm-2.control-label 购买内容:
+                            div.col-sm-10
+                                p.form-control-static 顶聚科技购买咨询服务
+
+                            label.col-sm-2.control-label 付款方式:
+                            div.col-sm-10
+                                p.form-control-static 在线支付
+
+                            label.col-sm-2.control-label 应收金额:
+                            div.col-sm-10
+                                p.form-control-static ￥1,000.00
+
+                            label.col-sm-2.control-label 已收金额:
+                            div.col-sm-10
+                                p.form-control-static ￥0.00
+
+                            label.col-sm-2.control-label 锁定金额:
+                            div.col-sm-10
+                                p.form-control-static ￥0.00
+
+                            label.col-sm-2.control-label 代收款金额:
+                            div.col-sm-10
+                                p.form-control-static ￥1,000.00
+
+            div.row
+                div.col-md-12
+                    div.page-header
+                        h5#receivablesdetail 付款明细
+                    div.table-responsive
+                        table.table.table-striped.table-hover.table-bordered.table-condsend
+                            tbody
+                                tr
+                                    th.text-center #
+                                    th.text-center 付款金额
+                                    th.text-center 付款方式
+                                    th.text-center 收款人
+                                    th.text-center 收款出纳
+                                    th.text-center 收款状态
+                                    th.text-center 付款日期
+                                    th.text-center 说明
+                                tr
+                                    td.text-center 1
+                                    td.text-center 1000
+                                    td.text-center 支付宝
+                                    td.text-center 黄黎
+                                    td.text-center 黄黎
+                                    td.text-center 等待确认
+                                    td.text-center 2015-09-09 10:29:24
+                                    td.text-center 支付宝安全支付
+
+        div#navScrollspy.col-md-2
+            div(data-spy="affix",data-offset-top="200" data-offset-bottom="10")
+                ul.nav.nav-pills.nav-stacked
+                    li.active
+                        a(href="" data-target="#receivablesinfo") 基本信息
+                    li
+                        a(href="#receivablesdetail") 付款明细
