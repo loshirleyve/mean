@@ -45,7 +45,7 @@ html(lang="zh_CN")
                             span.caret
                         ul.dropdown-menu
                             li
-                                a(href="#")
+                                a(data-toggle="modal" data-target="#changeInst")
                                     i.glyphicon.glyphicon-resize-horizontal
                                     span 切换机构
                             li
@@ -93,7 +93,20 @@ html(lang="zh_CN")
                                 a(href="#") 系统文件
                             li
                                 a(href="#") 用户文件
-        div.content-wrapper
+        .content-wrapper
+            #changeInst.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel2")
+                .modal-dialog(role="document")
+                    .modal-content
+                        form
+                            .modal-header
+                                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                                    span(aria-hidden="true") &#215;
+                                h4#myModalLabel2.modal-title &#20999;&#25442;&#26426;&#26500;
+                            .modal-body
+                                input.form-control(type="text")
+                            .modal-footer
+                                button.btn.btn-default(type="button", data-dismiss="modal") Close
+                                button.btn.btn-primary(type="button") Save changes
             block content
 
 

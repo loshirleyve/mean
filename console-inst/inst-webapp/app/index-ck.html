@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="css/skin-blue.min.css"/>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="css/AdminLTE.min.css">
+    <link rel="stylesheet" href="css/AdminLTE.css">
 
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="lib/angular/angular.js"></script>
@@ -41,26 +41,26 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="">
-                        <a href="#">
+                    <li>
+                        <a data-toggle="modal" data-target="#changeInst">
                             <i class="glyphicon glyphicon-resize-horizontal"></i>
                             <span>切换机构</span>
                         </a>
                     </li>
-                    <li class="">
+                    <li>
                         <a href="#">
                             <i class="glyphicon glyphicon-cog"></i>
                             <span>修改密码</span>
                         </a>
                     </li>
-                    <li class="">
+                    <li>
                         <a href="#">
                             <i class="glyphicon glyphicon-user"></i>
                             <span>用户信息</span>
                         </a>
                     </li>
                     <li role="separator" class="divider"></li>
-                    <li class="">
+                    <li>
                         <a href="#">
                             <i class="glyphicon glyphicon-off"></i>
                             <span>退出</span>
@@ -123,8 +123,26 @@
 
     <!-- Main content -->
     <section class="content">
-
-        <!-- Your Page Content Here -->
+        <!-- Modal -->
+        <div class="modal fade" id="changeInst" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel2">切换机构</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
     </section><!-- /.content -->
 </div>
