@@ -10,54 +10,132 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
     <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/skin-blue.min.css"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/AdminLTE.min.css">
 
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-route.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/nav-util.js"></script>
+    <script src="js/app.js"></script>
 </head>
 <style type="text/css">
-    .color{background-color: #0063dc}
+    .color {
+        background-color: #0063dc
+    }
 </style>
-<body class="body-master" ng-app="mainApp" ng-controller="mainCtrl">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#/home">{{inst}}</a>
-        </div>
-        <div class="navbar-left">
-            <ul class="nav navbar-nav">
-                <li><a href="#"><span class="glyphicon glyphicon-home"></span>首页</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-calendar"></span>订单管理</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-tasks"></span>工单管理</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-usd"></span>收款管理</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- 首页 -->
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-12">
-                <!-- 16:9 aspect ratio -->
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="view/workorder/workorder-list.html"></iframe>
-                </div>
-            </div>
-        </div>
+<body class="body-master skin-blue main-container" ng-app="mainApp" ng-controller="mainCtrl">
+<nav class="navbar navbar-inverse navbar-fixed-top" style="margin: 0px">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#/home">{{inst}}</a>
     </div>
+    <div class="navbar-right">
+        <ul class="nav navbar-nav">
+            <li><a href="/home"><span class="glyphicon glyphicon-envelope"></span></a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="http://www.placehold.it/20x20" class="img-circle" alt="User Image">
+                    <span class="hidden-xs"><small>Alexander Pierce</small></span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-resize-horizontal"></i>
+                            <span>切换机构</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-cog"></i>
+                            <span>修改密码</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span>用户信息</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li class="">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-off"></i>
+                            <span>退出</span>
+                        </a>
+                    </li>
+                </ul>
+        </ul>
+    </div>
+</nav>
 
-    <nav class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="col-md-12 navbar-nav">
-            <a href="#">底部</a>
-        </div>
-    </nav>
+<aside class="main-sidebar skin-blue sidebar-mini" style="background-color: #222">
+    <section class="sidebar">
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+            <li class="treeview">
+                <a href="#"><span>工单管理</span></a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#">工单列表</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>订单管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#">订单列表</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>产品管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#">产品列表</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>文件管理</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#">素材管理</a></li>
+                    <li><a href="#">系统文件</a></li>
+                    <li><a href="#">用户文件</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /.sidebar-menu -->
+    </section>
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Page Header
+            <small>Optional description</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">Here</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Your Page Content Here -->
+
+    </section><!-- /.content -->
+</div>
 </body>
 
 <script type="text/javascript">
-    angular.module('mainApp',[])
-            .controller('mainCtrl',function($scope){
+    angular.module('mainApp', [])
+            .controller('mainCtrl', function ($scope) {
                 $scope.inst = "顶聚科技";
             });
+
 
 </script>
 </html>
