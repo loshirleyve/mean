@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>顶聚科技 | 移办通</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/skin-blue.min.css"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="css/AdminLTE.css">
+
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/nav-util.js"></script>
+    <script src="js/app.js"></script>
+</head>
+  <!--
+  BODY TAG OPTIONS:
+  =================
+  Apply one or more of the following classes to get the
+  desired effect
+  |---------------------------------------------------------|
+  | SKINS         | skin-blue                               |
+  |               | skin-black                              |
+  |               | skin-purple                             |
+  |               | skin-yellow                             |
+  |               | skin-red                                |
+  |               | skin-green                              |
+  |---------------------------------------------------------|
+  |LAYOUT OPTIONS | fixed                                   |
+  |               | layout-boxed                            |
+  |               | layout-top-nav                          |
+  |               | sidebar-collapse                        |
+  |               | sidebar-mini                            |
+  |---------------------------------------------------------|
+  -->
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <!-- Main Header -->
+      <header class="main-header">
+
+        <!-- Logo -->
+        <a href="#" class="logo">
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>顶聚科技</b></span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="glyphicon glyphicon-th-list"></span>
+          </a>
+          <!-- Navbar Right Menu -->
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li><a href="/home"><span class="glyphicon glyphicon-envelope"></span></a></li>
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="http://www.placehold.it/20x20" class="img-circle" alt="User Image">
+                  <span class="hidden-xs"><small>黄 黎</small></span>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-toggle="modal" data-target="#changeInst">
+                      <i class="glyphicon glyphicon-resize-horizontal"></i>
+                      <span>切换机构</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="glyphicon glyphicon-cog"></i>
+                      <span>修改密码</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="glyphicon glyphicon-user"></i>
+                      <span>用户信息</span>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="#">
+                      <i class="glyphicon glyphicon-off"></i>
+                      <span>退出</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar Menu -->
+          <ul class="sidebar-menu">
+            <li class="treeview">
+              <a href="#"><i class="glyphicon glyphicon-link"></i> <span>订单管理</span></a>
+              <ul class="treeview-menu">
+                <li><a href="#">订单列表</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class="glyphicon glyphicon-link"></i> <span>工单管理</span></a>
+              <ul class="treeview-menu">
+                <li><a href="#">订单列表</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class="glyphicon glyphicon-link"></i> <span>客户管理</span></a>
+              <ul class="treeview-menu">
+                <li><a href="#">订单列表</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class="glyphicon glyphicon-link"></i> <span>产品管理</span></a>
+              <ul class="treeview-menu">
+                <li><a href="#">订单列表</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class="glyphicon glyphicon-link"></i> <span>文件管理</span></a>
+              <ul class="treeview-menu">
+                <li><a href="#">素材管理</a></li>
+                <li><a href="#">系统文件</a></li>
+                <li><a href="#">用户文件</a></li>
+              </ul>
+            </li>
+          </ul><!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+          <!-- modal -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      <!-- Main Footer -->
+      <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+          Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+      </footer>
+    </div><!-- ./wrapper -->
+  </body>
+</html>
