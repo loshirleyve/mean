@@ -13,6 +13,8 @@ var receivable=require("./receivable");
 var product=require("./product");
 var client = require("./client");
 var file = require("./file");
+var login=require("./login");
+
 module.exports = function (app) {
 
     //使用主路由器
@@ -45,4 +47,7 @@ module.exports = function (app) {
 
     //文件
     app.use("/file", file);
+
+    //登录
+    app.use("/login", login);
 };

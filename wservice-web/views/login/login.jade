@@ -1,3 +1,17 @@
 //
    Created by rxy on 15/10/19.
 
+extends ../layout/layout
+block titleContent
+    title #{title}
+block content
+    div.row.container
+        div.col-md-12.row
+            div.col-md-6(style="margin-top:20px;margin-left:20px;")
+                img.col-md-2(src="/image/login.png",width="50",height="68")
+                div.col-md-6
+                    label(style="font-size:20px") 深圳市顶聚科技有限公司
+                    label(style="font-size:20px") www.yun9.com
+                div.col-md-3(style="margin-top:20px;margin-left:20px;")
+                    a(style="font-size:20px;") 登录账号
+
