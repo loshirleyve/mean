@@ -1,0 +1,221 @@
+//
+   Created by Y9 on 2015/10/20.
+
+extends ../layout/layout-nav
+
+block titleContent
+   title #{title}
+
+block content
+   .row
+      // 当前页面导航。同时表达本页面功能名称
+      .col-md-12
+         ul.breadcrumb(style="margin-bottom: 8px;")
+            li
+               a(href="../../index-ck.html")
+                  span.glyphicon.glyphicon-home
+                  | &#39318;&#39029;
+            li.active &#24037;&#21333;&#21015;&#34920;
+   // 列表全局过滤按钮组
+   .row
+      .col-md-11
+         .btn-group(data-toggle="buttons")
+            label.btn.btn-default.active
+               input#allworkorder(type="radio", name="options", autocomplete="off", checked="")
+               | &#20840;&#37096;
+            label.btn.btn-default
+               input#untreated(type="radio", name="options", autocomplete="off")
+               | &#26410;&#22788;&#29702;
+            label.btn.btn-default
+               input#unassigned(type="radio", name="options", autocomplete="off")
+               | &#26410;&#20998;&#37197;
+            label.btn.btn-default
+               input#treated(type="radio", name="options", autocomplete="off")
+               | &#24050;&#22788;&#29702;
+      .col-md-1
+         .text-right
+            a.btn.btn-default.glyphicon.glyphicon-search(data-toggle="modal", data-target="#search")
+            // 弹出框测试失败，不能往里面加入dom元素
+            // <button type="button" class="btn btn-default glyphicon glyphicon-search" data-container="body" data-toggle="popover"
+            // data-placement="bottom" data-content = '<input type="text">'>
+            // </button>
+            #search.modal.fade(tabindex="-1", role="dialog")
+               .modal-dialog(role="document")
+                  .modal-content
+                     form(action="#", method="get")
+                        .modal-body
+                           .row(style="margin: 20px 20px 20px;")
+                              .col-md-2
+                                 strong &#24037;&#21333;&#32534;&#21495;
+                              .col-md-10
+                                 input.form-control(type="text")
+                           .row(style="margin: 20px 20px 20px;")
+                              .col-md-2
+                                 strong &#24037;&#21333;&#21517;&#31216;
+                              .col-md-10
+                                 input.form-control(type="text")
+                           .row(style="margin: 20px 20px 20px;")
+                              .col-md-2
+                                 strong &#24320;&#22987;&#26085;&#26399;
+                              .col-md-10
+                                 input.form-control(type="text")
+                           .row(style="margin: 20px 20px 20px;")
+                              .col-md-2
+                                 strong &#32467;&#26463;&#26085;&#26399;
+                              .col-md-10
+                                 input.form-control(type="text")
+                        .modal-footer
+                           button.btn.btn-default(type="button", data-dismiss="modal")
+                              | &#20851;&#38381;
+                           button.btn.btn-primary(type="button submit") &#26597;&#35810;
+   // 订单新消息提醒，默认是关闭的，在检索到数据后显示
+   .row
+      .col-md-12(style="margin-top: 10px;")
+         .alert.alert-info.alert-dismissible
+            button.close(type="button", data-dismiss="alert") &#215;
+            h4 &#26032;&#24037;&#21333;
+            hr
+            | &#26377;6&#24352;&#26032;&#30340;&#24037;&#21333;&#31561;&#24453;&#30830;&#35748;&#12290;
+            a.alert-link(data-dismiss="alert") &#31435;&#21363;&#22788;&#29702;.
+   // 订单列表表格
+   .row
+      .col-md-12
+         // 设置为响应式表格 当页面宽度不够显示表格内容时会出现滚动条
+         .table-responsive
+            // table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格
+            table.table.table-striped.table-bordered.table-hover.table-condensed(style="margin-bottom: 5px;")
+               // 添加表格脚部，用于分页选择
+               tfoot
+                  tr
+                     td(colspan="14")
+                        nav
+                           ul.pagination(style="margin:1px;")
+                              li.disabled
+                                 a(href="#", aria-label="上一页")
+                                    span(aria-hidden="true") &#171;
+                              li.active
+                                 a(href="#") 1
+                              li
+                                 a(href="#") 2
+                              li
+                                 a(href="#") 3
+                              li
+                                 a(href="#") 4
+                              li
+                                 a(href="#") 5
+                              li
+                                 a(href="#", aria-label="下一页")
+                                    span(aria-hidden="true") &#187;
+               tbody
+                  tr
+                     th.text-center #
+                     th.text-center &#24037;&#21333;&#21495;
+                     th.text-center &#24037;&#21333;&#21517;&#31216;
+                     th.text-center &#20998;&#37197;&#20154;
+                     th.text-center &#20998;&#37197;&#26085;&#26399;
+                     th.text-center &#22788;&#29702;&#20154;
+                     th.text-center &#35745;&#21010;&#24320;&#22987;&#26085;&#26399;
+                     th.text-center &#23454;&#38469;&#24320;&#22987;&#26085;&#26399;
+                     th.text-center &#35745;&#21010;&#23436;&#25104;&#26085;&#26399;
+                     th.text-center &#23454;&#38469;&#23436;&#25104;&#26085;&#26399;
+                     th.text-center &#36317;&#31163;&#23436;&#25104;&#26399;&#38480;(&#22825;)
+                     th.text-center &#24037;&#21333;&#29366;&#24577;
+                     th.text-center &#21019;&#24314;&#26085;&#26399;
+                     th.text-center &#25805;&#20316;
+                  tr
+                     td 1
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                  tr
+                     td 2
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                  tr
+                     td 3
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                  tr
+                     td 4
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                  tr
+                     td 5
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                  tr
+                     td 6
+                     td 10000002316105
+                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
+                     td &#40644;&#40654;
+                     td 2015-09-17 16:00:20
+                     td &#40644;&#40654;
+                     td 2015-09-18 15:58:53
+                     td.text-right
+                     td.text-right 2015-09-22 15:58:53
+                     td
+                     td 1
+                     td &#26410;&#24320;&#22987;
+                     td
+                     td
+                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+

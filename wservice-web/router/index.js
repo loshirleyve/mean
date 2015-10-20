@@ -9,6 +9,7 @@
 var main = require("./main");
 var auth = require("./auth");
 var order = require("./order");
+var workorder = require("./workorder");
 var receivable=require("./receivable");
 var product=require("./product");
 var client = require("./client");
@@ -25,6 +26,14 @@ module.exports = function (app) {
 
     app.use("/order", order);
 
+<<<<<<< HEAD
+=======
+
+    //工单
+    app.use("/workorder", workorder);
+
+
+>>>>>>> 23a0db7f3657267cc353e5373d6d92bb2be286a4
     //收款列表
     app.use("/receivable",receivable);
 
