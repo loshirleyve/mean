@@ -5,13 +5,35 @@ extends ../layout/layout
 block titleContent
     title #{title}
 block content
-    div.row.container
+    div.row
         div.col-md-12.row
-            div.col-md-6(style="margin-top:20px;margin-left:20px;")
+            div.col-md-6(style="margin-top:20px;margin-left:20px;margin-bottom:20px;")
                 img.col-md-2(src="/image/login.png",width="50",height="68")
                 div.col-md-6
-                    label(style="font-size:20px") 深圳市顶聚科技有限公司
-                    label(style="font-size:20px") www.yun9.com
+                    h4 深圳市顶聚科技有限公司
+                    h4 www.yun9.com
                 div.col-md-3(style="margin-top:20px;margin-left:20px;")
-                    a(style="font-size:20px;") 登录账号
+                    h4 登录账号
+    div.row(style="background:#445160;height:100%")
+        div.col-md-4.container(style="background:white;margin:50px")
+            div.page-header
+                h4 请输入登录信息
+            div.col-md-12.text-center
+                form.form-horizontal
+                    div.form-group
+                        input.col-md-10(type="text",placeholder="用户名",style="margin-top:20px;margin-left:20px")
+                    div.form-group
+                        input.col-md-10(type="text",placeholder="密码",style="margin-left:20px")
+                    div.form-group
+                        input(type="checkbox")
+                        &nbsp;&nbsp;
+                        lable 记住密码
+                        div.form-control-static
+                            label 忘记密码?
+
+
+
+
+
+
 
