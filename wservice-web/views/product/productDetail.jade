@@ -2,7 +2,6 @@
    Created by rxy on 15/10/16.
 
 extends ../layout/layout-nav
-script(src="/js/productDetailAdd.js")
 block titleContent
     title #{title}
 block content
@@ -63,8 +62,8 @@ block content
                                     td.text-center 1
                                     td.text-center
                                         button.btn.btn-default.btn-sm(data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample" onclick="bigbang()") 编辑
-                                        button.btn.btn-default.btn-sm(onclick="bigbang()") 编辑
+                                        aria-controls="collapseExample") 编辑
+                                        button.btn.btn-default.btn-sm(onclick="addrow()") 添加行
                                 tr
                                     td(colspan="8",style="padding: 0;border-bottom: 0;border-top: 0")
                                         div#collapseExample.collapse.col-md-10
