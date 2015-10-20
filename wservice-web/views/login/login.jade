@@ -5,31 +5,37 @@ extends ../layout/layout
 block titleContent
     title #{title}
 block content
-    div.row
-        div.col-md-12.row
-            div.col-md-6(style="margin-top:20px;margin-left:20px;margin-bottom:20px;")
-                img.col-md-2(src="/image/login.png",width="50",height="68")
-                div.col-md-6
-                    h4 深圳市顶聚科技有限公司
-                    h4 www.yun9.com
-                div.col-md-3(style="margin-top:20px;margin-left:20px;")
-                    h4 登录账号
-    div.row(style="background:#445160;height:100%")
-        div.col-md-4.container(style="background:white;margin:50px")
-            div.page-header
-                h4 请输入登录信息
-            div.col-md-12.text-center
-                form.form-horizontal
-                    div.form-group
-                        input.col-md-10(type="text",placeholder="用户名",style="margin-top:20px;margin-left:20px")
-                    div.form-group
-                        input.col-md-10(type="text",placeholder="密码",style="margin-left:20px")
-                    div.form-group
-                        input(type="checkbox")
-                        &nbsp;&nbsp;
-                        lable 记住密码
-                        div.form-control-static
-                            label 忘记密码?
+    div.main-content
+        div.row
+            div.col-md-12.row
+                div.col-md-6(style="margin-top:20px;margin-left:20px;margin-bottom:20px;")
+                    img.col-md-2(src="/image/login.png",width="50",height="68")
+                    div.col-md-6
+                        h4 深圳市顶聚科技有限公司
+                        h4 www.yun9.com
+                    div.col-md-3(style="margin-top:20px;margin-left:20px;")
+                        h4 登录账号
+        div.container-fluid(style="background:#445160;width:100%;height:100%;")
+            div.col-md-4(style="background:white;margin:300px")
+                div.page-header
+                    h4 请输入登录信息
+                div.col-md-12
+                    form.form-horizontal(style="padding:20px")
+                        div.form-group
+                            input.form-control.col-md-12(type="text",placeholder="用户名")
+                        div.form-group
+                            input.form-control.col-md-12(type="text",placeholder="密码")
+                        div.form-group
+                            div.form-control-static.col-md-6
+                                input(type="checkbox")
+                                &nbsp;&nbsp;
+                                lable 记住密码
+                            div.control-label.col-md-6
+                                label 忘记密码?|
+                                label 免费注册
+                        div.form-group
+                            input.btn.col-md-4(style="background:#EF3138;" type="button" value="登录")
+
 
 
 
