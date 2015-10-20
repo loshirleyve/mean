@@ -26,7 +26,7 @@
         background-color: #0063dc
     }
 </style>
-<body class="body-master skin-blue main-container" ng-app="mainApp" ng-controller="mainCtrl">
+<body class="main-container" ng-app="mainApp" ng-controller="mainCtrl">
 <nav class="navbar navbar-inverse navbar-fixed-top" style="margin: 0px">
     <div class="navbar-header">
         <a class="navbar-brand" href="#/home">{{inst}}</a>
@@ -70,60 +70,49 @@
         </ul>
     </div>
 </nav>
-
-<aside class="main-sidebar skin-blue sidebar-mini" style="background-color: #222">
-    <section class="sidebar">
-        <!-- Sidebar Menu -->
-        <ul class="sidebar-menu">
-            <li class="treeview">
-                <a href="#"><span>工单管理</span></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="#">工单列表</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>订单管理</span> <i
-                        class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="#">订单列表</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>产品管理</span> <i
-                        class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="#">产品列表</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>文件管理</span> <i
-                        class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="#">素材管理</a></li>
-                    <li><a href="#">系统文件</a></li>
-                    <li><a href="#">用户文件</a></li>
-                </ul>
-            </li>
-        </ul>
-        <!-- /.sidebar-menu -->
-    </section>
-</aside>
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Page Header
-            <small>Optional description</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
-        </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <!-- Modal -->
+<div class="row">
+    <div class="col-md-3" style="width:230px">
+        <div class="content-wrapper">
+            <aside class="main-sidebar skin-blue sidebar-mini" style="background-color: #222">
+                <section class="sidebar">
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu">
+                        <li class="treeview">
+                            <a href="#"><span>工单管理</span></a>
+                            <ul class="treeview-menu" style="display: none;">
+                                <li><a href="#">工单列表</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>订单管理</span> <i
+                                    class="fa fa-angle-left pull-right"></i></a>
+                            <ul class="treeview-menu" style="display: none;">
+                                <li><a href="#">订单列表</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>产品管理</span> <i
+                                    class="fa fa-angle-left pull-right"></i></a>
+                            <ul class="treeview-menu" style="display: none;">
+                                <li><a href="#">产品列表</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#"><i class="fa fa-link"></i> <span>文件管理</span> <i
+                                    class="fa fa-angle-left pull-right"></i></a>
+                            <ul class="treeview-menu" style="display: none;">
+                                <li><a href="#">素材管理</a></li>
+                                <li><a href="#">系统文件</a></li>
+                                <li><a href="#">用户文件</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- /.sidebar-menu -->
+                </section>
+            </aside>
+        </div>
+    </div>
+    <div class="col-md-9" style="top: 53px">
         <div class="modal fade" id="changeInst" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -144,8 +133,30 @@
             </div>
         </div>
 
-    </section><!-- /.content -->
+        这里是首页
+    </div>
 </div>
+
+<!--<div class="content-wrapper">-->
+    <!--&lt;!&ndash; Content Header (Page header) &ndash;&gt;-->
+    <!--<section class="content-header">-->
+        <!--<h1>-->
+            <!--Page Header-->
+            <!--<small>Optional description</small>-->
+        <!--</h1>-->
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
+            <!--<li class="active">Here</li>-->
+        <!--</ol>-->
+    <!--</section>-->
+
+    <!--&lt;!&ndash; Main content &ndash;&gt;-->
+    <!--<section class="content">-->
+        <!--&lt;!&ndash; Modal &ndash;&gt;-->
+        <!-- -->
+
+    <!--</section>&lt;!&ndash; /.content &ndash;&gt;-->
+<!--</div>-->
 </body>
 
 <script type="text/javascript">
