@@ -124,7 +124,21 @@ html(lang="zh_CN")
             // Default to the left
             strong
                | Copyright &#169; 2015
-               a(href="#") Company
+               a(href="#") 顶聚科技有限公司
                | .
             | All rights reserved.
+
+         #changeInst.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel2")
+            .modal-dialog(role="document")
+               .modal-content
+                  form
+                     .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                           span(aria-hidden="true") &#215;
+                        h4#myModalLabel2.modal-title 切换机构
+                     .modal-body
+                        input.form-control(type="text")
+                     .modal-footer
+                        button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                        button.btn.btn-primary(type="button") 确认
       // ./wrapper
