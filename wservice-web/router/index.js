@@ -26,14 +26,9 @@ module.exports = function (app) {
 
     app.use("/order", order);
 
-<<<<<<< HEAD
-=======
-
     //工单
     app.use("/workorder", workorder);
 
-
->>>>>>> 23a0db7f3657267cc353e5373d6d92bb2be286a4
     //收款列表
     app.use("/receivable",receivable);
 
