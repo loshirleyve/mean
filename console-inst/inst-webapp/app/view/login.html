@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh_CN" ng-app="y9App">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>登录</title>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="../../lib/ui-bootstrap/ui-bootstrap-custom-0.13.4-csp.css"/>
+    <link rel="stylesheet" href="../../css/app.css"/>
+</head>
+<body class="container-fluid">
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-1.4.5.min.js"></script>
+-->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../lib/angular/angular.js"></script>
+<script src="../../lib/angular/angular-route.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-0.13.4.min.js"></script>-->
+<!--<script src="lib/ui-bootstrap/ui-bootstrap-custom-tpls-0.13.4.min.js"></script>-->
+
+<script src="../../js/services.js"></script>
+<script src="../../js/filters.js"></script>
+<script src="../../js/directives.js"></script>
+<script src="../../js/app.js"></script>
+<script src="../../js/controllers.js"></script>
+<html>
+<body class="login-layout blur-login">
+<div class="main-container">
+    <div class="div_overlay"></div>
+    <div class="div_content">
+        <form id="instform">
+            <table id="tab" border="1" width="80%" align="center" style="margin-top:20px">
+                <tr>
+                    <td width="10%"></td>
+                    <td align="center">机构</td>
+                </tr>
+            </table>
+            <div align="center" style="margin-top: 20px;">
+                <button  class="width-25 btn btn-sm btn-primary" type="button" id="choseinst" >确定</button> &nbsp;&nbsp;
+                <button  class="width-25 btn btn-sm" type="button" id="cancel" >取消</button>
+            </div>
+        </form>
+    </div>
+    <div class="div_loading">
+        加载中。。。
+    </div>
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <span><img src="images/logo_left.png" /></span>
+                        </h1>
+                        <h4 class="light-blue" id="id-company-text">&copy; 深圳市顶聚科技有限公司</h4>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        <div id="login-box" class="login-box visible widget-box no-border">
+                            <form id="fm1" action="/cas/login?service=http%3A%2F%2Fm.yun9.com%3A9080%2Finst%2Fj_spring_cas_security_check%3Bjsessionid%3DF178EFBA75AF95E21DB28F83343F5F37" method="post">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header blue lighter bigger">
+                                            <i class="ace-icon fa fa-coffee green"></i>
+                                            请输入登录信息
+                                        </h4>
+
+                                        <div class="space-6"></div>
+
+                                        <fieldset>
+                                            <label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input id="ip_username" name="username"
+                                                                   type="text" class="form-control" placeholder="用户名" required/>
+															<i class="ace-icon fa fa-user"></i>
+														</span>
+                                            </label>
+
+                                            <!--       <label class="block clearfix">
+                                                      <span class="block input-icon input-icon-right">
+                                                          <input id="ip_instno"
+                                                                  type="text" class="form-control"
+                                                                  autocomplete="off"  placeholder="机构码" required/>
+                                                          <input type="hidden" id="real_instno" name="instno" />
+                                                          <i class="ace-icon fa fa-user"></i>
+                                                      </span>
+                                                  </label> -->
+                                            <input id="ip_instno"
+                                                   type="hidden"/>
+                                            <input type="hidden" id="real_instno" name="instno" />
+                                            <label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input id="ip_pwd" name="password" type="password" class="form-control"
+                                                                   placeholder="密码" required/>
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
+                                            </label>
+
+
+                                            <div class="space"></div>
+
+                                            <div class="clearfix">
+                                                <label class="inline">
+                                                    <input type="checkbox" class="ace" />
+                                                    <span class="lbl"> 记住用户名</span>
+                                                </label>
+                                                <input type="hidden" name="lt" value="LT-25080-XuxKAmftiMjRrow4BfJpfaWZLEGX0Y" /> <input
+                                                    type="hidden" name="execution" value="e1s1" />
+                                                <input type="hidden" name="_eventId" value="submit" />
+                                                <button type=submit id="btn_submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                    <i class="ace-icon fa fa-key"></i>
+                                                    <span class="bigger-110">登录</span>
+                                                </button>
+                                                <button type="submit" id="btn_real_submit" style="display: none"></button>
+                                            </div>
+
+                                            <div class="space-4"></div>
+                                        </fieldset>
+
+                                        <div class="space-6"></div>
+
+                                    </div><!-- /.widget-main -->
+
+                                </div><!-- /.widget-body -->
+                            </form>
+                        </div><!-- /.login-box -->
+                    </div><!-- /.position-relative -->
+
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.main-content -->
+</div>
+
+</body>
+</html>
