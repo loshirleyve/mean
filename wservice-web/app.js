@@ -13,7 +13,11 @@ var favicon = require("serve-favicon");
 var logger = require('morgan');
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
+var flash = require("express-flash");
 var router = require("./router");
+var session = require("./session");
+var passport = require("./passport");
+var security = require("./security");
 
 //设置视图引擎
 app.set("views", path.join(__dirname, "views"));
@@ -30,7 +34,17 @@ app.use(cookieParser());
 //设置public目录为前端资源公共目录,包括前端js、css、image都存放此目录
 app.use(express.static(path.join(__dirname, "public")));
 
-//载入路由
+//1.加载session管理
+session(app);
+app.use(flash());
+
+//2.加载登录验证管理
+passport(app);
+
+//3.加载安全过滤器,注意安全过滤器一定要在业务路由器之前加载.
+security(app);
+
+//4.载入路由
 router(app);
 
 // 找不到页面
