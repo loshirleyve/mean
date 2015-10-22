@@ -2,11 +2,19 @@
  * Created by leon on 15/10/19.
  */
 
-var mars = require("y9-mars");
+var security = require("y9-mars-security");
+var filter = security.Filter();
 
-var security = mars.SecurityFilter();
+module.exports = function (app) {
 
-//加载安全策略
-security.use();
+    //注册过滤器处理策略
+    //登录验证过滤器
+    filter.use(security.LocalLoginHandler());
 
+    //角色检查过滤器
+    filter.use(security.LocalRoleHandler());
+
+
+
+}
 
