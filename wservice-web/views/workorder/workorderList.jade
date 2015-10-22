@@ -8,7 +8,7 @@ block titleContent
 
 block content
    .row
-      // µ±Ç°Ò³Ãæµ¼º½¡£Í¬Ê±±í´ï±¾Ò³Ãæ¹¦ÄÜÃû³Æ
+      // å½“å‰é¡µé¢å¯¼èˆªã€‚åŒæ—¶è¡¨è¾¾æœ¬é¡µé¢åŠŸèƒ½åç§°
       .col-md-12
          ul.breadcrumb(style="margin-bottom: 8px;")
             li
@@ -16,7 +16,7 @@ block content
                   span.glyphicon.glyphicon-home
                   | &#39318;&#39029;
             li.active &#24037;&#21333;&#21015;&#34920;
-   // ÁĞ±íÈ«¾Ö¹ıÂË°´Å¥×é
+   // åˆ—è¡¨å…¨å±€è¿‡æ»¤æŒ‰é’®ç»„
    .row
       .col-md-11
          .btn-group(data-toggle="buttons")
@@ -35,7 +35,7 @@ block content
       .col-md-1
          .text-right
             a.btn.btn-default.glyphicon.glyphicon-search(data-toggle="modal", data-target="#search")
-            // µ¯³ö¿ò²âÊÔÊ§°Ü£¬²»ÄÜÍùÀïÃæ¼ÓÈëdomÔªËØ
+            // å¼¹å‡ºæ¡†æµ‹è¯•å¤±è´¥ï¼Œä¸èƒ½å¾€é‡Œé¢åŠ å…¥domå…ƒç´ 
             // <button type="button" class="btn btn-default glyphicon glyphicon-search" data-container="body" data-toggle="popover"
             // data-placement="bottom" data-content = '<input type="text">'>
             // </button>
@@ -68,7 +68,7 @@ block content
                            button.btn.btn-default(type="button", data-dismiss="modal")
                               | &#20851;&#38381;
                            button.btn.btn-primary(type="button submit") &#26597;&#35810;
-   // ¶©µ¥ĞÂÏûÏ¢ÌáĞÑ£¬Ä¬ÈÏÊÇ¹Ø±ÕµÄ£¬ÔÚ¼ìË÷µ½Êı¾İºóÏÔÊ¾
+   // è®¢å•æ–°æ¶ˆæ¯æé†’ï¼Œé»˜è®¤æ˜¯å…³é—­çš„ï¼Œåœ¨æ£€ç´¢åˆ°æ•°æ®åæ˜¾ç¤º
    .row
       .col-md-12(style="margin-top: 10px;")
          .alert.alert-info.alert-dismissible
@@ -77,21 +77,21 @@ block content
             hr
             | &#26377;6&#24352;&#26032;&#30340;&#24037;&#21333;&#31561;&#24453;&#30830;&#35748;&#12290;
             a.alert-link(data-dismiss="alert") &#31435;&#21363;&#22788;&#29702;.
-   // ¶©µ¥ÁĞ±í±í¸ñ
+   // è®¢å•åˆ—è¡¨è¡¨æ ¼
    .row
       .col-md-12
-         // ÉèÖÃÎªÏìÓ¦Ê½±í¸ñ µ±Ò³Ãæ¿í¶È²»¹»ÏÔÊ¾±í¸ñÄÚÈİÊ±»á³öÏÖ¹ö¶¯Ìõ
+         // è®¾ç½®ä¸ºå“åº”å¼è¡¨æ ¼ å½“é¡µé¢å®½åº¦ä¸å¤Ÿæ˜¾ç¤ºè¡¨æ ¼å†…å®¹æ—¶ä¼šå‡ºç°æ»šåŠ¨æ¡
          .table-responsive
-            // table-striped±íÊ¾¸ôĞĞÏÔÊ¾²»Í¬ÑÕÉ«ÌõÎÆ£»table-hoverÊó±êĞüÍ£±äÉ«£»table-bordered±í¸ñÏß¿ò;table-condensed½ôËõ±í¸ñ
+            // table-stripedè¡¨ç¤ºéš”è¡Œæ˜¾ç¤ºä¸åŒé¢œè‰²æ¡çº¹ï¼›table-hoveré¼ æ ‡æ‚¬åœå˜è‰²ï¼›table-borderedè¡¨æ ¼çº¿æ¡†;table-condensedç´§ç¼©è¡¨æ ¼
             table.table.table-striped.table-bordered.table-hover.table-condensed(style="margin-bottom: 5px;")
-               // Ìí¼Ó±í¸ñ½Å²¿£¬ÓÃÓÚ·ÖÒ³Ñ¡Ôñ
+               // æ·»åŠ è¡¨æ ¼è„šéƒ¨ï¼Œç”¨äºåˆ†é¡µé€‰æ‹©
                tfoot
                   tr
                      td(colspan="14")
                         nav
                            ul.pagination(style="margin:1px;")
                               li.disabled
-                                 a(href="#", aria-label="ÉÏÒ»Ò³")
+                                 a(href="#", aria-label="ä¸Šä¸€é¡µ")
                                     span(aria-hidden="true") &#171;
                               li.active
                                  a(href="#") 1
@@ -104,118 +104,118 @@ block content
                               li
                                  a(href="#") 5
                               li
-                                 a(href="#", aria-label="ÏÂÒ»Ò³")
+                                 a(href="#", aria-label="ä¸‹ä¸€é¡µ")
                                     span(aria-hidden="true") &#187;
                tbody
                   tr
                      th.text-center #
-                     th.text-center &#24037;&#21333;&#21495;
-                     th.text-center &#24037;&#21333;&#21517;&#31216;
-                     th.text-center &#20998;&#37197;&#20154;
-                     th.text-center &#20998;&#37197;&#26085;&#26399;
-                     th.text-center &#22788;&#29702;&#20154;
-                     th.text-center &#35745;&#21010;&#24320;&#22987;&#26085;&#26399;
-                     th.text-center &#23454;&#38469;&#24320;&#22987;&#26085;&#26399;
-                     th.text-center &#35745;&#21010;&#23436;&#25104;&#26085;&#26399;
-                     th.text-center &#23454;&#38469;&#23436;&#25104;&#26085;&#26399;
-                     th.text-center &#36317;&#31163;&#23436;&#25104;&#26399;&#38480;(&#22825;)
-                     th.text-center &#24037;&#21333;&#29366;&#24577;
-                     th.text-center &#21019;&#24314;&#26085;&#26399;
-                     th.text-center &#25805;&#20316;
+                     th.text-center å·¥å•å·
+                     th.text-center å·¥å•åç§°
+                     th.text-center åˆ†é…äºº
+                     th.text-center åˆ†é…æ—¥æœŸ
+                     th.text-center å¤„ç†äºº
+                     th.text-center è®¡åˆ’å¼€å§‹æ—¥æœŸ
+                     th.text-center å®é™…å¼€å§‹æ—¥æœŸ
+                     th.text-center è®¡åˆ’å®Œæˆæ—¥æœŸ
+                     th.text-center å®é™…å®Œæˆæ—¥æœŸ
+                     th.text-center è·ç¦»å®ŒæˆæœŸé™(å¤©)
+                     th.text-center å·¥å•çŠ¶æ€
+                     th.text-center åˆ›å»ºæ—¥æœŸ
+                     th.text-center æ“ä½œ
                   tr
                      td 1
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
                   tr
                      td 2
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
                   tr
                      td 3
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
                   tr
                      td 4
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
                   tr
                      td 5
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
                   tr
                      td 6
                      td 10000002316105
-                     td &#21672;&#35810;&#26381;&#21153;-&#21069;&#26399;
-                     td &#40644;&#40654;
+                     td å’¨è¯¢æœåŠ¡-å‰æœŸ
+                     td é»„é»
                      td 2015-09-17 16:00:20
-                     td &#40644;&#40654;
+                     td é»„é»
                      td 2015-09-18 15:58:53
                      td.text-right
                      td.text-right 2015-09-22 15:58:53
                      td
                      td 1
-                     td &#26410;&#24320;&#22987;
+                     td æœªå¼€å§‹
                      td
                      td
-                        a.btn.btn-default.btn-sm(href="../workorder/workorder-detail.html") &#26597;&#30475;
+                        a.btn.btn-default.btn-sm(href="/workorder/workorderDetail") æŸ¥çœ‹
 
