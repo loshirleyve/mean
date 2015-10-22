@@ -85,9 +85,9 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr id="collapseExample" class="collapse">
-                            <td colspan="6">
-                                <form class="form-horizontal" action="inst-detail.html" method="get">
+                        <tr>
+                            <td colspan="6" style="padding: 0px">
+                                <form class="form-horizontal collapse" action="inst-detail.html" method="get" id="collapseExample">
                                     <div class="form-group">
                                         <label for="logo" class="col-sm-2 control-label">机构logo</label>
                                         <div class="col-sm-10">
@@ -166,9 +166,73 @@
                                 <a href="./order-detail.html" class="btn btn-default btn-sm">删除</a>
                             </td>
                         </tr>
-                        <tr id="translate" class="collapse">
-                            <td colspan="5">
-                                <form class="form-horizontal" action="inst-detail.html" method="get">
+                        <tr>
+                            <td colspan="5" style="padding: 0px">
+                                <form class="form-horizontal collapse" action="inst-detail.html" method="get" id="translate">
+
+                                    <div class="form-group">
+                                        <label for="tmo" class="col-sm-2 control-label">交接模式</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="tmo">
+                                                <option>--请选择</option>
+                                                <option>线上</option>
+                                                <option>线下</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tme" class="col-sm-2 control-label">交接方式</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="tme">
+                                                <option>--请选择</option>
+                                                <option>快递</option>
+                                                <option>自助</option>
+                                                <option>上门取件</option>
+                                                <option>邮件</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="serviceDescr" class="col-sm-2 control-label">服务说明</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="serviceDescr">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="detailDescr" class="col-sm-2 control-label">详细说明</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="detailDescr">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary">确定</button>
+                                            <button type="submit" class="btn btn-primary">取消</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>上门取件</td>
+                            <td>由服务机构到客户处取实物3ee</td>
+                            <td>2015-06-13</td>
+                            <td>
+                                <a class="btn btn-default btn-sm" role="btn btn-default btn-sm" data-toggle="collapse" href="#translate2" aria-expanded="false" aria-controls="collapseExample">
+                                    编辑
+                                </a>
+                                <a href="./order-detail.html" class="btn btn-default btn-sm">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="padding: 0px">
+                                <form class="form-horizontal collapse" action="inst-detail.html" method="get" id="translate2">
 
                                     <div class="form-group">
                                         <label for="tmo" class="col-sm-2 control-label">交接模式</label>

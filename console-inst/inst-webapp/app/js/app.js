@@ -20,3 +20,8 @@ var app = angular.module('y9App', ['ngRoute', 'y9App.filters', 'y9App.services',
 
         //$routeProvider.otherwise({redirectTo: '/home'});
     }]);
+
+
+var test = function(){
+    alert("11");
+}
