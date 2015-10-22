@@ -1,144 +1,131 @@
 doctype html
-html(lang="zh_CN")
-   head
-      meta(charset="utf-8")
-      meta(http-equiv="X-UA-Compatible",content="IE=edge")
-      meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
-      block titleContent
-      link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap.css')
-      link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap-theme.css')
-      link(rel='stylesheet',href= '/stylesheets/app.css')
-      link(rel="stylesheet", href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
-      link(rel="stylesheet", href="/stylesheets/skin-blue.min.css")
-      link(rel="stylesheet", href="/stylesheets/AdminLTE.css")
-      script(src="/vendor/jQuery/jQuery-2.1.4.min.js")
-      script(src="/vendor/angular/angular.min.js")
-      script(src="/vendor/angular/angular-route.min.js")
-      script(src="/vendor/bootstrap/js/bootstrap.min.js")
-      script(src="/js/app.js")
-      script(src="/js/nav-util.js")
-   body.hold-transition.skin-blue.sidebar-mini
-      .wrapper
-         // Main Header
-         header.main-header
-            // Logo
-            a.logo(href="#")
-               // logo for regular state and mobile devices
-               span.logo-lg
-                  b 顶聚科技有限公司
-            // Header Navbar
-            nav.navbar.navbar-static-top(role="navigation")
-               // Sidebar toggle button
-               a.sidebar-toggle(href="#", data-toggle="offcanvas", role="button")
-                  span.glyphicon.glyphicon-th-list
-               // Navbar Right Menu
-               .navbar-custom-menu
-                  ul.nav.navbar-nav
-                     li
-                        a(href="/home")
-                           span.glyphicon.glyphicon-envelope
-                     li.dropdown.user.user-menu
-                        a.dropdown-toggle(href="#", data-toggle="dropdown")
-                           img.img-circle(src="http://www.placehold.it/20x20", alt="User Image")
-                           span.hidden-xs
-                              small 黄黎
-                           span.caret
-                        ul.dropdown-menu
-                           li
-                              a(data-toggle="modal", data-target="#changeInst")
-                                 i.glyphicon.glyphicon-resize-horizontal
-                                 span 切换机构
-                           li
-                              a(href="#")
-                                 i.glyphicon.glyphicon-cog
-                                 span 修改密码
-                           li
-                              a(href="#")
-                                 i.glyphicon.glyphicon-user
-                                 span 用户信息
-                           li.divider(role="separator")
-                           li
-                              a(href="#")
-                                 i.glyphicon.glyphicon-off
-                                 span 退出
-         // Left side column. contains the logo and sidebar
-         aside.main-sidebar
-            // sidebar: style can be found in sidebar.less
-            section.sidebar
-               // Sidebar Menu
-               ul.sidebar-menu
-                  li.treeview
-                     a(href="#")
-                        i.glyphicon.glyphicon-link
-                        span 订单管理
-                     ul.treeview-menu
-                        li
-                           a(href="/order") 订单列表
-                  li.treeview
-                     a(href="#")
-                        i.glyphicon.glyphicon-link
-                        span 工单管理
-                     ul.treeview-menu
-                        li
-                           a(href="/workorder") 工单列表
-                  li.treeview
-                     a(href="#")
-                        i.glyphicon.glyphicon-link
-                        span 文件管理
-                     ul.treeview-menu
-                        li
-                           a(href="#") 订单列表
-                  li.treeview
-                     a(href="#")
-                        i.glyphicon.glyphicon-link
-                        span 客户管理
-                     ul.treeview-menu
-                        li
-                           a(href="#") 订单列表
-                  li.treeview
-                     a(href="#")
-                        i.glyphicon.glyphicon-link
-                        span 文件管理
-                     ul.treeview-menu
-                        li
-                           a(href="../file") 素材管理
-                        li
-                           a(href="../file/systemFile") 系统文件
-                        li
-                           a(href="../file/userFile") 用户文件
-               // /.sidebar-menu
-            // /.sidebar
-         // Content Wrapper. Contains page content
-         .content-wrapper
-            // Main content
-            section.content
-               block content
-               // modal
-            // /.content
-         // /.content-wrapper
-         // Main Footer
-         footer.main-footer
-            // To the right
-            .pull-right.hidden-xs
-               | Anything you want
-            // Default to the left
-            strong
-               | Copyright &#169; 2015
-               a(href="#") 顶聚科技有限公司
-               | .
-            | All rights reserved.
-
-         #changeInst.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel2")
-            .modal-dialog(role="document")
-               .modal-content
-                  form
-                     .modal-header
-                        button.close(type="button", data-dismiss="modal", aria-label="Close")
-                           span(aria-hidden="true") &#215;
-                        h4#myModalLabel2.modal-title 切换机构
-                     .modal-body
-                        input.form-control(type="text")
-                     .modal-footer
-                        button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-                        button.btn.btn-primary(type="button") 确认
-      // ./wrapper
+html
+    head
+       meta(charset="utf-8")
+       meta(http-equiv="X-UA-Compatible",content="IE=edge")
+       meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+       block titleContent
+       link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap.css')
+       link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap-theme.css')
+       link(rel='stylesheet',href= '/stylesheets/app.css')
+       link(rel="stylesheet", href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
+       link(rel="stylesheet", href="/stylesheets/skin-blue.css")
+       link(rel="stylesheet", href="/stylesheets/AdminLTE.css")
+       script(src="/vendor/jQuery/jQuery-2.1.4.min.js")
+       script(src="/vendor/angular/angular.min.js")
+       script(src="/vendor/angular/angular-route.min.js")
+       script(src="/vendor/bootstrap/js/bootstrap.min.js")
+       script(src="/js/app.js")
+       script(src="/js/nav-util.js")
+    body.hold-transition.skin-blue.sidebar-mini
+        .wrapper
+            // Main Header
+            header.main-header
+                // Logo
+                a.logo(href="#")
+                    span.glyphicon.glyphicon-home
+                    b home
+                // Header Navbar
+                nav.navbar.navbar-static-top(role="navigation")
+                    // Sidebar toggle button
+                    a.sidebar-toggle(href="#", data-toggle="offcanvas", role="button")
+                        span.glyphicon.glyphicon-th-list
+                    // Navbar Right Menu
+                    .navbar-custom-menu
+                        ul.nav.navbar-nav
+                            li
+                                a(href="/home")
+                                    span.glyphicon.glyphicon-envelope
+                            li.dropdown.user.user-menu
+                                a.dropdown-toggle(href="#", data-toggle="dropdown")
+                                    img.img-circle(src="http://www.placehold.it/20x20", alt="User Image")
+                                    span.hidden-xs
+                                        small &#40644; &#40654;
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(data-toggle="modal", data-target="#changeInst")
+                                            i.glyphicon.glyphicon-resize-horizontal
+                                            span &#20999;&#25442;&#26426;&#26500;
+                                    li
+                                        a(href="#")
+                                            i.glyphicon.glyphicon-cog
+                                            span &#20462;&#25913;&#23494;&#30721;
+                                    li
+                                        a(href="#")
+                                            i.glyphicon.glyphicon-user
+                                            span &#29992;&#25143;&#20449;&#24687;
+                                    li.divider(role="separator")
+                                    li
+                                        a(href="#")
+                                            i.glyphicon.glyphicon-off
+                                            span &#36864;&#20986;
+            // Left side column. contains the logo and sidebar
+            aside.main-sidebar
+                // sidebar: style can be found in sidebar.less
+                section.sidebar
+                    // Sidebar Menu
+                    ul.sidebar-menu
+                        li.treeview
+                            a(href="#")
+                                i.glyphicon.glyphicon-link
+                                span &#35746;&#21333;&#31649;&#29702;
+                            ul.treeview-menu
+                                li
+                                    a(href="#") &#35746;&#21333;&#21015;&#34920;
+                        li.treeview
+                            a(href="#")
+                                i.glyphicon.glyphicon-link
+                                span &#24037;&#21333;&#31649;&#29702;
+                            ul.treeview-menu
+                                li
+                                    a(href="#") &#35746;&#21333;&#21015;&#34920;
+                        li.treeview
+                            a(href="#")
+                                i.glyphicon.glyphicon-link
+                                span &#23458;&#25143;&#31649;&#29702;
+                            ul.treeview-menu
+                                li
+                                    a(href="#") &#35746;&#21333;&#21015;&#34920;
+                        li.treeview
+                            a(href="#")
+                                i.glyphicon.glyphicon-link
+                                span &#20135;&#21697;&#31649;&#29702;
+                            ul.treeview-menu
+                                li
+                                    a(href="#") &#35746;&#21333;&#21015;&#34920;
+                        li.treeview
+                            a(href="#")
+                                i.glyphicon.glyphicon-link
+                                span &#25991;&#20214;&#31649;&#29702;
+                            ul.treeview-menu
+                                li
+                                    a(href="#") &#32032;&#26448;&#31649;&#29702;
+                                li
+                                    a(href="#") &#31995;&#32479;&#25991;&#20214;
+                                li
+                                    a(href="#") &#29992;&#25143;&#25991;&#20214;
+                    // /.sidebar-menu
+                // /.sidebar
+            // Content Wrapper. Contains page content
+            .content-wrapper
+                // Main content
+                section.content
+                    block content
+                // /.content
+            // /.content-wrapper
+            #changeInst.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel2")
+                .modal-dialog(role="document")
+                    .modal-content
+                        form
+                            .modal-header
+                                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                                    span(aria-hidden="true") &#215;
+                                h4#myModalLabel2.modal-title &#20999;&#25442;&#26426;&#26500;
+                            .modal-body
+                                input.form-control(type="text")
+                            .modal-footer
+                                button.btn.btn-default(type="button", data-dismiss="modal") Close
+                                button.btn.btn-primary(type="button") Save changes
+        // ./wrapper
+                       
