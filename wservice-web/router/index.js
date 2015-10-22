@@ -26,6 +26,8 @@ module.exports = function (app) {
 
     app.use("/app/order", order);
 
+    app.use("/order", order);
+
     //工单
     app.use("/workorder", workorder);
 
