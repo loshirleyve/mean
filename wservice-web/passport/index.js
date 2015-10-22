@@ -37,6 +37,8 @@ module.exports = function (app) {
                     message: "登录失败!你输入的用户密码错误."
                 });
             }
+
+            done(null, user);
         }));
 
     //配置用户持久化策略
