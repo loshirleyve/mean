@@ -4,21 +4,22 @@
 
 var passport = require("passport");
 var PassportLocal = require("passport-local").Strategy;
+var flash=require("express-flash");
 
 module.exports = function (app) {
 
     //初始化验证环境
     app.use(passport.initialize());
     app.use(passport.session());
-
+    app.use(flash());
     //配置登录验证策略,此处为本地验证策略
+
     passport.use("local", new PassportLocal({
             "usernameField": "userno",
             "passwordField": "password"
         },
         function (username, password, done) {
             //TODO 此处验证用户密码是否正确,目前写入伪代码
-
             var user = {
                 id: "1",
                 username: "admin",
@@ -34,7 +35,7 @@ module.exports = function (app) {
 
             if (password !== user.password) {
                 return done(null, false, {
-                    message: "登录失败!你输入的用户密码错误."
+                    message: "登录失败!你输入的用户编号不存在."
                 });
             }
 
@@ -58,4 +59,6 @@ module.exports = function (app) {
         failureRedirect: "/login",
         failureFlash: true
     }));
+
+
 }

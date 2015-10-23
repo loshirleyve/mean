@@ -35,7 +35,7 @@ block content
                             a(href="/product") 返回
 
     div.row
-        div.col-md-10
+        div.col-md-10(onmousedown="whichElement(event)")
             div.row
                 div.col-md-12
                     div.page-header
@@ -63,7 +63,7 @@ block content
                                     td.text-center
                                         button.btn.btn-default.btn-sm(data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
                                         aria-controls="collapseExample") 编辑
-                                        button.btn.btn-default.btn-sm(onclick="addrow()") 添加行
+                                        button.btn.btn-default.btn-sm(onclick="addRow();") 添加行
                                 tr
                                     td(colspan="8",style="padding: 0;border-bottom: 0;border-top: 0")
                                         div#collapseExample.collapse.col-md-10

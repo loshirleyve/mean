@@ -34,11 +34,17 @@ html(lang="zh_CN")
             div.page-header
                 h4 请输入登录信息
             div.col-md-12
-                form.form-horizontal(style="padding:20px")
+                if error_message && error_message != ''
+                    .alert.alert-danger.alert-dismissible(role="alert",)
+                        button.close(type="button", data-dismiss="alert", aria-label="Close")
+                            span(aria-hidden="true") &#215;
+                        strong 错误!
+                        p #{error_message}
+                form.form.form-horizontal(style="padding:20px",action="/auth",method="post")
                     div.form-group
-                        input.form-control.col-md-12(type="text",placeholder="用户名")
+                        input#userno.form-control.col-md-12(name="userno",type="text",placeholder="用户名")
                     div.form-group
-                        input.form-control.col-md-12(type="text",placeholder="密码")
+                        input#password.form-control.col-md-12(name="password",type="password",placeholder="密码")
                     div.form-group
                         span.form-control-static.col-md-6(style="padding-left:0;")
                             input(type="checkbox")
@@ -49,7 +55,7 @@ html(lang="zh_CN")
                                 a(style="color:black;") 忘记密码?|
                                 a(style="color:red;") 免费注册
                     div.form-group
-                        input.btn.col-md-4(style="background:#EF3138;color:white;" type="button" value="登录")
+                        input.btn.col-md-4(style="background:#EF3138;color:white;" type="submit" value="登录")
 
 
 
