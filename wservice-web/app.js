@@ -37,24 +37,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //0.加载服务代理
 app.use(proxy());
-
-//TODO 测试发布服务,需要进行整合,同步开发angularjs客户端调用组件
-app.use("/service", function (req, res, next) {
-    //查询订单列表
-    req.y9proxy
-        .post("queryOrderList")
-        .params({
-            "instid": "10000001468002",
-            "userid": "10000001498059"
-        })
-        .launch(function (result) {
-            res.send(result.body);
-        }, function (error) {
-            res.send(error);
-        }, function () {
-
-        });
-});
+app.use("/service", proxy.service());
 
 //1.加载session管理
 session(app);
@@ -77,7 +60,6 @@ app.use(function (req, res, next) {
 });
 
 // 错误处理
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
