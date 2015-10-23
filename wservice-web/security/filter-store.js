@@ -5,6 +5,12 @@
 var security = require("y9-mars-security");
 var store = security.FilterStore();
 
-store.use();
+store.use("/app*", {
+    needLogin: true,
+    role: ["user"]
+}).use("/admin*", {
+    needLogin: true,
+    role: ["admin"]
+});
 
 module.exports = store;

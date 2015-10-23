@@ -8,13 +8,13 @@
 
 var main = require("./main");
 var auth = require("./auth");
-var order = require("./order");
+var order = require("./app/order");
 var workorder = require("./workorder");
-var receivable=require("./receivable");
-var product=require("./product");
+var receivable = require("./receivable");
+var product = require("./product");
 var client = require("./client");
 var file = require("./file");
-var login=require("./login");
+var login = require("./login");
 
 module.exports = function (app) {
 
@@ -24,16 +24,18 @@ module.exports = function (app) {
     //认证路由器
     app.use("/auth", auth);
 
+    app.use("/app/order", order);
+
     app.use("/order", order);
 
     //工单
     app.use("/workorder", workorder);
 
     //收款列表
-    app.use("/receivable",receivable);
+    app.use("/receivable", receivable);
 
     //产品列表
-    app.use("/product",product);
+    app.use("/product", product);
 
     //客户
     app.use("/client", client);

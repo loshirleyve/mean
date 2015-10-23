@@ -4,6 +4,7 @@
 
 var security = require("y9-mars-security");
 var filter = security.Filter();
+var filterStore = require("./filter-store");
 
 module.exports = function (app) {
 
@@ -14,7 +15,10 @@ module.exports = function (app) {
     //角色检查过滤器
     filter.use(security.LocalRoleHandler());
 
+    //载入过滤配置
+    filter.store(filterStore);
 
-
+    //注册过滤
+    filter(app);
 }
 
