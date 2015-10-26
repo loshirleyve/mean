@@ -24,14 +24,6 @@ block content
                     button.close(type="button",data-dismiss="alert") &times;
                     div(ng-transclude)
 
-            //消息提示区域
-            div.row
-                div.col-md-12
-                    uib-alert(ng-repeat="alert in alerts",type="{{alert.type}}",close="closeAlert($index)")
-                        h4 {{alert.title}}
-                        span {{alert.content}}
-                        a.alert-link(ng-click="clickAlert(alert.bizKey,$index)") {{alert.action}}
-
             //功能按钮区域
             div.row
                 div.col-md-12
@@ -39,6 +31,14 @@ block content
                         label.btn.btn-primary(ng-model="queryState" uib-btn-radio="'allOrder'",ng-click="queryByState()" data-loading-text="正在查询...",id="allOrder") 全部订单
                         label.btn.btn-primary(ng-model="queryState" uib-btn-radio="'waitOrder'",ng-click="queryByState()" data-loading-text="正在查询...",id="waitOrder") 待确认订单
                         label.btn.btn-primary(ng-model="queryState" uib-btn-radio="'cquery'",ng-click="queryByState()" data-loading-text="正在查询...",id="cquery") 条件查询
+
+            //消息提示区域
+            div.row
+                div.col-md-12
+                    uib-alert(ng-repeat="alert in alerts",type="{{alert.type}}",close="closeAlert($index)")
+                        h4 {{alert.title}}
+                        span {{alert.content}}
+                        a.alert-link(ng-click="clickAlert(alert.bizKey,$index)") {{alert.action}}
 
             //订单列表表格
             div.row(style="padding-top:10px;")
