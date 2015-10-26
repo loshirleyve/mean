@@ -26,5 +26,12 @@ router.get("/workorderDetail", function (req, res, next) {
     });
 });
 
+router.get("/test", function (req, res, next) {
+    res.render("workorder/test",{
+        "title": "工单详细",
+        "demo": "你好！"
+    });
+});
+
 
 module.exports = router;
