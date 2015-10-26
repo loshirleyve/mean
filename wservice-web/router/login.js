@@ -10,8 +10,10 @@ var router=express.Router();
 
 router.get("/",function(req,res,next)
 {
+    var message = req.flash('error');
     res.render("login/login",{
-        "title":"用户登录"
+        "title":"用户登录",
+        error_message:message
     });
 });
 
