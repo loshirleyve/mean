@@ -19,6 +19,7 @@ var session = require("./session");
 var passport = require("./passport");
 var security = require("./security");
 var proxy = require("./proxy");
+var repository = require("./repository");
 
 //设置视图引擎
 app.set("views", path.join(__dirname, "views"));
@@ -38,6 +39,10 @@ app.use(express.static(path.join(__dirname, "public")));
 //0.加载服务代理
 app.use(proxy());
 app.use("/service", proxy.service());
+
+// 载入资源服务
+app.use(repository());
+app.use("/model", repository.service());
 
 //1.加载session管理
 session(app);
