@@ -7,13 +7,13 @@ block titleContent
    title #{title}
 
 block content
-   table.row(style="background-color: #cccccc;height:100%")
-      tr
-         td#collapseExample.in(style="width:180px" valign="top")
+   table.row(style="background-color: #cccccc;")
+      tr(style="height:100%;")
+         td#collapseExample.in(style="width:180px;height:100%;" valign="top")
             div(style="")
                h4 工单列表
                nav.navbar &nbsp;&nbsp;基本信息
-         td(style="background-color: #FFFFFF;")
+         td(style="background-color: #FFFFFF;height:100%;")
             .btn.glyphicon.glyphicon-th-list(type="button", data-toggle="collapse", data-target="#collapseExample", aria-expanded="true", aria-controls="collapseExample")
             // 整体结构表格
             .row
@@ -77,15 +77,6 @@ block content
                                     button.btn.btn-default(type="button", data-dismiss="modal")
                                        | &#20851;&#38381;
                                     button.btn.btn-primary(type="button submit") &#26597;&#35810;
-            // 订单新消息提醒，默认是关闭的，在检索到数据后显示
-            .row
-               .col-md-12(style="margin-top: 10px;")
-                  .alert.alert-info.alert-dismissible
-                     button.close(type="button", data-dismiss="alert") &#215;
-                     h4 &#26032;&#24037;&#21333;
-                     hr
-                     | &#26377;6&#24352;&#26032;&#30340;&#24037;&#21333;&#31561;&#24453;&#30830;&#35748;&#12290;
-                     a.alert-link(data-dismiss="alert") &#31435;&#21363;&#22788;&#29702;.
             // 订单列表表格
             .row
                .col-md-12
