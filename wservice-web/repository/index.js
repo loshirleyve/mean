@@ -6,11 +6,15 @@
 
 'use strict';
 
-var WorkorderAnalysisUser = require('./model/WorkorderAnalysisUser');
 
+var fs = require('fs');
 var rep = require('y9-mars-repository');
 var repository = rep.Repository();
 
-repository.use(WorkorderAnalysisUser);
+var files = fs.readdirSync(__dirname+'/model');
+files.forEach(function(filePath){
+    var modelFactory = require('./model/'+filePath);
+    repository.use(modelFactory)
+});
 
 module.exports = repository;
