@@ -4,38 +4,37 @@
 
 
 
-var script=document.createElement("script");
-script.type="text/javascript";
-script.src="../vendor/jQuery/jQuery-2.1.4.min.js"
+var script = document.createElement("script");
+script.type = "text/javascript";
+script.src = "../vendor/jQuery/jQuery-2.1.4.min.js"
+script.src="../vendor/bootstrap/js/bootstrap.min.js"
+var link = document.createElement("link");
+link.rel='stylesheet'
+link.href='../vendor/bootstrap/css/bootstrap-theme.css'
+link.href='../vendor/bootstrap/css/bootstrap.css'
 
-var pos=0;
-function whichElement(e)
-{
-    var targ
-    if(!e) var e=window.event
-    if(e.target) targ= e.target
-    else if(e.srcElement)targ= e.srcElement
-    if(targ.nodeType==3)
-    targ=targ.parentNode
-    if(targ.targName="TD")
-    {
-        pos=targ.parentNode.rowIndex+1
-    }
-    else if(targ.tagName=="INPUT")
-    {
+function $(id) {
+    return document.getElementById(id);
+}
 
-    }
-    else
-    {
-        pos=0
+function addRow(table) {
+    var _tab = $(table);
+    var _row = _tab.insertRow(1);
+    var colums = _tab.rows[0].cells.length;
+    for (var i = 1; i <= colums; i++) {
+        var cell = _row.insertCell();
+        cell.className="text-center";
+        if (i == 1) {
+            cell.innerHTML = "1";
+        }
+        else if (i == colums) {
+            cell.innerHTML = "<a class='btn btn-default btn-sm'>编辑</a><a class='btn btn-default btn-sm' onclick='deleteRow(_tab,_row);'>删除</a>";
+        }
     }
 }
 
-function addRow()
+function deleteRow(table,row)
 {
-    var x=document.getElementById("myTable").insertRow(pos)
-    var y= x.insertCell(0)
-    var z= x.insertCell(1)
-    y.innerHTML=document.getElementById("cell1").value
-    z.innerHTML=docuemnt.getElementById("cell2").value
+    alert("11111");
+    table.deleteRow(row.rowIndex);
 }
