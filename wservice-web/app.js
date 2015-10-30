@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 //设置应用程序图图标
-//app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 //设置public目录为前端资源公共目录,包括前端js、css、image都存放此目录
 app.use(express.static(path.join(__dirname, "public")));
