@@ -59,6 +59,22 @@ function nav_setupMenus(data) {
                     "mainurl": "/order",
                     "type": "link",
                     "sort": 2
+                },
+                {
+                    "id": "102",
+                    "name": "订单列表",
+                    "no": "orderList",
+                    "mainurl": "/order",
+                    "type": "link",
+                    "sort": 2
+                },
+                {
+                    "id": "102",
+                    "name": "订单列表",
+                    "no": "orderList",
+                    "mainurl": "/order",
+                    "type": "link",
+                    "sort": 2
                 }
             ]
         }, {
@@ -74,6 +90,60 @@ function nav_setupMenus(data) {
                     "name": "客户列表",
                     "no": "clientList",
                     "mainurl": "/client",
+                    "type": "link",
+                    "sort": 2
+                },{
+                    "id": "102",
+                    "name": "客户列表",
+                    "no": "clientList",
+                    "mainurl": "/client",
+                    "type": "link",
+                    "sort": 2
+                },{
+                    "id": "102",
+                    "name": "客户列表",
+                    "no": "clientList",
+                    "mainurl": "/client",
+                    "type": "link",
+                    "sort": 2
+                },{
+                    "id": "102",
+                    "name": "客户列表",
+                    "no": "clientList",
+                    "mainurl": "/client",
+                    "type": "link",
+                    "sort": 2
+                }
+            ]
+        },{
+            "id": "102",
+            "name": "文件管理",
+            "no": "fileManagement",
+            "mainurl": "#",
+            "type": "external",
+            "sort": 6,
+            "navigationItems": [
+                {
+                    "id": "104",
+                    "name": "文件管理",
+                    "no": "orderList",
+                    "mainurl": "/order",
+                    "type": "link",
+                    "sort": 2
+                },
+                {
+                    "id": "102",
+                    "name": "文件管理",
+                    "no": "orderList",
+                    "mainurl": "/order",
+                    "type": "link",
+                    "sort": 2
+                },
+                {
+                    "id": "102",
+                    "name": "文件管理",
+                    "no": "orderList",
+                    "mainurl": "/order",
                     "type": "link",
                     "sort": 2
                 }
