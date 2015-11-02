@@ -76,10 +76,12 @@
     border-bottom-color:#5A6677;
     border-bottom-width: 2px;
 }
-.y9-red .sidebar-menu > li:hover > a,
+.y9-red .sidebar-menu > li:hover > a {
+    background: #58677B;
+}
 .y9-red .sidebar-menu > li.active > a {
     color: #ffffff;
-    background: #1e282c;
+    background: #2A313A;
     border-left-color: #dd4b39;
 }
 .y9-red .sidebar-menu > li > .treeview-menu {
@@ -92,7 +94,14 @@
 .y9-red .sidebar a:hover {
     text-decoration: none;
 }
+.y9-red .treeview-menu > li:active {
+    background: #E73838;
+}
 .y9-red .treeview-menu > li > a {
+    color: #8aa4af;
+}
+.y9-red .treeview-menu > li > a {
+    padding: 12px 5px 12px 15px;
     color: #8aa4af;
 }
 .y9-red .treeview-menu > li.active > a,
