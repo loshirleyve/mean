@@ -32,10 +32,10 @@ html(ng-app='wsweb')
                 a.logo(href="/")
                     // mini logo for sidebar mini 50x50 pixels
                     span.logo-mini
-                        b SDGY
+                        b(ng-bind='session.inst.pingyin')
                     // logo for regular state and mobile devices
                     span.logo-lg
-                        b &#26102;&#20195;&#20849;&#36194;
+                        b(ng-bind='session.inst.shotName')
                 // Header Navbar: style can be found in header.less
                 nav.navbar.navbar-static-top(role="navigation")
                     // Sidebar toggle button
@@ -195,15 +195,15 @@ html(ng-app='wsweb')
                             // User Account: style can be found in dropdown.less
                             li.dropdown.user.user-menu
                                 a.dropdown-toggle(href="#", data-toggle="dropdown")
-                                    img.user-image(src="vendor/adminlte/img/user2-160x160.jpg", alt="User Image")
-                                    span.hidden-xs 廖志祥
+                                    img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
+                                    span.hidden-xs {{session.user.name}}
                                 ul.dropdown-menu
                                     // User image
                                     li.user-header
-                                        img.img-circle(src="vendor/adminlte/img/user2-160x160.jpg", alt="User Image")
+                                        img.img-circle(ng-src="{{session.user.iconPath}}", alt="User Image")
                                         p
-                                            | 廖志祥 - 时代共赢
-                                            small 深圳时代共赢企业服务有限公司
+                                            | {{session.user.name}} - {{session.inst.shotName}}
+                                            small {{session.inst.fullName}}
                                     // Menu Body
                                     li.user-body
                                         .col-xs-4.text-center
@@ -219,7 +219,8 @@ html(ng-app='wsweb')
                                         .pull-right
                                             a.btn.btn-default.btn-flat(href="#") 退出
                             // Control Sidebar Toggle Button
-                            li
+                            // 临时屏蔽设置tab
+                            li(style='display:none')
                                 a(href="#", data-toggle="control-sidebar")
                                     i.fa.fa-gears
             // Left side column. contains the logo and sidebar
@@ -229,10 +230,10 @@ html(ng-app='wsweb')
                     // Sidebar user panel
                     .user-panel
                         .pull-left.image
-                            img.img-circle(src="vendor/adminlte/img/user2-160x160.jpg", alt="User Image")
+                            img.img-circle(ng-src="{{session.user.iconPath}}", alt="User Image")
                         .pull-left.info
-                            p &#24278;&#24535;&#31077;
-                            a(href="#", title="深圳时代共赢企业服务有限公司") &#26102;&#20195;&#20849;&#36194;
+                            p {{session.user.name}}
+                            a(href="#", title="{{session.inst.fullName}}") {{session.inst.shotName}}
                     // search form
                     form.sidebar-form(action="#", method="get")
                         .input-group
@@ -242,7 +243,7 @@ html(ng-app='wsweb')
                                     i.fa.fa-search
                     // /.search form
                     // sidebar menu: : style can be found in sidebar.less
-                    ul#sidebarMenu.sidebar-menu
+                    ul#sidebarMenu.sidebar-menu(ng-controller='navigationCtrl')
                         li.header &#23548;&#33322;
                 // /.sidebar
             // Content Wrapper. Contains page content
@@ -389,12 +390,15 @@ html(ng-app='wsweb')
         // AdminLTE App
         script(src="vendor/adminlte/js/app.config.js")
         script(src="vendor/adminlte/js/app.min.js")
-        // 导航
-        script(src="js/navigation.js")
         script(src="vendor/adminlte/plugins/fastclick/fastclick.min.js")
         script(src="vendor/adminlte/plugins/slimScroll/jquery.slimscroll.min.js")
         // angular框架启动
         script(src="vendor/angular/angular.min.js")
-        script(src="vendor/angular/angular-resource.js")
+        script(src="vendor/angular/angular-resource.min.js")
+        script(src="vendor/angular/angular-route.min.js")
+        script(src="js/services/main.js")
         script(src="js/services/menus.js")
+        script(src="js/services/session.js")
         script(src="js/app.js")
+        // 导航
+        script(src="js/navigation.js")
