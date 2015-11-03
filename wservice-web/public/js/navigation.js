@@ -7,37 +7,24 @@
 'use strict';
 
 angular.module('wsweb')
-    .controller('navigationCtrl', function ($scope, Menus, navigationService) {
+    .controller('navigationCtrl', function ($scope, Menus) {
 
+        this.menus = {};
+        // 初始化菜单，映射no跟url
+        this.initMenus = function (mns) {
+            var self = this;
+            mns.forEach(function(menu) {
+                if (menu.navigationItems) {
+                    menu.navigationItems.forEach(function(item) {
+                        self.menus[item.no] = item.mainurl;
+                    });
+                }
+            });
+        }
+
+        // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
-            navigationService.navigateTo(menuNo);
-        }
-
-        this.autoResizeIframe = function () {
-            navigationService.autoResizeIframe();
-        }
-
-        this.autoResizeIframe();
-        Menus.query({userId: '10086', instId: '2'}).then(function (response) {
-            $scope.menus = response.data;
-        }, function (response) {
-            location.href = '/login';
-        });
-    })
-    .service('navigationService', function () {
-        // 设置iframe加载事件
-        var self = this;
-        $("#mainiframe").load(function () {
-            //self.autoResizeIframe();
-        });
-
-        this.autoResizeIframe = function () {
-            $("#mainiframe").height($("#mainiframe").contents().find("body").height());
-            $("#mainiframe").contents().find("body").attr("onclick",
-                "window.parent.document.body.click();window.parent.nav_autoResizeIframe();");
-        }
-
-        this.navigateTo = function (menuNo) {
+            var self = this;
             var checkElement = $("#mno_" + menuNo);
             var ul = checkElement.parent().parent().prev();
             if (!ul.is(":visible")) {
@@ -47,18 +34,25 @@ angular.module('wsweb')
             parentNode.parent().children().removeClass('active');
             setTimeout(function () {
                 parentNode.addClass('active');
-                $("#mainiframe", parent.document.body).attr("src", '/app/order');
+                $("#mainiframe", parent.document.body).attr("src", self.menus[menuNo]);
             }, 300);
         }
+        // 将iframe body的点击事件传递回主界面
+        $("#mainiframe").load(function () {
+            $("#mainiframe").contents().find("body").attr("onclick",
+                "window.parent.document.body.click();");
+        });
+        var self = this;
+        Menus.query({userId: '10086', instId: '2'}).then(function (response) {
+            var mns = response.data;
+            self.initMenus(mns);
+            $scope.menus = mns;
+        }, function (response) {
+            location.href = '/login';
+        });
     })
     .factory('navigationMaster', function () {
         var navigationMaster = {};
 
         return navigationMaster;
     });
-
-function nav_autoResizeIframe () {
-    $("#mainiframe").height($("#mainiframe").contents().find("body").height());
-    $("#mainiframe").contents().find("body").attr("onclick",
-        "window.parent.document.body.click();window.parent.nav_autoResizeIframe();");
-}
