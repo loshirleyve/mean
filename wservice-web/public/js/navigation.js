@@ -159,6 +159,7 @@ function nav_setupMenus(data) {
  * @param url
  */
 function nav_onclickNavigationItem(obj,url) {
+    $(obj.parentNode.parentNode).children().removeClass('active');
     $(obj.parentNode).addClass('active');
     $("#mainiframe", parent.document.body).attr("src", url);
 }
@@ -170,3 +171,8 @@ function nav_iframeAutoResize() {
     $("#mainiframe").height($("#mainiframe").contents().find("body").height());
     $("#mainiframe").contents().find("body").attr("onclick", "window.parent.nav_iframeAutoResize();");
 }
+
+/**
+ *
+ */
+
