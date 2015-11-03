@@ -32,5 +32,8 @@
     "y9-mars-repository": "^1.0.0",
     "y9-mars-security": "^1.0.0",
     "y9-mars-service": "^1.0.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
   }
 }
