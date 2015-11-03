@@ -5,4 +5,17 @@
  */
 
 'use strict';
-angular.module('wsweb.session',['ngResource']);
+angular.module('wsweb.service').service('Session', ['$http',
+    function($http) {
+        /**
+         * 加载session数据
+         * @returns {HttpPromise}
+         */
+        this.load = function() {
+            return $http({
+                method: 'POST',
+                url: 'api/session'
+            });
+        }
+    }
+]);

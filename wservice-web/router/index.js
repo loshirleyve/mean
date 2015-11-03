@@ -15,6 +15,7 @@ var product = require("./product");
 var client = require("./client");
 var file = require("./file");
 var login = require("./login");
+var api = require("./api");
 
 module.exports = function (app) {
 
@@ -45,4 +46,7 @@ module.exports = function (app) {
 
     //登录
     app.use("/login", login);
+
+    //API
+    app.use("/api", api);
 };

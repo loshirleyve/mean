@@ -15,7 +15,7 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
 var router = require("./router");
-var session = require("./session");
+var session = require("express-session");
 var passport = require("./passport");
 var security = require("./security");
 var proxy = require("./proxy");
@@ -45,7 +45,11 @@ app.use(repository());
 app.use("/model", repository.service());
 
 //1.加载session管理
-session(app);
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "y9-wservice-web"
+}));
 app.use(flash());
 
 //2.加载登录验证管理
