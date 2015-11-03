@@ -13,9 +13,7 @@ var router = express.Router();
  * 订单列表路由
  */
 router.get("/", function (req, res, next) {
-    res.render("workorder/workorderList",{
-        "title": "工单列表",
-        "demo": "你好！"
+    res.render("app/workorder/workorder",{
     });
 });
 

@@ -19,6 +19,9 @@ proxy.action("queryOrderList", {
 }).action("queryOrderInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"
+}).action("queryWorkorderList", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
 });
 
 module.exports = proxy;
