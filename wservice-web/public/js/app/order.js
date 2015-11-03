@@ -7,14 +7,14 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "BizPageDetailController",
+                controller: "OrderDetailController",
                 templateUrl: "detail.html"
             })
             .when("/detail", {
                 redirectTo: "/detail/add"
             })
             .when("/list", {
-                controller: "BizPageListController",
+                controller: "OrderListController",
                 templateUrl: "list.html"
             })
             .otherwise({
@@ -31,6 +31,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew = {
             isCollapsed: false,
             toggle: function () {
+
                 self.checkNew.isCollapsed = !self.checkNew.isCollapsed;
                 if (self.checkNew.isCollapsed) {
                     self.checkNew.text = "停止检查";
@@ -47,9 +48,9 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.query = {
             state: "all",
             data: [],
+            currPage: 0,
             isCollapsed: false,
-            toggle: function
-                () {
+            toggle: function () {
                 self.query.isCollapsed = !self.query.isCollapsed;
                 if (self.query.isCollapsed) {
                     self.query.text = "关闭查询";
@@ -59,8 +60,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 } else {
                     self.query.text = "打开查询";
                 }
-            }
-            ,
+            },
             list: function (state, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
@@ -135,7 +135,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew.toggle();
 
     }).
-    controller("BizPageListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
+    controller("OrderListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
         $scope.data = [];
 
         var config = bizModuleConfig.getModuleConfig("order");
@@ -173,7 +173,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             $scope.data = orderService.query.data;
         }
     })
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
         $scope.orderid = $routeParams.id;
 
         $scope.query = orderService.query;

@@ -28,13 +28,13 @@ function addRow(table) {
             cell.innerHTML = "1";
         }
         else if (i == colums) {
-            cell.innerHTML = "<a class='btn btn-default btn-sm'>编辑</a><a class='btn btn-default btn-sm' onclick='deleteRow(_tab,_row);'>删除</a>";
+            cell.innerHTML = "<a class='btn btn-default btn-sm'>编辑</a><a class='btn btn-default btn-sm'>删除</a>";
         }
     }
+    _row.append();
 }
 
 function deleteRow(table,row)
 {
-    alert("11111");
     table.deleteRow(row.rowIndex);
 }

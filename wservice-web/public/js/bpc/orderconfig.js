@@ -50,8 +50,7 @@ angular.module("orderConfig", ["bizModule"])
             "action": [
                 {
                     "name": "view",
-                    "label": "查看",
-                    "link": "#/detail"
+                    "label": "查看"
                 }
             ]
         }).reg("orderProduct", {
