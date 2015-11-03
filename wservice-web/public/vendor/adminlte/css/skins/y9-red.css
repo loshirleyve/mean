@@ -104,9 +104,11 @@
     padding: 12px 5px 12px 15px;
     color: #8aa4af;
 }
-.y9-red .treeview-menu > li.active > a,
+.y9-red .treeview-menu > li.active > a {
+    background: #cb2027;
+}
 .y9-red .treeview-menu > li > a:hover {
-    color: #ffffff;
+    background: #58677B;
 }
 .y9-red .sidebar-form {
     border-radius: 3px;
