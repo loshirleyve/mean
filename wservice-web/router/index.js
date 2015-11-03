@@ -11,7 +11,7 @@ var auth = require("./auth");
 var order = require("./app/order");
 var workorder = require("./workorder");
 var receivable = require("./receivable");
-var product = require("./product");
+var product = require("./app/product");
 var client = require("./client");
 var file = require("./file");
 var login = require("./login");
@@ -36,7 +36,7 @@ module.exports = function (app) {
     app.use("/receivable", receivable);
 
     //产品列表
-    app.use("/product", product);
+    app.use("/app/product", product);
 
     //客户
     app.use("/client", client);

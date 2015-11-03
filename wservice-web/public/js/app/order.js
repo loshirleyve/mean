@@ -2,20 +2,28 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute"])
+angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute", 'ui.tree'])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "BizPageDetailController",
+                controller: "OrderDetailController",
                 templateUrl: "detail.html"
             })
             .when("/detail", {
                 redirectTo: "/detail/add"
             })
             .when("/list", {
-                controller: "BizPageListController",
+                controller: "OrderListController",
                 templateUrl: "list.html"
+            })
+            .when("/confirm/:id", {
+                controller: "ConfirmOrderController",
+                templateUrl: "confirm.html"
+            })
+            .when("/adviser/:id", {
+                controller: "AdviserOrderController",
+                templateUrl: "adviser.html"
             })
             .otherwise({
                 redirectTo: "/list"
@@ -31,6 +39,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew = {
             isCollapsed: false,
             toggle: function () {
+
                 self.checkNew.isCollapsed = !self.checkNew.isCollapsed;
                 if (self.checkNew.isCollapsed) {
                     self.checkNew.text = "停止检查";
@@ -44,12 +53,37 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             }
         };
 
+        this.org = {
+            data: [
+                {
+                    id: "100",
+                    title: "深圳市顶聚科技有限公司",
+                    nodes: [
+                        {
+                            id: "10001",
+                            title: "研发部",
+                            nodes: [
+                                {id: "1000101", title: "研发一组"},
+                                {id: "1000101", title: "研发二组"}
+                            ]
+                        }, {
+                            id: "20001",
+                            title: "市场部"
+                        }, {
+                            id: "30001",
+                            title: "销售部"
+                        }
+                    ]
+                }
+            ]
+        };
+
         this.query = {
             state: "all",
             data: [],
+            currPage: 0,
             isCollapsed: false,
-            toggle: function
-                () {
+            toggle: function () {
                 self.query.isCollapsed = !self.query.isCollapsed;
                 if (self.query.isCollapsed) {
                     self.query.text = "关闭查询";
@@ -59,8 +93,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 } else {
                     self.query.text = "打开查询";
                 }
-            }
-            ,
+            },
             list: function (state, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
@@ -135,7 +168,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew.toggle();
 
     }).
-    controller("BizPageListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
+    controller("OrderListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
         $scope.data = [];
 
         var config = bizModuleConfig.getModuleConfig("order");
@@ -173,7 +206,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             $scope.data = orderService.query.data;
         }
     })
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
         $scope.orderid = $routeParams.id;
 
         $scope.query = orderService.query;
@@ -205,6 +238,50 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         orderService.query.id($scope.orderid, function (data) {
             $scope.data = data || {order: {}};
             $scope.resetState();
+        }, function (data) {
+            //TODO 提示信息
+        });
+    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, orderService) {
+        $scope.orderid = $routeParams.id;
+        $scope.org = orderService.org;
+        $scope.query = orderService.query;
+
+        $scope.confirm = function () {
+            $location.path("/detail/" + $scope.orderid);
+        };
+
+        $scope.openSelectUser = function () {
+            $('#selectUserId').modal('show');
+        };
+
+        $scope.closeSelectUser = function () {
+            $('#selectUserId').modal('hide');
+        };
+
+        //查询订单信息
+        orderService.query.id($scope.orderid, function (data) {
+            $scope.data = data || {order: {}};
+        }, function (data) {
+            //TODO 提示信息
+        });
+
+    }).controller("AdviserOrderController", function ($scope, $location, $routeParams, orderService) {
+        $scope.orderid = $routeParams.id;
+
+        $scope.query = orderService.query;
+        $scope.org = orderService.org;
+
+        $scope.confirm = function () {
+            $location.path("/detail/" + $scope.orderid);
+        };
+
+        $scope.clickOrg = function (scope) {
+            //TODO 检索用户列表
+        };
+
+        //查询订单信息
+        orderService.query.id($scope.orderid, function (data) {
+            $scope.data = data || {order: {}};
         }, function (data) {
             //TODO 提示信息
         });
