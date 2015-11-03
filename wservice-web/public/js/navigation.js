@@ -8,7 +8,7 @@
 
 angular.module('wsweb').controller('navigationCtrl',
     function ($scope, Menus, navigationService) {
-        navigationService.autoResizeIframe();
+        this.autoResizeIframe();
         Menus.query({userId: '10086', instId: '2'}).then(function (response) {
             navigationService.setupMenus(response.data);
             $scope.menus = response.data;
@@ -21,7 +21,7 @@ angular.module('wsweb').controller('navigationCtrl',
         }
 
         this.autoResizeIframe = function() {
-
+            navigationService.autoResizeIframe();
         }
     }).service('navigationService', function () {
         // 设置iframe加载事件
