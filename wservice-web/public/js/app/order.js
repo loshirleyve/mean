@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute"])
+angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute", 'ui.tree'])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -16,6 +16,14 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             .when("/list", {
                 controller: "OrderListController",
                 templateUrl: "list.html"
+            })
+            .when("/confirm/:id", {
+                controller: "ConfirmOrderController",
+                templateUrl: "confirm.html"
+            })
+            .when("/adviser/:id", {
+                controller: "AdviserOrderController",
+                templateUrl: "adviser.html"
             })
             .otherwise({
                 redirectTo: "/list"
@@ -43,6 +51,31 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                     self.checkNew.text = "检查新订单"
                 }
             }
+        };
+
+        this.org = {
+            data: [
+                {
+                    id: "100",
+                    title: "深圳市顶聚科技有限公司",
+                    nodes: [
+                        {
+                            id: "10001",
+                            title: "研发部",
+                            nodes: [
+                                {id: "1000101", title: "研发一组"},
+                                {id: "1000101", title: "研发二组"}
+                            ]
+                        }, {
+                            id: "20001",
+                            title: "市场部"
+                        }, {
+                            id: "30001",
+                            title: "销售部"
+                        }
+                    ]
+                }
+            ]
         };
 
         this.query = {
@@ -205,6 +238,50 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         orderService.query.id($scope.orderid, function (data) {
             $scope.data = data || {order: {}};
             $scope.resetState();
+        }, function (data) {
+            //TODO 提示信息
+        });
+    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, orderService) {
+        $scope.orderid = $routeParams.id;
+        $scope.org = orderService.org;
+        $scope.query = orderService.query;
+
+        $scope.confirm = function () {
+            $location.path("/detail/" + $scope.orderid);
+        };
+
+        $scope.openSelectUser = function () {
+            $('#selectUserId').modal('show');
+        };
+
+        $scope.closeSelectUser = function () {
+            $('#selectUserId').modal('hide');
+        };
+
+        //查询订单信息
+        orderService.query.id($scope.orderid, function (data) {
+            $scope.data = data || {order: {}};
+        }, function (data) {
+            //TODO 提示信息
+        });
+
+    }).controller("AdviserOrderController", function ($scope, $location, $routeParams, orderService) {
+        $scope.orderid = $routeParams.id;
+
+        $scope.query = orderService.query;
+        $scope.org = orderService.org;
+
+        $scope.confirm = function () {
+            $location.path("/detail/" + $scope.orderid);
+        };
+
+        $scope.clickOrg = function (scope) {
+            //TODO 检索用户列表
+        };
+
+        //查询订单信息
+        orderService.query.id($scope.orderid, function (data) {
+            $scope.data = data || {order: {}};
         }, function (data) {
             //TODO 提示信息
         });
