@@ -7,7 +7,7 @@
 'use strict';
 
 angular.module('wsweb')
-    .controller('navigationCtrl',function ($scope, Menus, navigationService) {
+    .controller('navigationCtrl', function ($scope, Menus, navigationService) {
 
         this.navigateTo = function (menuNo) {
             navigationService.navigateTo(menuNo);
@@ -47,7 +47,7 @@ angular.module('wsweb')
             parentNode.parent().children().removeClass('active');
             setTimeout(function () {
                 parentNode.addClass('active');
-                $("#mainiframe", parent.document.body).attr("src", '/client');
+                $("#mainiframe", parent.document.body).attr("src", '/app/order');
             }, 300);
         }
     })
