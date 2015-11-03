@@ -39,14 +39,14 @@ module.exports = function (router) {
                 }, {
                     "id": "103",
                     "name": "订单列表2",
-                    "no": "orderList",
+                    "no": "orderList2",
                     "mainurl": "/order",
                     "type": "link",
                     "sort": 2
                 }, {
                     "id": "104",
                     "name": "订单列表3",
-                    "no": "orderList",
+                    "no": "orderList3",
                     "mainurl": "/order",
                     "type": "link",
                     "sort": 2
@@ -87,14 +87,14 @@ module.exports = function (router) {
                 }, {
                     "id": "102",
                     "name": "工单列表列表2",
-                    "no": "workorderList",
+                    "no": "workorderList2",
                     "mainurl": "/workorder",
                     "type": "link",
                     "sort": 2
                 }, {
                     "id": "102",
                     "name": "工单列表列表3",
-                    "no": "workorderList",
+                    "no": "workorderList3",
                     "mainurl": "/workorder",
                     "type": "link",
                     "sort": 2
