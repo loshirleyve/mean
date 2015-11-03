@@ -243,8 +243,18 @@ html(ng-app='wsweb')
                                     i.fa.fa-search
                     // /.search form
                     // sidebar menu: : style can be found in sidebar.less
-                    ul#sidebarMenu.sidebar-menu(ng-controller='navigationCtrl')
+                    ul#sidebarMenu.sidebar-menu(ng-controller='navigationCtrl as naviCtrl')
                         li.header &#23548;&#33322;
+                        li.treeview(ng-repeat='menu in menus')
+                            a(href="#")
+                                i.fa.fa-files-o
+                                span {{menu.name}}
+                                i.fa.fa-angle-left.pull-right
+                            ul.treeview-menu.menu-open(style="display: none;")
+                                li(ng-repeat='item in menu.navigationItems')
+                                    a(id='mno_{{item.no}}',href="#", ng-click='naviCtrl.navigateTo(item.no)')
+                                        i.fa.fa-circle-o
+                                        | {{item.name}}
                 // /.sidebar
             // Content Wrapper. Contains page content
             .content-wrapper
