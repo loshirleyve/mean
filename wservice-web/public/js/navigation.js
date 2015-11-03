@@ -8,13 +8,6 @@
 
 angular.module('wsweb').controller('navigationCtrl',
     function ($scope, Menus, navigationService) {
-        this.autoResizeIframe();
-        Menus.query({userId: '10086', instId: '2'}).then(function (response) {
-            navigationService.setupMenus(response.data);
-            $scope.menus = response.data;
-        }, function (response) {
-            location.href = '/login';
-        });
 
         this.navigateTo = function (menuNo) {
 
@@ -23,6 +16,14 @@ angular.module('wsweb').controller('navigationCtrl',
         this.autoResizeIframe = function() {
             navigationService.autoResizeIframe();
         }
+
+        this.autoResizeIframe();
+        Menus.query({userId: '10086', instId: '2'}).then(function (response) {
+            navigationService.setupMenus(response.data);
+            $scope.menus = response.data;
+        }, function (response) {
+            location.href = '/login';
+        });
     }).service('navigationService', function () {
         // 设置iframe加载事件
         var self = this;
