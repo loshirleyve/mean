@@ -260,7 +260,8 @@ html(ng-app='wsweb')
             .content-wrapper
                 // Content Header (Page header)
                 section.content(style="padding:0px")
-                    iframe#mainiframe(src="", scrolling="no", frameborder="0", name="home", style="margin-left: 0px; margin-top: 0px;*margin-top: -0px;position:static;", width="100%")
+                    div.embed-responsive.embed-responsive-16by9
+                        iframe#mainiframe.embed-responsive-item
             // /.content-wrapper
             footer.main-footer
                 .pull-right.hidden-xs

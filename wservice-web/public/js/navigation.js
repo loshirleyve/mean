@@ -28,13 +28,13 @@ angular.module('wsweb')
         // 设置iframe加载事件
         var self = this;
         $("#mainiframe").load(function () {
-            self.autoResizeIframe();
+            //self.autoResizeIframe();
         });
 
         this.autoResizeIframe = function () {
             $("#mainiframe").height($("#mainiframe").contents().find("body").height());
             $("#mainiframe").contents().find("body").attr("onclick",
-                "window.parent.document.body.click();");
+                "window.parent.document.body.click();window.parent.nav_autoResizeIframe();");
         }
 
         this.navigateTo = function (menuNo) {
@@ -56,3 +56,9 @@ angular.module('wsweb')
 
         return navigationMaster;
     });
+
+function nav_autoResizeIframe () {
+    $("#mainiframe").height($("#mainiframe").contents().find("body").height());
+    $("#mainiframe").contents().find("body").attr("onclick",
+        "window.parent.document.body.click();window.parent.nav_autoResizeIframe();");
+}
