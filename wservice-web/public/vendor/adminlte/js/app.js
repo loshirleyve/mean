@@ -42,7 +42,7 @@ $.AdminLTE.options = {
   //General animation speed for JS animated elements such as box collapse/expand and
   //sidebar treeview slide up/down. This options accepts an integer as milliseconds,
   //'fast', 'normal', or 'slow'
-  animationSpeed: 50,
+  animationSpeed: 500,
   //Sidebar push menu toggle button selector
   sidebarToggleSelector: "[data-toggle='offcanvas']",
   //Activate sidebar push menu
@@ -408,9 +408,9 @@ function _init() {
         //Get the parent menu
         var parent = $this.parents('ul').first();
         //Close all open menus within the parent
-        //var ul = parent.find('ul:visible').slideUp(animationSpeed);
+        var ul = parent.find('ul:visible').slideUp(animationSpeed);
         //Remove the menu-open class from the parent
-        //ul.removeClass('menu-open');
+        ul.removeClass('menu-open');
         //Get the parent li
         var parent_li = $this.parent("li");
 
