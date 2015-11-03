@@ -8,13 +8,21 @@
 
 angular.module('wsweb').controller('navigationCtrl',
     function ($scope, Menus, navigationService) {
-        console.log('navigationCtrl....');
         navigationService.autoResizeIframe();
         Menus.query({userId: '10086', instId: '2'}).then(function (response) {
             navigationService.setupMenus(response.data);
+            $scope.menus = response.data;
         }, function (response) {
             location.href = '/login';
         });
+
+        this.navigateTo = function (menuNo) {
+
+        }
+
+        this.autoResizeIframe = function() {
+
+        }
     }).service('navigationService', function () {
         // 设置iframe加载事件
         var self = this;
@@ -24,7 +32,6 @@ angular.module('wsweb').controller('navigationCtrl',
         this.menus = [];
         // 加载导航菜单
         this.setupMenus = function(menus) {
-            this.menus = menus;
             $("#sidebarMenu").find("li").not(":first").remove(); // 清除现有菜单
             if (!menus || !(menus instanceof Array) || menus.length == 0) {
                 return;
@@ -58,6 +65,9 @@ angular.module('wsweb').controller('navigationCtrl',
                 checkElement.click();
             },300);
         }
+    })
+    .factory('navigationMaster',function() {
+
     });
 
 
@@ -66,7 +76,9 @@ angular.module('wsweb').controller('navigationCtrl',
  * @param url
  */
 function nav_onclickNavigationItem(obj, url) {
-    $(obj.parentNode).addClass('active');
+    var parentNode = $(obj.parentNode);
+    parentNode.parents('ul').find('li.active').removeClass('active');
+    parentNode.addClass('active');
     $("#mainiframe", parent.document.body).attr("src", url);
 }
 
@@ -76,5 +88,5 @@ function nav_onclickNavigationItem(obj, url) {
 function nav_iframeAutoResize() {
     $("#mainiframe").height($("#mainiframe").contents().find("body").height());
     $("#mainiframe").contents().find("body").attr("onclick",
-        "window.parent.nav_iframeAutoResize();window.parent.document.body.click();");
+        "window.parent.document.body.click();");
 }

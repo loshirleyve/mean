@@ -7,7 +7,6 @@
 angular.module('wsweb', ['ngRoute', 'wsweb.service'])
     .controller('launchCtrl', ['$scope', 'Menus', 'Session'
         , function ($scope, Menus, Session) {
-            console.log('launchCtrl....');
             Session.load().then(function (response) {
                 $scope.session = response.data;
             }, function (response) {
