@@ -2,7 +2,7 @@
  * Created by leon on 15/10/28.
  */
 
-angular.module("datatable", ['ui.bootstrap'])
+angular.module("datatable", ['ui.bootstrap','/template/datatable/datatable.html'])
     .constant('y9uiDatatableConfig', {
         currPage: 1,
         maxSize: 10,
@@ -117,7 +117,7 @@ angular.module("datatable", ['ui.bootstrap'])
  * Created by leon on 15/10/29.
  */
 
-angular.module("y9uiForm", ["ui.bootstrap"])
+angular.module("y9uiForm", ["ui.bootstrap", '/template/form/form.html'])
     .controller("FormControllect", ["$scope", function ($scope) {
 
         this.init = function () {
