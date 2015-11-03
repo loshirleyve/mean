@@ -18,7 +18,7 @@ html(ng-app='wsweb')
            AdminLTE Skins. Choose a skin from the css/skins
                    folder instead of downloading all of them to reduce the load. 
         link(rel="stylesheet", href="vendor/adminlte/css/skins/_all-skins.min.css")
-        link(rel="stylesheet", href="vendor/adminlte/css/skins/y9-red.css")
+        link(rel="stylesheet", href="stylesheets/y9-red.css")
 
         // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
         // WARNING: Respond.js doesn't work if you view the page via file://
@@ -26,7 +26,7 @@ html(ng-app='wsweb')
           script(src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js")
           script(src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js")
     body.hold-transition.y9-red.sidebar-mini.fixed
-        .wrapper(ng-controller='launchCtrl')
+        .wrapper(ng-controller='launchCtrl as launchCtrl')
             header.main-header
                 // Logo
                 a.logo(href="/")
@@ -243,7 +243,7 @@ html(ng-app='wsweb')
                                     i.fa.fa-search
                     // /.search form
                     // sidebar menu: : style can be found in sidebar.less
-                    ul#sidebarMenu.sidebar-menu(ng-controller='navigationCtrl as naviCtrl')
+                    ul#sidebarMenu.sidebar-menu
                         li.header &#23548;&#33322;
                         li.treeview(ng-repeat='menu in menus')
                             a(href="#")
@@ -252,16 +252,20 @@ html(ng-app='wsweb')
                                 i.fa.fa-angle-left.pull-right
                             ul.treeview-menu.menu-open(style="display: none;")
                                 li(ng-repeat='item in menu.navigationItems')
-                                    a(id='mno_{{item.no}}',href="#", ng-click='naviCtrl.navigateTo(item.no)')
+                                    a(id='mno_{{item.no}}',href="#", ng-click='launchCtrl.navigateTo(item.no)')
                                         i.fa.fa-circle-o
                                         | {{item.name}}
                 // /.sidebar
             // Content Wrapper. Contains page content
             .content-wrapper
-                // Content Header (Page header)
+                section.content-header(style="padding:0px",ng-if='!singleWindow')
+                    ul.nav.nav-tabs
+                        li(ng-repeat='sub in subWindows',id='{{sub.sid}}_li',ng-click='launchCtrl.changeTab(sub.menuNo)',ng-show='sub.menuNo',role='presentation')
+                            a(href="#") {{sub.name}}
+                                span.glyphicon.glyphicon-remove(ng-click='launchCtrl.closeWindow(sub.menuNo,$event)')
                 section.content(style="padding:0px")
                     div.embed-responsive.embed-responsive-4by3
-                        iframe#mainiframe.embed-responsive-item
+                        iframe.embed-responsive-item(ng-repeat='sub in subWindows',id='{{sub.sid}}')
             // /.content-wrapper
             footer.main-footer
                 .pull-right.hidden-xs
