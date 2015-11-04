@@ -6,15 +6,15 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
-            //.when("/detail/:id", {
-            //    controller: "BizPageDetailController",
-            //    templateUrl: "detail.html"
-            //})
+            .when("/detail/:id", {
+                controller: "WorkorderDetailController",
+                templateUrl: "detail.html"
+            })
             //.when("/detail", {
             //    redirectTo: "/detail/add"
             //})
             .when("/list", {
-                controller: "BizPageListController",
+                controller: "WorkorderListController",
                 templateUrl: "list.html"
             })
             .otherwise({
@@ -73,7 +73,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
 
                 //总是加入当前用户以及机构作为查询参数
                 params["instid"] = "10000001463017";
-                params["userid"] = "10000001498059";
+                params["processid"] = "10000001498059";
 
                 resourceConfig
                     .post("queryWorkorderList", params, function (data) {
@@ -88,13 +88,13 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                     });
             },
             id: function (id, success, error) {
-                resourceConfig.post("queryOrderInfo", {"workorderid": id}, success, error);
+                resourceConfig.post("queryWorkorderDetail", {"workorderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
-                $("#waitconfirm").button(state);
+                $("#unstart").button(state);
                 $("#inservice").button(state);
-                $("#buy").button(state);
+                $("#complete").button(state);
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -114,14 +114,14 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                     }
                 }
             },
-            next: function (orderid) {
-                var newId = self.query.nextId(orderid);
+            next: function (workorderid) {
+                var newId = self.query.nextId(workorderid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
             },
-            previous: function (orderid) {
-                var newId = self.query.previousId(orderid);
+            previous: function (workorderid) {
+                var newId = self.query.previousId(workorderid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
@@ -135,7 +135,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
         this.checkNew.toggle();
 
     }).
-    controller("BizPageListController", function ($scope, $http, $location, workorderService, bizModuleConfig) {
+    controller("WorkorderListController", function ($scope, $http, $location, workorderService, bizModuleConfig) {
         $scope.data = [];
 
         var config = bizModuleConfig.getModuleConfig("workorder");
@@ -172,4 +172,42 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
         } else {
             $scope.data = workorderService.query.data;
         }
+    }).
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+        $scope.workorderid = $routeParams.id;
+
+        $scope.query = workorderService.query;
+
+        //加载工单资料的表头
+        var orderAttachmentConfig = bizModuleConfig.getModuleConfig("orderAttachment");
+        $scope.orderAttachmentHeader = orderAttachmentConfig.header;
+
+        //加载工单评价的表头
+        var workorderCommentConfig = bizModuleConfig.getModuleConfig("workorderComment");
+        $scope.workorderCommentHeader = workorderCommentConfig.header;
+
+        //刷新界面动作按钮控制状态
+        $scope.resetState = function () {
+            if ($scope.data.state === "unstart") {
+                $scope.isUnstart = true;
+            } else {
+                $scope.isUnstart = false;
+            }
+        };
+
+        //查询工单信息
+        workorderService.query.id($scope.workorderid, function (data) {
+            $scope.data = data || {order: {}};
+            $scope.resetState();
+        }, function (data) {
+            //TODO 提示信息
+        });
+
+        $scope.doOrderAttachments = function(type,item,index) {
+
+        };
+
+        $scope.doWorkorderComment = function(type,item,index) {
+
+        };
     });
