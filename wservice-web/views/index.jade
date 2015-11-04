@@ -261,12 +261,12 @@ html(ng-app='wsweb')
             .content-wrapper
                 section.content-header(style="padding:0px",ng-if='!singleWindow')
                     ul.nav.nav-tabs
-                        li(ng-repeat='sub in subWindows',id='{{sub.sid}}_li',ng-click='launchCtrl.changeTab(sub.menuNo)',ng-show='sub.menuNo',role='presentation')
+                        li(ng-repeat='sub in tabs',id='{{sub.sid}}_li',ng-click='launchCtrl.changeTab(sub.menuNo)',ng-show='sub.menuNo',role='presentation')
                             a(href="#") {{sub.name}}
                                 span.glyphicon.glyphicon-remove(ng-click='launchCtrl.closeWindow(sub.menuNo,$event)')
                 section.content(style="padding:0px")
                     div.embed-responsive.embed-responsive-4by3
-                        iframe.embed-responsive-item(ng-repeat='sub in subWindows',id='{{sub.sid}}')
+                        iframe.embed-responsive-item(ng-repeat='sub in iframes',id='{{sub.sid}}')
             // /.content-wrapper
             footer.main-footer
                 .pull-right.hidden-xs

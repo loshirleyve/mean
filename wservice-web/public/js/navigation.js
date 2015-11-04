@@ -142,6 +142,7 @@ angular.module('wsweb')
                         keepGoing = false;
                     }
                 });
+                this.sortWindows();
                 this.currentFocus.load(menu);
                 this.openedNums++;
             } else {
@@ -158,6 +159,7 @@ angular.module('wsweb')
                     keepGoing = false;
                 }
             });
+            this.sortWindows();
             if (this.currentFocus
                 && !this.currentFocus.menuNo) {
                 this.currentFocus = undefined;
@@ -173,6 +175,12 @@ angular.module('wsweb')
                     this.currentFocus.focus();
                 }
             }
+        }
+
+        navigationMaster.sortWindows = function() {
+            this.subWindows.sort(function(a,b){
+                return a.menuNo?0:1;
+            });
         }
 
         /**
