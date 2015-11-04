@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('wsweb', ['ngRoute', 'wsweb.service'])
-    .controller('launchCtrl', ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster',
+    .controller('launchCtrl', ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster','message',
         function ($scope, Menus, Session, menuService, navigationMaster,message) {
 
             this.navigateTo = function (menuNo) {
