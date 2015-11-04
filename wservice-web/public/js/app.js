@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('wsweb', ['ngRoute', 'wsweb.service'])
-    .controller('launchCtrl', ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster',
+    .controller('launchCtrl', ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster','message',
         function ($scope, Menus, Session, menuService, navigationMaster,message) {
 
             this.navigateTo = function (menuNo) {
@@ -27,10 +27,11 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
                 navigationMaster.init(response.data);
                 $scope.menus = response.data;
                 $scope.singleWindow = navigationMaster.singleWindow;
-                $scope.subWindows = navigationMaster.subWindows;
+                $scope.tabs = navigationMaster.subWindows;
+                $scope.iframes = angular.copy(navigationMaster.subWindows);// 取消关联
                 // 如果获取界面绘制完成的事件？
                 setTimeout(function () {
-                    $scope.subWindows.forEach(function (win) {
+                    $scope.iframes.forEach(function (win) {
                         $("#" + win.sid).load(function () {
                             $("#" + win.sid).contents().find("body").attr("onclick",
                                 "window.parent.document.body.click();");
