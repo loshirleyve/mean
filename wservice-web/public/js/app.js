@@ -13,14 +13,14 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
             }
 
             this.changeTab = function (menuNo) {
-                navigationMaster.navigateTo(menuNo);
+                menuService.changeTab(menuNo);
             }
 
             this.closeWindow = function (menuNo,$event) {
                 if ($event.stopPropagation) {
                     $event.stopPropagation();
                 }
-                navigationMaster.closeWindow(menuNo);
+                menuService.closeWindow(menuNo);
             }
 
             Menus.query({userId: '10086', instId: '2'}).then(function (response) {

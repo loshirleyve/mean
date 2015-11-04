@@ -10,17 +10,32 @@ angular.module('wsweb')
     .service('menuService',function(navigationMaster) {
         // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
+
+            if (!navigationMaster.isOpened(menuNo) && !navigationMaster.isNewable()) {
+                alert('不能打开新窗口了');
+                return;
+            }
+
             var checkElement = $("#mno_" + menuNo);
             var ul = checkElement.parent().parent().prev();
+            var parentNode = checkElement.parent();
+            parentNode.parent().children().removeClass('active');
             if (!ul.is(":visible")) {
                 ul.click();
             }
-            var parentNode = checkElement.parent();
-            parentNode.parent().children().removeClass('active');
             navigationMaster.navigateTo(menuNo);
             setTimeout(function () {
                 parentNode.addClass('active');
             }, 300);
+        }
+
+        this.changeTab = function (menuNo) {
+            navigationMaster.navigateTo(menuNo);
+        }
+
+        this.closeWindow = function (menuNo) {
+            $("#mno_" + menuNo).parent().removeClass('active');
+            navigationMaster.closeWindow(menuNo);
         }
     })
     .factory('navigationMaster', function () {
@@ -100,16 +115,7 @@ angular.module('wsweb')
             var menu = this.menus[menuNo];
             var self = this;
             // 如果已经打开，则定位到tab
-            var isOpened = false;
-            var keepGoing = true;
-            this.subWindows.forEach(function(win) {
-                if (keepGoing && win.menuNo == menuNo) {
-                    isOpened = true;
-                    self.currentFocus = win;
-                    keepGoing = false;
-                }
-            });
-            if (isOpened) {
+            if (this.isOpened(menuNo)) {
                 self.currentFocus.focus();
                 return;
             }
@@ -121,7 +127,7 @@ angular.module('wsweb')
                 }
                 this.currentFocus.load(menu);
             } else if (this.openedNums < this.limitNums){   // 如果还没超过显示tab数
-                keepGoing = true;
+                var keepGoing = true;
                 this.subWindows.forEach(function(win){
                     if (keepGoing && !win.name) {
                         self.currentFocus = win;
@@ -159,6 +165,33 @@ angular.module('wsweb')
                     this.currentFocus.focus();
                 }
             }
+        }
+
+        /**
+         * 是否可以创建新窗口
+         * @returns {boolean}
+         */
+        navigationMaster.isNewable = function() {
+            return (this.singleWindow)?true:this.openedNums<this.subWindows.length;
+        }
+
+        /**
+         * 指定menuNo的窗口是否已经打开
+         * @param menuNo
+         * @returns {boolean}
+         */
+        navigationMaster.isOpened = function (menuNo) {
+            var opened = false;
+            var keepGoing = true;
+            var self = this;
+            this.subWindows.forEach(function(win) {
+                if (keepGoing && win.menuNo == menuNo) {
+                    opened = true;
+                    self.currentFocus = win;
+                    keepGoing = false;
+                }
+            });
+            return opened;
         }
 
         return navigationMaster;
