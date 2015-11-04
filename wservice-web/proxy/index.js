@@ -21,4 +21,19 @@ proxy.action("queryOrderList", {
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"
 });
 
+
+//客户
+proxy.action("queryInstClients", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryInstClientsService"
+}).action("queryInstClientById", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryInstClientByIdService"
+}).action("addOrUpdateInstClients", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateInstClientsService"
+}).action("queryInstRolesByUseridAndInstid", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
+});
 module.exports = proxy;
