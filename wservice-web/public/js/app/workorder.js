@@ -19,6 +19,10 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             })
             .otherwise({
                 redirectTo: "/list"
+            })
+            .when("/startWorkorder/:id",{
+                controller: "WorkorderStartController",
+                templateUrl: "startWorkorder.html"
             });
 
     })
@@ -39,7 +43,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新订单"
+                    self.checkNew.text = "检查新工单"
                 }
             }
         };
@@ -188,7 +192,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
 
         //刷新界面动作按钮控制状态
         $scope.resetState = function () {
-            if ($scope.data.state === "unstart") {
+            if ($scope.data.workOrder.state === "unstart") {
                 $scope.isUnstart = true;
             } else {
                 $scope.isUnstart = false;
@@ -209,5 +213,22 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
 
         $scope.doWorkorderComment = function(type,item,index) {
 
+        };
+    }).
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+        $scope.workorderid = $routeParams.id;
+
+        //查询工单信息
+        workorderService.query.id($scope.workorderid, function (data) {
+            $scope.data = data || {order: {}};
+            $scope.resetState();
+        }, function (data) {
+            //TODO 提示信息
+        });
+
+        //开始工单
+        $scope.startWorkorder = function() {
+            alert($scope.postscript);
+            $location.path("/detail/"+$scope.workorderid);
         };
     });
