@@ -56,7 +56,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.org = {
             data: [
                 {
-                    id: "100",
+                    id: "10000001468035",
                     title: "深圳市顶聚科技有限公司",
                     nodes: [
                         {
@@ -75,7 +75,14 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                         }
                     ]
                 }
-            ]
+            ],
+            queryUserByOrgId: function (orgid, success, error) {
+                //根据组织ID查询用户列表
+                resourceConfig.post("queryUsersByOrgid", {
+                    "orgid": orgid
+                }, success, error);
+
+            }
         };
 
         this.query = {
@@ -241,12 +248,46 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         }, function (data) {
             //TODO 提示信息
         });
-    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, orderService) {
+    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
         $scope.orderid = $routeParams.id;
         $scope.org = orderService.org;
         $scope.query = orderService.query;
 
+        $scope.userListHeader = [
+            {
+                name: "name",
+                label: "姓名"
+            }
+        ];
+
+        $scope.userListAction = [
+            {
+                name: "select",
+                label: "选择"
+            }
+        ];
+
         $scope.confirm = function () {
+
+            //检查参数
+            if (!$scope.currSelectUser) {
+                //请先选择专属顾问
+                return;
+            }
+
+            if (!$scope.begindate || $scope.begindate.length != 8) {
+                //请输入六位数字的日期.例如:20150808
+                return;
+            }
+
+            if (!$scope.enddate || $scope.enddate.length != 8) {
+                //请输入六位数字的日期.例如:20150808
+                return;
+            }
+
+            //转换日期格式
+
+
             $location.path("/detail/" + $scope.orderid);
         };
 
@@ -255,6 +296,28 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         };
 
         $scope.closeSelectUser = function () {
+            $('#selectUserId').modal('hide');
+        };
+
+        $scope.clickOrg = function (node) {
+            orderService.org.queryUserByOrgId(node.id, function (data) {
+                $scope.orgUsers = data;
+            }, function (data) {
+
+            });
+        };
+
+        $scope.onSelectUser = function (type, item, index) {
+            //$timeout
+
+            //$timeout(function () {
+            //    $scope.adviser = item;
+            //    $scope.adviserName = item.name;
+            //    $scope.$apply();
+            //}, 200);
+
+            $scope.adviser = item;
+            $scope.adviserName = item.name;
             $('#selectUserId').modal('hide');
         };
 
@@ -271,12 +334,17 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         $scope.query = orderService.query;
         $scope.org = orderService.org;
 
+
         $scope.confirm = function () {
             $location.path("/detail/" + $scope.orderid);
         };
 
         $scope.clickOrg = function (scope) {
             //TODO 检索用户列表
+            orderService.org.queryUserByOrgId(scope.$id, function (data) {
+                $scope.orgUsers = data;
+            }, function (data) {
+            });
         };
 
         //查询订单信息
@@ -285,4 +353,34 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         }, function (data) {
             //TODO 提示信息
         });
+    }).directive("number2date", function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, ele, attrs, ctrl) {
+                var validateFn = function (value) {
+                    var valid = false;
+                    var stringValue = value + "";
+                    if (value && stringValue.length === 8) {
+                        var newValue = stringValue.substring(0, 4) + "/" + stringValue.substring(4, 6) + "/" + stringValue.substring(6, 8);
+                        var date = new Date(newValue);
+                        if (isNaN(date)) {
+                            //不是日期格式
+                            valid = false;
+                        } else {
+                            //日期格式正确
+                            valid = true;
+                        }
+                    }
+                    ctrl.$setValidity("number2date", valid);
+                    return value;
+                };
+
+                ctrl.$parsers.push(validateFn);
+                ctrl.$formatters.push(validateFn);
+
+                //scope.$watch(attrs.number2date, function () {
+                //    ctrl.$setViewValue(ctrl.$viewValue);
+                //});
+            }
+        }
     });

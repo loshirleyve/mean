@@ -31,6 +31,9 @@ proxy.action("queryOrderList", {
 }).action("queryWorkorderDetail", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
+}).action("queryUsersByOrgid",{
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
 });
 
 module.exports = proxy;

@@ -12,14 +12,13 @@ block content
 
         //内容区域
         div(ng-view)
-
         //组织结构树模板
         script(type="text/ng-template",id="org_nodes.html")
             div.tree-node.tree-node-content(ui-tree-handle)
                 a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
                     span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
                 | &nbsp &nbsp
-                a.btn-link(ng-click="clickOrg(this)") {{node.title}}
+                a.btn-link(ng-click="clickOrg(node)") {{node.title}}
 
             ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
                 li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
@@ -160,10 +159,12 @@ block content
                                         ol(ui-tree-nodes ng-model="org.data")
                                             li(ng-repeat="node in org.data",ui-tree-node,ng-include="'org_nodes.html'")
                                 div.col-md-8
-                                    H1 用户列表
+                                    y9ui-datatable(is-pagination="true",items-per-page="5",header="userListHeader",data="orgUsers",action="userListAction",is-index="true",on-action="onSelectUser(type,item,index)")
                         div.modal-footer
                             button.btn.btn-default(ng-click="closeSelectUser()") 关闭
-                            button.btn.btn-primary(ng-click="closeSelectUser()") 确定
+
+
+
             div.row
                 div.col-md-12
                     //功能导航区域
@@ -196,7 +197,7 @@ block content
                             div.panel.panel-primary
                                 div.panel-heading 订单信息
                                 div.panel-body
-                                    form.form-horizontal
+                                    form.form-horizontal(name="confirmForm")
                                         div.form-group
                                             label.col-md-2.control-label(for="ordersn") 订单编号:
                                             div.col-md-10
@@ -205,20 +206,24 @@ block content
                                             label.col-md-2.control-label(for="buyerinstid") 客户名称:
                                             div.col-md-10
                                                 input.form-control(type="text",id="buyerinstid",value="{{data.order.buyerinstid}}",disabled)
-                                        div.form-group
+                                        div.form-group(ng-class="{'has-error': confirmForm.begindate.$dirty && confirmForm.begindate.$invalid}")
                                             label.col-md-2.control-label(for="begindate") 开始日期:
                                             div.col-md-10
-                                                input.form-control(type="text",id="begindate",value="{{data.order.begindate}}")
-                                        div.form-group
+                                                input.form-control(type="number",id="begindate",name="begindate",ng-model="begindate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,number2date)
+                                                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.begindate.$dirty && confirmForm.begindate.$valid")
+                                        div.form-group(ng-class="{'has-error': confirmForm.enddate.$dirty && confirmForm.enddate.$invalid}")
                                             label.col-md-2.control-label(for="enddate") 结束日期:
                                             div.col-md-10
-                                                input.form-control(type="text",id="enddate",value="{{data.order.enddate}}")
+                                                input.form-control(type="number",id="enddate",name="enddate",ng-model="enddate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,number2date)
+                                                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.enddate.$dirty && confirmForm.enddate.$valid")
                                         div.form-group
-                                            label.col-md-2.control-label(for="adviser") 专属顾问:
+                                            label.col-md-2.control-label(for="adviserName") 专属顾问:
                                             div.col-md-10
-                                                p {{data.order.adviser}}
-                                                button.btn.btn-primary(type="button",ng-click="openSelectUser()") 选择专属顾问
-                                                p.help-block 点击按钮选择需要分配的专属顾问.
+                                                div.input-group
+                                                    span.input-group-btn
+                                                        button.btn.btn-primary(type="button",ng-click="openSelectUser()") 选择专属顾问
+                                                    input.form-control(type="text",id="adviserName",name="adviserName",placeholder="请选择专属顾问",ng-model="adviserName",required,disabled)
+                                                    span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.adviserName.$dirty && confirmForm.adviserName.$valid")
                                         div.form-group
                                             label.col-md-2.control-label(for="orderamount") 订单金额:
                                             div.col-md-10
@@ -238,7 +243,7 @@ block content
 
                                         div.form-group
                                             div.col-sm-offset-2.col-md-10
-                                                button.btn.btn-primary(type="button",ng-click="confirm()") 确认订单
+                                                button.btn.btn-primary(type="button",ng-click="confirm()",ng-disabled="!(confirmForm.$dirty && confirmForm.$valid)") 确认订单
                                                 | &nbsp &nbsp
                                                 a.btn.btn-default(type="button",href="#/detail/{{orderid}}") 返回
 
