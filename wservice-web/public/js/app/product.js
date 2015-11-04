@@ -41,8 +41,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
         };
 
         this.query = {
-            state: "all",
+            groupid: "all",
             data: [],
+            classfilesData:[],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -56,24 +57,24 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
                     self.query.text = "打开查询";
                 }
             },
-            list: function (state, success, error) {
+            list: function (groupid, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
                 //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
                 var params = {};
 
-                if (state !== "all") {
-                    params["state"] = state;
+                if (groupid !== "all") {
+                    params["groupid"] = groupid;
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000002334770";
+                params["instid"] = "10000001468002";
                 params["userid"] = "10000001498059";
 
                 resourceConfig
-                    .post("QueryProductsNoGroup", params, function (data) {
+                    .post("QueryProductsByGroupId", params, function (data) {
                         self.query.data = data;
-                        self.query.state = state;
+                        self.query.groupid = groupid;
                         self.query.loading('reset')
                         success(data);
                     }, function (data) {
@@ -82,14 +83,31 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
                         error(data);
                     });
             },
+            productClassifies:function(province,city,district,success,error)
+            {
+                var params={};
+                params["province"]="广东省";
+                params["city"]="深圳市";
+                params["district"]="全城";
+                resourceConfig.post("QueryMdProductGroupBylocation",params,function(data)
+                {
+                   self.query.classfilesData=data;
+                   self.query.loading('reset')
+                   success(data);
+                },function(data){
+                    self.query.loading('reset')
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
             id: function (id, success, error) {
                 resourceConfig.post("QueryProductInfoById", {"productid": id}, success, error);
             },
-            loading: function (state) {
-                $("#all").button(state);
-//                $("#waitconfirm").button(state);
-//                $("#inservice").button(state);
-//                $("#buy").button(state);
+            loading: function (groupid) {
+                $("#all").button(groupid);
+                $("#weifenlei").button(groupid);
+                $("#jinxuan").button(groupid);
+                $("#caiwu").button(groupid);
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -132,16 +150,15 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
     })
     .controller("productListController", function ($scope, $http, $location, productService, bizModuleConfig) {
         $scope.data = [];
-
+        var self = this;
         var config = bizModuleConfig.getModuleConfig("product");
         $scope.header = config.header;
         $scope.action = config.action;
 
         $scope.productAction = function (type, item, index) {
-            console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
-                //$location.replace();
+                ///$location.replace();
             }
         };
 
@@ -150,41 +167,172 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
         $scope.checkNew = productService.checkNew;
 
         /**
-         * 根据状态查询当前用户机构的订单列表
+         * 根据状态查询当前用户机构的产品列表
          */
-        $scope.queryByState = function () {
-            productService.query.list($scope.query.state, function (data) {
+        $scope.queryByGroupId = function () {
+            productService.query.list($scope.query.groupid, function (data) {
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
 
-
         //首先查询全部订单
         if (productService.query.data.length <= 0) {
-            $scope.queryByState();
+            $scope.queryByGroupId();
         } else {
             $scope.data = productService.query.data;
         }
+
+        $scope.classfilesData = [];
+
+        var allproductClassifiesConfig = bizModuleConfig.getModuleConfig("allproductClassifies");
+        $scope.allproductClassifiesHeader = allproductClassifiesConfig.header;
+        $scope.allproductClassifiesAction = allproductClassifiesConfig.action;
+
+        $scope.dollproductClassifies = function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
+
+        //首先查询全部订单
+//        if (productService.query.classfilesData.length <= 0) {
+//            $scope.queryProductClassifies();
+//        } else {
+//            $scope.classfilesData = productService.query.classfilesData;
+//        }
+
+        /**
+         * 根据状态查询当前地区的产品分类列表
+         */
+//        $scope.queryProductClassifies= function () {
+//            productService.query.productClassifies($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
+//                $scope.classfilesData = data;
+//                console.info($scope.classfilesData);
+//            }, function (data) {
+//                //TODO 弹出提示检索错误通知窗口
+//            })
+//        };
+    }).controller("productClassfilesController", function ($scope, $http, $location, productService, bizModuleConfig) {
+        $scope.data = [];
+
+        var allproductClassifiesConfig = bizModuleConfig.getModuleConfig("allproductClassifies");
+        $scope.allproductClassifiesHeader = allproductClassifiesConfig.header;
+        $scope.allproductClassifiesAction = allproductClassifiesConfig.action;
+
+        $scope.dollproductClassifies = function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
+
+        /**
+         * 根据状态查询当前地区的产品分类列表
+         */
+        $scope.queryProductClassifies= function () {
+            productService.query.productClassifies($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
+                $scope.data = data;
+                console.info($scope.data);
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, productService, bizModuleConfig) {
         $scope.productid = $routeParams.id;
 
         $scope.query = productService.query;
 
-        var productInfoConfig = bizModuleConfig.getModuleConfig("productInfo");
-        $scope.productHeader = productInfoConfig.header;
-        $scope.productInfoAction = [];
+        var productPhasesConfig = bizModuleConfig.getModuleConfig("productPhases");
+        $scope.productPhasesHeader = productPhasesConfig.header;
+        $scope.productPhasesAction = productPhasesConfig.action;
 
+        $scope.doProductPhases = function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
 
-        $scope.doProductInfo = function (type, item, index) {
+        var productProfilesConfig = bizModuleConfig.getModuleConfig("productProfiles");
+        $scope.productProfilesHeader = productProfilesConfig.header;
+        $scope.productProfilesAction = productProfilesConfig.action;
+
+        $scope.doProductProfiles = function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
+
+        var productGroupsConfig = bizModuleConfig.getModuleConfig("productGroups");
+        $scope.productGroupsHeader = productGroupsConfig.header;
+        $scope.productGroupsAction = productGroupsConfig.action;
+
+        $scope.doProductGroups= function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
+
+        var productClassifiesConfig = bizModuleConfig.getModuleConfig("productClassifies");
+        $scope.productClassifiesHeader = productClassifiesConfig.header;
+        $scope.productClassifiesAction = productClassifiesConfig.action;
+
+        $scope.doProductClassifies= function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+        };
+
+        var productDescrsConfig = bizModuleConfig.getModuleConfig("productDescrs");
+        $scope.productDescrsHeader = productDescrsConfig.header;
+        $scope.productDescrsAction = productDescrsConfig.action;
+
+        $scope.doProductDescrs= function (type, item, index) {
+            if (item && type === "edit") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
+            if (item && type === "delete") {
+                $location.path("/detail/" + item.id);
+                //$location.replace();
+            }
         };
 
 
         //刷新界面动作按钮控制状态
 //        $scope.resetState = function () {
-//            if ($scope.data.product.state === "waitconfirm") {
+//            if ($scope.data.product.state === "offshelves") {
 //                $scope.isConfirm = true;
 //            } else {
 //                $scope.isConfirm = false;
@@ -195,6 +343,7 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
         productService.query.id($scope.productid, function (data) {
             $scope.data = data || {product: {}};
             $scope.resetState();
+            console.info($scope.data)
         }, function (data) {
             //TODO 提示信息
         });
