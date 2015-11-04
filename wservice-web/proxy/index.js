@@ -19,6 +19,12 @@ proxy.action("queryOrderList", {
 }).action("queryOrderInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"
+}).action("QueryProductsNoGroup", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductsNoGroupService"
+}).action("QueryProductInfoById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductInfoByIdService"
 }).action("queryWorkorderList", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrdersService"

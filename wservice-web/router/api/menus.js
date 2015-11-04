@@ -16,7 +16,7 @@ module.exports = function (router) {
         /**如果没有如此则使用当前登录用户信息*/
         if (!userId && req.isAuthenticated()){
             userId = req.user.id;
-            instId = req.user.instId;
+            instId = req.user.instId||'2';// TODO 现在没有缓冲机构信息
         }
         if (!userId || !instId) {
             throw new Error('无法获取参数：userId跟instId');
