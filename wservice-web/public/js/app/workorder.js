@@ -23,6 +23,10 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             .when("/startWorkorder/:id",{
                 controller: "WorkorderStartController",
                 templateUrl: "startWorkorder.html"
+            })
+            .when("/completeWorkorder/:id",{
+                controller: "WorkorderCompleteController",
+                templateUrl: "completeWorkorder.html"
             });
 
     })
@@ -196,7 +200,12 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                 $scope.isUnstart = true;
             } else {
                 $scope.isUnstart = false;
-            }
+            };
+            if ($scope.data.workOrder.state === "inservice") {
+                $scope.isInservice = true;
+            } else {
+                $scope.isInservice = false;
+            };
         };
 
         //查询工单信息
@@ -216,6 +225,23 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
         };
     }).
     controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+        $scope.workorderid = $routeParams.id;
+
+        //查询工单信息
+        workorderService.query.id($scope.workorderid, function (data) {
+            $scope.data = data || {order: {}};
+            $scope.resetState();
+        }, function (data) {
+            //TODO 提示信息
+        });
+
+        //开始工单
+        $scope.startWorkorder = function() {
+            alert($scope.postscript);
+            $location.path("/detail/"+$scope.workorderid);
+        };
+    }).
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
