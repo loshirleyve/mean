@@ -7,58 +7,117 @@
 'use strict';
 
 angular.module('wsweb')
-    .service('menuService',function(navigationMaster,message) {
+    .service('menuService', function (navigationMaster, message) {
+    /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
+
+        var storeId = "openedMenus";
+
         // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
             if (!navigationMaster.isOpened(menuNo) && !navigationMaster.isNewable()) {
                 message.alert('不能创建更多的窗口了');
                 return;
             }
-            this.focusMenu(menuNo);
             navigationMaster.navigateTo(menuNo);
+            storeMenus();
         }
 
-        this.focusMenu = function(menuNo) {
-            var checkElement = $("#mno_" + menuNo);
-            var ul = checkElement.parent().parent();
-            var parentNode = checkElement.parent();
-            parentNode.parent().children().removeClass('active');
-            if (!ul.is(":visible")) {
-                ul.prev().click();
-                setTimeout(function () {
+        /**
+         * 重新定位菜单项
+         * 主要是讲当前焦点的tab的菜单项标亮
+         */
+        this.focusMenus = function () {
+            navigationMaster.subWindows.forEach(function (win) {
+                if (!win.menuNo) {
+                    return;
+                }
+                var menuNo = win.menuNo;
+                var checkElement = $("#mno_" + menuNo);
+                var ul = checkElement.parent().parent();
+                var parentNode = checkElement.parent();
+                if (!ul.is(":visible")
+                    && navigationMaster.currentFocus
+                    && navigationMaster.currentFocus.menuNo == menuNo) {
+                    ul.prev().click();
+                    setTimeout(function () {
+                        parentNode.addClass('active');
+                    }, 300);
+                } else {
                     parentNode.addClass('active');
-                }, 300);
-            } else{
-                parentNode.addClass('active');
-            }
+                }
+            });
         }
 
-        this.changeTab = function (menuNo) {
-            this.focusMenu(menuNo);
-            navigationMaster.navigateTo(menuNo);
-        }
-
+        /**
+         * 关闭指定菜单项的窗口
+         * @param menuNo 指定菜单no
+         */
         this.closeWindow = function (menuNo) {
             $("#mno_" + menuNo).parent().removeClass('active');
             navigationMaster.closeWindow(menuNo);
-            if(navigationMaster.currentFocus) {
-                this.focusMenu(navigationMaster.currentFocus.menuNo);
+            storeMenus();
+        }
+
+        /**
+         * 获取缓存的当前编辑菜单项
+         * @returns {*}
+         */
+        this.getStoreMenus = function () {
+            if (store) {
+                return store.get(storeId);
             }
         }
-    })
-    .factory('navigationMaster', function (wswebProvider,message) {
 
+        /**
+         * 保存当前正在编辑的菜单项
+         */
+        function storeMenus() {
+            if (store) {
+                var menus = navigationMaster.subWindows;
+                var storeObj = store.get(storeId) || {};
+                var storeMenus = [];
+                menus.forEach(function (mm) {
+                    if (mm.menuNo) {
+                        storeMenus.push(mm.menuNo);
+                    }
+                });
+                storeObj.menus = storeMenus;
+                storeObj.focusMenu = navigationMaster.currentFocus
+                    ? navigationMaster.currentFocus.menuNo
+                    : undefined;
+                store.set(storeId, storeObj);
+            }
+        }
+
+    })
+    .factory('navigationMaster', function (wswebProvider, message) {
+    /**navigationMaster主要操作子窗口***/
+
+        /**
+         * navigationMaster工厂对象
+         * openedNums，当前打开窗口数量
+         * limitNums，系统限制窗口数量
+         * increaseId，子窗口增长序列，用户生成唯一ID
+         * currentFocus，当前焦点的子窗口，SubWindow的实例
+         * subWindows，所有子窗口的数组
+         * menus，菜单menuNo与菜单配置的隐射
+         * @type {*}
+         */
         var navigationMaster = {
-            openedNums:0,
-            limitNums:wswebProvider.get('limitSubWindow')||1,
-            increaseId:0,
-            currentFocus:undefined,
-            subWindows:[],
-            menus:{}
+            openedNums: 0,
+            limitNums: wswebProvider.get('limitSubWindow') || 1,
+            increaseId: 0,
+            currentFocus: undefined,
+            subWindows: [],
+            menus: {}
         };
 
-        var SubWindow = function() {
-            this.sid = "sub_"+(navigationMaster.increaseId++);
+        /**
+         * 子窗口类构造器
+         * @constructor
+         */
+        var SubWindow = function () {
+            this.sid = "sub_" + (navigationMaster.increaseId++);
 
         }
         /**
@@ -66,28 +125,34 @@ angular.module('wsweb')
          * @param name
          * @param url
          */
-        SubWindow.prototype.load = function(menu) {
+        SubWindow.prototype.load = function (menu) {
             this.name = menu.name;
             this.url = menu.mainurl;
             this.menuNo = menu.no;
             this.isOpen = true;
-            $("#"+this.sid, parent.document.body).attr("src", this.url);
+            $("#" + this.sid, parent.document.body).attr("src", this.url);
             this.focus();
         }
 
-        SubWindow.prototype.focus = function() {
-            $("#"+this.sid).parent().children().hide();
-            $("#"+this.sid).show();
-            $("#"+this.sid+'_li').parent().children().removeClass('active');
-            $("#"+this.sid+'_li').show();
-            $("#"+this.sid+'_li').addClass('active');
+        /**
+         * 使当前子窗口获取焦点
+         */
+        SubWindow.prototype.focus = function () {
+            $("#" + this.sid).parent().children().hide();
+            $("#" + this.sid).show();
+            $("#" + this.sid + '_li').parent().children().removeClass('active');
+            $("#" + this.sid + '_li').show();
+            $("#" + this.sid + '_li').addClass('active');
         }
 
-        SubWindow.prototype.close = function() {
+        /**
+         * 关闭当前子窗口
+         */
+        SubWindow.prototype.close = function () {
             this.isOpen = false;
-            $("#"+this.sid).hide();
-            $("#"+this.sid, parent.document.body).attr("src", "");
-            $("#"+this.sid+'_li').hide();
+            $("#" + this.sid).hide();
+            $("#" + this.sid, parent.document.body).attr("src", "");
+            $("#" + this.sid + '_li').hide();
 
             this.name = undefined;
             this.url = undefined;
@@ -97,21 +162,21 @@ angular.module('wsweb')
          * 初始化工程
          * @param menus 菜单数据
          */
-        navigationMaster.init = function(menus) {
+        navigationMaster.init = function (menus) {
             if (this.subWindows.length > 0) {
                 throw new Error('已经初始化过navigationMaster了');
             }
             this.singleWindow = (this.limitNums == 1);
             var self = this;
-            menus.forEach(function(menu) {
+            menus.forEach(function (menu) {
                 if (menu.navigationItems) {
-                    menu.navigationItems.forEach(function(item) {
+                    menu.navigationItems.forEach(function (item) {
                         self.menus[item.no] = item;
                     });
                 }
             });
             // 生成subWindow对象
-            for (var i = 0;i < this.limitNums;i++) {
+            for (var i = 0; i < this.limitNums; i++) {
                 this.subWindows.push(new SubWindow())
             }
         }
@@ -134,9 +199,9 @@ angular.module('wsweb')
                     this.currentFocus = this.subWindows[0];
                 }
                 this.currentFocus.load(menu);
-            } else if (this.openedNums < this.limitNums){   // 如果还没超过显示tab数
+            } else if (this.openedNums < this.limitNums) {   // 如果还没超过显示tab数
                 var keepGoing = true;
-                this.subWindows.forEach(function(win){
+                this.subWindows.forEach(function (win) {
                     if (keepGoing && !win.name) {
                         self.currentFocus = win;
                         keepGoing = false;
@@ -146,14 +211,18 @@ angular.module('wsweb')
                 this.currentFocus.load(menu);
                 this.openedNums++;
             } else {
-                message.alert('已达到限制的最多子窗口个数，'+this.limitNums);
+                message.alert('已达到限制的最多子窗口个数，' + this.limitNums);
             }
         }
 
-        navigationMaster.closeWindow = function(menuNo) {
+        /**
+         * 关闭指定窗口
+         * @param menuNo 指定菜单NO
+         */
+        navigationMaster.closeWindow = function (menuNo) {
             var keepGoing = true;
-            this.subWindows.forEach(function(win){
-                if (keepGoing && win.menuNo ==  menuNo) {
+            this.subWindows.forEach(function (win) {
+                if (keepGoing && win.menuNo == menuNo) {
                     win.close();
                     navigationMaster.openedNums--;
                     keepGoing = false;
@@ -164,8 +233,8 @@ angular.module('wsweb')
                 && !this.currentFocus.menuNo) {
                 this.currentFocus = undefined;
                 keepGoing = true;
-                var self =this;
-                this.subWindows.forEach(function(win){
+                var self = this;
+                this.subWindows.forEach(function (win) {
                     if (keepGoing && win.menuNo) {
                         self.currentFocus = win;
                         keepGoing = false;
@@ -177,9 +246,13 @@ angular.module('wsweb')
             }
         }
 
-        navigationMaster.sortWindows = function() {
-            this.subWindows.sort(function(a,b){
-                return a.menuNo?0:1;
+        /**
+         * 为当前子窗口排序，根据是否有打开东西排序
+         * 没有打开界面的排在最后面
+         */
+        navigationMaster.sortWindows = function () {
+            this.subWindows.sort(function (a, b) {
+                return a.menuNo ? 0 : 1;
             });
         }
 
@@ -187,8 +260,8 @@ angular.module('wsweb')
          * 是否可以创建新窗口
          * @returns {boolean}
          */
-        navigationMaster.isNewable = function() {
-            return (this.singleWindow)?true:this.openedNums<this.subWindows.length;
+        navigationMaster.isNewable = function () {
+            return (this.singleWindow) ? true : this.openedNums < this.subWindows.length;
         }
 
         /**
@@ -200,7 +273,7 @@ angular.module('wsweb')
             var opened = false;
             var keepGoing = true;
             var self = this;
-            this.subWindows.forEach(function(win) {
+            this.subWindows.forEach(function (win) {
                 if (keepGoing && win.menuNo == menuNo) {
                     opened = true;
                     self.currentFocus = win;
