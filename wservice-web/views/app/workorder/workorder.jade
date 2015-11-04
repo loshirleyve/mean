@@ -7,20 +7,20 @@ block content
     script(src="/js/bpc/workorderConfig.js")
     script(src="/js/app/workorder.js")
     div(ng-app="workorderApp")
-        //功能导航区域
-        div.row
-            div.col-md-12
-                ul.breadcrumb
-                    li
-                        a(href="/home")
-                            span.glyphicon.glyphicon-home
-                            span 首页
-                    li.active 工单列表
         //通知区域
         //内容区域
         div(ng-view)
         //列表模板
         script(type="text/ng-template",id="list.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li.active 工单列表
             //功能按钮区域
             div.row
                 div.col-md-12
@@ -50,6 +50,18 @@ block content
                     y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
         //详情模版
         script(type="text/ng-template",id="detail.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#/list")
+                                span 工单列表
+                        li.active 工单详情
             nav.navbar.navbar-default
                 div.navbar-header
                     a.navbar-brand(href="") 工单详情
@@ -59,7 +71,7 @@ block content
                     li
                         a(href="",ng-click="query.next(workorderid)",ng-show="{{query.nextId(workorderid)}}") 下一单
                     li
-                        a(href="",ng-show="isUnstart") 开始做
+                        a(href="#/startWorkorder/{{workorderid}}",ng-show="isUnstart") 开始做
                     li
                         a(href="") 查看订单
                     li
@@ -114,3 +126,59 @@ block content
                     div.panel.panel-default
                         div.panel-heading 工单评价
                         y9ui-datatable(header="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+        script(type="text/ng-template",id="startWorkorder.html")
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#/list")
+                                span 工单列表
+                        li
+                            a(href="#/detail/{{workorderid}}")
+                                span 工单列表
+                        li.active 工单详情
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 开始工单
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#detail/{{workorderid}}") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+            div.row
+                div.col-md-12
+                    div.panel.panel-primary
+                        div.panel-heading 工单信息
+                        div.panel-body
+                            form.form-horizontal
+                                div.form-group
+                                    label.col-md-2.control-label(for="sn") 订单编号:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="sn",value="{{data.workOrder.sn}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="sn") 工单名称:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="sn",value="{{data.workOrder.name}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="sn") 工单描述:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="sn",value="{{data.workOrder.descr}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="sn") 工单状态:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="sn",value="{{data.workOrder.state}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="postscript") 附言:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="sn",ng-model="postscript")
+
+
+                                div.form-group
+                                    div.col-sm-offset-2.col-md-10
+                                        button.btn.btn-primary(type="button",ng-click="startWorkorder()") 确认开始
+                                        | &nbsp &nbsp
+                                        a.btn.btn-default(type="button",href="#/detail/{{workorderid}}") 返回
