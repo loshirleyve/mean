@@ -223,6 +223,7 @@ html(ng-app='wsweb')
                             li(style='display:none')
                                 a(href="#", data-toggle="control-sidebar")
                                     i.fa.fa-gears
+                #message_alert(style='position: absolute;z-index: 999')
             // Left side column. contains the logo and sidebar
             aside.main-sidebar
                 // sidebar: style can be found in sidebar.less
@@ -417,3 +418,5 @@ html(ng-app='wsweb')
         script(src="js/app.js")
         // 导航
         script(src="js/navigation.js")
+        // 消息框
+        script(src="js/message.js")

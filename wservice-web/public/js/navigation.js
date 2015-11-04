@@ -7,11 +7,11 @@
 'use strict';
 
 angular.module('wsweb')
-    .service('menuService',function(navigationMaster) {
+    .service('menuService',function(navigationMaster,message) {
         // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
             if (!navigationMaster.isOpened(menuNo) && !navigationMaster.isNewable()) {
-                alert('不能打开新窗口了');
+                message.alert('不能创建更多的窗口了');
                 return;
             }
             this.focusMenu(menuNo);
@@ -46,7 +46,7 @@ angular.module('wsweb')
             }
         }
     })
-    .factory('navigationMaster', function (wswebProvider) {
+    .factory('navigationMaster', function (wswebProvider,message) {
 
         var navigationMaster = {
             openedNums:0,
@@ -145,7 +145,7 @@ angular.module('wsweb')
                 this.currentFocus.load(menu);
                 this.openedNums++;
             } else {
-                // 警告
+                message.alert('已达到限制的最多子窗口个数，'+this.limitNums);
             }
         }
 

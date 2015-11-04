@@ -6,7 +6,7 @@
 
 angular.module('wsweb', ['ngRoute', 'wsweb.service'])
     .controller('launchCtrl', ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster',
-        function ($scope, Menus, Session, menuService, navigationMaster) {
+        function ($scope, Menus, Session, menuService, navigationMaster,message) {
 
             this.navigateTo = function (menuNo) {
                 menuService.navigateTo(menuNo);
@@ -49,6 +49,12 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
                 location.href = '/login';
             });
 
+            // 创建Master
+            window.$masterService = {
+                menuService:menuService,
+                messageService:message
+            };
+
         }])
     .provider('wswebProvider', function () {
         var config = {
@@ -70,8 +76,14 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
         }
     })
     .config(function(wswebProviderProvider) {
+        /**
+         * 配置wsweb
+         */
         wswebProviderProvider.setup({
-            limitSubWindow:3
+            limitSubWindow:3,
+            messageDiv:'message_alert',
+            autoDismissMessage:true,
+            dismissMessageTimeout:3000
         });
     });
 
