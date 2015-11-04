@@ -8,7 +8,7 @@
 
 angular.module('wsweb')
     .service('menuService', function (navigationMaster, message) {
-    /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
+        /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
 
         var storeId = "openedMenus";
 
@@ -27,23 +27,27 @@ angular.module('wsweb')
          * 主要是讲当前焦点的tab的菜单项标亮
          */
         this.focusMenus = function () {
+            var keepGoing = true;
             navigationMaster.subWindows.forEach(function (win) {
-                if (!win.menuNo) {
+                if (!keepGoing || !win.menuNo) {
                     return;
                 }
                 var menuNo = win.menuNo;
                 var checkElement = $("#mno_" + menuNo);
                 var ul = checkElement.parent().parent();
                 var parentNode = checkElement.parent();
-                if (!ul.is(":visible")
-                    && navigationMaster.currentFocus
+                parentNode.parent().children().removeClass('active');
+                if (navigationMaster.currentFocus
                     && navigationMaster.currentFocus.menuNo == menuNo) {
-                    ul.prev().click();
-                    setTimeout(function () {
+                    if (!ul.is(":visible")) {
+                        ul.prev().click();
+                        setTimeout(function () {
+                            parentNode.addClass('active');
+                        }, 300);
+                    } else {
                         parentNode.addClass('active');
-                    }, 300);
-                } else {
-                    parentNode.addClass('active');
+                    }
+                    keepGoing = false;
                 }
             });
         }
@@ -91,7 +95,7 @@ angular.module('wsweb')
 
     })
     .factory('navigationMaster', function (wswebProvider, message) {
-    /**navigationMaster主要操作子窗口***/
+        /**navigationMaster主要操作子窗口***/
 
         /**
          * navigationMaster工厂对象
