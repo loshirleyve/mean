@@ -10,39 +10,47 @@ angular.module('wsweb')
     .service('menuService',function(navigationMaster) {
         // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
-
             if (!navigationMaster.isOpened(menuNo) && !navigationMaster.isNewable()) {
                 alert('不能打开新窗口了');
                 return;
             }
+            this.focusMenu(menuNo);
+            navigationMaster.navigateTo(menuNo);
+        }
 
+        this.focusMenu = function(menuNo) {
             var checkElement = $("#mno_" + menuNo);
-            var ul = checkElement.parent().parent().prev();
+            var ul = checkElement.parent().parent();
             var parentNode = checkElement.parent();
             parentNode.parent().children().removeClass('active');
             if (!ul.is(":visible")) {
-                ul.click();
-            }
-            navigationMaster.navigateTo(menuNo);
-            setTimeout(function () {
+                ul.prev().click();
+                setTimeout(function () {
+                    parentNode.addClass('active');
+                }, 300);
+            } else{
                 parentNode.addClass('active');
-            }, 300);
+            }
         }
 
         this.changeTab = function (menuNo) {
+            this.focusMenu(menuNo);
             navigationMaster.navigateTo(menuNo);
         }
 
         this.closeWindow = function (menuNo) {
             $("#mno_" + menuNo).parent().removeClass('active');
             navigationMaster.closeWindow(menuNo);
+            if(navigationMaster.currentFocus) {
+                this.focusMenu(navigationMaster.currentFocus.menuNo);
+            }
         }
     })
-    .factory('navigationMaster', function () {
+    .factory('navigationMaster', function (wswebProvider) {
 
         var navigationMaster = {
             openedNums:0,
-            limitNums:3,
+            limitNums:wswebProvider.get('limitSubWindow')||1,
             increaseId:0,
             currentFocus:undefined,
             subWindows:[],

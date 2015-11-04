@@ -16,27 +16,30 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
                 menuService.changeTab(menuNo);
             }
 
-            this.closeWindow = function (menuNo,$event) {
+            this.closeWindow = function (menuNo, $event) {
                 if ($event.stopPropagation) {
                     $event.stopPropagation();
                 }
                 menuService.closeWindow(menuNo);
             }
 
-            Menus.query({userId: '10086', instId: '2'}).then(function (response) {
+            Menus.query().then(function (response) {
                 navigationMaster.init(response.data);
                 $scope.menus = response.data;
                 $scope.singleWindow = navigationMaster.singleWindow;
                 $scope.subWindows = navigationMaster.subWindows;
                 // 如果获取界面绘制完成的事件？
-                setTimeout(function() {
-                    $scope.subWindows.forEach(function(win) {
+                setTimeout(function () {
+                    $scope.subWindows.forEach(function (win) {
                         $("#" + win.sid).load(function () {
                             $("#" + win.sid).contents().find("body").attr("onclick",
                                 "window.parent.document.body.click();");
                         });
                     });
-                },300);
+                }, 300);
+            }, function (response) {
+                // 查询登录信息错误，跳转到登录界面
+                location.href = '/login';
             });
 
             Session.load().then(function (response) {
@@ -46,5 +49,29 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
                 location.href = '/login';
             });
 
-        }]);
+        }])
+    .provider('wswebProvider', function () {
+        var config = {
+
+        };
+        this.setup = function(cfg) {
+            config = cfg||config;
+        }
+        this.$get = function($http) {
+            var service = {
+                getConfig:function() {
+                    return angular.copy(config);
+                },
+                get:function(key) {
+                    return config[key];
+                }
+            };
+            return service;
+        }
+    })
+    .config(function(wswebProviderProvider) {
+        wswebProviderProvider.setup({
+            limitSubWindow:3
+        });
+    });
 
