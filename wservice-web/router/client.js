@@ -7,8 +7,21 @@
 var express = require("express");
 var router = express.Router();
 
+/**
+ * 客户列表路由
+ */
+router.get("/", function (req, res, next) {
+    res.render("app/client/client");
+});
+
+
+
+
+
+
+
 router.get("/", function(req, res, next){
-   res.render("client/clientList",{
+   res.render("app/client/clientList",{
        "title":"客户管理"
    })
 });

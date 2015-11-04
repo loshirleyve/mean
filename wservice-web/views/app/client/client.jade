@@ -1,0 +1,137 @@
+//
+   Created by shirley on 2015/11/3.
+
+extends ../../layout/layout-bizpage
+
+block content
+    script(src="js/bpc/clientconfig.js")
+    script(src="js/app/client.js")
+    div(ng-app="clientApp")
+        //功能导航区域
+        div.row
+            div.col-md-12
+                ul.breadcrumb
+                    li
+                        a(href="/home")
+                            span.glyphicon.glyphicon-home
+                            |  首页
+                    li.active 客户管理
+        //内容区域
+        div(ng-view)
+        //列表模板
+        script(type="text/ng-template", id="list.html")
+            //功能按钮区域
+            div.row
+                div.col-md-12
+                    div.btn-group
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'all'", ng-click="queryByState()" data-loading-text="正在查询...", id="all")全部客户
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'initialized'", ng-click="queryByState()" data-loading-text="正在查询...", id="initialized")已初始化客户
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'uninitialized'", ng-click="queryByState()" data-loading-text="正在查询...", id="uninitialized")未初始化客户
+                        | &nbsp
+                        label.btn.btn-primary.btn-sm(ng-click="query.toggle()", data-loading-text="正在查询...", id="query"){{query.text}}
+            p
+            //条件查询内容输入区域
+            div.row
+                div.col-md-12
+                    div(uib-collapse="!query.isCollapsed")
+                        div.well.well-lg 条件查询内容
+            //数据表格区域
+            div.row
+                div.col-md-12
+                    y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="clientAction(type,item,index)")
+        //详情模板
+        script(type="text/ng-template",id="detail.html")
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 客户详情
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="",ng-click="query.previous(clientid)",ng-show="{{query.previousId(clientid)}}") 上一个客户
+                    li
+                        a(href="",ng-click="query.next(clientid)",ng-show="{{query.nextId(clientid)}}") 下一个客户
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+            div.row
+                div.col-md-12
+                    div.panel.panel-default
+                        div.panel-heading 基本信息
+                        div.panel-body
+                            form.form-horizontal
+                                div.form-group
+                                    label.col-md-2.control-label(for="id") ID:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="id",value="{{data.id}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="fullname") 名称:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="fullname",value="{{data.fullname}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="name") 简称:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="name",value="{{data.name}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="instid") 编号:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="instid",value="{{data.instid}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="industry") 行业:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="industry",value="{{data.industry}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="type") 类型:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="type",value="{{data.type}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="level") 级别:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="level",value="{{data.level}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="source") 来源:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="source",value="{{data.source}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="scaleid") 规模:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="scaleid",value="{{data.scaleid}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="contactman") 联系人:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="contactman",value="{{data.contactman}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="contactphone") 电话:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="contactphone",value="{{data.contactphone}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="contactposition") 职位:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="contactposition",value="{{data.contactposition}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="region") 地区:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="region",value="{{data.region}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="address") 地址:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="address",value="{{data.address}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="clientinstid") 客户机构:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="clientinstid",value="{{data.clientinstid}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="clientadminid") 客户管理员:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="clientadminid",value="{{data.clientadminid}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="createdate") 创建时间:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="createdate",value="{{data.createdate}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="updatedate") 更新时间:
+                                    div.col-md-10
+                                        input.form-control(type="text",id="updatedate",value="{{data.updatedate}}",disabled)
+                                div.form-group
+                                    label.col-md-2.control-label(for="remark") 备注:
+                                    div.col-md-10
+                                        textarea.form-control(rows=3,id="remark",disabled) {{data.client.remark}}
