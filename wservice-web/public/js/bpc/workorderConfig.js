@@ -62,5 +62,42 @@ angular.module("workorderConfig", ["bizModule"])
                     "link": "#/detail"
                 }
             ]
+        }).reg("orderAttachment",{
+            "header":[
+                {
+                    "name": "attachname",
+                    "label": "资料名称"
+                },
+                {
+                    "name": "transfertype",
+                    "label": "资料交接类型"
+                },
+                {
+                    "name": "inputtype",
+                    "label": "资料类型"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "下载",
+                    "link": "#"
+                }
+            ]
+        }).reg("workorderComment",{
+            "header":[
+                {
+                    "name": "commenttext",
+                    "label": "评价心得"
+                },
+                {
+                    "name": "createdate",
+                    "label": "评论时间"
+                },
+                {
+                    "name": "senderid",
+                    "label": "评论者"
+                }
+            ]
         });
     });
