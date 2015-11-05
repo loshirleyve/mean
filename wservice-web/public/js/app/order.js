@@ -2,8 +2,8 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute", 'ui.tree'])
-    .config(function ($routeProvider) {
+angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+    .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
@@ -29,8 +29,109 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 redirectTo: "/list"
             });
 
+        DatatableStoreProvider.store("order", {
+            "header": [
+                {
+                    "name": "buyerinstid",
+                    "label": "客户名称"
+                },
+                {
+                    "name": "ordersn",
+                    "label": "订单号"
+                },
+                {
+                    "name": "name",
+                    "label": "订单名称"
+                },
+                {
+                    "name": "purchase",
+                    "label": "购买人"
+                },
+                {
+                    "name": "adviser",
+                    "label": "专属顾问"
+                },
+                {
+                    "name": "salesmanid",
+                    "label": "销售顾问"
+                },
+                {
+                    "name": "orderamount",
+                    "label": "金额"
+                },
+                {
+                    "name": "factamount",
+                    "label": "实际金额"
+                },
+                {
+                    "name": "state",
+                    "label": "订单状态"
+                },
+                {
+                    "name": "createdate",
+                    "label": "创建日期"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "查看"
+                }
+            ]
+        }).store("orderProduct", {
+            header: [
+                {
+                    name: "productname",
+                    label: "产品名称"
+                }, {
+                    name: "productIntroduce",
+                    label: "产品简介"
+                },
+                {
+                    name: "goodsamount",
+                    label: "产品价格"
+                }, {
+                    name: "productclassifyname",
+                    label: "已选分类"
+                }
+            ]
+        }).store("orderWorkOrder", {
+            header: [
+                {
+                    name: "descr",
+                    label: "工单名称"
+                }, {
+                    name: "inserviceName",
+                    label: "服务状态"
+                }, {
+                    name: "descr",
+                    label: "进度"
+                }, {
+                    name: "assignedInfo",
+                    label: "分配信息"
+                }
+            ],
+            action: [
+                {
+                    name: "view",
+                    label: "查看"
+                }
+            ]
+        }).store("userList", {
+            header: [
+                {
+                    name: "name",
+                    label: "姓名"
+                }],
+            action: [
+                {
+                    name: "select",
+                    label: "选择"
+                }
+            ]
+        });
     })
-    .service("orderService", function ($http, $location, resourceConfig) {
+    .service("orderService", function ($http, $location, Resource) {
         var self = this;
 
         /**
@@ -54,28 +155,47 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         };
 
         this.org = {
-            data: [
-                {
-                    id: "100",
-                    title: "深圳市顶聚科技有限公司",
-                    nodes: [
-                        {
-                            id: "10001",
-                            title: "研发部",
-                            nodes: [
-                                {id: "1000101", title: "研发一组"},
-                                {id: "1000101", title: "研发二组"}
-                            ]
-                        }, {
-                            id: "20001",
-                            title: "市场部"
-                        }, {
-                            id: "30001",
-                            title: "销售部"
-                        }
-                    ]
+            queryUserByOrgId: function (orgid, success, error) {
+                //根据组织ID查询用户列表
+                Resource.post("queryUsersByOrgid", {
+                    "orgid": orgid
+                }, success, error);
+
+            },
+            queryOrgTreeAndBuilderNode: function (instid, success, error) {
+                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
+                Resource.post("queryOrgTree", {
+                    "instid": instid,
+                    "dimtype": "hr"
+                }, function (data) {
+                    var orgNodes = [{
+                        id: data.id,
+                        title: data.simplename
+                    }];
+                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
+                    if (success) {
+                        success(orgNodes);
+                    }
+                }, function (data) {
+                    if (error) {
+                        error(data);
+                    }
+                });
+
+            },
+            builderOrgTreeNode: function (nodes, data) {
+                if (data) {
+                    nodes.nodes = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var node = {
+                            id: data[i]["id"],
+                            title: data[i]["name"]
+                        };
+                        self.org.builderOrgTreeNode(node, data[i].children);
+                        nodes.nodes.push(node);
+                    }
                 }
-            ]
+            }
         };
 
         this.query = {
@@ -108,7 +228,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 params["instid"] = "10000001463017";
                 params["userid"] = "10000001498059";
 
-                resourceConfig
+                Resource
                     .post("queryOrderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
@@ -121,7 +241,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                     });
             },
             id: function (id, success, error) {
-                resourceConfig.post("queryOrderInfo", {"orderid": id}, success, error);
+                Resource.post("queryOrderInfo", {"orderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -168,18 +288,12 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew.toggle();
 
     }).
-    controller("OrderListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
+    controller("OrderListController", function ($scope, $http, $location, orderService) {
         $scope.data = [];
-
-        var config = bizModuleConfig.getModuleConfig("order");
-        $scope.header = config.header;
-        $scope.action = config.action;
-
         $scope.orderAction = function (type, item, index) {
             console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
-                //$location.replace();
             }
         };
 
@@ -198,7 +312,6 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             })
         };
 
-
         //首先查询全部订单
         if (orderService.query.data.length <= 0) {
             $scope.queryByState();
@@ -206,18 +319,11 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             $scope.data = orderService.query.data;
         }
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService) {
         $scope.orderid = $routeParams.id;
 
         $scope.query = orderService.query;
 
-        var orderProductConfig = bizModuleConfig.getModuleConfig("orderProduct");
-        $scope.productHeader = orderProductConfig.header;
-        $scope.productAction = [];
-
-        var orderWorkOrder = bizModuleConfig.getModuleConfig("orderWorkOrder");
-        $scope.workOrderHeader = orderWorkOrder.header;
-        $scope.workOrderAction = orderWorkOrder.action;
 
         $scope.doOrderProducts = function (type, item, index) {
         };
@@ -241,7 +347,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         }, function (data) {
             //TODO 提示信息
         });
-    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, orderService) {
+    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
         $scope.orderid = $routeParams.id;
         $scope.org = orderService.org;
         $scope.query = orderService.query;
@@ -251,10 +357,30 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         };
 
         $scope.openSelectUser = function () {
-            $('#selectUserId').modal('show');
+            orderService.org.queryOrgTreeAndBuilderNode("10000001468002", function (data) {
+                $scope.orgData = data;
+                $('#selectUserId').modal('show');
+            }, function (data) {
+                //TODO 提示查询组织失败的信息
+            });
+
         };
 
         $scope.closeSelectUser = function () {
+            $('#selectUserId').modal('hide');
+        };
+
+        $scope.clickOrg = function (node) {
+            orderService.org.queryUserByOrgId(node.id, function (data) {
+                $scope.orgUsers = data;
+            }, function (data) {
+
+            });
+        };
+
+        $scope.onSelectUser = function (type, item, index) {
+            $scope.adviser = item;
+            $scope.adviserName = item.name;
             $('#selectUserId').modal('hide');
         };
 
@@ -271,12 +397,17 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         $scope.query = orderService.query;
         $scope.org = orderService.org;
 
+
         $scope.confirm = function () {
             $location.path("/detail/" + $scope.orderid);
         };
 
         $scope.clickOrg = function (scope) {
             //TODO 检索用户列表
+            orderService.org.queryUserByOrgId(scope.$id, function (data) {
+                $scope.orgUsers = data;
+            }, function (data) {
+            });
         };
 
         //查询订单信息
@@ -285,4 +416,34 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         }, function (data) {
             //TODO 提示信息
         });
+    }).directive("number2date", function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, ele, attrs, ctrl) {
+                var validateFn = function (value) {
+                    var valid = false;
+                    var stringValue = value + "";
+                    if (value && stringValue.length === 8) {
+                        var newValue = stringValue.substring(0, 4) + "/" + stringValue.substring(4, 6) + "/" + stringValue.substring(6, 8);
+                        var date = new Date(newValue);
+                        if (isNaN(date)) {
+                            //不是日期格式
+                            valid = false;
+                        } else {
+                            //日期格式正确
+                            valid = true;
+                        }
+                    }
+                    ctrl.$setValidity("number2date", valid);
+                    return value;
+                };
+
+                ctrl.$parsers.push(validateFn);
+                ctrl.$formatters.push(validateFn);
+
+                //scope.$watch(attrs.number2date, function () {
+                //    ctrl.$setViewValue(ctrl.$viewValue);
+                //});
+            }
+        }
     });

@@ -4,7 +4,6 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/bpc/productconfig.js")
     script(src="/js/app/product.js")
     div(ng-app="productApp")
         //通知区域
@@ -83,7 +82,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="productAction(type,item,index)")
+                npt-datatable(name="product" is-pagination="true",items-per-page="10",data="data",is-index="true",on-action="productAction(type,item,index)")
 
             //弹出层，添加分类
             div#addProductGroup.modal.fade(tabindex="-1",role="dialog")
@@ -103,18 +102,18 @@ block content
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
                                 button.btn.btn-primary(type="button",data-dismiss="modal") 确认
 
-            //弹出层，编辑分类
+            //弹出层，编辑分组
             div#editProductGroup.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
                             button.close(type="button",data-dismiss="modal",aria-label="Close")
                                 span(aria-hidden="ture")&times;
-                            h4.modal-title 编辑分类
+                            h4.modal-title 编辑分组
                         div.modal-body
                             div.row
                                 div.col-md-12
-                                    y9ui-datatable(header="allproductGroupHeader",data="groupdata",action="allproductGroupAction",is-index="true",on-action="dollproductGroup(type,item,index)")
+                                    npt-datatable(name="allProductGroup",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
                                 //详情模板
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
@@ -183,7 +182,7 @@ block content
                             div.col-md-6 服务阶段
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productPhasesModal") 添加
-                        y9ui-datatable(header="productPhasesHeader",data="data.productPhases",action="productPhasesAction",is-index="true",on-action="doProductPhases(type,item,index)")
+                        npt-datatable(name="productPhases" data="data.productPhases",is-index="true",on-action="doProductPhases(type,item,index)")
 
             div.row
                 div.col-md-12
@@ -192,7 +191,7 @@ block content
                             div.col-md-6 资料清单
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productPhasesModal") 添加
-                        y9ui-datatable(header="productPhasesHeader",data="data.productPhases",action="productPhasesAction",is-index="true",on-action="doProductPhases(type,item,index)")
+                        npt-datatable(name="productPhases" data="data.productPhases",is-index="true",on-action="doProductPhases(type,item,index)")
 
             div.row
                 div.col-md-12
@@ -201,7 +200,7 @@ block content
                             div.col-md-6 服务内容
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productProfilesModal") 添加
-                        y9ui-datatable(header="productProfilesHeader",data="data.bizProductProfiles",action="productProfilesAction",is-index="true",on-action="doProductProfiles(type,item,index)")
+                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-action="doProductProfiles(type,item,index)")
 
             div.row
                 div.col-md-12
@@ -210,7 +209,7 @@ block content
                             div.col-md-6 服务分组
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productGroupsModal") 添加
-                        y9ui-datatable(header="productGroupsHeader",data="data.productGroups",action="productGroupsAction",is-index="true",on-action="doProductGroups(type,item,index)")
+                        npt-datatable(name="productGroups" data="data.productGroups",is-index="true",on-action="doProductGroups(type,item,index)")
 
             div.row
                 div.col-md-12
@@ -219,7 +218,7 @@ block content
                             div.col-md-6 服务分类
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productClassifiesModal") 添加
-                        y9ui-datatable(header="productClassifiesHeader",data="data.bizProductClassifies",action="productClassifiesAction",is-index="true",on-action="doProductClassifies(type,item,index)")
+                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-action="doProductClassifies(type,item,index)")
 
             div.row
                 div.col-md-12
@@ -228,7 +227,7 @@ block content
                             div.col-md-6 服务说明
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productDescrsModal") 添加
-                        y9ui-datatable(header="productDescrsHeader",data="data.bizProductDescrs",action="productDescrsAction",is-index="true",on-action="doProductDescrs(type,item,index)")
+                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-action="doProductDescrs(type,item,index)")
 
             //弹出层，基本信息
             div#productInfoModal.modal.fade(tabindex="-1",role="dialog")
