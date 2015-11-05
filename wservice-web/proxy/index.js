@@ -66,4 +66,11 @@ proxy.action("queryInstClients", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
 });
+
+//获取控制编码
+proxy.action("queryMdCtrlcode", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
+});
+
 module.exports = proxy;
