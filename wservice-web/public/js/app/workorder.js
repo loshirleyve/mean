@@ -128,6 +128,18 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     "label": "评论者"
                 }
             ]
+        }).store("userList", {
+            header: [
+                {
+                    name: "name",
+                    label: "姓名"
+                }],
+            action: [
+                {
+                    name: "select",
+                    label: "选择"
+                }
+            ]
         });
     })
     .service("workorderService", function ($http, $location, nptResource) {
@@ -237,30 +249,48 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         };
 
         this.org = {
-            data: [
-                {
-                    id: "100",
-                    title: "深圳市顶聚科技有限公司",
-                    nodes: [
-                        {
-                            id: "10001",
-                            title: "研发部",
-                            nodes: [
-                                {id: "1000101", title: "研发一组"},
-                                {id: "1000101", title: "研发二组"}
-                            ]
-                        }, {
-                            id: "20001",
-                            title: "市场部"
-                        }, {
-                            id: "30001",
-                            title: "销售部"
-                        }
-                    ]
-                }
-            ]
-        };
+            queryUserByOrgId: function (orgid, success, error) {
+                //根据组织ID查询用户列表
+                nptResource.post("queryUsersByOrgid", {
+                    "orgid": orgid
+                }, success, error);
 
+            },
+            queryOrgTreeAndBuilderNode: function (instid, success, error) {
+                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
+                nptResource.post("queryOrgTree", {
+                    "instid": instid,
+                    "dimtype": "hr"
+                }, function (data) {
+                    var orgNodes = [{
+                        id: data.id,
+                        title: data.simplename
+                    }];
+                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
+                    if (success) {
+                        success(orgNodes);
+                    }
+                }, function (data) {
+                    if (error) {
+                        error(data);
+                    }
+                });
+
+            },
+            builderOrgTreeNode: function (nodes, data) {
+                if (data) {
+                    nodes.nodes = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var node = {
+                            id: data[i]["id"],
+                            title: data[i]["name"]
+                        };
+                        self.org.builderOrgTreeNode(node, data[i].children);
+                        nodes.nodes.push(node);
+                    }
+                }
+            }
+        };
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -405,15 +435,40 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
     controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
 
-        $scope.query = workorderService.query;
-        $scope.org = workorderService.org;
+        workorderService.org.queryOrgTreeAndBuilderNode("10000001468002", function (data) {
+            $scope.orgData = data;
+        }, function (data) {
+            //TODO 提示查询组织失败的信息
+        });
 
-        $scope.confirm = function () {
-            $location.path("/detail/" + $scope.workorderid);
+        $scope.onSelectUser = function (type, item, index) {
+            $scope.adviser = item;
+            $scope.adviserName = item.name;
+
+            var params = {};
+
+            var workorderids = [];
+            workorderids.push($scope.workorderid);
+
+            params["workorderids"] = workorderids;
+            params["targetprocessid"] = item.id;
+            params["postscript"] = "ceshi";
+
+            //调用服务
+            nptResource.post("deliverWorkorder", params, function (data) {
+                $location.path("/detail/"+$scope.workorderid);
+            }, function (data) {
+
+            });
         };
 
-        $scope.clickOrg = function (scope) {
+        //检索组织节点下的用户列表
+        $scope.clickOrg = function (node) {
             //TODO 检索用户列表
+            workorderService.org.queryUserByOrgId(node.id, function (data) {
+                $scope.orgUsers = data;
+            }, function (data) {
+            });
         };
 
     });
