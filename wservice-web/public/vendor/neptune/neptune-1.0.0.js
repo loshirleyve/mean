@@ -1,4 +1,5 @@
-angular.module("ui.neptune", ['ui.bootstrap', 'ui.neptune.tpls', "ui.neptune.datatable", "ui.neptune.resource"]);
+angular.module("ui.neptune", ['ui.bootstrap', 'ui.neptune.tpls', "ui.neptune.validator", "ui.neptune.datatable", "ui.neptune.resource"]);
+angular.module("ui.neptune.validator", ['ui.neptune.8Number2date']);
 angular.module("ui.neptune.tpls", ['/template/datatable/datatable.html']);;/**
  * Created by leon on 15/10/28.
  */
@@ -161,7 +162,7 @@ angular.module("ui.neptune.datatable", [])
  */
 
 angular.module("ui.neptune.resource", [])
-    .provider("Resource", function () {
+    .provider("nptResource", function () {
 
         this.params = {};
         this.header = {};
@@ -240,7 +241,41 @@ angular.module("ui.neptune.resource", [])
             return service;
         };
     })
-;;angular.module("/template/datatable/datatable.html", []).run(["$templateCache", function($templateCache) {
+;;/**
+ * Created by leon on 15/11/5.
+ */
+angular.module("ui.neptune.8Number2date", [])
+    .directive("npt8Number2date", function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, ele, attrs, ctrl) {
+                var validateFn = function (value) {
+                    var valid = false;
+                    var stringValue = value + "";
+                    if (value && stringValue.length === 8) {
+                        var newValue = stringValue.substring(0, 4) + "/" + stringValue.substring(4, 6) + "/" + stringValue.substring(6, 8);
+                        var date = new Date(newValue);
+                        if (isNaN(date)) {
+                            //不是日期格式
+                            valid = false;
+                        } else {
+                            //日期格式正确
+                            valid = true;
+                        }
+                    }
+                    ctrl.$setValidity("npt8Number2date", valid);
+                    return value;
+                };
+
+                ctrl.$parsers.push(validateFn);
+                ctrl.$formatters.push(validateFn);
+
+                //scope.$watch(attrs.number2date, function () {
+                //    ctrl.$setViewValue(ctrl.$viewValue);
+                //});
+            }
+        };
+    });;angular.module("/template/datatable/datatable.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/template/datatable/datatable.html",
     "<div><div style=\"padding-top:10px;\" class=\"row\"><div class=\"col-md-12\"><!-- 设置为响应式表格 当页面宽度不够显示表格内容时会出现滚动条--><div class=\"table-responsive\"><!-- table-striped表示隔行显示不同颜色条纹；table-hover鼠标悬停变色；table-bordered表格线框;table-condensed紧缩表格--><table class=\"table table-striped table-bordered table-hover table-condensed\"><tfoot><tr ng-show=\"isPagination\"><td colspan=\"50\"><uib-pagination style=\"margin:0px;\" total-items=\"totalItems\" ng-model=\"currPage\" items-per-page=\"itemsPerPage\" max-size=\"maxSize\" boundary-links=\"true\" first-text=\"首页\" previous-text=\"上一页\" next-text=\"下一页\" last-text=\"尾页\" class=\"pagination-sm\"></uib-pagination></td></tr></tfoot><thead><tr ng-show=\"isPagination\"><td colspan=\"50\"><uib-pagination style=\"margin:0px;\" total-items=\"totalItems\" ng-model=\"currPage\" items-per-page=\"itemsPerPage\" max-size=\"maxSize\" boundary-links=\"true\" first-text=\"首页\" previous-text=\"上一页\" next-text=\"下一页\" last-text=\"尾页\" class=\"pagination-sm\"></uib-pagination></td></tr><tr><th ng-if=\"isIndex\" class=\"text-center\">&#24207;&#21495;</th><th ng-repeat=\"item in header\" class=\"text-center\">{{item.label}}</th><th ng-if=\"action.length&gt;0\" class=\"text-center\">&#25805;&#20316;</th></tr></thead><tbody><tr ng-repeat=\"item in pageData\"><td ng-if=\"isIndex\" class=\"text-center\">{{($index+1)+(currPage * itemsPerPage - itemsPerPage\n" +
     ")}}</td><td ng-repeat=\"headerItem in header\">{{item[headerItem.name]}}</td><td ng-if=\"action.length&gt;0\"><a ng-repeat=\"actionItem in action\" href=\"\" ng-click=\"doAction(actionItem.name,item,currPage * itemsPerPage - itemsPerPage + $parent.$index)\" class=\"btn btn-primary btn-sm\">{{actionItem.label}}</a></td></tr></tbody></table></div></div></div></div>");

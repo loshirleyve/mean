@@ -207,12 +207,12 @@ block content
                                         div.form-group(ng-class="{'has-error': confirmForm.begindate.$dirty && confirmForm.begindate.$invalid}")
                                             label.col-md-2.control-label(for="begindate") 开始日期:
                                             div.col-md-10
-                                                input.form-control(type="number",id="begindate",name="begindate",ng-model="begindate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,number2date)
+                                                input.form-control(type="number",id="begindate",name="begindate",ng-model="begindate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,npt8Number2date)
                                                 span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.begindate.$dirty && confirmForm.begindate.$valid")
                                         div.form-group(ng-class="{'has-error': confirmForm.enddate.$dirty && confirmForm.enddate.$invalid}")
                                             label.col-md-2.control-label(for="enddate") 结束日期:
                                             div.col-md-10
-                                                input.form-control(type="number",id="enddate",name="enddate",ng-model="enddate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,number2date)
+                                                input.form-control(type="number",id="enddate",name="enddate",ng-model="enddate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,npt8Number2date)
                                                 span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.enddate.$dirty && confirmForm.enddate.$valid")
                                         div.form-group
                                             label.col-md-2.control-label(for="adviserName") 专属顾问:
