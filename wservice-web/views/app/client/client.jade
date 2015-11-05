@@ -78,23 +78,33 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
-                                        /*input.form-control(type="text",id="industry",value="{{data.industry}}")*/
-                                        select#industry.form-control
-                                            option ---请选择---
-                                            option 小微企业
-                                            option 外贸
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.industry" ng-options="industry.no as industry.name for industry in clientindustry")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="type") 类型:
                                     div.col-md-10
-                                        input.form-control(type="text",id="type",value="{{data.type}}")
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.type" ng-options="type.no as type.name for type in clienttype")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="level") 级别:
                                     div.col-md-10
-                                        input.form-control(type="text",id="level",value="{{data.level}}")
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.level" ng-options="level.no as level.name for level in clientlevel")
+                                                option(value="") ---请选择---
                                 div.form-group
-                                    label.col-md-2.control-label(for="source") 来源:
+                                    label.col-md-2.control-label(for="level") 来源:
                                     div.col-md-10
-                                        input.form-control(type="text",id="source",value="{{data.source}}")
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.source" ng-options="source.no as source.name for source in clientsource")
+                                                option(value="") ---请选择---
+                                div.form-group
+                                    label.col-md-2.control-label(for="level") 规模:
+                                    div.col-md-10
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.source" ng-options="source.no as source.name for source in clientsource")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="scaleid") 规模:
                                     div.col-md-10
@@ -110,7 +120,9 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="contactposition") 职位:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactposition",value="{{data.contactposition}}")
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.contactposition" ng-options="position.no as position.name for position in contactposition")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
                                     div.col-md-10

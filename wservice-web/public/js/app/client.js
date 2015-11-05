@@ -89,6 +89,9 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
             id: function (id, success, error) {
                 resourceConfig.post("queryInstClientById", {"instClient": id}, success, error);
             },
+            defno:function(defno, success, error){
+                resourceConfig.post("queryMdCtrlcode", {"defno":defno}, success, error);
+            },
             loading: function (state) {
                 $("#all").button(state);
                /* $("#waitconfirm").button(state);
@@ -154,7 +157,7 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
         $scope.checkNew = clientService.checkNew;
 
         /**
-         * 根据状态查询当前用户机构的订单列表
+         * 根据状态查询当前用户的客户列表
          */
         $scope.queryByState = function () {
             clientService.query.list($scope.query.state, function (data) {
@@ -203,8 +206,45 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
         //查询客户信息
         clientService.query.id($scope.clientid, function (data) {
             $scope.data = data || {client: {}};
-            $scope.resetState();
+//            $scope.resetState();
         }, function (data) {
             //TODO 提示信息
+        });
+
+        //查询客户行业的控制编码
+        clientService.query.defno("clientindustry", function(data){
+            $scope.clientindustry = data;
+        }, function(data){
+           //TODO 提示信息
+        });
+        //查询客户类型的控制编码
+        clientService.query.defno("clienttype", function(data){
+            $scope.clienttype = data;
+        }, function(data){
+           //TODO 提示信息
+        });
+        //查询客户级别的控制编码
+        clientService.query.defno("clientlevel", function(data){
+            $scope.clientlevel = data;
+        }, function(data){
+           //TODO 提示信息
+        });
+        //查询客户来源的控制编码
+        clientService.query.defno("clientsource", function(data){
+            $scope.clientsource = data;
+        }, function(data){
+           //TODO 提示信息
+        });
+        //查询客户规模的控制编码
+        clientService.query.defno("instscaletype", function(data){
+            $scope.instscaletype = data;
+        }, function(data){
+            //TODO 提示信息
+        });
+        //查询客户职位的控制编码
+        clientService.query.defno("contactposition", function(data){
+            $scope.contactposition = data;
+        }, function(data){
+           //TODO 提示信息
         });
     });
