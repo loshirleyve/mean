@@ -19,7 +19,18 @@ proxy.action("queryOrderList", {
 }).action("queryOrderInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"
-}).action("QueryProductsByGroupId", {
+}).action("queryWorkorderList", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
+}).action("queryWorkorderDetail", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
+});
+
+
+
+//产品模块
+proxy.action("QueryProductsByGroupId", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductsByGroupIdService"
 }).action("QueryProductsNoGroup", {
@@ -28,18 +39,12 @@ proxy.action("queryOrderList", {
 }).action("QueryProductInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductInfoByIdService"
-}).action("AddOrUpdateProductclassify", {
+}).action("AddOrUpdateMdProductGroup", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateProductclassifyService"
+    action: "com.yun9.ws.biz.service.AddOrUpdateMdProductGroupService"
 }).action("QueryMdProductGroupBylocation", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMdProductGroupBylocationService"
-}).action("queryWorkorderList", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
-}).action("queryWorkorderDetail", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
 });
 
 

@@ -40,10 +40,10 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
             }
         };
 
+
         this.query = {
             groupid: "all",
             data: [],
-            classfilesData:[],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -68,8 +68,8 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001468002";
-                params["userid"] = "10000001498059";
+//                params["instid"] = "10000001468002";
+//                params["userid"] = "10000001498059";
 
                 resourceConfig
                     .post("QueryProductsByGroupId", params, function (data) {
@@ -83,15 +83,15 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
                         error(data);
                     });
             },
-            productClassifies:function(province,city,district,success,error)
+            productGroup:function(province,city,district,success,error)
             {
                 var params={};
-                params["province"]="广东省";
-                params["city"]="深圳市";
+                params["province"]="陕西省";
+                params["city"]="西安市";
                 params["district"]="全城";
                 resourceConfig.post("QueryMdProductGroupBylocation",params,function(data)
                 {
-                   self.query.classfilesData=data;
+                   self.query.data=data;
                    self.query.loading('reset')
                    success(data);
                 },function(data){
@@ -141,6 +141,27 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
             }
         };
 
+        this.add = {
+            addGroup:function(groupname,success,error)
+            {
+                var params={};
+                params["name"]=groupname;
+                params["province"]="陕西省";
+                params["city"]="西安市";
+                params["district"]="全城";
+                params["createby"]="10000001498059";
+                resourceConfig.post("AddOrUpdateMdProductGroup",params,function(data)
+                {
+                    self.query.data=data;
+                    self.query.loading('reset')
+                    success(data);
+                },function(data){
+                    self.query.loading('reset')
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            }
+        };
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -150,6 +171,7 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
     })
     .controller("productListController", function ($scope, $http, $location, productService, bizModuleConfig) {
         $scope.data = [];
+        $scope.groupdata = [];
         var self = this;
         var config = bizModuleConfig.getModuleConfig("product");
         $scope.header = config.header;
@@ -177,56 +199,19 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
             })
         };
 
-        //首先查询全部订单
+        //首先查询全部产品
         if (productService.query.data.length <= 0) {
             $scope.queryByGroupId();
         } else {
             $scope.data = productService.query.data;
         }
 
-        $scope.classfilesData = [];
 
-        var allproductClassifiesConfig = bizModuleConfig.getModuleConfig("allproductClassifies");
-        $scope.allproductClassifiesHeader = allproductClassifiesConfig.header;
-        $scope.allproductClassifiesAction = allproductClassifiesConfig.action;
+        var allproductGroup = bizModuleConfig.getModuleConfig("allProductGroup");
+        $scope.allproductGroupHeader = allproductGroup.header;
+        $scope.allproductGroupAction = allproductGroup.action;
 
-        $scope.dollproductClassifies = function (type, item, index) {
-            if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
-
-        //首先查询全部订单
-//        if (productService.query.classfilesData.length <= 0) {
-//            $scope.queryProductClassifies();
-//        } else {
-//            $scope.classfilesData = productService.query.classfilesData;
-//        }
-
-        /**
-         * 根据状态查询当前地区的产品分类列表
-         */
-//        $scope.queryProductClassifies= function () {
-//            productService.query.productClassifies($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
-//                $scope.classfilesData = data;
-//                console.info($scope.classfilesData);
-//            }, function (data) {
-//                //TODO 弹出提示检索错误通知窗口
-//            })
-//        };
-    }).controller("productClassfilesController", function ($scope, $http, $location, productService, bizModuleConfig) {
-        $scope.data = [];
-
-        var allproductClassifiesConfig = bizModuleConfig.getModuleConfig("allproductClassifies");
-        $scope.allproductClassifiesHeader = allproductClassifiesConfig.header;
-        $scope.allproductClassifiesAction = allproductClassifiesConfig.action;
-
-        $scope.dollproductClassifies = function (type, item, index) {
+        $scope.dollproductGroup = function (type, item, index) {
             if (item && type === "edit") {
                 $location.path("/detail/" + item.id);
                 //$location.replace();
@@ -240,19 +225,37 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
         /**
          * 根据状态查询当前地区的产品分类列表
          */
-        $scope.queryProductClassifies= function () {
-            productService.query.productClassifies($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
-                $scope.data = data;
-                console.info($scope.data);
+        $scope.queryProductGroup= function () {
+            productService.query.productGroup($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
+                $scope.groupdata = data;
+                console.info($scope.groupdata);
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
+
+        /**
+         * 添加分组
+         */
+        $scope.addGroup= function () {
+            productService.add.addGroup($scope.query.groupname, function (data) {
+                $scope.groupdata = data;
+                console.info($scope.groupdata);
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, productService, bizModuleConfig) {
         $scope.productid = $routeParams.id;
 
         $scope.query = productService.query;
+
+        $scope.closeModal = function (id,id2) {
+            $(id).modal('hide');
+        };
 
         var productPhasesConfig = bizModuleConfig.getModuleConfig("productPhases");
         $scope.productPhasesHeader = productPhasesConfig.header;
@@ -260,8 +263,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
 
         $scope.doProductPhases = function (type, item, index) {
             if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.phases=item;
+                console.info($scope.phases)
+                $('#productPhasesModal').modal('show');
             }
             if (item && type === "delete") {
                 $location.path("/detail/" + item.id);
@@ -275,8 +279,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
 
         $scope.doProductProfiles = function (type, item, index) {
             if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.profiles=item;
+                console.info($scope.profiles)
+                $('#productProfilesModal').modal('show');
             }
             if (item && type === "delete") {
                 $location.path("/detail/" + item.id);
@@ -290,8 +295,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
 
         $scope.doProductGroups= function (type, item, index) {
             if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.group=item;
+                console.info($scope.group)
+                $('#productGroupsModal').modal('show');
             }
             if (item && type === "delete") {
                 $location.path("/detail/" + item.id);
@@ -305,8 +311,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
 
         $scope.doProductClassifies= function (type, item, index) {
             if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.classifie=item;
+                console.info($scope.classifie)
+                $('#productClassifiesModal').modal('show');
             }
             if (item && type === "delete") {
                 $location.path("/detail/" + item.id);
@@ -320,8 +327,9 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
 
         $scope.doProductDescrs= function (type, item, index) {
             if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.descr=item;
+                console.info($scope.descr)
+                $('#productDescrsModal').modal('show');
             }
             if (item && type === "delete") {
                 $location.path("/detail/" + item.id);
@@ -342,8 +350,7 @@ angular.module("productApp", ["datatable", "productConfig", "bizModule", "resour
         //查询产品信息
         productService.query.id($scope.productid, function (data) {
             $scope.data = data || {product: {}};
-            $scope.resetState();
-            console.info($scope.data)
+            //console.info($scope.data)
         }, function (data) {
             //TODO 提示信息
         });

@@ -222,10 +222,10 @@ angular.module("productConfig", ["bizModule"])
                     "label": "删除"
                 }
             ]
-        }).reg("allproductClassifies", {
+        }).reg("allProductGroup", {
             header: [
                 {
-                    name: "classifyname",
+                    name: "name",
                     label: "分类名称"
                 },
                 {
@@ -243,6 +243,6 @@ angular.module("productConfig", ["bizModule"])
                     "label": "删除"
                 }
             ]
-        });
+        })
 
     });
