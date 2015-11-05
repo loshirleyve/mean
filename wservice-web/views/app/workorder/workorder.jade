@@ -4,12 +4,23 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/bpc/workorderConfig.js")
     script(src="/js/app/workorder.js")
     div(ng-app="workorderApp")
         //通知区域
         //内容区域
         div(ng-view)
+
+        //组织结构树模板
+        script(type="text/ng-template",id="org_nodes.html")
+            div.tree-node.tree-node-content(ui-tree-handle)
+                a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
+                    span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
+                | &nbsp &nbsp
+                a.btn-link(ng-click="clickOrg(node)") {{node.title}}
+
+            ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
+                li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
+
         //列表模板
         script(type="text/ng-template",id="list.html")
             //功能导航区域
@@ -47,7 +58,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                    y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
+                    npt-datatable(is-pagination="true",items-per-page="10",name="workorder",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -74,6 +85,8 @@ block content
                         a(href="#/startWorkorder/{{workorderid}}",ng-show="isUnstart") 开始做
                     li
                         a(href="#/completeWorkorder/{{workorderid}}",ng-show="isInservice") 完成
+                    li
+                        a(href="#/deliverWorkorder/{{workorderid}}",ng-show="isNotComplete") 转交
                     li
                         a(href="") 查看订单
                     li
@@ -122,12 +135,12 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单资料
-                        y9ui-datatable(header="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+                        npt-datatable(name="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单评价
-                        y9ui-datatable(header="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+                        npt-datatable(name="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
@@ -237,6 +250,49 @@ block content
 
                                 div.form-group
                                     div.col-sm-offset-2.col-md-10
-                                        button.btn.btn-primary(type="button",ng-click="startWorkorder()") 确认完成
+                                        button.btn.btn-primary(type="button",ng-click="completeWorkorder()") 确认完成
                                         | &nbsp &nbsp
                                         a.btn.btn-default(type="button",href="#/detail/{{workorderid}}") 返回
+
+
+
+        script(type="text/ng-template",id="deliverWorkorder.html")
+            div.row
+                div.col-md-12
+                    //功能导航区域
+                    div.row
+                        div.col-md-12
+                            ul.breadcrumb
+                                li
+                                    a(href="/home")
+                                        span.glyphicon.glyphicon-home
+                                        span 首页
+                                li
+                                    a(href="#list")
+                                        span 工单列表
+                                li
+                                    a(href="#detail/{{orderid}}")
+                                        span 工单详情
+                                li.active 转交工单
+
+                    nav.navbar.navbar-default
+                        div.navbar-header
+                            a.navbar-brand(href="") 转交工单
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="#detail/{{workorderid}}") 返回
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
+
+                    div.row
+                        div.col-md-12
+                            div.panel.panel-primary
+                                div.panel-heading 选择处理人
+                                div.panel-body
+                                    div.row
+                                div.col-md-4
+                                    div(ui-tree,id="tree-root",data-drag-enabled="false")
+                                        ol(ui-tree-nodes ng-model="orgData")
+                                            li(ng-repeat="node in orgData",ui-tree-node,ng-include="'org_nodes.html'")
+                                div.col-md-8
+                                    npt-datatable(name="userList",is-pagination="true",items-per-page="5",data="orgUsers",is-index="true",on-action="onSelectUser(type,item,index)")

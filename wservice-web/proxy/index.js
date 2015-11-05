@@ -25,27 +25,55 @@ proxy.action("queryOrderList", {
 }).action("QueryProductInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductInfoByIdService"
-}).action("queryWorkorderList", {
+})
+
+//工单
+proxy.action("queryWorkorderList", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
 }).action("queryWorkorderDetail", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
+}).action("queryUsersByOrgid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("queryOrgTree", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryOrgTreeService"
+}).action("startWorkorder", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderInserviceByIdService"
+}).action("completeWorkorder", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderCompleteByIdService"
+}).action("queryUsersByOrgid",{
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("deliverWorkorder",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
 });
 
 
 //客户
 proxy.action("queryInstClients", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryInstClientsService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryInstClientsService"
 }).action("queryInstClientById", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryInstClientByIdService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryInstClientByIdService"
 }).action("addOrUpdateInstClients", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.AddOrUpdateInstClientsService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateInstClientsService"
 }).action("queryInstRolesByUseridAndInstid", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
 });
+
+//获取控制编码
+proxy.action("queryMdCtrlcode", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
+});
+
 module.exports = proxy;
