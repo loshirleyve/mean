@@ -131,7 +131,7 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             ]
         });
     })
-    .service("orderService", function ($http, $location, Resource) {
+    .service("orderService", function ($http, $location, nptResource) {
         var self = this;
 
         /**
@@ -157,14 +157,14 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         this.org = {
             queryUserByOrgId: function (orgid, success, error) {
                 //根据组织ID查询用户列表
-                Resource.post("queryUsersByOrgid", {
+                nptResource.post("queryUsersByOrgid", {
                     "orgid": orgid
                 }, success, error);
 
             },
             queryOrgTreeAndBuilderNode: function (instid, success, error) {
                 //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
-                Resource.post("queryOrgTree", {
+                nptResource.post("queryOrgTree", {
                     "instid": instid,
                     "dimtype": "hr"
                 }, function (data) {
@@ -228,7 +228,7 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["instid"] = "10000001463017";
                 params["userid"] = "10000001498059";
 
-                Resource
+                nptResource
                     .post("queryOrderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
@@ -241,7 +241,7 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     });
             },
             id: function (id, success, error) {
-                Resource.post("queryOrderInfo", {"orderid": id}, success, error);
+                nptResource.post("queryOrderInfo", {"orderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -416,34 +416,4 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         }, function (data) {
             //TODO 提示信息
         });
-    }).directive("number2date", function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, ele, attrs, ctrl) {
-                var validateFn = function (value) {
-                    var valid = false;
-                    var stringValue = value + "";
-                    if (value && stringValue.length === 8) {
-                        var newValue = stringValue.substring(0, 4) + "/" + stringValue.substring(4, 6) + "/" + stringValue.substring(6, 8);
-                        var date = new Date(newValue);
-                        if (isNaN(date)) {
-                            //不是日期格式
-                            valid = false;
-                        } else {
-                            //日期格式正确
-                            valid = true;
-                        }
-                    }
-                    ctrl.$setValidity("number2date", valid);
-                    return value;
-                };
-
-                ctrl.$parsers.push(validateFn);
-                ctrl.$formatters.push(validateFn);
-
-                //scope.$watch(attrs.number2date, function () {
-                //    ctrl.$setViewValue(ctrl.$viewValue);
-                //});
-            }
-        }
     });
