@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "resource", "ngRoute"])
+angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "resource", "ngRoute", "ui.tree"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -27,6 +27,10 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             .when("/completeWorkorder/:id",{
                 controller: "WorkorderCompleteController",
                 templateUrl: "completeWorkorder.html"
+            })
+            .when("/deliverWorkorder/:id",{
+                controller: "WorkorderDeliverController",
+                templateUrl: "deliverWorkorder.html"
             });
 
     })
@@ -136,6 +140,31 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             }
         };
 
+        this.org = {
+            data: [
+                {
+                    id: "100",
+                    title: "深圳市顶聚科技有限公司",
+                    nodes: [
+                        {
+                            id: "10001",
+                            title: "研发部",
+                            nodes: [
+                                {id: "1000101", title: "研发一组"},
+                                {id: "1000101", title: "研发二组"}
+                            ]
+                        }, {
+                            id: "20001",
+                            title: "市场部"
+                        }, {
+                            id: "30001",
+                            title: "销售部"
+                        }
+                    ]
+                }
+            ]
+        };
+
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -206,6 +235,11 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             } else {
                 $scope.isInservice = false;
             };
+            if ($scope.data.workOrder.state === "complete") {
+                $scope.isNotComplete = false;
+            } else {
+                $scope.isNotComplete = true;
+            };
         };
 
         //查询工单信息
@@ -224,37 +258,78 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
 
         };
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
         workorderService.query.id($scope.workorderid, function (data) {
             $scope.data = data || {order: {}};
-            $scope.resetState();
         }, function (data) {
             //TODO 提示信息
         });
 
         //开始工单
         $scope.startWorkorder = function() {
-            alert($scope.postscript);
-            $location.path("/detail/"+$scope.workorderid);
+            var params = {};
+            var workorderids = [];
+
+            workorderids.push($scope.workorderid);
+
+            params["postscript"] = $scope.postscript;
+            params["workorderids"] = workorderids;
+            params["userid"] = "10000001498059";
+
+            resourceConfig
+                .post("startWorkorder", params, function (data) {
+                    $location.path("/detail/"+$scope.workorderid);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
         workorderService.query.id($scope.workorderid, function (data) {
             $scope.data = data || {order: {}};
-            $scope.resetState();
         }, function (data) {
             //TODO 提示信息
         });
 
         //开始工单
-        $scope.startWorkorder = function() {
-            alert($scope.postscript);
-            $location.path("/detail/"+$scope.workorderid);
+        $scope.completeWorkorder = function() {
+            var params = {};
+            var workorderids = [];
+
+            workorderids.push($scope.workorderid);
+
+            params["postscript"] = $scope.postscript;
+            params["workorderids"] = workorderids;
+            params["userid"] = "10000001498059";
+
+            resourceConfig
+                .post("completeWorkorder", params, function (data) {
+                    $location.path("/detail/"+$scope.workorderid);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
         };
+    }).
+    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
+        $scope.workorderid = $routeParams.id;
+
+        $scope.query = workorderService.query;
+        $scope.org = workorderService.org;
+
+        $scope.confirm = function () {
+            $location.path("/detail/" + $scope.workorderid);
+        };
+
+        $scope.clickOrg = function (scope) {
+            //TODO 检索用户列表
+        };
+
     });
