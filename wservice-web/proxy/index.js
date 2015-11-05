@@ -31,24 +31,27 @@ proxy.action("queryOrderList", {
 }).action("queryWorkorderDetail", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
-}).action("queryUsersByOrgid",{
-    proxy:"Y9",
-    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("queryUsersByOrgid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("queryOrgTree", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryOrgTreeService"
 });
 
 
 //客户
 proxy.action("queryInstClients", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryInstClientsService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryInstClientsService"
 }).action("queryInstClientById", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryInstClientByIdService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryInstClientByIdService"
 }).action("addOrUpdateInstClients", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.AddOrUpdateInstClientsService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateInstClientsService"
 }).action("queryInstRolesByUseridAndInstid", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
 });
 module.exports = proxy;

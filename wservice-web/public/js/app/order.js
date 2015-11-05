@@ -2,8 +2,8 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource", "ngRoute", 'ui.tree'])
-    .config(function ($routeProvider) {
+angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+    .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
@@ -29,8 +29,109 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 redirectTo: "/list"
             });
 
+        DatatableStoreProvider.store("order", {
+            "header": [
+                {
+                    "name": "buyerinstid",
+                    "label": "客户名称"
+                },
+                {
+                    "name": "ordersn",
+                    "label": "订单号"
+                },
+                {
+                    "name": "name",
+                    "label": "订单名称"
+                },
+                {
+                    "name": "purchase",
+                    "label": "购买人"
+                },
+                {
+                    "name": "adviser",
+                    "label": "专属顾问"
+                },
+                {
+                    "name": "salesmanid",
+                    "label": "销售顾问"
+                },
+                {
+                    "name": "orderamount",
+                    "label": "金额"
+                },
+                {
+                    "name": "factamount",
+                    "label": "实际金额"
+                },
+                {
+                    "name": "state",
+                    "label": "订单状态"
+                },
+                {
+                    "name": "createdate",
+                    "label": "创建日期"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "查看"
+                }
+            ]
+        }).store("orderProduct", {
+            header: [
+                {
+                    name: "productname",
+                    label: "产品名称"
+                }, {
+                    name: "productIntroduce",
+                    label: "产品简介"
+                },
+                {
+                    name: "goodsamount",
+                    label: "产品价格"
+                }, {
+                    name: "productclassifyname",
+                    label: "已选分类"
+                }
+            ]
+        }).store("orderWorkOrder", {
+            header: [
+                {
+                    name: "descr",
+                    label: "工单名称"
+                }, {
+                    name: "inserviceName",
+                    label: "服务状态"
+                }, {
+                    name: "descr",
+                    label: "进度"
+                }, {
+                    name: "assignedInfo",
+                    label: "分配信息"
+                }
+            ],
+            action: [
+                {
+                    name: "view",
+                    label: "查看"
+                }
+            ]
+        }).store("userList", {
+            header: [
+                {
+                    name: "name",
+                    label: "姓名"
+                }],
+            action: [
+                {
+                    name: "select",
+                    label: "选择"
+                }
+            ]
+        });
     })
-    .service("orderService", function ($http, $location, resourceConfig) {
+    .service("orderService", function ($http, $location, Resource) {
         var self = this;
 
         /**
@@ -54,34 +155,46 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         };
 
         this.org = {
-            data: [
-                {
-                    id: "10000001468035",
-                    title: "深圳市顶聚科技有限公司",
-                    nodes: [
-                        {
-                            id: "10001",
-                            title: "研发部",
-                            nodes: [
-                                {id: "1000101", title: "研发一组"},
-                                {id: "1000101", title: "研发二组"}
-                            ]
-                        }, {
-                            id: "20001",
-                            title: "市场部"
-                        }, {
-                            id: "30001",
-                            title: "销售部"
-                        }
-                    ]
-                }
-            ],
             queryUserByOrgId: function (orgid, success, error) {
                 //根据组织ID查询用户列表
-                resourceConfig.post("queryUsersByOrgid", {
+                Resource.post("queryUsersByOrgid", {
                     "orgid": orgid
                 }, success, error);
 
+            },
+            queryOrgTreeAndBuilderNode: function (instid, success, error) {
+                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
+                Resource.post("queryOrgTree", {
+                    "instid": instid,
+                    "dimtype": "hr"
+                }, function (data) {
+                    var orgNodes = [{
+                        id: data.id,
+                        title: data.simplename
+                    }];
+                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
+                    if (success) {
+                        success(orgNodes);
+                    }
+                }, function (data) {
+                    if (error) {
+                        error(data);
+                    }
+                });
+
+            },
+            builderOrgTreeNode: function (nodes, data) {
+                if (data) {
+                    nodes.nodes = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var node = {
+                            id: data[i]["id"],
+                            title: data[i]["name"]
+                        };
+                        self.org.builderOrgTreeNode(node, data[i].children);
+                        nodes.nodes.push(node);
+                    }
+                }
             }
         };
 
@@ -115,7 +228,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                 params["instid"] = "10000001463017";
                 params["userid"] = "10000001498059";
 
-                resourceConfig
+                Resource
                     .post("queryOrderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
@@ -128,7 +241,7 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
                     });
             },
             id: function (id, success, error) {
-                resourceConfig.post("queryOrderInfo", {"orderid": id}, success, error);
+                Resource.post("queryOrderInfo", {"orderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -175,18 +288,12 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         this.checkNew.toggle();
 
     }).
-    controller("OrderListController", function ($scope, $http, $location, orderService, bizModuleConfig) {
+    controller("OrderListController", function ($scope, $http, $location, orderService) {
         $scope.data = [];
-
-        var config = bizModuleConfig.getModuleConfig("order");
-        $scope.header = config.header;
-        $scope.action = config.action;
-
         $scope.orderAction = function (type, item, index) {
             console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
-                //$location.replace();
             }
         };
 
@@ -205,7 +312,6 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             })
         };
 
-
         //首先查询全部订单
         if (orderService.query.data.length <= 0) {
             $scope.queryByState();
@@ -213,18 +319,11 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
             $scope.data = orderService.query.data;
         }
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService, bizModuleConfig) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService) {
         $scope.orderid = $routeParams.id;
 
         $scope.query = orderService.query;
 
-        var orderProductConfig = bizModuleConfig.getModuleConfig("orderProduct");
-        $scope.productHeader = orderProductConfig.header;
-        $scope.productAction = [];
-
-        var orderWorkOrder = bizModuleConfig.getModuleConfig("orderWorkOrder");
-        $scope.workOrderHeader = orderWorkOrder.header;
-        $scope.workOrderAction = orderWorkOrder.action;
 
         $scope.doOrderProducts = function (type, item, index) {
         };
@@ -253,46 +352,18 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         $scope.org = orderService.org;
         $scope.query = orderService.query;
 
-        $scope.userListHeader = [
-            {
-                name: "name",
-                label: "姓名"
-            }
-        ];
-
-        $scope.userListAction = [
-            {
-                name: "select",
-                label: "选择"
-            }
-        ];
-
         $scope.confirm = function () {
-
-            //检查参数
-            if (!$scope.currSelectUser) {
-                //请先选择专属顾问
-                return;
-            }
-
-            if (!$scope.begindate || $scope.begindate.length != 8) {
-                //请输入六位数字的日期.例如:20150808
-                return;
-            }
-
-            if (!$scope.enddate || $scope.enddate.length != 8) {
-                //请输入六位数字的日期.例如:20150808
-                return;
-            }
-
-            //转换日期格式
-
-
             $location.path("/detail/" + $scope.orderid);
         };
 
         $scope.openSelectUser = function () {
-            $('#selectUserId').modal('show');
+            orderService.org.queryOrgTreeAndBuilderNode("10000001468002", function (data) {
+                $scope.orgData = data;
+                $('#selectUserId').modal('show');
+            }, function (data) {
+                //TODO 提示查询组织失败的信息
+            });
+
         };
 
         $scope.closeSelectUser = function () {
@@ -308,14 +379,6 @@ angular.module("orderApp", ["datatable", "orderConfig", "bizModule", "resource",
         };
 
         $scope.onSelectUser = function (type, item, index) {
-            //$timeout
-
-            //$timeout(function () {
-            //    $scope.adviser = item;
-            //    $scope.adviserName = item.name;
-            //    $scope.$apply();
-            //}, 200);
-
             $scope.adviser = item;
             $scope.adviserName = item.name;
             $('#selectUserId').modal('hide');
