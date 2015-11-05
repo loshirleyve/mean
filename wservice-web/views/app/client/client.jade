@@ -66,11 +66,11 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="fullname") 名称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="fullname",value="{{data.fullname}}",disabled)
+                                        input.form-control(type="text",id="fullname",value="{{data.fullname}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="name") 简称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="name",value="{{data.name}}",disabled)
+                                        input.form-control(type="text",id="name",value="{{data.name}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="instid") 编号:
                                     div.col-md-10
@@ -78,60 +78,69 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
-                                        input.form-control(type="text",id="industry",value="{{data.industry}}",disabled)
+                                        /*input.form-control(type="text",id="industry",value="{{data.industry}}")*/
+                                        select#industry.form-control
+                                            option ---请选择---
+                                            option 小微企业
+                                            option 外贸
                                 div.form-group
                                     label.col-md-2.control-label(for="type") 类型:
                                     div.col-md-10
-                                        input.form-control(type="text",id="type",value="{{data.type}}",disabled)
+                                        input.form-control(type="text",id="type",value="{{data.type}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="level") 级别:
                                     div.col-md-10
-                                        input.form-control(type="text",id="level",value="{{data.level}}",disabled)
+                                        input.form-control(type="text",id="level",value="{{data.level}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="source") 来源:
                                     div.col-md-10
-                                        input.form-control(type="text",id="source",value="{{data.source}}",disabled)
+                                        input.form-control(type="text",id="source",value="{{data.source}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="scaleid") 规模:
                                     div.col-md-10
-                                        input.form-control(type="text",id="scaleid",value="{{data.scaleid}}",disabled)
+                                        input.form-control(type="text",id="scaleid",value="{{data.scaleid}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactman") 联系人:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactman",value="{{data.contactman}}",disabled)
+                                        input.form-control(type="text",id="contactman",value="{{data.contactman}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactphone") 电话:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactphone",value="{{data.contactphone}}",disabled)
+                                        input.form-control(type="text",id="contactphone",value="{{data.contactphone}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactposition") 职位:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactposition",value="{{data.contactposition}}",disabled)
+                                        input.form-control(type="text",id="contactposition",value="{{data.contactposition}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
                                     div.col-md-10
-                                        input.form-control(type="text",id="region",value="{{data.region}}",disabled)
+                                        input.form-control(type="text",id="region",value="{{data.region}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="address") 地址:
                                     div.col-md-10
-                                        input.form-control(type="text",id="address",value="{{data.address}}",disabled)
+                                        input.form-control(type="text",id="address",value="{{data.address}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientinstid") 客户机构:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientinstid",value="{{data.clientinstid}}",disabled)
+                                        input.form-control(type="text",id="clientinstid",value="{{data.clientinstid}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientadminid") 客户管理员:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientadminid",value="{{data.clientadminid}}",disabled)
+                                        input.form-control(type="text",id="clientadminid",value="{{data.clientadminid}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="createdate") 创建时间:
                                     div.col-md-10
-                                        input.form-control(type="text",id="createdate",value="{{data.createdate}}",disabled)
+                                        input.form-control(type="text",id="createdate",value="{{data.createdate}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="updatedate") 更新时间:
                                     div.col-md-10
-                                        input.form-control(type="text",id="updatedate",value="{{data.updatedate}}",disabled)
+                                        input.form-control(type="text",id="updatedate",value="{{data.updatedate}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="remark") 备注:
                                     div.col-md-10
-                                        textarea.form-control(rows=3,id="remark",disabled) {{data.client.remark}}
+                                        textarea.form-control(rows=3,id="remark") {{data.client.remark}}
+                                div.form-group
+                                    div.col-sm-offset-2.col-md-10
+                                        button.btn.btn-primary(type="button",ng-click="confirm()") 确认
+                                        | &nbsp &nbsp
+                                        a.btn.btn-default(type="button",href="#/{{clientid}}") 返回
