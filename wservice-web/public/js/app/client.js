@@ -2,8 +2,8 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource", "ngRoute"])
-    .config(function ($routeProvider) {
+angular.module("clientApp", ["ui.neptune", "ngRoute"])
+    .config(function ($routeProvider, DatatableStoreProvider) {
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
@@ -21,8 +21,52 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
                 redirectTo: "/list"
             });
 
+        DatatableStoreProvider.store("client", {
+            "header": [
+                {
+                    "name": "name",
+                    "label": "名称"
+                },
+                {
+                    "name": "industry",
+                    "label": "行业"
+                },
+                {
+                    "name": "type",
+                    "label": "类型"
+                },
+                {
+                    "name": "level",
+                    "label": "级别"
+                },
+                {
+                    "name": "source",
+                    "label": "来源"
+                },
+                {
+                    "name": "contactman",
+                    "label": "联系人"
+                },
+                {
+                    "name": "contactphone",
+                    "label": "电话"
+                },
+                {
+                    "name": "createdate",
+                    "label": "创建日期"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "查看",
+                    "link": "#detail"
+                }
+            ]
+        });
+
     })
-    .service("clientService", function ($http, $location, resourceConfig) {
+    .service("clientService", function ($http, $location, nptResource) {
         var self = this;
 
         /**
@@ -74,7 +118,7 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
                 params["instid"] = "10000001463017";
                 params["userid"] = "10000001498059";
 
-                resourceConfig
+                nptResource
                     .post("queryInstClients", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
@@ -87,10 +131,10 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
                     });
             },
             id: function (id, success, error) {
-                resourceConfig.post("queryInstClientById", {"instClient": id}, success, error);
+                nptResource.post("queryInstClientById", {"instClient": id}, success, error);
             },
             defno:function(defno, success, error){
-                resourceConfig.post("queryMdCtrlcode", {"defno":defno}, success, error);
+                nptResource.post("queryMdCtrlcode", {"defno":defno}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -137,18 +181,12 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
         this.checkNew.toggle();
 
     }).
-    controller("BizPageListController", function ($scope, $http, $location, clientService, bizModuleConfig) {
+    controller("BizPageListController", function ($scope, $http, $location, clientService) {
         $scope.data = [];
-
-        var config = bizModuleConfig.getModuleConfig("client");
-        $scope.header = config.header;
-        $scope.action = config.action;
-
         $scope.clientAction = function (type, item, index) {
             console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
-                //$location.replace();
             }
         };
 
@@ -175,7 +213,7 @@ angular.module("clientApp", ["datatable", "clientConfig", "bizModule", "resource
             $scope.data = clientService.query.data;
         }
     })
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService, bizModuleConfig) {
+    .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService) {
         $scope.clientid = $routeParams.id;
 
         $scope.query = clientService.query;
