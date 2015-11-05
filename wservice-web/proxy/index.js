@@ -40,6 +40,9 @@ proxy.action("queryWorkorderList", {
 }).action("completeWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderCompleteByIdService"
+}).action("queryUsersByOrgid",{
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
 });
 
 
