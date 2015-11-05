@@ -5,8 +5,8 @@
  */
 
 'use strict';
-angular.module('y9.validate', ['resource'])
-    .directive('y9BizValidate', function ($q, resourceConfig, y9BizValidateService, y9BizValidateProvider, y9BizValidateHelper) {
+angular.module('y9.validate', ['ui.neptune.resource'])
+    .directive('y9BizValidate', function ($q, nptResource, y9BizValidateService, y9BizValidateProvider, y9BizValidateHelper) {
         return {
             restrict: 'A',
             require: '?ngModel',
@@ -38,7 +38,7 @@ angular.module('y9.validate', ['resource'])
                         return deferred.promise;
                     }
                     bizParams = y9BizValidateHelper.parseParams(bizParams, scope);
-                    resourceConfig.post(bizName, bizParams, function (data) {
+                    nptResource.post(bizName, bizParams, function (data) {
                         validExpression = y9BizValidateHelper.parseParams(validExpression, scope);
                         var result = y9BizValidateHelper.execute(validator, data, validExpression);
                         if (result) {

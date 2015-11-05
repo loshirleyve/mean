@@ -5,8 +5,8 @@
  */
 
 'use strict';
-angular.module('y9.filter',['resource'])
-    .filter('bizFilter',function($filter,resourceConfig) {
+angular.module('y9.filter',['ui.neptune.resource'])
+    .filter('bizFilter',function($filter,nptResource) {
         return function(input,bizConfig) {
             if (angular.isDefined(input) && angular.isDefined(bizConfig)) {
                 bizConfig = angular.isObject(bizConfig)?bizConfig:angular.fromJson(bizConfig);
@@ -14,7 +14,7 @@ angular.module('y9.filter',['resource'])
                 var bizParams = bizConfig.bizParams;
                 var filterName = bizConfig.filterName;
                 var filterExpression = bizConfig.filterExpression;
-                resourceConfig.post(bizName,bizParams,function(data) {
+                nptResource.post(bizName,bizParams,function(data) {
                     //console.log(angular.toJson(data));
                 },function(error) {
 
