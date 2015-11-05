@@ -2,8 +2,8 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "resource", "ngRoute", "ui.tree"])
-    .config(function ($routeProvider) {
+angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+    .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
@@ -17,9 +17,6 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                 controller: "WorkorderListController",
                 templateUrl: "list.html"
             })
-            .otherwise({
-                redirectTo: "/list"
-            })
             .when("/startWorkorder/:id",{
                 controller: "WorkorderStartController",
                 templateUrl: "startWorkorder.html"
@@ -31,10 +28,109 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             .when("/deliverWorkorder/:id",{
                 controller: "WorkorderDeliverController",
                 templateUrl: "deliverWorkorder.html"
+            })
+            .otherwise({
+                redirectTo: "/list"
             });
 
+        DatatableStoreProvider.store("workorder", {
+            "header": [
+                {
+                    "name": "sn",
+                    "label": "工单号"
+                },
+                {
+                    "name": "name",
+                    "label": "工单名称"
+                },
+                {
+                    "name": "assignedid",
+                    "label": "分配人"
+                },
+                {
+                    "name": "assigneddate",
+                    "label": "分配日期"
+                },
+                {
+                    "name": "processid",
+                    "label": "处理人"
+                },
+                {
+                    "name": "processdate",
+                    "label": "计划开始日期"
+                },
+                {
+                    "name": "doactiondate",
+                    "label": "实际开始日期"
+                },
+                {
+                    "name": "expirydate",
+                    "label": "计划完成日期"
+                },
+                {
+                    "name": "completedate",
+                    "label": "实际完成日期"
+                },
+                {
+                    "name": "expriyday",
+                    "label": "距离完成期限(天)"
+                },
+                {
+                    "name": "state",
+                    "label": "工单状态"
+                },
+                {
+                    "name": "createdate",
+                    "label": "创建日期"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "查看",
+                    "link": "#/detail"
+                }
+            ]
+        }).store("orderAttachment",{
+            "header":[
+                {
+                    "name": "attachname",
+                    "label": "资料名称"
+                },
+                {
+                    "name": "transfertype",
+                    "label": "资料交接类型"
+                },
+                {
+                    "name": "inputtype",
+                    "label": "资料类型"
+                }
+            ],
+            "action": [
+                {
+                    "name": "view",
+                    "label": "下载",
+                    "link": "#"
+                }
+            ]
+        }).store("workorderComment",{
+            "header":[
+                {
+                    "name": "commenttext",
+                    "label": "评价心得"
+                },
+                {
+                    "name": "createdate",
+                    "label": "评论时间"
+                },
+                {
+                    "name": "senderid",
+                    "label": "评论者"
+                }
+            ]
+        });
     })
-    .service("workorderService", function ($http, $location, resourceConfig) {
+    .service("workorderService", function ($http, $location, nptResource) {
         var self = this;
 
         /**
@@ -87,7 +183,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                 params["instid"] = "10000001463017";
                 params["processid"] = "10000001498059";
 
-                resourceConfig
+                nptResource
                     .post("queryWorkorderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
@@ -100,7 +196,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                     });
             },
             id: function (id, success, error) {
-                resourceConfig.post("queryWorkorderDetail", {"workorderid": id}, success, error);
+                nptResource.post("queryWorkorderDetail", {"workorderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -172,12 +268,8 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
         this.checkNew.toggle();
 
     }).
-    controller("WorkorderListController", function ($scope, $http, $location, workorderService, bizModuleConfig) {
+    controller("WorkorderListController", function ($scope, $http, $location, workorderService) {
         $scope.data = [];
-
-        var config = bizModuleConfig.getModuleConfig("workorder");
-        $scope.header = config.header;
-        $scope.action = config.action;
 
         $scope.workorderAction = function (type, item, index) {
             console.info(type);
@@ -210,18 +302,10 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             $scope.data = workorderService.query.data;
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, bizModuleConfig) {
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService) {
         $scope.workorderid = $routeParams.id;
 
         $scope.query = workorderService.query;
-
-        //加载工单资料的表头
-        var orderAttachmentConfig = bizModuleConfig.getModuleConfig("orderAttachment");
-        $scope.orderAttachmentHeader = orderAttachmentConfig.header;
-
-        //加载工单评价的表头
-        var workorderCommentConfig = bizModuleConfig.getModuleConfig("workorderComment");
-        $scope.workorderCommentHeader = workorderCommentConfig.header;
 
         //刷新界面动作按钮控制状态
         $scope.resetState = function () {
@@ -258,7 +342,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
 
         };
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -279,7 +363,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             params["workorderids"] = workorderids;
             params["userid"] = "10000001498059";
 
-            resourceConfig
+            nptResource
                 .post("startWorkorder", params, function (data) {
                     $location.path("/detail/"+$scope.workorderid);
                 }, function (data) {
@@ -288,7 +372,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                 });
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -309,7 +393,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
             params["workorderids"] = workorderids;
             params["userid"] = "10000001498059";
 
-            resourceConfig
+            nptResource
                 .post("completeWorkorder", params, function (data) {
                     $location.path("/detail/"+$scope.workorderid);
                 }, function (data) {
@@ -318,7 +402,7 @@ angular.module("workorderApp", ["datatable", "workorderConfig", "bizModule", "re
                 });
         };
     }).
-    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, resourceConfig) {
+    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
 
         $scope.query = workorderService.query;

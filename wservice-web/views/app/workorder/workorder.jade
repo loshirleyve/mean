@@ -4,7 +4,6 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/bpc/workorderConfig.js")
     script(src="/js/app/workorder.js")
     div(ng-app="workorderApp")
         //通知区域
@@ -59,7 +58,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                    y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
+                    npt-datatable(is-pagination="true",items-per-page="10",name="workorder",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -136,12 +135,12 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单资料
-                        y9ui-datatable(header="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+                        npt-datatable(name="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单评价
-                        y9ui-datatable(header="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+                        npt-datatable(name="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
