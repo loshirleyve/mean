@@ -1,0 +1,48 @@
+//
+   Created by Leon on 15/10/15.
+extends ../../layout/layout-bizpage
+block content
+    script(src="vendor/filter/filter.js")
+    script(src="vendor/validation/validation.js")
+    script(src="vendor/validation/showErrors.js")
+    script(src="/js/app/demo.js")
+    div(ng-app="demoApp",ng-controller='demo1 as d')
+         p(ng-init='oneP="abc"') 初始化一个变量：onep=abc
+         p bizFilter过滤后值：
+            span(ng-bind='oneP|bizFilter:{bizName:"queryOrderList",bizParams:{userid:"10000001498059",instid:"10000001463017"},filterName:"json",filterExpression:"2"}')
+         p
+         p
+         form.form-horizontal(name='userForm',ng-submit='d.submit()',novalidate)
+            div.form-group(show-errors="{ trigger: 'keypress',showSuccess:true }")
+               label.col-md-2.control-label(for="ordersn") 订单编号:
+               div.col-md-10
+                  input.form-control(name='ordersn',ng-model='ordersn',type="text",y9-biz-validate='ordersnExist',y9-biz-validate-opts='{"bizParams":{"userid": "10000001498059","instid": "{{session.instid}}"}}')
+            div.form-group(show-errors="{ trigger: 'keypress',showSuccess:true }")
+               label.col-md-2.control-label(for="buyerinstid") 订单编号2:
+               div.col-md-10
+                  input.form-control(type="text",name="buyerinstid",id="buyerinstid",ng-model="buyerinstid",y9-biz-validate='ordersnExist2',y9-biz-validate-opts='{"validExpression":"buyerinstid"}')
+            div.form-group
+               label.col-md-2.control-label(for="begindate") 开始日期:
+               div.col-md-10
+                  input.form-control(type="text",id="begindate")
+            div.form-group
+               label.col-md-2.control-label(for="enddate") 结束日期:
+               div.col-md-10
+                  input.form-control(type="text",id="enddate")
+            div.form-group
+               label.col-md-2.control-label(for="orderamount") 订单金额:
+               div.col-md-10
+                  input.form-control(type="text",id="orderamount")
+            div.form-group
+               label.col-md-2.control-label(for="factamount") 实际金额:
+               div.col-md-10
+                  input.form-control(type="text",id="factamount")
+            div.form-group
+               label.col-md-2.control-label(for="createdate") 创建日期:
+               div.col-md-10
+                  input.form-control(type="text",id="createdate")
+            div.form-group
+               label.col-md-2.control-label(for="remark") 备注:
+               div.col-md-10
+                  textarea.form-control(rows=3,id="remark") {{data.order.remark}}
+            input.form-control(type='submit' value='提交')
