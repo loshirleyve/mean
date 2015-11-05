@@ -25,7 +25,10 @@ proxy.action("queryOrderList", {
 }).action("QueryProductInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductInfoByIdService"
-}).action("queryWorkorderList", {
+})
+
+//工单
+proxy.action("queryWorkorderList", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
 }).action("queryWorkorderDetail", {
@@ -37,6 +40,15 @@ proxy.action("queryOrderList", {
 }).action("queryOrgTree", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryOrgTreeService"
+}).action("startWorkorder", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderInserviceByIdService"
+}).action("completeWorkorder", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderCompleteByIdService"
+}).action("queryUsersByOrgid",{
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
 });
 
 
