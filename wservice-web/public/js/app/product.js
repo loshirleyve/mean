@@ -1,13 +1,21 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
-    .config(function ($routeProvider,DatatableStoreProvider) {
+angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+    .config(function ($routeProvider, DatatableStoreProvider) {
         //注册产品路由
         $routeProvider
             .when("/list", {
                 controller: "productListController",
                 templateUrl: "list.html"
+            })
+            .when("/product/:id", {
+                controller: "editProductInfoController",
+                templateUrl: "product.html"
+            })
+            .when("/product", {
+                controller: "editProductInfoController",
+                templateUrl: "product.html"
             })
             .when("/detail/:id", {
                 controller: "productDetailController",
@@ -16,7 +24,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
             .otherwise({
                 redirectTo: "/list"
             });
-        DatatableStoreProvider.store("order",{
+        DatatableStoreProvider.store("product", {
             "header": [
                 {
                     "name": "instid",
@@ -53,7 +61,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "查看"
                 }
             ]
-        }).reg("productPhases", {
+        }).store("productPhases", {
             header: [
                 {
                     name: "name",
@@ -86,7 +94,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("productRequirements", {
+        }).store("productRequirements", {
             header: [
                 {
                     name: "name",
@@ -115,7 +123,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("productProfiles", {
+        }).store("productProfiles", {
             header: [
                 {
                     name: "synopsis",
@@ -136,7 +144,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("productGroups", {
+        }).store("productGroups", {
             header: [
                 {
                     name: "backgorundimgid",
@@ -177,7 +185,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("productClassifies", {
+        }).store("productClassifies", {
             header: [
                 {
                     name: "classifyname",
@@ -210,7 +218,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("productDescrs", {
+        }).store("productDescrs", {
             header: [
                 {
                     name: "descr",
@@ -235,7 +243,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                     "label": "删除"
                 }
             ]
-        }).reg("allProductGroup", {
+        }).store("allProductGroup", {
             header: [
                 {
                     name: "name",
@@ -285,6 +293,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
         this.query = {
             groupid: "all",
             data: [],
+            groupdata: [],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -303,52 +312,242 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                 self.query.loading('loading');
                 //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
                 var params = {};
-
-                if (groupid !== "all") {
-                    params["groupid"] = groupid;
-                }
-
                 //总是加入当前用户以及机构作为查询参数
-//                params["instid"] = "10000001468002";
-//                params["userid"] = "10000001498059";
+                params["instid"] = "10000001468002";
+                //params["userid"] = "10000001498059";
 
-                nptResource
-                    .post("QueryProductsByGroupId", params, function (data) {
-                        self.query.data = data;
-                        self.query.groupid = groupid;
-                        self.query.loading('reset')
-                        success(data);
-                    }, function (data) {
-                        self.query.loading('reset')
-                        //TODO 弹出提示检索错误通知窗口
-                        error(data);
-                    });
+                if (groupid == "weifenlei") {
+                    nptResource
+                        .post("QueryProductsNoGroup", params, function (data) {
+                            self.query.data = data;
+                            self.query.loading('reset')
+                            success(data);
+                        }, function (data) {
+                            self.query.loading('reset')
+                            //TODO 弹出提示检索错误通知窗口
+                            error(data);
+                        });
+                }
+                if (groupid != "weifenlei") {
+                    if (groupid != "all") {
+                        params["groupid"] = groupid;
+                    }
+                    nptResource
+                        .post("QueryProductsByGroupId", params, function (data) {
+                            self.query.data = data;
+                            self.query.groupid = groupid;
+                            self.query.loading('reset')
+                            success(data);
+                        }, function (data) {
+                            self.query.loading('reset')
+                            //TODO 弹出提示检索错误通知窗口
+                            error(data);
+                        });
+                }
             },
-            productGroup:function(province,city,district,success,error)
-            {
-                var params={};
-                params["province"]="陕西省";
-                params["city"]="西安市";
-                params["district"]="全城";
-                nptResource.post("QueryMdProductGroupBylocation",params,function(data)
-                {
-                   self.query.data=data;
-                   self.query.loading('reset')
-                   success(data);
-                },function(data){
+            queryGroup: function (province, city, district, success, error) {
+                var params = {};
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                nptResource.post("QueryMdProductGroupBylocation", params, function (data) {
+                    self.query.groupdata = data;
+                    self.query.loading('reset')
+                    success(data);
+                }, function (data) {
                     self.query.loading('reset')
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
             },
+            editProduct: function (pro, success, error) {
+                var params = {};
+                params["id"] = pro.id;
+                params["sn"] = pro.sn;
+                params["state"] = pro.state;
+                params["createtimestamp"] = pro.createtimestamp;
+                params["updatetimestamp"] = pro.updatetimestamp;
+                params["updatedate"] = pro.updatedate;
+                params["createdate"] = pro.createdate;
+                params["name"] = pro.name;
+                params["type"] = "service";
+                params["saleprice"] = pro.saleprice;
+                params["imgid"] = "42500000000010019";
+                params["introduce"] = pro.introduce;
+                params["introduceurl"] = pro.introduceurl;
+                params["instid"] = "10000001468002";
+                params["createby"] = "10000001498059";
+                nptResource.post("AddOrUpdateProduct", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editGroup: function (group, success, error) {
+                var params = {};
+                params["name"] = groupname;
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                params["createby"] = "10000001498059";
+                nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editPhase: function (phase, success, error) {
+                var params = {};
+                params["id"] = phase.id;
+                params["no"] = phase.sn;
+                params["times"] = phase.state;
+                params["createtimestamp"] = phase.createtimestamp;
+                params["updatetimestamp"] = phase.updatetimestamp;
+                params["updatedate"] = phase.updatedate;
+                params["createdate"] = phase.createdate;
+                params["name"] = phase.name;
+                params["cycle"] = phase.cycle;
+                params["cyclevalue"] = phase.cyclevalue;
+                params["processdays"] = phase.processdays;
+                params["productid"] = phase.productid;
+                params["sortno"] = phase.sortno;
+                params["duty"] =phase.duty;
+                params["createby"] = "10000001498059";
+                nptResource.post("AddOrUpdateProductPhase", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editProfile: function (profile, success, error) {
+                var params = {};
+                params["name"] = groupname;
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                params["createby"] = "10000001498059";
+                nptResource.post("RemoveProductProfile", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editClassify: function (classify, success, error) {
+                var params = {};
+                params["name"] = groupname;
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                params["createby"] = "10000001498059";
+                nptResource.post("AddOrUpdateProductclassify", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editDescr: function (descr, success, error) {
+                var params = {};
+                params["name"] = groupname;
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                params["createby"] = "10000001498059";
+                nptResource.post("AddOrUpdateProductDescr", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteGroup: function (id, success, error) {
+                var params = {};
+                params["groupid"] = id;
+                nptResource.post("RemoveProductMdGroup", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductPhase: function (phaseid, success, error) {
+                var params = {};
+                params["phaseid"] = phaseid;
+                nptResource.post("RemoveProductPhase", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductRequirement: function (requirementid, success, error) {
+                var params = {};
+                params["requirementid"] = requirementid;
+                nptResource.post("RemoveProductRequirement", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductProfile: function (profileid, success, error) {
+                var params = {};
+                params["profileid"] = profileid;
+                nptResource.post("RemoveProductProfile", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductGroup: function (groupid, success, error) {
+                var params = {};
+                params["groupid"] = groupid;
+                nptResource.post("RemoveProductGroup", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductClassify: function (classifyid, success, error) {
+                var params = {};
+                params["classifyid"] = classifyid;
+                nptResource.post("RemoveProductClassify", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            deleteProductDescr: function (productDescrid, success, error) {
+                var params = {};
+                params["productDescrid"] = productDescrid;
+                nptResource.post("RemoveProductDescr", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+
             id: function (id, success, error) {
                 nptResource.post("QueryProductInfoById", {"productid": id}, success, error);
             },
             loading: function (groupid) {
-                $("#all").button(groupid);
-                $("#weifenlei").button(groupid);
-                $("#jinxuan").button(groupid);
-                $("#caiwu").button(groupid);
+//                $("#all").button(groupid);
+//                $("#weifenlei").button(groupid);
+//                if(self.query.groupdata.length>0)
+//                {
+//                    for(i=0;i<=self.query.groupdata.length;i++)
+//                    {
+//                        $(self.query.groupdata[i].id).button(groupid);
+//                    }
+//                }
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -382,27 +581,6 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
             }
         };
 
-        this.add = {
-            addGroup:function(groupname,success,error)
-            {
-                var params={};
-                params["name"]=groupname;
-                params["province"]="陕西省";
-                params["city"]="西安市";
-                params["district"]="全城";
-                params["createby"]="10000001498059";
-                nptResource.post("AddOrUpdateMdProductGroup",params,function(data)
-                {
-                    self.query.data=data;
-                    self.query.loading('reset')
-                    success(data);
-                },function(data){
-                    self.query.loading('reset')
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            }
-        };
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -410,7 +588,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
         this.checkNew.toggle();
 
     })
-    .controller("productListController", function ($scope, $http, $location, productService, bizModuleConfig) {
+    .controller("productListController", function ($scope, $http, $location, productService) {
         $scope.data = [];
         $scope.groupdata = [];
         var self = this;
@@ -450,106 +628,72 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
                 //$location.replace();
             }
             if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+                $scope.deleteGroup(item.id);
             }
         };
 
         /**
          * 根据状态查询当前地区的产品分类列表
          */
-        $scope.queryProductGroup= function () {
-            productService.query.productGroup($scope.query.province,$scope.query.city,$scope.query.district, function (data) {
+        $scope.queryGroup = function () {
+            productService.query.queryGroup($scope.query.province, $scope.query.city, $scope.query.district, function (data) {
                 $scope.groupdata = data;
-                console.info($scope.groupdata);
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        //首先查询全部产品
+        if (productService.query.groupdata.length <= 0) {
+            $scope.queryGroup();
+        } else {
+            $scope.groupdata = productService.query.groupdata;
+        }
+
+        /**
+         * 添加分组
+         */
+        $scope.editGroup= function () {
+            productService.query.editGroup($scope.add.groupname, function (data) {
+                $scope.queryGroup();
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
 
         /**
-         * 添加分组
+         * 删除分组
          */
-        $scope.addGroup= function () {
-            productService.add.addGroup($scope.query.groupname, function (data) {
-                $scope.groupdata = data;
-                console.info($scope.groupdata);
+        $scope.deleteGroup = function (groupid) {
+            productService.query.deleteGroup(groupid, function (data) {
+                $scope.queryGroup();
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
-
+    })
+    .controller("editProductInfoController", function ($scope, $http, $location, $routeParams, productService) {
+        $scope.productid = $routeParams.id;
+        var self = this;
+        $scope.editProduct = function () {
+            console.info($scope.pro)
+            productService.query.editProduct($scope.pro, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        }
+        //查询产品信息
+        productService.query.id($scope.productid, function (data) {
+            $scope.pro = data.product;
+        }, function (data) {
+            //TODO 提示信息
+        });
 
     })
-    .controller("productDetailController", function ($scope, $location, $routeParams, productService, bizModuleConfig) {
+    .controller("productDetailController", function ($scope, $location, $routeParams, productService) {
         $scope.productid = $routeParams.id;
 
         $scope.query = productService.query;
-
-        $scope.closeModal = function (id,id2) {
-            $(id).modal('hide');
-        };
-
-        $scope.doProductPhases = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.phases=item;
-                console.info($scope.phases)
-                $('#productPhasesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
-
-
-        $scope.doProductProfiles = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.profiles=item;
-                console.info($scope.profiles)
-                $('#productProfilesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
-
-        $scope.doProductGroups= function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.group=item;
-                console.info($scope.group)
-                $('#productGroupsModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
-
-        $scope.doProductClassifies= function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.classifie=item;
-                console.info($scope.classifie)
-                $('#productClassifiesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
-
-        $scope.doProductDescrs= function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.descr=item;
-                console.info($scope.descr)
-                $('#productDescrsModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-        };
 
 
         //查询产品信息
@@ -558,4 +702,141 @@ angular.module("productApp", ["ui.neptune", "ngRoute", "ui.tree"])
         }, function (data) {
             //TODO 提示信息
         });
+
+        $scope.openModal = function (id) {
+            $(id).modal('show');
+        };
+
+        $scope.doProductPhases = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.phases = item;
+                console.info($scope.phases)
+                $('#productPhasesModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductPhase(item.id);
+            }
+        };
+
+        $scope.doProductRequirement = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.phases = angular.copy(item);
+                console.info($scope.phases)
+                $('#productRequirementModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductRequirement(item.id);
+            }
+        };
+
+
+        $scope.doProductProfiles = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.profiles = item;
+                console.info($scope.profiles)
+                $('#productProfilesModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductProfile(item.id);
+            }
+        };
+
+        $scope.doProductGroups = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.group = item;
+                console.info($scope.group)
+                $('#productGroupsModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductGroup(item.id);
+            }
+        };
+
+        $scope.doProductClassifies = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.classifie = item;
+                console.info($scope.classifie)
+                $('#productClassifiesModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductClassify(item.id);
+            }
+        };
+
+        $scope.doProductDescrs = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.descr = item;
+                console.info($scope.descr)
+                $('#productDescrsModal').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteProductDescr(item.id);
+            }
+        };
+
+        /**
+         * 编辑产品阶段
+         */
+        $scope.editProductPhase = function () {
+            console.info($scope.phases);
+            productService.query.editPhase($scope.phases, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品阶段的绑定
+         */
+        $scope.deleteProductPhase = function (phaseid) {
+            productService.query.deleteProductPhase(phaseid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品资料的绑定
+         */
+        $scope.deleteProductRequirement = function (requirementid) {
+            productService.query.deleteProductRequirement(requirementid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品内容的绑定
+         */
+        $scope.deleteProductProfile = function (profileid) {
+            productService.query.deleteProductProfile(profileid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品分组的绑定
+         */
+        $scope.deleteProductGroup = function (groupid) {
+            productService.query.deleteProductGroup(groupid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品分类的绑定
+         */
+        $scope.deleteProductClassify = function (classifyid) {
+            productService.query.deleteProductClassify(classifyid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+        /**
+         * 删除产品说明的绑定
+         */
+        $scope.deleteProductDescr = function (productDescrid) {
+            productService.query.deleteProductDescr(productDescrid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
     });

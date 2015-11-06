@@ -53,17 +53,18 @@ block content
             //功能按钮区域
             div.row
                 div.col-md-12
-                    div.btn-group
+                    span
                         label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'all'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="all") 全部
                         label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'weifenlei'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="weifenlei") 未分类
-                        label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'1'"  ng-click="queryByGroupId()" data-loading-text="正在查询..." id="jinxuan") 精选
-                        label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'48670000000010019'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="caiwu") 财务
+                    span(ng-repeat="group in groupdata")
+                        label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="{{group.id}}"  ng-click="queryByGroupId()" data-loading-text="正在查询..." id="{{group.id}}") {{group.name}}
                     | &nbsp
-                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#addProduct") 添加产品
+                    label.btn.btn-primary.btn-sm
+                        a(href="#/product",style="text-decoration:none;color: white") 添加产品
                     | &nbsp
-                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#addProductGroup") 添加分组
+                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#addGroup") 添加分组
                     | &nbsp
-                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#editProductGroup",ng-click="queryProductGroup()") 编辑分组
+                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#editProductGroup") 编辑分组
                     | &nbsp
                     label.btn.btn-primary.btn-sm(ng-click="query.toggle()",data-loading-text="正在查询...",id="query") {{query.text}}
                     | &nbsp
@@ -84,8 +85,8 @@ block content
                 div.col-md-12
                 npt-datatable(name="product" is-pagination="true",items-per-page="10",data="data",is-index="true",on-action="productAction(type,item,index)")
 
-            //弹出层，添加分类
-            div#addProductGroup.modal.fade(tabindex="-1",role="dialog")
+            //弹出层，添加分组
+            div#addGroup.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
@@ -97,10 +98,10 @@ block content
                                 div.form-group
                                     label.col-md-3.control-label 分类名称:
                                     div.col-md-9
-                                        input.form-control(ng-modal="add.groupname",type="text")
+                                        input.form-control(type="text"  ng-model="add.groupname")
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="editGroup()") 确认
 
             //弹出层，编辑分组
             div#editProductGroup.modal.fade(tabindex="-1",role="dialog")
@@ -118,7 +119,107 @@ block content
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
                                 button.btn.btn-primary(type="button",data-dismiss="modal") 确认
-            //详情模板
+        //编辑产品
+        script(type="text/ng-template",id="product.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#list")
+                                span 产品列表
+                        li.active 产品信息
+
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 产品信息
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+            div.row
+                div.col-md-12
+                    div.panel.panel-default
+                        div.panel-heading 基本信息
+                        form.form-horizontal.container
+                            div.form-group
+                                label.col-md-2.control-label 产品logo:
+                                div.col-md-10
+                                    p.form-control-static
+                                        button.btn.btn-primary(ng-model="imgid" ,type="button",data-toggle="modal",data-target="#myModal4") 选择
+
+                                label.col-md-2.control-label 产品名称:
+                                div.col-md-10
+                                    p.form-control-static
+                                        input.form-control(ng-model="pro.name", type="text", value="{{pro.name}}")
+
+                                label.col-md-2.control-label 产品价格:
+                                div.col-md-10
+                                    p.form-control-static
+                                        input.form-control(ng-model="pro.saleprice", type="number" ,value="{{pro.saleprice}}")
+
+                                label.col-md-2.control-label 服务类型:
+                                div.col-md-10
+                                    p.form-control-static
+                                        select.form-control(ng-model="pro.type")
+                                            option --请选择--
+                                            option(value="service") 服务产品
+                                            option(value="modal") 实体产品
+
+                                label.col-md-2.control-label 服务详情:
+                                div.col-md-10
+                                    p.form-control-static
+                                        input.form-control(type="text",ng-model="pro.introduce" ,value="{{pro.introduce}}")
+
+                                lable.col-md-2.control-label 详情链接:
+                                div.col-md-10
+                                    p.form-control-static
+                                        input.form-control(type="text",ng-model="pro.introduceurl" ,value="{{pro.introduceurl}}")
+
+                                lable.col-md-2.control-label
+                                div.col-md-10
+                                    p.form-control-static
+                                        button.btn.btn-primary(type="button",ng-click="editProduct()") 确认
+                                        &nbsp &nbsp &nbsp &nbsp
+                                        a.btn.btn-default(type="button",href="#/list") 返回
+
+        //编辑产品
+        script(type="text/ng-template",id="editGroup.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#list")
+                                span 产品列表
+                        li.active 分组信息
+
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 分组信息
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+            div.row
+                div.col-md-12
+                    div.panel.panel-default
+                        div.panel-heading 分组信息
+                        npt-datatable(name="allProductGroup",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
+
+
+
+        //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
             div.row
@@ -173,7 +274,7 @@ block content
                                             td.text-center {{data.product.type}}
                                             td.text-center {{data.product.daynum}}
                                             td.text-center
-                                                button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productInfoModal") 编辑
+                                                a.btn.btn-sm.btn-primary(type="button",href="#/product/{{data.product.id}}") 编辑
 
             div.row
                 div.col-md-12
@@ -181,7 +282,7 @@ block content
                         div.col-md-12.panel-heading
                             div.col-md-6 服务阶段
                             div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productPhasesModal") 添加
+                                button.btn.btn-primary.btn-sm 添加
                         npt-datatable(name="productPhases" data="data.productPhases",is-index="true",on-action="doProductPhases(type,item,index)")
 
             div.row
@@ -229,69 +330,16 @@ block content
                                 button.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#productDescrsModal") 添加
                         npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-action="doProductDescrs(type,item,index)")
 
-            //弹出层，基本信息
-            div#productInfoModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 基本信息
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-4.control-label 产品logo:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal4") 选择
-
-                                    label.col-md-4.control-label 产品名称:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            input.form-control(type="text",value="")
-
-                                    label.col-md-4.control-label 产品价格:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            input.form-control(type="text")
-
-                                    label.col-md-4.control-label 服务类型:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            select.form-control
-                                                option --请选择--
-                                                option 服务产品
-                                                option 实体产品
-
-                                    lable.col-md-4.control-label 服务天数:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            input.form-control(type="number",value="")
-
-                                    label.col-md-4.control-label 服务详情:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            input.form-control(type="number",value="")
-
-                                    lable.col-md-4.control-label 详情链接:
-                                    div.col-md-8
-                                        p.form-control-static
-                                            input.form-control(type="number",value="")
-
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal") 确认
-
             //弹出层，服务阶段
             div#productPhasesModal.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
-                            button.close(type="button",data-dismiss="modal",ng-click="closeModal(#productPhasesModal,#productPhasesForm)")
-                                span &times;
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture") &times;
                             h4.modal-title 服务阶段
                         div.modal-body
-                            form#productPhasesForm.form-horizontal
+                            form.form-horizontal
                                 div.form-group
                                     labelc.col-md-2.control-label 阶段名称:
                                     div.col-md-10
@@ -327,7 +375,7 @@ block content
                                             input.form-control(type="text" value="{{phases.phasedescr}}")
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="editProductPhase()") 确认
 
             //弹出层，服务内容
             div#productProfilesModal.modal.fade(tabindex="-1",role="dialog")

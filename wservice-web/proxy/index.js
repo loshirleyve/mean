@@ -42,7 +42,49 @@ proxy.action("QueryProductsByGroupId", {
 }).action("AddOrUpdateMdProductGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateMdProductGroupService"
-})
+}).action("QueryMdProductGroupBylocation", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryMdProductGroupBylocationService"
+}).action("RemoveProductMdGroup", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductMdGroupService"
+}).action("AddOrUpdateProduct", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductService"
+}).action("AddOrUpdateProductPhase", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
+}).action("RemoveProductProfile", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductProfileService"
+}).action("AddOrUpdateProductGroup", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductGroupService"
+}).action("AddOrUpdateProductclassify", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductclassifyService"
+}).action("AddOrUpdateProductDescr", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductDescrService"
+}).action("RemoveProductPhase", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductPhaseService"
+}).action("RemoveProductRequirement", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
+}).action("RemoveProductProfile", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductProfileService"
+}).action("RemoveProductGroup", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductGroupService"
+}).action("RemoveProductClassify", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductClassifyService"
+}).action("RemoveProductDescr", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductDescrService"
+});
 
 //工单
 proxy.action("queryWorkorderList", {
