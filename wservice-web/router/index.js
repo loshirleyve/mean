@@ -16,7 +16,6 @@ var client = require("./client");
 var file = require("./file");
 var login = require("./login");
 var api = require("./api");
-var demo = require("./app/demo");
 
 module.exports = function (app) {
 
