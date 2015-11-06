@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
     .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
@@ -332,8 +332,9 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             $scope.data = workorderService.query.data;
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService) {
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
+        $scope.org = workorderService.org;
 
         $scope.query = workorderService.query;
 
@@ -371,6 +372,33 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         $scope.doWorkorderComment = function(type,item,index) {
 
         };
+
+        //打开用户选择模态框
+        $scope.deliver = function () {
+            $scope.selectAdviser.open();
+        }
+
+        //执行转交
+        $scope.onSelect = function (type, item, index) {
+            $scope.adviser = item;
+            $scope.adviserName = item.name;
+
+            var params = {};
+
+            var workorderids = [];
+            workorderids.push($scope.workorderid);
+
+            params["workorderids"] = workorderids;
+            params["targetprocessid"] = item.id;
+            params["postscript"] = "ceshi";
+
+            //调用服务
+            nptResource.post("deliverWorkorder", params, function (data) {
+                $location.path("/detail/"+$scope.workorderid);
+            }, function (data) {
+
+            });
+        };
     }).
     controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
@@ -395,6 +423,7 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
             nptResource
                 .post("startWorkorder", params, function (data) {
+                    workorderService.query.data = [];
                     $location.path("/detail/"+$scope.workorderid);
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
@@ -425,6 +454,7 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
             nptResource
                 .post("completeWorkorder", params, function (data) {
+                    workorderService.query.data = [];
                     $location.path("/detail/"+$scope.workorderid);
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
@@ -434,25 +464,30 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
     }).
     controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, nptResource) {
         $scope.workorderid = $routeParams.id;
+        var deliverid;
+        $scope.postscript = "";
 
-        workorderService.org.queryOrgTreeAndBuilderNode("10000001468002", function (data) {
-            $scope.orgData = data;
-        }, function (data) {
-            //TODO 提示查询组织失败的信息
-        });
+        //打开用户选择模态框
+        $scope.openSelectUser = function () {
+            $scope.selectAdviser.open();
+        };
 
-        $scope.onSelectUser = function (type, item, index) {
-            $scope.adviser = item;
-            $scope.adviserName = item.name;
+        //选择用户，表单显示选择人
+        $scope.onSelect = function (type, item, index) {
+            deliverid = item.id;
+            $scope.deliverName = item.name;
+        }
 
+
+        $scope.deliver = function () {
             var params = {};
 
             var workorderids = [];
             workorderids.push($scope.workorderid);
 
             params["workorderids"] = workorderids;
-            params["targetprocessid"] = item.id;
-            params["postscript"] = "ceshi";
+            params["targetprocessid"] = deliverid;
+            params["postscript"] = $scope.postscript;
 
             //调用服务
             nptResource.post("deliverWorkorder", params, function (data) {
@@ -461,14 +496,4 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
             });
         };
-
-        //检索组织节点下的用户列表
-        $scope.clickOrg = function (node) {
-            //TODO 检索用户列表
-            workorderService.org.queryUserByOrgId(node.id, function (data) {
-                $scope.orgUsers = data;
-            }, function (data) {
-            });
-        };
-
     });
