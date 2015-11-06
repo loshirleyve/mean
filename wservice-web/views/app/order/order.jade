@@ -10,16 +10,6 @@ block content
 
         //内容区域
         div(ng-view)
-        //组织结构树模板
-        script(type="text/ng-template",id="org_nodes.html")
-            div.tree-node.tree-node-content(ui-tree-handle)
-                a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
-                    span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
-                | &nbsp &nbsp
-                a.btn-link(ng-click="clickOrg(node)") {{node.title}}
-
-            ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
-                li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
 
         //列表模板
         script(type="text/ng-template",id="list.html")
@@ -61,6 +51,7 @@ block content
                     npt-datatable(name="order",is-pagination="true",items-per-page="10",data="data",is-index="true",on-action="orderAction(type,item,index)")
         //详情模板
         script(type="text/ng-template",id="detail.html")
+            npt-select-tree(name="selectAdviser",select-type="selectUser",on-select="onSelect(type,item,index)")
             //功能导航区域
             div.row
                 div.col-md-12
@@ -81,7 +72,7 @@ block content
                     li
                         a(href="#/confirm/{{orderid}}",ng-show="isConfirm") 确认订单
                     li
-                        a(href="#/adviser/{{orderid}}") 分配顾问
+                        a(href="",ng-click="adviser()") 分配顾问
                     li
                         a(href="",ng-click="query.previous(orderid)",ng-show="{{query.previousId(orderid)}}") 上一单
                     li
@@ -142,27 +133,8 @@ block content
 
         //确认订单模板
         script(type="text/ng-template",id="confirm.html")
-            //弹出选择用户模态狂,注意必须在模板中,否则无法加载控制器数据
-            div.modal.fade(id="selectUserId",tabindex="-1",role="dialog")
-                div.modal-dialog.modal-lg
-                    div.modal-content
-                        div.modal-header
-                            button.close(type='button',ng-click="closeSelectUser()",aria-label="关闭")
-                                span &times
-                            h4.modal-title 选择用户
-                        div.modal-body
-                            div.row
-                                div.col-md-4
-                                    div(ui-tree,id="tree-root",data-drag-enabled="false")
-                                        ol(ui-tree-nodes ng-model="orgData")
-                                            li(ng-repeat="node in orgData",ui-tree-node,ng-include="'org_nodes.html'")
-                                div.col-md-8
-                                    npt-datatable(name="userList",is-pagination="true",items-per-page="5",data="orgUsers",is-index="true",on-action="onSelectUser(type,item,index)")
-                        div.modal-footer
-                            button.btn.btn-default(ng-click="closeSelectUser()") 关闭
-
-
-
+            //
+            npt-select-tree(name="selectAdviserByConfirm",select-type="selectUser",on-select="onSelect(type,item,index)")
             div.row
                 div.col-md-12
                     //功能导航区域
@@ -245,49 +217,5 @@ block content
                                                 | &nbsp &nbsp
                                                 a.btn.btn-default(type="button",href="#/detail/{{orderid}}") 返回
 
-
-
-
-        //分配顾问模板
-        script(type="text/ng-template",id="adviser.html")
-            div.row
-                div.col-md-12
-                    //功能导航区域
-                    div.row
-                        div.col-md-12
-                            ul.breadcrumb
-                                li
-                                    a(href="/home")
-                                        span.glyphicon.glyphicon-home
-                                        span 首页
-                                li
-                                    a(href="#list")
-                                        span 订单列表
-                                li
-                                    a(href="#detail/{{orderid}}")
-                                        span 订单详情
-                                li.active 分配专属顾问
-
-                    nav.navbar.navbar-default
-                        div.navbar-header
-                            a.navbar-brand(href="") 分配专属顾问
-                        ul.nav.navbar-nav.navbar-right
-                            li
-                                a(href="#detail/{{orderid}}") 返回
-                            li
-                                | &nbsp &nbsp &nbsp &nbsp
-
-                    div.row
-                        div.col-md-12
-                            div.panel.panel-primary
-                                div.panel-heading 选择专属顾问
-                                div.panel-body
-                                    div.row
-                                        div.col-md-4
-                                            div(ui-tree,id="tree-root",data-drag-enabled="false")
-                                                ol(ui-tree-nodes ng-model="org.data")
-                                                    li(ng-repeat="node in org.data",ui-tree-node,ng-include="'org_nodes.html'")
-                                        div.col-md-8
-                                            H1 用户列表
 
 
