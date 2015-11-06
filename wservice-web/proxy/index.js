@@ -49,6 +49,9 @@ proxy.action("queryWorkorderList", {
 }).action("queryUsersByOrgid",{
     proxy:"Y9",
     action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("deliverWorkorder",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
 });
 
 
@@ -66,4 +69,11 @@ proxy.action("queryInstClients", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
 });
+
+//获取控制编码
+proxy.action("queryMdCtrlcode", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
+});
+
 module.exports = proxy;
