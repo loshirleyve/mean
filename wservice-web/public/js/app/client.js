@@ -136,6 +136,9 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             defno:function(defno, success, error){
                 nptResource.post("queryMdCtrlcode", {"defno":defno}, success, error);
             },
+            mdInstScale:function(success, error){
+                nptResource.post("queryMdInstScale", {}, success, error);
+            },
             loading: function (state) {
                 $("#all").button(state);
                /* $("#waitconfirm").button(state);
@@ -274,8 +277,8 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
            //TODO 提示信息
         });
         //查询客户规模的控制编码
-        clientService.query.defno("instscaletype", function(data){
-            $scope.instscaletype = data;
+        clientService.query.mdInstScale(function(data){
+            $scope.mdInstScaleId = data.bizMdInstScales;
         }, function(data){
             //TODO 提示信息
         });

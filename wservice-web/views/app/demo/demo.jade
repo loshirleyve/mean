@@ -2,14 +2,17 @@
    Created by Leon on 15/10/15.
 extends ../../layout/layout-bizpage
 block content
+    script(src="vendor/angular-filter/angular-filter.min.js")
     script(src="vendor/filter/filter.js")
     script(src="vendor/validation/validation.js")
     script(src="vendor/validation/showErrors.js")
     script(src="/js/app/demo.js")
     div(ng-app="demoApp",ng-controller='demo1 as d')
-         p(ng-init='oneP="abc"') 初始化一个变量：onep=abc
+         p(ng-init='oneP="10000002322065"') 初始化一个变量：onep=10000002322065
          p bizFilter过滤后值：
-            span(ng-bind='oneP|bizFilter:{bizName:"queryOrderList",bizParams:{userid:"10000001498059",instid:"10000001463017"},filterName:"json",filterExpression:"2"}')
+            span(y9-biz-filter='oneP|orderFilter:{"userid": "10000001498059"}|pick:"ordersn=="+oneP|pickup:"name+id"')
+            p
+                span(y9-biz-filter='oneP|orderFilter:{"userid": "10000001498059"}|pick:"ordersn=="+oneP|pickup:"name+id" as oneMoreP'){{'这是重新定义变量的方式处理:'+oneMoreP}}
          p
          p
          form.form-horizontal(name='userForm',ng-submit='d.submit()',novalidate)
@@ -24,7 +27,7 @@ block content
             div.form-group
                label.col-md-2.control-label(for="begindate") 开始日期:
                div.col-md-10
-                  input.form-control(type="text",id="begindate")
+                  input.form-control(type="text",ng-model="begindate",y9-biz-filter='oneP|orderFilter:{"userid": "10000001498059"}|pick:"ordersn=="+oneP|pickup:"name"')
             div.form-group
                label.col-md-2.control-label(for="enddate") 结束日期:
                div.col-md-10
