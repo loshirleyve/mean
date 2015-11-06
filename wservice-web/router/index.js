@@ -50,7 +50,4 @@ module.exports = function (app) {
 
     //API
     app.use("/api", api);
-
-    // demo
-    app.use('/demo',demo);
 };
