@@ -76,4 +76,10 @@ proxy.action("queryMdCtrlcode", {
     action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
 });
 
+//获取规模的控制编码
+proxy.action("queryMdInstScale", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryMdInstScaleService"
+});
+
 module.exports = proxy;
