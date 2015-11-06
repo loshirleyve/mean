@@ -4,7 +4,6 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="js/bpc/clientconfig.js")
     script(src="js/app/client.js")
     div(ng-app="clientApp")
         //功能导航区域
@@ -38,7 +37,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                    y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="clientAction(type,item,index)")
+                    npt-datatable(name="client",is-pagination="true",items-per-page="10",data="data",action="action",is-index="true",on-action="clientAction(type,item,index)")
         //详情模板
         script(type="text/ng-template",id="detail.html")
             nav.navbar.navbar-default
@@ -78,27 +77,33 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
-                                        /*input.form-control(type="text",id="industry",value="{{data.industry}}")*/
-                                        select#industry.form-control
-                                            option ---请选择---
-                                            option 小微企业
-                                            option 外贸
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.industry" ng-options="industry.no as industry.name for industry in clientindustry")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="type") 类型:
                                     div.col-md-10
-                                        input.form-control(type="text",id="type",value="{{data.type}}")
+                                        span.nullable
+                                            select#type.form-control(ng-model="data.type" ng-options="type.no as type.name for type in clienttype")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="level") 级别:
                                     div.col-md-10
-                                        input.form-control(type="text",id="level",value="{{data.level}}")
+                                        span.nullable
+                                            select#level.form-control(ng-model="data.level" ng-options="level.no as level.name for level in clientlevel")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="source") 来源:
                                     div.col-md-10
-                                        input.form-control(type="text",id="source",value="{{data.source}}")
+                                        span.nullable
+                                            select#source.form-control(ng-model="data.source" ng-options="source.no as source.name for source in clientsource")
+                                                option(value="") ---请选择---
                                 div.form-group
-                                    label.col-md-2.control-label(for="scaleid") 规模:
+                                    label.col-md-2.control-label(for="scale") 规模:
                                     div.col-md-10
-                                        input.form-control(type="text",id="scaleid",value="{{data.scaleid}}")
+                                        span.nullable
+                                            select#scale.form-control(ng-model="data.scaleid" ng-options="scale.name for scale in mdInstScaleId")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="contactman") 联系人:
                                     div.col-md-10
@@ -110,7 +115,9 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="contactposition") 职位:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactposition",value="{{data.contactposition}}")
+                                        span.nullable
+                                            select#industry.form-control(ng-model="data.contactposition" ng-options="position.no as position.name for position in contactposition")
+                                                option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
                                     div.col-md-10

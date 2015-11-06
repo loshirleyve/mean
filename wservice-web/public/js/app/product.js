@@ -384,7 +384,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editGroup: function (group, success, error) {
+            editGroup: function (groupname, success, error) {
                 var params = {};
                 params["name"] = groupname;
                 params["province"] = "陕西省";

@@ -4,7 +4,6 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/bpc/workorderConfig.js")
     script(src="/js/app/workorder.js")
     div(ng-app="workorderApp")
         //通知区域
@@ -12,15 +11,15 @@ block content
         div(ng-view)
 
         //组织结构树模板
-        script(type="text/ng-template",id="org_nodes.html")
-            div.tree-node.tree-node-content(ui-tree-handle)
-                a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
-                    span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
-                | &nbsp &nbsp
-                a.btn-link(ng-click="clickOrg(this)") {{node.title}}
-
-            ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
-                li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
+        //script(type="text/ng-template",id="org_nodes.html")
+        //    div.tree-node.tree-node-content(ui-tree-handle)
+        //        a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
+        //            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
+        //        | &nbsp &nbsp
+        //        a.btn-link(ng-click="clickOrg(node)") {{node.title}}
+        //
+        //    ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
+        //        li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
 
         //列表模板
         script(type="text/ng-template",id="list.html")
@@ -59,7 +58,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                    y9ui-datatable(is-pagination="true",items-per-page="10",header="header",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
+                    npt-datatable(is-pagination="true",items-per-page="10",name="workorder",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -89,7 +88,7 @@ block content
                     li
                         a(href="#/deliverWorkorder/{{workorderid}}",ng-show="isNotComplete") 转交
                     li
-                        a(href="") 查看订单
+                        a(href="/order/#/detail/{{data.workOrder.sourcevalue}}") 查看订单
                     li
                         a(href="#/list") 返回
                     li
@@ -136,12 +135,12 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单资料
-                        y9ui-datatable(header="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+                        npt-datatable(name="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单评价
-                        y9ui-datatable(header="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+                        npt-datatable(name="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
@@ -270,30 +269,44 @@ block content
                                         span 首页
                                 li
                                     a(href="#list")
-                                        span 订单列表
+                                        span 工单列表
                                 li
                                     a(href="#detail/{{orderid}}")
-                                        span 订单详情
-                                li.active 分配专属顾问
+                                        span 工单详情
+                                li.active 转交工单
 
                     nav.navbar.navbar-default
                         div.navbar-header
-                            a.navbar-brand(href="") 分配专属顾问
+                            a.navbar-brand(href="") 转交工单
                         ul.nav.navbar-nav.navbar-right
                             li
-                                a(href="#detail/{{orderid}}") 返回
+                                a(href="#detail/{{workorderid}}") 返回
                             li
                                 | &nbsp &nbsp &nbsp &nbsp
+
+                    //工单转发--用户选择模块
+                    npt-select-tree(name="selectAdviser",select-type="selectUser",on-select="onSelect(type,item,index)")
 
                     div.row
                         div.col-md-12
                             div.panel.panel-primary
-                                div.panel-heading 选择专属顾问
+                                div.panel-heading 转交信息
                                 div.panel-body
-                                    div.row
-                                        div.col-md-4
-                                            div(ui-tree,id="tree-root",data-drag-enabled="false")
-                                                ol(ui-tree-nodes ng-model="org.data")
-                                                    li(ng-repeat="node in org.data",ui-tree-node,ng-include="'org_nodes.html'")
-                                        div.col-md-8
-                                            H1 用户列表
+                                    form.form-horizontal(name="deliverForm")
+                                        div.form-group
+                                            label.col-md-2.control-label(for="deliverName") 转交用户:
+                                            div.col-md-10
+                                                div.input-group
+                                                    span.input-group-btn
+                                                        button.btn.btn-primary(type="button",ng-click="openSelectUser()") 选择专属顾问
+                                                    input.form-control(type="text",id="deliverName",name="deliverName",placeholder="请选择专属顾问",ng-model="deliverName",required,disabled)
+                                                    //span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="deliverForm.deliverName.$dirty")
+                                        div.form-group
+                                            label.col-md-2.control-label(for = "postscript") 附言:
+                                            div.col-md-10
+                                                input.form-control(type="text",id="postscript",name="postscript",ng-model="postscript")
+                                        div.form-group
+                                            div.col-sm-offset-2.col-md-10
+                                                button.btn.btn-primary(type="button",ng-click="deliver()") 确认转交
+                                                | &nbsp &nbsp
+                                                a.btn.btn-default(type="button",href="#/detail/{{workorderid}}") 返回

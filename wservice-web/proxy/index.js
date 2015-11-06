@@ -108,6 +108,9 @@ proxy.action("queryWorkorderList", {
 }).action("queryUsersByOrgid",{
     proxy:"Y9",
     action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("deliverWorkorder",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
 });
 
 
@@ -124,6 +127,19 @@ proxy.action("queryInstClients", {
 }).action("queryInstRolesByUseridAndInstid", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
+});
+
+
+//获取控制编码
+proxy.action("queryMdCtrlcode", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
+});
+
+//获取规模的控制编码
+proxy.action("queryMdInstScale", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryMdInstScaleService"
 });
 
 module.exports = proxy;

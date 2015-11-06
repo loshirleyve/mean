@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
+angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute", 'ui.tree'])
     .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
@@ -154,50 +154,6 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             }
         };
 
-        this.org = {
-            queryUserByOrgId: function (orgid, success, error) {
-                //根据组织ID查询用户列表
-                nptResource.post("queryUsersByOrgid", {
-                    "orgid": orgid
-                }, success, error);
-
-            },
-            queryOrgTreeAndBuilderNode: function (instid, success, error) {
-                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
-                nptResource.post("queryOrgTree", {
-                    "instid": instid,
-                    "dimtype": "hr"
-                }, function (data) {
-                    var orgNodes = [{
-                        id: data.id,
-                        title: data.simplename
-                    }];
-                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
-                    if (success) {
-                        success(orgNodes);
-                    }
-                }, function (data) {
-                    if (error) {
-                        error(data);
-                    }
-                });
-
-            },
-            builderOrgTreeNode: function (nodes, data) {
-                if (data) {
-                    nodes.nodes = [];
-                    for (var i = 0; i < data.length; i++) {
-                        var node = {
-                            id: data[i]["id"],
-                            title: data[i]["name"]
-                        };
-                        self.org.builderOrgTreeNode(node, data[i].children);
-                        nodes.nodes.push(node);
-                    }
-                }
-            }
-        };
-
         this.query = {
             state: "all",
             data: [],
@@ -331,6 +287,14 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         $scope.doWorkorders = function (type, item, index) {
         };
 
+        $scope.onSelect = function (type, item, index) {
+            console.info("选择:" + JSON.stringify(item));
+        };
+
+        $scope.adviser = function () {
+            $scope.selectAdviser.open();
+        }
+
         //刷新界面动作按钮控制状态
         $scope.resetState = function () {
             if ($scope.data.order.state === "waitconfirm") {
@@ -357,31 +321,12 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         };
 
         $scope.openSelectUser = function () {
-            orderService.org.queryOrgTreeAndBuilderNode("10000001468002", function (data) {
-                $scope.orgData = data;
-                $('#selectUserId').modal('show');
-            }, function (data) {
-                //TODO 提示查询组织失败的信息
-            });
-
+            $scope.selectAdviserByConfirm.open();
         };
 
-        $scope.closeSelectUser = function () {
-            $('#selectUserId').modal('hide');
-        };
-
-        $scope.clickOrg = function (node) {
-            orderService.org.queryUserByOrgId(node.id, function (data) {
-                $scope.orgUsers = data;
-            }, function (data) {
-
-            });
-        };
-
-        $scope.onSelectUser = function (type, item, index) {
+        $scope.onSelect = function (type, item, index) {
             $scope.adviser = item;
             $scope.adviserName = item.name;
-            $('#selectUserId').modal('hide');
         };
 
         //查询订单信息
@@ -391,29 +336,4 @@ angular.module("orderApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             //TODO 提示信息
         });
 
-    }).controller("AdviserOrderController", function ($scope, $location, $routeParams, orderService) {
-        $scope.orderid = $routeParams.id;
-
-        $scope.query = orderService.query;
-        $scope.org = orderService.org;
-
-
-        $scope.confirm = function () {
-            $location.path("/detail/" + $scope.orderid);
-        };
-
-        $scope.clickOrg = function (scope) {
-            //TODO 检索用户列表
-            orderService.org.queryUserByOrgId(scope.$id, function (data) {
-                $scope.orgUsers = data;
-            }, function (data) {
-            });
-        };
-
-        //查询订单信息
-        orderService.query.id($scope.orderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
     });
