@@ -16,7 +16,7 @@ angular.module('y9.validate', ['ui.neptune.resource'])
                 ctrl.$asyncValidators.bizvalidate = function (modelValue, viewValue) {
                     var modeName = attr.ngModel;
                     var extraScope = {};
-                    modeName && (extraScope[modeName] = viewValue);
+                    modeName && (extraScope[modeName] = modelValue);
                     scope = angular.extend({}, scope, extraScope);
                     bizConfig = angular.isObject(bizConfig) ? bizConfig : angular.fromJson(bizConfig);
                     var baseConfig = y9BizValidateProvider.getConfig(attr.y9BizValidate) || {};
