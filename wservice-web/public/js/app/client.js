@@ -11,7 +11,13 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 templateUrl: "detail.html"
             })
             .when("/detail", {
-                redirectTo: "/detail/add"
+                //redirectTo: "/detail/add"
+                controller: "BizPageDetailController",
+                templateUrl: "addClient.html"
+            })
+            .when("/addClient",{
+                controller:"BizPageDetailController",
+                templateUrl: "addClient.html"
             })
             .when("/list", {
                 controller: "BizPageListController",
@@ -220,6 +226,14 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
         $scope.clientid = $routeParams.id;
 
         $scope.query = clientService.query;
+
+        $scope.confirm = function(){
+            $location.path("/detail/" + $scope.clientid);
+        };
+
+        $scope.addClient = function () {
+            $location.path("/addClient/" + $scope.clientid);
+        };
 
 /*        var orderProductConfig = bizModuleConfig.getModuleConfig("orderProduct");
         $scope.productHeader = orderProductConfig.header;
