@@ -145,6 +145,14 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             mdInstScale:function(success, error){
                 nptResource.post("queryMdInstScale", {}, success, error);
             },
+            addOrUpdateInstClient:function(client, success, error){
+                nptResource.post("addOrUpdateInstClients", client, function(data){
+                    success(data);
+                }, function(data){
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
             loading: function (state) {
                 $("#all").button(state);
                /* $("#waitconfirm").button(state);
@@ -325,6 +333,32 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
         }, function (data) {
             //TODO 提示信息
         });
+
+        //添加或更新客户
+        $scope.addOrUpdateClientconfirm = function(){
+            //console.info($scope.client);
+            var params={};
+            params["instid"] = "10000001463017";
+            params["sn"] = $scope.add.name;
+            params["name"] = $scope.add.name;
+            params["fullname"] = $scope.add.fullname;
+            params["type"] = $scope.data.type;
+            params["level"] = $scope.data.level;
+            params["contactman"] = $scope.add.contactman;
+            params["contactphone"] = $scope.add.contactphone;
+            params["region"] = $scope.add.region;
+            params["source"] = $scope.data.source;
+            params["industry"] = $scope.data.industry;
+            params["contactposition"] = $scope.data.contactposition;
+            params["createby"] ="10000001498059";
+            params["scaleid"] = $scope.data.scaleid.type;
+            clientService.query.addOrUpdateInstClient(params, function(data){
+            }, function(data){
+                //TODO 弹出提示检索错误通知窗口
+            });
+        };
+
+
 
         //查询客户行业的控制编码
         clientService.query.defno("clientindustry", function(data){

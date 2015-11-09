@@ -127,31 +127,31 @@ block content
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
                                         span.nullable
-                                            select#industry.form-control(ng-model="data.industry" ng-options="industry.no as industry.name for industry in clientindustry")
+                                            select#industry.form-control(ng-model="data.industry", ng-options="industry.no as industry.name for industry in clientindustry")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="type") 类型:
                                     div.col-md-10
                                         span.nullable
-                                            select#type.form-control(ng-model="data.type" ng-options="type.no as type.name for type in clienttype")
+                                            select#type.form-control(ng-model="data.type", ng-options="type.no as type.name for type in clienttype")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="level") 级别:
                                     div.col-md-10
                                         span.nullable
-                                            select#level.form-control(ng-model="data.level" ng-options="level.no as level.name for level in clientlevel")
+                                            select#level.form-control(ng-model="data.level", ng-options="level.no as level.name for level in clientlevel")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="source") 来源:
                                     div.col-md-10
                                         span.nullable
-                                            select#source.form-control(ng-model="data.source" ng-options="source.no as source.name for source in clientsource")
+                                            select#source.form-control(ng-model="data.source", ng-options="source.no as source.name for source in clientsource")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="scale") 规模:
                                     div.col-md-10
                                         span.nullable
-                                            select#scale.form-control(ng-model="data.scaleid" ng-options="scale.type as scale.name for scale in mdInstScaleId")
+                                            select#scale.form-control(ng-model="data.scaleid", ng-options="scale.type as scale.name for scale in mdInstScaleId")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="contactman") 联系人:
@@ -165,7 +165,7 @@ block content
                                     label.col-md-2.control-label(for="contactposition") 职位:
                                     div.col-md-10
                                         span.nullable
-                                            select#industry.form-control(ng-model="data.contactposition" ng-options="position.no as position.name for position in contactposition")
+                                            select#industry.form-control(ng-model="data.contactposition", ng-options="position.no as position.name for position in contactposition")
                                                 option(value="") ---请选择---
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
@@ -221,18 +221,18 @@ block content
                         div.panel-body
                             form.form-horizontal(name="addClientForm")
                                 div.form-group(ng-class="{'has-error':addClientForm.instid.$dirty && addClientForm.instid.$invalid}")
-                                    label.col-md-2.control-label(for="instid") 编号:
+                                    label.col-md-2.control-label(for="sn") 编号:
                                     div.col-md-10
-                                        input.form-control(type="number",id="instid", name="instid", ng-model="instid", placeholder="请输入4至8位客户编号", ng-minlength="4", ng-maxlength="8", required)
+                                        input.form-control(type="number",id="sn", name="sn", ng-model="add.sn", placeholder="请输入4至8位客户编号", ng-minlength="4", ng-maxlength="8", required)
                                         span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="addClientForm.instid.$dirty && addClientForm.instid.$valid")
                                 div.form-group
                                     label.col-md-2.control-label(for="fullname") 名称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="fullname", name="fullname", placeholder="请输入客户名称", required)
+                                        input.form-control(type="text",id="fullname", name="fullname", ng-model="add.fullname", placeholder="请输入客户名称", required)
                                 div.form-group
                                     label.col-md-2.control-label(for="name") 简称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="name", placeholder="请输入客户简称", required)
+                                        input.form-control(type="text",id="name", name="name", ng-model="add.name", placeholder="请输入客户简称", required)
                                 div.form-group
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
@@ -266,11 +266,11 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="contactman") 联系人:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactman", placeholder="请输入联系人")
+                                        input.form-control(type="text",id="contactman", name="contactman", ng-model="add.contactman", placeholder="请输入联系人")
                                 div.form-group(ng-class="{'has-error':addClientForm.contactphone.$dirty && addClientForm.contactphone.$invalid}")
                                     label.col-md-2.control-label(for="contactphone") 电话:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactphone", name="contactphone", placeholder="请输入电话", ng-model="contactphone", required, minlength="11", maxlength="11")
+                                        input.form-control(type="text",id="contactphone", name="contactphone", placeholder="请输入电话", ng-model="add.contactphone", required, minlength="11", maxlength="11")
                                         span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="addClientForm.contactphone.$dirty && addClientForm.contactphone.$valid")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactposition") 职位:
@@ -281,35 +281,35 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
                                     div.col-md-10
-                                        input.form-control(type="text",id="region", placeholder="请输入地区")
+                                        input.form-control(type="text",id="region", name="region", ng-model="add.region", placeholder="请输入地区")
                                 div.form-group
                                     label.col-md-2.control-label(for="address") 地址:
                                     div.col-md-10
-                                        input.form-control(type="text",id="address", placeholder="请输入地址")
+                                        input.form-control(type="text",id="address", name="address", ng-model="add.address", placeholder="请输入地址")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientinstid") 客户机构:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientinstid", placeholder="请输入客户机构")
+                                        input.form-control(type="text",id="clientinstid", name="clientinstid", ng-model="add.clientinstid", placeholder="请输入客户机构")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientadminid") 客户管理员:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientadminid", placeholder="请输入客户管理员")
+                                        input.form-control(type="text",id="clientadminid", name="clientadminid", ng-model="add.clientadminid", placeholder="请输入客户管理员")
                                 div.form-group(ng-class="{'has-error':addClientForm.createdate.$dirty && addClientForm.createdate.$invalid}")
                                     label.col-md-2.control-label(for="createdate") 创建时间:
                                     div.col-md-10
-                                        input.form-control(type="number",id="createdate", name="createdate", ng-model="createdate", placeholder="请输入8位数字的日期.例如:20150808", ng-minlength="8", ng-maxlength="8", npt8Number2date, required)
+                                        input.form-control(type="number",id="createdate", name="createdate", ng-model="add.createdate", placeholder="请输入8位数字的日期.例如:20150808", ng-minlength="8", ng-maxlength="8", npt8Number2date, required)
                                         span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="addClientForm.createdate.$dirty && addClientForm.createdate.$valid")
                                 div.form-group(ng-class="{'has-error':addClientForm.updatedate.$dirty && addClientForm.updatedate.$invalid}")
                                     label.col-md-2.control-label(for="updatedate") 更新时间:
                                     div.col-md-10
-                                        input.form-control(type="number",id="updatedate", name="updatedate", ng-model="updatedate", placeholder="请输入8位数字的日期.例如:20150808", ng-minlength="8", ng-maxlength="8", npt8Number2date, required)
+                                        input.form-control(type="number",id="updatedate", name="updatedate", ng-model="add.updatedate", placeholder="请输入8位数字的日期.例如:20150808", ng-minlength="8", ng-maxlength="8", npt8Number2date, required)
                                         span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="addClientForm.updatedate.$dirty && addClientForm.updatedate.$valid")
                                 div.form-group
                                     label.col-md-2.control-label(for="remark") 备注:
                                     div.col-md-10
-                                        textarea.form-control(rows=3,id="remark") {{data.client.remark}}
+                                        textarea.form-control(rows=3,id="remark", name="remark", ng-model="add.remark") {{data.client.remark}}
                                 div.form-group
                                     div.col-sm-offset-2.col-md-10
-                                        button.btn.btn-primary(type="button",ng-click="confirm()", ng-disabled="!(addClientForm.$dirty && addClientForm.$valid)") 确认
+                                        button.btn.btn-primary(type="button",ng-click="addOrUpdateClientconfirm()", ng-disabled="!(addClientForm.$dirty && addClientForm.$valid)") 确认
                                         | &nbsp &nbsp
                                         a.btn.btn-default(type="button",href="#/{{clientid}}") 返回
