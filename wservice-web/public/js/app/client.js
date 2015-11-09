@@ -336,10 +336,9 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
 
         //添加或更新客户
         $scope.addOrUpdateClientconfirm = function(){
-            //console.info($scope.client);
             var params={};
             params["instid"] = "10000001463017";
-            params["sn"] = $scope.add.name;
+            params["sn"] = $scope.add.sn;
             params["name"] = $scope.add.name;
             params["fullname"] = $scope.add.fullname;
             params["type"] = $scope.data.type;
@@ -358,7 +357,29 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             });
         };
 
-
+        //编辑客户信息
+        $scope.editClientConfirm = function(){
+            var params={};
+            params["id"] = $scope.data.id;
+            params["instid"] = "10000001463017";
+            params["sn"] = $scope.data.sn;
+            params["name"] = $scope.data.name;
+            params["fullname"] = $scope.data.fullname;
+            params["type"] = $scope.data.type;
+            params["level"] = $scope.data.level;
+            params["contactman"] = $scope.data.contactman;
+            params["contactphone"] = $scope.data.contactphone;
+            params["region"] = $scope.data.region;
+            params["source"] = $scope.data.source;
+            params["industry"] = $scope.data.industry;
+            params["contactposition"] = $scope.data.contactposition;
+            params["createby"] ="10000001498059";
+            params["scaleid"] = $scope.data.scaleid;
+            clientService.query.addOrUpdateInstClient(params, function(data){
+            }, function(data){
+                //TODO 弹出提示检索错误通知窗口
+            });
+        }
 
         //查询客户行业的控制编码
         clientService.query.defno("clientindustry", function(data){
