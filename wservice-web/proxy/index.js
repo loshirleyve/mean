@@ -54,9 +54,9 @@ proxy.action("QueryProductsByGroupId", {
 }).action("AddOrUpdateProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
-}).action("RemoveProductProfile", {
+}).action("AddOrUpdateProductProfile", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductProfileService"
+    action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
 }).action("AddOrUpdateProductGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductGroupService"
