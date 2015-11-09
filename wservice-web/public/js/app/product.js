@@ -379,10 +379,6 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["id"] = pro.id;
                 params["sn"] = pro.sn;
                 params["state"] = pro.state;
-                params["createtimestamp"] = pro.createtimestamp;
-                params["updatetimestamp"] = pro.updatetimestamp;
-                params["updatedate"] = pro.updatedate;
-                params["createdate"] = pro.createdate;
                 params["name"] = pro.name;
                 params["type"] = "service";
                 params["saleprice"] = pro.saleprice;
@@ -391,6 +387,10 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["introduceurl"] = pro.introduceurl;
                 params["instid"] = "10000001468002";
                 params["createby"] = "10000001498059";
+                params["createdate"] = pro.createdate;
+                params["updatedate"] = pro.updatedate;
+                params["createtimestamp"] = pro.createtimestamp;
+                params["updatetimestamp"] = pro.updatetimestamp;
                 nptResource.post("AddOrUpdateProduct", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -408,7 +408,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["province"] = group.province;
                 params["city"] = group.city;
                 params["district"] = group.district;
-                params["createby"] = group.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = group.createdate;
                 params["createtimestamp"] = group.createtimestamp;
                 params["updatetimestamp"] = group.updatetimestamp;
@@ -448,7 +448,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["productid"] = productid;
                 params["synopsis"] = profile.synopsis;
                 params["sort"] = profile.sort;
-                params["createby"] = profile.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = profile.createdate;
                 params["createtimestamp"] = profile.createtimestamp;
                 params["updatetimestamp"] = profile.updatetimestamp;
@@ -462,13 +462,13 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             editProductGroup: function (group, productid,success, error) {
                 var params = {};
                 params["id"] = group.id;
-                params["instid"] = group.instid;
+                params["instid"] =  "10000001468002";
                 params["productid"] =productid;
                 params["sort"] =group.sort;
                 params["top"] =group.top;
                 params["backgorundimgid"] = group.backgorundimgid;
                 params["groupid"] = group.groupid;
-                params["createby"] = group.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = group.createdate;
                 params["createtimestamp"] =group.createtimestamp;
                 params["updatetimestamp"] = group.updatetimestamp;
@@ -490,7 +490,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["classifyno"] = classify.classifyno;
                 params["classifyname"] = classify.classifyname;
                 params["phasename"] = classify.phasename;
-                params["createby"] = classify.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = classify.createdate;
                 params["createtimestamp"] = classify.createtimestamp;
                 params["updatetimestamp"] = classify.updatetimestamp;
@@ -509,7 +509,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["descr"] = descr.descr;
                 params["descrvalue"] = descr.descrvalue;
                 params["sort"] = descr.sort;
-                params["createby"] = descr.createby;
+                params["createby"] ="10000001498059";
                 params["createdate"] = descr.createdate;
                 params["createtimestamp"] = descr.createtimestamp;
                 params["updatetimestamp"] = descr.updatetimestamp;
