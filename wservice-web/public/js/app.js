@@ -6,8 +6,7 @@
 
 angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
     .controller('launchCtrl',
-    ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster','Notification','wswebProvider','$q',
-        function ($scope, Menus, Session, menuService, navigationMaster,Notification,wswebProvider) {
+        function ($scope, Menus, Session, menuService, navigationMaster,Notification,wswebProvider,initData) {
 
             this.navigateTo = function (menuNo) {
                 menuService.navigateTo(menuNo);
@@ -42,41 +41,38 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
                         }
                     }
                 }
+            };
+
+            if (!initData) {
+                return;
             }
-
+            $scope.session = initData[0];
             var self = this;
-            wswebProvider.loadMenu()
-            .then(function (response) {
-                navigationMaster.init(response.data);
-                $scope.menus = response.data;
-                $scope.singleWindow = navigationMaster.singleWindow;
-                $scope.tabs = navigationMaster.subWindows;
-                $scope.iframes = angular.copy(navigationMaster.subWindows);// 取消关联
-                $scope.$watch(function() {
-                    return navigationMaster.currentFocus;
-                },function() {
-                    menuService.focusMenus();
-                });
-                // 如果获取界面绘制完成的事件？
-                setTimeout(function () {
-                    $scope.iframes.forEach(function (win) {
-                        $("#" + win.sid).load(function () {
-                            $("#" + win.sid).contents().find("body").attr("onclick",
-                                "window.parent.document.body.click();");
-                        });
-                    });
-                }, 300);
-            }).then(function() {
-                return wswebProvider.loadSession() .then(function (response) {
-                    $scope.session = response.data;
-                });
-            }).then(function() {
-                self.reloadFromLocal();
-            },function () {
-                // 跳转到登录界面
-                location.href = '/login';
+            // 初始化菜单
+            $scope.menus = initData[1];
+            navigationMaster.init($scope.menus);
+            $scope.singleWindow = navigationMaster.singleWindow;
+            $scope.tabs = navigationMaster.subWindows;
+            $scope.iframes = angular.copy(navigationMaster.subWindows);// 取消关联
+            $scope.$watch(function() {
+                return navigationMaster.currentFocus;
+            },function() {
+                menuService.focusMenus();
             });
-
+            // 如果获取界面绘制完成的事件？
+            setTimeout(function () {
+                $scope.iframes.forEach(function (win) {
+                    $("#" + win.sid).load(function () {
+                        $("#" + win.sid).contents().find("body").attr("onclick",
+                            "window.parent.document.body.click();");
+                    });
+                });
+                // template中无法异步加载js，这里需要重新激活左侧菜单收起动画
+                $.AdminLTE.pushMenu.activate($.AdminLTE.options.sidebarToggleSelector);
+                $scope.$apply(function() {
+                    self.reloadFromLocal();
+                });
+            }, 300);
 
 
             // 创建Master
@@ -85,7 +81,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
                 notificationService:Notification
             };
 
-        }])
+        })
     .provider('wswebProvider', function () {
         var config = {
 
@@ -93,25 +89,44 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
         this.setup = function(cfg) {
             config = cfg||config;
         }
-        this.$get = function(Menus,Session) {
+        this.$get = function() {
             var service = {
                 getConfig:function() {
                     return angular.copy(config);
                 },
                 get:function(key) {
                     return config[key];
-                },
-                loadMenu:function() {
-                    return Menus.query();
-                },
-                loadSession:function() {
-                    return Session.load();
                 }
             };
             return service;
         }
     })
-    .config(function(wswebProviderProvider) {
+    .config(function(wswebProviderProvider,$routeProvider) {
+
+        $routeProvider.when("/", {
+            controller: "launchCtrl as launchCtrl",
+            templateUrl: "index.html",
+            resolve:{
+                initData: ['Menus','Session','$q','Notification',
+                    function(Menus,Session,$q,Notification) {
+                        return $q.all([Session.load(),Menus.query()]).then(function(data) {
+                                return data;
+                            }
+                            ,function(error) {
+                                Notification
+                                    .error({message:"请先登录！",delay:2000,positionY:"top",positionX:"center"});
+                                setTimeout(function() {
+                                    location.href = '/login';
+                                },2000);
+                                throw error;
+                        });
+                    }
+                ]
+            }
+        }).otherwise({
+            redirectTo: "/"
+        });
+
         /**
          * 配置wsweb
          */
