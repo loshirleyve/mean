@@ -110,19 +110,19 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="id") ID:
                                     div.col-md-10
-                                        input.form-control(type="text",id="id", name="id", value="{{data.id}}",ng-disabled="!clientDetailForm.id.value")
+                                        input.form-control(type="text",id="id", name="id", ng-model="data.id", value="{{data.id}}",ng-disabled="!clientDetailForm.id.value")
                                 div.form-group
                                     label.col-md-2.control-label(for="fullname") 名称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="fullname",value="{{data.fullname}}")
+                                        input.form-control(type="text",id="fullname",ng-model="data.fullname",value="{{data.fullname}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="name") 简称:
                                     div.col-md-10
-                                        input.form-control(type="text",id="name",value="{{data.name}}")
+                                        input.form-control(type="text",id="name",ng-model="data.name",value="{{data.name}}")
                                 div.form-group
-                                    label.col-md-2.control-label(for="instid") 编号:
+                                    label.col-md-2.control-label(for="sn") 编号:
                                     div.col-md-10
-                                        input.form-control(type="text",id="instid",value="{{data.instid}}",disabled)
+                                        input.form-control(type="text",id="sn",ng-model="data.sn",value="{{data.sn}}",disabled)
                                 div.form-group
                                     label.col-md-2.control-label(for="industry") 行业:
                                     div.col-md-10
@@ -156,11 +156,11 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="contactman") 联系人:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactman",value="{{data.contactman}}")
+                                        input.form-control(type="text",id="contactman",ng-model="data.contactman",value="{{data.contactman}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactphone") 电话:
                                     div.col-md-10
-                                        input.form-control(type="text",id="contactphone",value="{{data.contactphone}}")
+                                        input.form-control(type="text",id="contactphone",ng-model="data.contactphone",value="{{data.contactphone}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="contactposition") 职位:
                                     div.col-md-10
@@ -170,36 +170,36 @@ block content
                                 div.form-group
                                     label.col-md-2.control-label(for="region") 地区:
                                     div.col-md-10
-                                        input.form-control(type="text",id="region",value="{{data.region}}")
+                                        input.form-control(type="text",id="region",ng-model="data.region",value="{{data.region}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="address") 地址:
                                     div.col-md-10
-                                        input.form-control(type="text",id="address",value="{{data.address}}")
+                                        input.form-control(type="text",id="address",ng-model="data.address",value="{{data.address}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientinstid") 客户机构:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientinstid",value="{{data.clientinstid}}")
+                                        input.form-control(type="text",id="clientinstid",ng-model="data.clientinstid",value="{{data.clientinstid}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="clientadminid") 客户管理员:
                                     div.col-md-10
-                                        input.form-control(type="text",id="clientadminid",value="{{data.clientadminid}}")
+                                        input.form-control(type="text",id="clientadminid",ng-model="data.clientadminid",value="{{data.clientadminid}}")
                                 div.form-group(ng-class="{'has-error':clientDetailForm.createdate.$dirty && clientDetailForm.createdate.$invalid}")
                                     label.col-md-2.control-label(for="createdate") 创建时间:
                                     div.col-md-10
                                         //input.form-control(type="text",id="createdate", name="createdate",ng-model="createdate",value="{{data.createdate}}", ng-minlength="8", ng-maxlength="8", required, npt8Number2date)
-                                        input.form-control(type="number",id="createdate",value="{{data.createdate}}")
+                                        input.form-control(type="number",id="createdate",ng-model="data.createdate",value="{{data.createdate}}")
                                         span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="clientDetailForm.createdate.$dirty && clientDetailForm.createdate.$valid")
                                 div.form-group
                                     label.col-md-2.control-label(for="updatedate") 更新时间:
                                     div.col-md-10
-                                        input.form-control(type="text",id="updatedate",value="{{data.updatedate}}")
+                                        input.form-control(type="text",id="updatedate",ng-model="data.updatedate",value="{{data.updatedate}}")
                                 div.form-group
                                     label.col-md-2.control-label(for="remark") 备注:
                                     div.col-md-10
                                         textarea.form-control(rows=3,id="remark") {{data.client.remark}}
                                 div.form-group
                                     div.col-sm-offset-2.col-md-10
-                                        button.btn.btn-primary(type="button",ng-click="confirm()", ng-disabled="!(clientDetailForm.$dirty && clientDetailForm.$valid)") 确认
+                                        button.btn.btn-primary(type="button",ng-click="editClientConfirm()", ng-disabled="!(clientDetailForm.$dirty && clientDetailForm.$valid") 确认
                                         | &nbsp &nbsp
                                         a.btn.btn-default(type="button",href="#/{{clientid}}") 返回
 

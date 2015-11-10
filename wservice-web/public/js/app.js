@@ -4,10 +4,10 @@
 
 'use strict';
 
-angular.module('wsweb', ['ngRoute', 'wsweb.service'])
+angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
     .controller('launchCtrl',
-    ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster','message','wswebProvider','$q',
-        function ($scope, Menus, Session, menuService, navigationMaster,message,wswebProvider) {
+    ['$scope', 'Menus', 'Session', 'menuService', 'navigationMaster','Notification','wswebProvider','$q',
+        function ($scope, Menus, Session, menuService, navigationMaster,Notification,wswebProvider) {
 
             this.navigateTo = function (menuNo) {
                 menuService.navigateTo(menuNo);
@@ -82,7 +82,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
             // 创建Master
             window.$masterService = {
                 menuService:menuService,
-                messageService:message
+                notificationService:Notification
             };
 
         }])
@@ -117,9 +117,6 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service'])
          */
         wswebProviderProvider.setup({
             limitSubWindow:3,
-            messageDiv:'message_alert',
-            autoDismissMessage:true,
-            dismissMessageTimeout:3000,
             reloadFromLocal:true
         });
     });

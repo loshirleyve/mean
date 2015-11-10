@@ -411,10 +411,6 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["id"] = pro.id;
                 params["sn"] = pro.sn;
                 params["state"] = pro.state;
-                params["createtimestamp"] = pro.createtimestamp;
-                params["updatetimestamp"] = pro.updatetimestamp;
-                params["updatedate"] = pro.updatedate;
-                params["createdate"] = pro.createdate;
                 params["name"] = pro.name;
                 params["type"] = "service";
                 params["saleprice"] = pro.saleprice;
@@ -423,6 +419,10 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["introduceurl"] = pro.introduceurl;
                 params["instid"] = "10000001468002";
                 params["createby"] = "10000001498059";
+                params["createdate"] = pro.createdate;
+                params["updatedate"] = pro.updatedate;
+                params["createtimestamp"] = pro.createtimestamp;
+                params["updatetimestamp"] = pro.updatetimestamp;
                 nptResource.post("AddOrUpdateProduct", params, function (data) {
                     success(data);
                 }, function (data) {
