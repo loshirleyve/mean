@@ -294,6 +294,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             groupid: "all",
             data: [],
             groupdata: [],
+            ctrlcode: [],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -360,15 +361,24 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
+            queryMdCtrlcode: function (defno, success, error) {
+                var params = {};
+                params["defno"] = defno;
+                nptResource.post("queryMdCtrlcode", params, function (data) {
+                    self.query.ctrlCode = data;
+                    self.query.loading('reset')
+                    success(data);
+                }, function (data) {
+                    self.query.loading('reset')
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
             editProduct: function (pro, success, error) {
                 var params = {};
                 params["id"] = pro.id;
                 params["sn"] = pro.sn;
                 params["state"] = pro.state;
-                params["createtimestamp"] = pro.createtimestamp;
-                params["updatetimestamp"] = pro.updatetimestamp;
-                params["updatedate"] = pro.updatedate;
-                params["createdate"] = pro.createdate;
                 params["name"] = pro.name;
                 params["type"] = "service";
                 params["saleprice"] = pro.saleprice;
@@ -377,6 +387,10 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["introduceurl"] = pro.introduceurl;
                 params["instid"] = "10000001468002";
                 params["createby"] = "10000001498059";
+                params["createdate"] = pro.createdate;
+                params["updatedate"] = pro.updatedate;
+                params["createtimestamp"] = pro.createtimestamp;
+                params["updatetimestamp"] = pro.updatetimestamp;
                 nptResource.post("AddOrUpdateProduct", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -384,13 +398,20 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editGroup: function (groupname, success, error) {
+            editGroup: function (group, success, error) {
                 var params = {};
-                params["name"] = groupname;
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
+                params["id"] = group.id;
+                params["name"] = group.name;
+                params["state"] = group.state;
+                params["global"] = group.global;
+                params["cityid"] = group.cityid;
+                params["province"] = group.province;
+                params["city"] = group.city;
+                params["district"] = group.district;
                 params["createby"] = "10000001498059";
+                params["createdate"] = group.createdate;
+                params["createtimestamp"] = group.createtimestamp;
+                params["updatetimestamp"] = group.updatetimestamp;
                 nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -398,23 +419,22 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editPhase: function (phase, success, error) {
+            editProductPhase: function (phase, productid, success, error) {
                 var params = {};
                 params["id"] = phase.id;
-                params["no"] = phase.sn;
-                params["times"] = phase.state;
-                params["createtimestamp"] = phase.createtimestamp;
-                params["updatetimestamp"] = phase.updatetimestamp;
-                params["updatedate"] = phase.updatedate;
-                params["createdate"] = phase.createdate;
+                params["no"] = phase.no;
+                params["sn"] = phase.sn;
+                params["times"] = phase.times;
                 params["name"] = phase.name;
                 params["cycle"] = phase.cycle;
                 params["cyclevalue"] = phase.cyclevalue;
                 params["processdays"] = phase.processdays;
-                params["productid"] = phase.productid;
+                params["productid"] = productid;
                 params["sortno"] = phase.sortno;
-                params["duty"] =phase.duty;
+                params["duty"] = phase.duty;
                 params["createby"] = "10000001498059";
+                params["createdate"] = phase.createdate;
+                params["updatedate"] = phase.updatedate;
                 nptResource.post("AddOrUpdateProductPhase", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -422,27 +442,58 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editProfile: function (profile, success, error) {
+            editProductProfile: function (profile, productid, success, error) {
                 var params = {};
-                params["name"] = groupname;
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
+                params["id"] = profile.id;
+                params["productid"] = productid;
+                params["synopsis"] = profile.synopsis;
+                params["sort"] = profile.sort;
                 params["createby"] = "10000001498059";
-                nptResource.post("RemoveProductProfile", params, function (data) {
+                params["createdate"] = profile.createdate;
+                params["createtimestamp"] = profile.createtimestamp;
+                params["updatetimestamp"] = profile.updatetimestamp;
+                nptResource.post("AddOrUpdateProductProfile", params, function (data) {
                     success(data);
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
             },
-            editClassify: function (classify, success, error) {
+            editProductGroup: function (group, productid,success, error) {
                 var params = {};
-                params["name"] = groupname;
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
+                params["id"] = group.id;
+                params["instid"] =  "10000001468002";
+                params["productid"] =productid;
+                params["sort"] =group.sort;
+                params["top"] =group.top;
+                params["backgorundimgid"] = group.backgorundimgid;
+                params["groupid"] = group.groupid;
                 params["createby"] = "10000001498059";
+                params["createdate"] = group.createdate;
+                params["createtimestamp"] =group.createtimestamp;
+                params["updatetimestamp"] = group.updatetimestamp;
+                nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
+                    success(data);
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            editProductClassify: function (classify, productid, success, error) {
+                var params = {};
+                params["id"] = classify.id;
+                params["productid"] = productid;
+                params["sort"] = classify.sort;
+                params["cityid"] = classify.cityid;
+                params["price"] = classify.price;
+                params["phaseid"] = classify.phaseid;
+                params["classifyno"] = classify.classifyno;
+                params["classifyname"] = classify.classifyname;
+                params["phasename"] = classify.phasename;
+                params["createby"] = "10000001498059";
+                params["createdate"] = classify.createdate;
+                params["createtimestamp"] = classify.createtimestamp;
+                params["updatetimestamp"] = classify.updatetimestamp;
                 nptResource.post("AddOrUpdateProductclassify", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -450,13 +501,18 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editDescr: function (descr, success, error) {
+            editProductDescr: function (descr, productid, success, error) {
                 var params = {};
-                params["name"] = groupname;
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
-                params["createby"] = "10000001498059";
+                params["id"] = descr.id;
+                params["productid"] = productid;
+                params["type"] = descr.type;
+                params["descr"] = descr.descr;
+                params["descrvalue"] = descr.descrvalue;
+                params["sort"] = descr.sort;
+                params["createby"] ="10000001498059";
+                params["createdate"] = descr.createdate;
+                params["createtimestamp"] = descr.createtimestamp;
+                params["updatetimestamp"] = descr.updatetimestamp;
                 nptResource.post("AddOrUpdateProductDescr", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -653,7 +709,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         /**
          * 添加分组
          */
-        $scope.editGroup= function () {
+        $scope.editGroup = function () {
             productService.query.editGroup($scope.add.groupname, function (data) {
                 $scope.queryGroup();
             }, function (data) {
@@ -689,12 +745,20 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             //TODO 提示信息
         });
 
+        productService.query.queryMdCtrlcode('producttype', function (data) {
+                $scope.producttypecode = data || {producttypecode: {}};
+                $scope.producttypecode.unshift({name: "------请选择------"});
+            },
+            function (data) {
+                //TODO 提示信息
+            });
+
+
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, productService) {
         $scope.productid = $routeParams.id;
 
         $scope.query = productService.query;
-
 
         //查询产品信息
         productService.query.id($scope.productid, function (data) {
@@ -703,7 +767,29 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             //TODO 提示信息
         });
 
+        productService.query.queryMdCtrlcode('cycle', function (data) {
+                $scope.cyclecode = data || {cyclecode: {}};
+                $scope.cyclecode.unshift({name: "------请选择------"});
+            },
+            function (data) {
+                //TODO 提示信息
+            });
+
+        productService.query.queryMdCtrlcode('productdescrtype', function (data) {
+                $scope.productdescrtypecode = data || {cyclecode: {}};
+                $scope.productdescrtypecode.unshift({name: "------请选择------"});
+            },
+            function (data) {
+                //TODO 提示信息
+            });
+
+
         $scope.openModal = function (id) {
+            $scope.phases = {};
+            $scope.profiles = {};
+            $scope.group = {};
+            $scope.classify = {};
+            $scope.descr = {};
             $(id).modal('show');
         };
 
@@ -720,8 +806,8 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
         $scope.doProductRequirement = function (type, item, index) {
             if (item && type === "edit") {
-                $scope.phases = angular.copy(item);
-                console.info($scope.phases)
+                // $scope.phases = item;
+                //console.info($scope.phases)
                 $('#productRequirementModal').modal('show');
             }
             if (item && type === "delete") {
@@ -754,8 +840,8 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
         $scope.doProductClassifies = function (type, item, index) {
             if (item && type === "edit") {
-                $scope.classifie = item;
-                console.info($scope.classifie)
+                $scope.classify = item;
+                console.info($scope.classify)
                 $('#productClassifiesModal').modal('show');
             }
             if (item && type === "delete") {
@@ -779,11 +865,56 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
          */
         $scope.editProductPhase = function () {
             console.info($scope.phases);
-            productService.query.editPhase($scope.phases, function (data) {
+            productService.query.editProductPhase($scope.phases, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
+
+        /**
+         * 编辑产品说明
+         */
+        $scope.editProductProfile = function () {
+            console.info($scope.profiles);
+            productService.query.editProductProfile($scope.profiles, $scope.productid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        /**
+         * 编辑产品分组
+         */
+        $scope.editProductGroup = function () {
+            console.info($scope.group);
+            productService.query.editProductGroup($scope.group, $scope.productid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        /**
+         * 编辑产品内容
+         */
+        $scope.editProductClassify = function () {
+            console.info($scope.classify);
+            productService.query.editProductClassify($scope.classify, $scope.productid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        /**
+         * 编辑产品说明
+         */
+        $scope.editProductDescr = function () {
+            console.info($scope.descr);
+            productService.query.editProductDescr($scope.descr, $scope.productid, function (data) {
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
         /**
          * 删除产品阶段的绑定
          */
@@ -793,6 +924,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 //TODO 弹出提示检索错误通知窗口
             })
         };
+
         /**
          * 删除产品资料的绑定
          */
