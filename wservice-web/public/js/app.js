@@ -117,7 +117,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
                                     .error({message:"请先登录！",delay:2000,positionY:"top",positionX:"center"});
                                 setTimeout(function() {
                                     location.href = '/login';
-                                },2000);
+                                },1500);
                                 throw error;
                         });
                     }
