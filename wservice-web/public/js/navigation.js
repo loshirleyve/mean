@@ -7,7 +7,7 @@
 'use strict';
 
 angular.module('wsweb')
-    .service('menuService', function (navigationMaster, message) {
+    .service('menuService', function (navigationMaster, Notification) {
         /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
 
         var storeId = "openedMenus";
@@ -15,7 +15,7 @@ angular.module('wsweb')
         // 导航到指定menuNo界面
         this.navigateTo = function (menuNo) {
             if (!navigationMaster.isOpened(menuNo) && !navigationMaster.isNewable()) {
-                message.alert('不能创建更多的窗口了');
+                Notification.success('不能创建更多的窗口了');
                 return;
             }
             navigationMaster.navigateTo(menuNo);
@@ -94,7 +94,7 @@ angular.module('wsweb')
         }
 
     })
-    .factory('navigationMaster', function (wswebProvider, message) {
+    .factory('navigationMaster', function (wswebProvider, Notification) {
         /**navigationMaster主要操作子窗口***/
 
         /**
@@ -215,7 +215,7 @@ angular.module('wsweb')
                 this.currentFocus.load(menu);
                 this.openedNums++;
             } else {
-                message.alert('已达到限制的最多子窗口个数，' + this.limitNums);
+                Notification.success('已达到限制的最多子窗口个数，' + this.limitNums);
             }
         }
 
