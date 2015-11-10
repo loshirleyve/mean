@@ -29,33 +29,27 @@ block content
                             &nbsp
                         div.form-group
                             select.form-control(ng-model="query.province")
-                                option 请选择
-                                option 广东省
-                                option 陕西市
+                                option(ng-repeat="city in cities" value="{{city.id}}") {{city.province}}
                         &nbsp &nbsp
                         div.form-group
                             p.form-control-static 市
                             &nbsp
                         div.form-group
                             select.form-control(ng-model="query.city")
-                                option 请选择
-                                option 广东省
-                                option 陕西市
+                                option(ng-repeat="city in cities" value="{{city.id}}") {{city.city}}
                         &nbsp &nbsp
                         div.form-group
                             p.form-control-static 区
                             &nbsp
                         div.form-group
-                            select.form-control(ng-model="query.district")
-                                option 请选择
-                                option 广东省
-                                option 陕西市
+                        select.form-control(ng-model="query.district")
+                            option(ng-repeat="city in cities" value="{{city.id}}") {{city.district}}
             //功能按钮区域
             div.row
                 div.col-md-12
                     span
                         label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'all'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="all") 全部
-                        label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'weifenlei'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="weifenlei") 未分类
+                        label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'weifenlei'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="weifenlei") 未分组
                     span(ng-repeat="group in groupdata")
                         label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="{{group.id}}"  ng-click="queryByGroupId()" data-loading-text="正在查询..." id="{{group.id}}") {{group.name}}
                     | &nbsp
@@ -64,7 +58,7 @@ block content
                     | &nbsp
                     label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#addGroup") 添加分组
                     | &nbsp
-                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#editProductGroup") 编辑分组
+                    a.btn.btn-primary.btn-sm(type="button",href="#/group/{{query.province}}/{{query.city}}/{{query.district}}") 编辑分组
                     | &nbsp
                     label.btn.btn-primary.btn-sm(ng-click="query.toggle()",data-loading-text="正在查询...",id="query") {{query.text}}
                     | &nbsp
@@ -92,33 +86,17 @@ block content
                         div.modal-header
                             button.close(type="button",data-dismiss="modal",aria-label="Close")
                                 span(aria-hidden="ture")&times;
-                            h4.modal-title 添加分类
+                            h4.modal-title 添加分组
                         div.modal-body
                             form.form-horizontal
                                 div.form-group
-                                    label.col-md-3.control-label 分类名称:
+                                    label.col-md-3.control-label 分组名称:
                                     div.col-md-9
-                                        input.form-control(type="text"  ng-model="add.groupname")
+                                        input.form-control(type="text"  ng-model="addgroup.name")
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="editGroup()") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="addGroup()") 确认
 
-            //弹出层，编辑分组
-            div#editProductGroup.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 编辑分组
-                        div.modal-body
-                            div.row
-                                div.col-md-12
-                                    npt-datatable(name="allProductGroup",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
-                                //详情模板
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal") 确认
         //编辑产品
         script(type="text/ng-template",id="product.html")
             //功能导航区域
@@ -188,6 +166,27 @@ block content
 
         //编辑产品
         script(type="text/ng-template",id="editGroup.html")
+            //弹出层，编辑分组
+            div#editGroup.modal.fade(name="editGroup",tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture")&times;
+                            h4.modal-title 编辑分组
+                        div.modal-body
+                            form.form-horizontal
+                                div.form-group
+                                    label.col-md-3.control-label 分组名称:
+                                    div.col-md-9
+                                        input.form-control(type="text"  ng-model="editgroup.name")
+
+                                    label.col-md-3.control-label 排序:
+                                    div.col-md-9
+                                        input.form-control(type="number"  ng-model="editgroup.sort")
+                            div.modal-footer
+                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="editGroup()") 确认
             //功能导航区域
             div.row
                 div.col-md-12
@@ -411,11 +410,13 @@ block content
                                     labelc.col-md-2.control-label 分组logo:
                                     div.col-md-10
                                         p.form-control-static
+                                            labele.hidden(ng-model="group.backgorundimgid")
                                             button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal4") 选择
 
                                     labelc.col-md-2.control-label 分组名称:
                                     div.col-md-10
                                         p.form-control-static 精选
+                                            labele.hidden(ng-model="group.groupid")
                                             button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal4") 选择
 
                                     labelc.col-md-2.control-label 是否置顶:
@@ -450,6 +451,7 @@ block content
                                     label.col-md-3.control-label 选择分类地域:
                                     div.col-md-9
                                         p.form-control-static
+                                            labele.hidden(ng-model="classify.cityid")
                                             button.btn.btn-primary(data-toggle="modal" data-target="#myModal4" type="button") 选择
 
                                     label.col-md-3.control-label 分类名称:
@@ -475,10 +477,9 @@ block content
                                     label.col-md-3.control-label 所属服务阶段:
                                     div.col-md-3
                                         p.form-control-static
-                                            select.form-control
-                                                option --请选择--
-                                                option 服务产品
-                                                option 实体产品
+                                            select.form-control(ng-model="classify.phaseid")
+                                                option(ng-repeat="phase in prophase" value="{{phase.id}}") {{phase.name}}
+
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
                                 button.btn.btn-primary(type="button",data-dismiss="modal" ng-click="editProductClassify();") 确认

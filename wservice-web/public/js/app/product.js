@@ -17,6 +17,10 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 controller: "editProductInfoController",
                 templateUrl: "product.html"
             })
+            .when("/group/:province/:city/:district", {
+                controller: "editGroupController",
+                templateUrl: "editGroup.html"
+            })
             .when("/detail/:id", {
                 controller: "productDetailController",
                 templateUrl: "detail.html"
@@ -294,7 +298,9 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             groupid: "all",
             data: [],
             groupdata: [],
-            ctrlcode: [],
+            cities:[],
+            ctrlCode: [],
+            proPhase:[],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -353,6 +359,19 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["district"] = "全城";
                 nptResource.post("QueryMdProductGroupBylocation", params, function (data) {
                     self.query.groupdata = data;
+                    console.info( self.query.groupdata );
+                    self.query.loading('reset')
+                    success(data);
+                }, function (data) {
+                    self.query.loading('reset')
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            queryCities: function (success, error) {
+                var params={};
+                nptResource.post("queryCities",params, function (data) {
+                    self.query.cities = data;
                     self.query.loading('reset')
                     success(data);
                 }, function (data) {
@@ -366,6 +385,19 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["defno"] = defno;
                 nptResource.post("queryMdCtrlcode", params, function (data) {
                     self.query.ctrlCode = data;
+                    self.query.loading('reset')
+                    success(data);
+                }, function (data) {
+                    self.query.loading('reset')
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
+            },
+            queryProductPhase: function (productid,success, error) {
+                var params = {};
+                params["productid"] = productid;
+                nptResource.post("QueryProductPhaseByProductid", params, function (data) {
+                    self.query.proPhase = data;
                     self.query.loading('reset')
                     success(data);
                 }, function (data) {
@@ -405,10 +437,10 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["state"] = group.state;
                 params["global"] = group.global;
                 params["cityid"] = group.cityid;
-                params["province"] = group.province;
-                params["city"] = group.city;
-                params["district"] = group.district;
-                params["createby"] = group.createby;
+                params["province"] = "陕西省";
+                params["city"] = "西安市";
+                params["district"] = "全城";
+                params["createby"] = "10000001498059";
                 params["createdate"] = group.createdate;
                 params["createtimestamp"] = group.createtimestamp;
                 params["updatetimestamp"] = group.updatetimestamp;
@@ -448,7 +480,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["productid"] = productid;
                 params["synopsis"] = profile.synopsis;
                 params["sort"] = profile.sort;
-                params["createby"] = profile.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = profile.createdate;
                 params["createtimestamp"] = profile.createtimestamp;
                 params["updatetimestamp"] = profile.updatetimestamp;
@@ -459,18 +491,18 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            editProductGroup: function (group, productid,success, error) {
+            editProductGroup: function (group, productid, success, error) {
                 var params = {};
                 params["id"] = group.id;
                 params["instid"] = group.instid;
-                params["productid"] =productid;
-                params["sort"] =group.sort;
-                params["top"] =group.top;
-                params["backgorundimgid"] = group.backgorundimgid;
-                params["groupid"] = group.groupid;
-                params["createby"] = group.createby;
+                params["productid"] = productid;
+                params["sort"] = group.sort;
+                params["top"] = group.top;
+                params["backgorundimgid"] = "4";
+                params["groupid"] = "1";
+                params["createby"] = "10000001498059";
                 params["createdate"] = group.createdate;
-                params["createtimestamp"] =group.createtimestamp;
+                params["createtimestamp"] = group.createtimestamp;
                 params["updatetimestamp"] = group.updatetimestamp;
                 nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
                     success(data);
@@ -484,13 +516,13 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["id"] = classify.id;
                 params["productid"] = productid;
                 params["sort"] = classify.sort;
-                params["cityid"] = classify.cityid;
+                params["cityid"] = "1";
                 params["price"] = classify.price;
                 params["phaseid"] = classify.phaseid;
                 params["classifyno"] = classify.classifyno;
                 params["classifyname"] = classify.classifyname;
                 params["phasename"] = classify.phasename;
-                params["createby"] = classify.createby;
+                params["createby"] = "10000001498059";
                 params["createdate"] = classify.createdate;
                 params["createtimestamp"] = classify.createtimestamp;
                 params["updatetimestamp"] = classify.updatetimestamp;
@@ -509,7 +541,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["descr"] = descr.descr;
                 params["descrvalue"] = descr.descrvalue;
                 params["sort"] = descr.sort;
-                params["createby"] = descr.createby;
+                params["createby"] ="10000001498059";
                 params["createdate"] = descr.createdate;
                 params["createtimestamp"] = descr.createtimestamp;
                 params["updatetimestamp"] = descr.updatetimestamp;
@@ -678,15 +710,22 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             $scope.data = productService.query.data;
         }
 
-        $scope.dollproductGroup = function (type, item, index) {
-            if (item && type === "edit") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
-            }
-            if (item && type === "delete") {
-                $scope.deleteGroup(item.id);
-            }
+        $scope.queryCities=function()
+        {
+            productService.query.queryCities(function(data)
+            {
+                $scope.cities = data;
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
         };
+
+        //首先查询全部城市
+        if (productService.query.cities.length <= 0) {
+            $scope.queryCities();
+        } else {
+            $scope.cities = productService.query.cities;
+        }
 
         /**
          * 根据状态查询当前地区的产品分类列表
@@ -699,7 +738,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             })
         };
 
-        //首先查询全部产品
+        //首先查询全部分组信息
         if (productService.query.groupdata.length <= 0) {
             $scope.queryGroup();
         } else {
@@ -709,24 +748,14 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         /**
          * 添加分组
          */
-        $scope.editGroup = function () {
-            productService.query.editGroup($scope.add.groupname, function (data) {
+        $scope.addGroup = function () {
+            productService.query.editGroup($scope.addgroup, function (data) {
                 $scope.queryGroup();
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
 
-        /**
-         * 删除分组
-         */
-        $scope.deleteGroup = function (groupid) {
-            productService.query.deleteGroup(groupid, function (data) {
-                $scope.queryGroup();
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            })
-        };
     })
     .controller("editProductInfoController", function ($scope, $http, $location, $routeParams, productService) {
         $scope.productid = $routeParams.id;
@@ -754,6 +783,64 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             });
 
 
+    }).controller("editGroupController", function ($scope, $http, $location, $routeParams, productService) {
+        $scope.province = $routeParams.province;
+        $scope.city = $routeParams.city;
+        $scope.district = $routeParams.district;
+
+        var self = this;
+
+
+        $scope.dollproductGroup = function (type, item, index) {
+            if (item && type === "edit") {
+                $scope.editgroup=item;
+                $('#editGroup').modal('show');
+            }
+            if (item && type === "delete") {
+                $scope.deleteGroup(item.id);
+            }
+        };
+
+        /**
+         * 根据状态查询当前地区的产品分类列表
+         */
+        $scope.queryGroup = function () {
+            productService.query.queryGroup($scope.province, $scope.city, $scope.district, function (data) {
+                $scope.groupdata = data;
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        //首先查询全部产品
+        if (productService.query.groupdata.length <= 0) {
+            $scope.queryGroup();
+        } else {
+            $scope.groupdata = productService.query.groupdata;
+        }
+
+        /**
+         * 编辑分组
+         */
+        $scope.editGroup = function () {
+            productService.query.editGroup($scope.editgroup, function (data) {
+                $scope.queryGroup();
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        /**
+         * 删除分组
+         */
+        $scope.deleteGroup = function (groupid) {
+            productService.query.deleteGroup(groupid, function (data) {
+                $scope.queryGroup();
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, productService) {
         $scope.productid = $routeParams.id;
@@ -776,12 +863,21 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             });
 
         productService.query.queryMdCtrlcode('productdescrtype', function (data) {
-                $scope.productdescrtypecode = data || {cyclecode: {}};
+                $scope.productdescrtypecode = data || {productdescrtypecode: {}};
                 $scope.productdescrtypecode.unshift({name: "------请选择------"});
             },
             function (data) {
                 //TODO 提示信息
             });
+
+        productService.query.queryProductPhase($scope.productid , function (data) {
+                $scope.prophase = data || {prophase: {}};
+                $scope.prophase.unshift({name: "------请选择------"});
+            },
+            function (data) {
+                //TODO 提示信息
+            });
+
 
 
         $scope.openModal = function (id) {
