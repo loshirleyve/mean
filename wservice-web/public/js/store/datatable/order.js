@@ -4,7 +4,7 @@
 
 angular.module("wservice.dt.store.order", ["ui.neptune"]).
     run(function (nptDatatableStore) {
-        nptDatatableStore.putDatatable("demodt", {
+        nptDatatableStore.putDatatable("order", {
             header: {
                 sn: {
                     label: "订单编号"
