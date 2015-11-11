@@ -96,6 +96,7 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                     self.checkNew.text = "检查新订单"
                 }
             }
+
         };
 
         this.query = {
@@ -184,7 +185,7 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 }
             },
             initInst:function(params, success, error){
-                nptResource.post("initClientInst", params, function(data){
+                nptResource.post("instInit", params, function(data){
                     success(data);
                 }, function(data) {
                     //TODO 弹出提示检索错误通知窗口
@@ -263,7 +264,24 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 $location.path("/detail/" + item.id);
             }
             if(item && type == "initInst"){
-                $scope.initInst(itme.id)
+                $scope.clientid = item.id;
+                $scope.query = clientService.query;
+
+                //查询客户信息
+                clientService.query.id($scope.clientid, function (data) {
+                    $scope.data = data || {client: {}};
+                    var params = {};
+                    params["companyName"] = data.fullname;
+                    params["companyNo"] = data.sn;
+                    params["companyScale"] = data.scaleid;
+                    params["userNo"] = data.contactphone;
+                    params["userName"] = data.contactman;
+                    params["clientId"] = $scope.clientid;
+                    params["simpleName"] = data.name;
+                    $scope.initInst(params);
+                }, function (data) {
+                    //TODO 提示信息
+                });
             }
         };
 
