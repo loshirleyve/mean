@@ -2,119 +2,79 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
+angular.module("instApp", ["ui.neptune", "ngRoute", 'app.config'])
     .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "OrderDetailController",
+                controller: "InstDetailController",
                 templateUrl: "detail.html"
             })
-            .when("/detail", {
-                redirectTo: "/detail/add"
-            })
             .when("/list", {
-                controller: "OrderListController",
+                controller: "InstListController",
                 templateUrl: "list.html"
-            })
-            .when("/confirm/:id", {
-                controller: "ConfirmOrderController",
-                templateUrl: "confirm.html"
-            })
-            .when("/adviser/:id", {
-                controller: "AdviserOrderController",
-                templateUrl: "adviser.html"
             })
             .otherwise({
                 redirectTo: "/list"
             });
 
-        DatatableStoreProvider.store("order", {
+        DatatableStoreProvider.store("inst", {
             "header": [
                 {
-                    "name": "buyerinstid",
-                    "label": "客户名称"
-                },
-                {
-                    "name": "ordersn",
-                    "label": "订单号"
-                },
-                {
                     "name": "name",
-                    "label": "订单名称"
+                    "label": "机构名称"
                 },
                 {
-                    "name": "purchase",
-                    "label": "购买人"
+                    "name": "hostname",
+                    "label": "企业网址"
                 },
                 {
-                    "name": "adviser",
-                    "label": "专属顾问"
-                },
-                {
-                    "name": "salesmanid",
-                    "label": "销售顾问"
-                },
-                {
-                    "name": "orderamount",
-                    "label": "金额"
-                },
-                {
-                    "name": "factamount",
-                    "label": "实际金额"
-                },
-                {
-                    "name": "state",
-                    "label": "订单状态"
-                },
-                {
-                    "name": "createdate",
-                    "label": "创建日期"
+                    "name": "tel",
+                    "label": "企业电话"
                 }
             ],
             "action": [
                 {
                     "name": "view",
-                    "label": "查看"
+                    "label": "查看",
+                    "link": "#/detail"
                 }
             ]
-        }).store("orderProduct", {
-            header: [
+        }).store("orderAttachment",{
+            "header":[
                 {
-                    name: "productname",
-                    label: "产品名称"
-                }, {
-                    name: "productIntroduce",
-                    label: "产品简介"
+                    "name": "attachname",
+                    "label": "资料名称"
                 },
                 {
-                    name: "goodsamount",
-                    label: "产品价格"
-                }, {
-                    name: "productclassifyname",
-                    label: "已选分类"
-                }
-            ]
-        }).store("orderWorkOrder", {
-            header: [
+                    "name": "transfertype",
+                    "label": "资料交接类型"
+                },
                 {
-                    name: "descr",
-                    label: "工单名称"
-                }, {
-                    name: "inserviceName",
-                    label: "服务状态"
-                }, {
-                    name: "descr",
-                    label: "进度"
-                }, {
-                    name: "assignedInfo",
-                    label: "分配信息"
+                    "name": "inputtype",
+                    "label": "资料类型"
                 }
             ],
-            action: [
+            "action": [
                 {
-                    name: "view",
-                    label: "查看"
+                    "name": "view",
+                    "label": "下载",
+                    "link": "#"
+                }
+            ]
+        }).store("workorderComment",{
+            "header":[
+                {
+                    "name": "commenttext",
+                    "label": "评价心得"
+                },
+                {
+                    "name": "createdate",
+                    "label": "评论时间"
+                },
+                {
+                    "name": "senderid",
+                    "label": "评论者"
                 }
             ]
         }).store("userList", {
@@ -131,7 +91,7 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
             ]
         });
     })
-    .service("orderService", function ($http, $location, nptResource) {
+    .service("workorderService", function ($http, $location, nptResource) {
         var self = this;
 
         /**
@@ -140,7 +100,6 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
         this.checkNew = {
             isCollapsed: false,
             toggle: function () {
-
                 self.checkNew.isCollapsed = !self.checkNew.isCollapsed;
                 if (self.checkNew.isCollapsed) {
                     self.checkNew.text = "停止检查";
@@ -149,7 +108,7 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新订单"
+                    self.checkNew.text = "检查新工单"
                 }
             }
         };
@@ -157,9 +116,9 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
         this.query = {
             state: "all",
             data: [],
-            currPage: 0,
             isCollapsed: false,
-            toggle: function () {
+            toggle: function
+                () {
                 self.query.isCollapsed = !self.query.isCollapsed;
                 if (self.query.isCollapsed) {
                     self.query.text = "关闭查询";
@@ -169,7 +128,8 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
                 } else {
                     self.query.text = "打开查询";
                 }
-            },
+            }
+            ,
             list: function (state, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
@@ -181,11 +141,10 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001463017";
-                params["userid"] = "10000001498059";
+                params["createby"] = "10000001463011";
 
                 nptResource
-                    .post("queryOrderList", params, function (data) {
+                    .post("queryInsts", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
                         self.query.loading('reset')
@@ -197,13 +156,13 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
                     });
             },
             id: function (id, success, error) {
-                nptResource.post("queryOrderInfo", {"orderid": id}, success, error);
+                nptResource.post("queryInstDetail", {"workorderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
-                $("#waitconfirm").button(state);
+                $("#unstart").button(state);
                 $("#inservice").button(state);
-                $("#buy").button(state);
+                $("#complete").button(state);
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -223,20 +182,19 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
                     }
                 }
             },
-            next: function (orderid) {
-                var newId = self.query.nextId(orderid);
+            next: function (workorderid) {
+                var newId = self.query.nextId(workorderid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
             },
-            previous: function (orderid) {
-                var newId = self.query.previousId(orderid);
+            previous: function (workorderid) {
+                var newId = self.query.previousId(workorderid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
             }
         };
-
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -244,96 +202,104 @@ angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
         this.checkNew.toggle();
 
     }).
-    controller("OrderListController", function ($scope, $http, $location, orderService) {
+    controller("InstListController", function ($scope, $http, $location, workorderService) {
         $scope.data = [];
-        $scope.orderAction = function (type, item, index) {
+
+        $scope.instAction = function (type, item, index) {
             console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
+                //$location.replace();
             }
         };
 
         //设置自定义查询以及检查新订单
-        $scope.query = orderService.query;
-        $scope.checkNew = orderService.checkNew;
+        $scope.query = workorderService.query;
+        $scope.checkNew = workorderService.checkNew;
 
         /**
          * 根据状态查询当前用户机构的订单列表
          */
         $scope.queryByState = function () {
-            orderService.query.list($scope.query.state, function (data) {
+            workorderService.query.list($scope.query.state, function (data) {
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
         };
 
+
         //首先查询全部订单
-        if (orderService.query.data.length <= 0) {
+        if (workorderService.query.data.length <= 0) {
             $scope.queryByState();
         } else {
-            $scope.data = orderService.query.data;
+            $scope.data = workorderService.query.data;
         }
-    })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, orderService) {
-        $scope.orderid = $routeParams.id;
+    }).
+    controller("InstDetailController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+        $scope.instid = $routeParams.id;
 
-        $scope.query = orderService.query;
-
-
-        $scope.doOrderProducts = function (type, item, index) {
-        };
-
-        $scope.doWorkorders = function (type, item, index) {
-        };
-
-        $scope.onSelect = function (type, item, index) {
-            console.info("选择:" + JSON.stringify(item));
-        };
-
-        $scope.adviser = function () {
-            $scope.selectAdviser.open();
-        }
+        $scope.query = workorderService.query;
 
         //刷新界面动作按钮控制状态
         $scope.resetState = function () {
-            if ($scope.data.order.state === "waitconfirm") {
-                $scope.isConfirm = true;
+            if ($scope.data.workOrder.state === "unstart") {
+                $scope.isUnstart = true;
             } else {
-                $scope.isConfirm = false;
-            }
+                $scope.isUnstart = false;
+            };
+            if ($scope.data.workOrder.state === "inservice") {
+                $scope.isInservice = true;
+            } else {
+                $scope.isInservice = false;
+            };
+            if ($scope.data.workOrder.state === "complete") {
+                $scope.isNotComplete = false;
+            } else {
+                $scope.isNotComplete = true;
+            };
         };
 
-        //查询订单信息
-        orderService.query.id($scope.orderid, function (data) {
+        //查询工单信息
+        workorderService.query.id($scope.workorderid, function (data) {
             $scope.data = data || {order: {}};
             $scope.resetState();
         }, function (data) {
             //TODO 提示信息
         });
-    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
-        $scope.orderid = $routeParams.id;
-        $scope.org = orderService.org;
-        $scope.query = orderService.query;
 
-        $scope.confirm = function () {
-            $location.path("/detail/" + $scope.orderid);
+        $scope.doOrderAttachments = function(type,item,index) {
+
         };
 
-        $scope.openSelectUser = function () {
-            $scope.selectAdviserByConfirm.open();
+        $scope.doWorkorderComment = function(type,item,index) {
+
         };
 
+        //打开用户选择模态框
+        $scope.deliver = function () {
+            $scope.selectAdviser.open();
+        }
+
+        //执行转交
         $scope.onSelect = function (type, item, index) {
             $scope.adviser = item;
             $scope.adviserName = item.name;
+
+            var params = {};
+
+            var workorderids = [];
+            workorderids.push($scope.workorderid);
+
+            params["workorderids"] = workorderids;
+            params["targetprocessid"] = item.id;
+            params["postscript"] = "ceshi";
+
+            //调用服务
+            nptResource.post("deliverWorkorder", params, function (data) {
+                $location.path("/detail/"+$scope.workorderid);
+            }, function (data) {
+
+            });
         };
-
-        //查询订单信息
-        orderService.query.id($scope.orderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
-
     });

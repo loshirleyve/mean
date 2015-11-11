@@ -95,7 +95,7 @@ proxy.action("QueryProductsByGroupId", {
 //工单
 proxy.action("queryWorkorderList", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateMdProductGroupService"
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
 }).action("queryWorkorderDetail", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
@@ -149,6 +149,16 @@ proxy.action("queryMdCtrlcode", {
 proxy.action("queryMdInstScale", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryMdInstScaleService"
+});
+
+//机构
+proxy.action("queryInsts", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstsService"
+});
+proxy.action("queryInstDetail", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstByIdService"
 });
 
 module.exports = proxy;

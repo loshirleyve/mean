@@ -7,7 +7,7 @@
 'use strict';
 
 angular.module('wsweb')
-    .service('menuService', function (navigationMaster, Notification) {
+    .service('menuService', function (navigationMaster, Notification, storeManager) {
         /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
 
         var storeId = "openedMenus";
@@ -19,6 +19,7 @@ angular.module('wsweb')
                 return;
             }
             navigationMaster.navigateTo(menuNo);
+            this.focusMenus();
             storeMenus();
         }
 
@@ -76,21 +77,19 @@ angular.module('wsweb')
          * 保存当前正在编辑的菜单项
          */
         function storeMenus() {
-            if (store) {
-                var menus = navigationMaster.subWindows;
-                var storeObj = store.get(storeId) || {};
-                var storeMenus = [];
-                menus.forEach(function (mm) {
-                    if (mm.menuNo) {
-                        storeMenus.push(mm.menuNo);
-                    }
-                });
-                storeObj.menus = storeMenus;
-                storeObj.focusMenu = navigationMaster.currentFocus
-                    ? navigationMaster.currentFocus.menuNo
-                    : undefined;
-                store.set(storeId, storeObj);
-            }
+            var menus = navigationMaster.subWindows;
+            var storeObj = storeManager.get(storeId) || {};
+            var storeMenus = [];
+            menus.forEach(function (mm) {
+                if (mm.menuNo) {
+                    storeMenus.push(mm.menuNo);
+                }
+            });
+            storeObj.menus = storeMenus;
+            storeObj.focusMenu = navigationMaster.currentFocus
+                ? navigationMaster.currentFocus.menuNo
+                : undefined;
+            storeManager.set(storeId, storeObj);
         }
 
     })
@@ -193,6 +192,7 @@ angular.module('wsweb')
             var self = this;
             // 如果已经打开，则定位到tab
             if (this.isOpened(menuNo)) {
+                self.currentFocus = self.findOpenMenu(menuNo);
                 self.currentFocus.focus();
                 return;
             }
@@ -274,17 +274,25 @@ angular.module('wsweb')
          * @returns {boolean}
          */
         navigationMaster.isOpened = function (menuNo) {
-            var opened = false;
+
+            return !!this.findOpenMenu(menuNo);
+        }
+
+        /**
+         * 查找指定menuNo的窗口，如果有打开则返回
+         * @param menuNo
+         * @returns {undefined}
+         */
+        navigationMaster.findOpenMenu = function (menuNo) {
             var keepGoing = true;
-            var self = this;
+            var openOne = undefined;
             this.subWindows.forEach(function (win) {
                 if (keepGoing && win.menuNo == menuNo) {
-                    opened = true;
-                    self.currentFocus = win;
+                    openOne = win;
                     keepGoing = false;
                 }
             });
-            return opened;
+            return openOne;
         }
 
         return navigationMaster;
