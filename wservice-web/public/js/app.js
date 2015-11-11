@@ -132,7 +132,8 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
          */
         wswebProviderProvider.setup({
             limitSubWindow:3,
-            reloadFromLocal:true
+            reloadFromLocal:true,
+            storeWorkbench : true
         });
     });
 
