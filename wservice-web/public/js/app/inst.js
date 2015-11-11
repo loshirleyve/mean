@@ -2,86 +2,35 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
+angular.module("instApp", ["ui.neptune", "ngRoute", 'app.config'])
     .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "WorkorderDetailController",
+                controller: "InstDetailController",
                 templateUrl: "detail.html"
             })
-            //.when("/detail", {
-            //    redirectTo: "/detail/add"
-            //})
             .when("/list", {
-                controller: "WorkorderListController",
+                controller: "InstListController",
                 templateUrl: "list.html"
-            })
-            .when("/startWorkorder/:id",{
-                controller: "WorkorderStartController",
-                templateUrl: "startWorkorder.html"
-            })
-            .when("/completeWorkorder/:id",{
-                controller: "WorkorderCompleteController",
-                templateUrl: "completeWorkorder.html"
-            })
-            .when("/deliverWorkorder/:id",{
-                controller: "WorkorderDeliverController",
-                templateUrl: "deliverWorkorder.html"
             })
             .otherwise({
                 redirectTo: "/list"
             });
 
-        DatatableStoreProvider.store("workorder", {
+        DatatableStoreProvider.store("inst", {
             "header": [
                 {
-                    "name": "sn",
-                    "label": "工单号"
-                },
-                {
                     "name": "name",
-                    "label": "工单名称"
+                    "label": "机构名称"
                 },
                 {
-                    "name": "assignedid",
-                    "label": "分配人"
+                    "name": "hostname",
+                    "label": "企业网址"
                 },
                 {
-                    "name": "assigneddate",
-                    "label": "分配日期"
-                },
-                {
-                    "name": "processid",
-                    "label": "处理人"
-                },
-                {
-                    "name": "processdate",
-                    "label": "计划开始日期"
-                },
-                {
-                    "name": "doactiondate",
-                    "label": "实际开始日期"
-                },
-                {
-                    "name": "expirydate",
-                    "label": "计划完成日期"
-                },
-                {
-                    "name": "completedate",
-                    "label": "实际完成日期"
-                },
-                {
-                    "name": "expriyday",
-                    "label": "距离完成期限(天)"
-                },
-                {
-                    "name": "state",
-                    "label": "工单状态"
-                },
-                {
-                    "name": "createdate",
-                    "label": "创建日期"
+                    "name": "tel",
+                    "label": "企业电话"
                 }
             ],
             "action": [
@@ -192,11 +141,10 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001463017";
-                params["processid"] = "10000001498059";
+                params["createby"] = "10000001463011";
 
                 nptResource
-                    .post("queryWorkorderList", params, function (data) {
+                    .post("queryInsts", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
                         self.query.loading('reset')
@@ -208,7 +156,7 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
                     });
             },
             id: function (id, success, error) {
-                nptResource.post("queryWorkorderDetail", {"workorderid": id}, success, error);
+                nptResource.post("queryInstDetail", {"workorderid": id}, success, error);
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -248,60 +196,16 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
             }
         };
 
-        this.org = {
-            queryUserByOrgId: function (orgid, success, error) {
-                //根据组织ID查询用户列表
-                nptResource.post("queryUsersByOrgid", {
-                    "orgid": orgid
-                }, success, error);
-
-            },
-            queryOrgTreeAndBuilderNode: function (instid, success, error) {
-                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
-                nptResource.post("queryOrgTree", {
-                    "instid": instid,
-                    "dimtype": "hr"
-                }, function (data) {
-                    var orgNodes = [{
-                        id: data.id,
-                        title: data.simplename
-                    }];
-                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
-                    if (success) {
-                        success(orgNodes);
-                    }
-                }, function (data) {
-                    if (error) {
-                        error(data);
-                    }
-                });
-
-            },
-            builderOrgTreeNode: function (nodes, data) {
-                if (data) {
-                    nodes.nodes = [];
-                    for (var i = 0; i < data.length; i++) {
-                        var node = {
-                            id: data[i]["id"],
-                            title: data[i]["name"]
-                        };
-                        self.org.builderOrgTreeNode(node, data[i].children);
-                        nodes.nodes.push(node);
-                    }
-                }
-            }
-        };
-
         //默认状态为关闭自定义查询
         this.query.toggle();
         //默认状态为启动检查新单据
         this.checkNew.toggle();
 
     }).
-    controller("WorkorderListController", function ($scope, $http, $location, workorderService) {
+    controller("InstListController", function ($scope, $http, $location, workorderService) {
         $scope.data = [];
 
-        $scope.workorderAction = function (type, item, index) {
+        $scope.instAction = function (type, item, index) {
             console.info(type);
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
@@ -332,9 +236,8 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
             $scope.data = workorderService.query.data;
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource) {
-        $scope.workorderid = $routeParams.id;
-        $scope.org = workorderService.org;
+    controller("InstDetailController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+        $scope.instid = $routeParams.id;
 
         $scope.query = workorderService.query;
 
@@ -391,103 +294,6 @@ angular.module("workorderApp", ["ui.neptune", "ngRoute", 'app.config'])
             params["workorderids"] = workorderids;
             params["targetprocessid"] = item.id;
             params["postscript"] = "ceshi";
-
-            //调用服务
-            nptResource.post("deliverWorkorder", params, function (data) {
-                $location.path("/detail/"+$scope.workorderid);
-            }, function (data) {
-
-            });
-        };
-    }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource) {
-        $scope.workorderid = $routeParams.id;
-
-        //查询工单信息
-        workorderService.query.id($scope.workorderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
-
-        //开始工单
-        $scope.startWorkorder = function() {
-            var params = {};
-            var workorderids = [];
-
-            workorderids.push($scope.workorderid);
-
-            params["postscript"] = $scope.postscript;
-            params["workorderids"] = workorderids;
-            params["userid"] = "10000001498059";
-
-            nptResource
-                .post("startWorkorder", params, function (data) {
-                    workorderService.query.data = [];
-                    $location.path("/detail/"+$scope.workorderid);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-        };
-    }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, nptResource) {
-        $scope.workorderid = $routeParams.id;
-
-        //查询工单信息
-        workorderService.query.id($scope.workorderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
-
-        //开始工单
-        $scope.completeWorkorder = function() {
-            var params = {};
-            var workorderids = [];
-
-            workorderids.push($scope.workorderid);
-
-            params["postscript"] = $scope.postscript;
-            params["workorderids"] = workorderids;
-            params["userid"] = "10000001498059";
-
-            nptResource
-                .post("completeWorkorder", params, function (data) {
-                    workorderService.query.data = [];
-                    $location.path("/detail/"+$scope.workorderid);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-        };
-    }).
-    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, nptResource) {
-        $scope.workorderid = $routeParams.id;
-        var deliverid;
-        $scope.postscript = "";
-
-        //打开用户选择模态框
-        $scope.openSelectUser = function () {
-            $scope.selectAdviser.open();
-        };
-
-        //选择用户，表单显示选择人
-        $scope.onSelect = function (type, item, index) {
-            deliverid = item.id;
-            $scope.deliverName = item.name;
-        }
-
-
-        $scope.deliver = function () {
-            var params = {};
-
-            var workorderids = [];
-            workorderids.push($scope.workorderid);
-
-            params["workorderids"] = workorderids;
-            params["targetprocessid"] = deliverid;
-            params["postscript"] = $scope.postscript;
 
             //调用服务
             nptResource.post("deliverWorkorder", params, function (data) {

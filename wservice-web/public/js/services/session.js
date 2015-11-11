@@ -15,6 +15,8 @@ angular.module('wsweb.service').service('Session', ['$http',
             return $http({
                 method: 'POST',
                 url: 'api/session'
+            }).then(function(response) {
+                return response.data;
             });
         }
     }

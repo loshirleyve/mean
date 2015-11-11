@@ -11,7 +11,13 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 templateUrl: "detail.html"
             })
             .when("/detail", {
-                redirectTo: "/detail/add"
+                //redirectTo: "/detail/add"
+                controller: "BizPageDetailController",
+                templateUrl: "addClient.html"
+            })
+            .when("/addClient",{
+                controller:"BizPageDetailController",
+                templateUrl: "addClient.html"
             })
             .when("/list", {
                 controller: "BizPageListController",
@@ -122,10 +128,10 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                     .post("queryInstClients", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         success(data);
                     }, function (data) {
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         //TODO 弹出提示检索错误通知窗口
                         error(data);
                     });
@@ -135,6 +141,17 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             },
             defno:function(defno, success, error){
                 nptResource.post("queryMdCtrlcode", {"defno":defno}, success, error);
+            },
+            mdInstScale:function(success, error){
+                nptResource.post("queryMdInstScale", {}, success, error);
+            },
+            addOrUpdateInstClient:function(client, success, error){
+                nptResource.post("addOrUpdateInstClients", client, function(data){
+                    success(data);
+                }, function(data){
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
             },
             loading: function (state) {
                 $("#all").button(state);
@@ -174,6 +191,61 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             }
         };
 
+        this.mdControlCode = {
+            defno:function(defno, success, error){
+                nptResource.post("queryMdCtrlcode", {"defno":defno}, success, error);
+            },
+            mdInstScale:function(success, error){
+                nptResource.post("queryMdInstScale", {}, success, error);
+            },
+
+            //查询客户行业的控制编码
+            clientindustry:function(){
+                clientService.mdControlCode.defno("clientindustry", function(data){
+                    var clientindustry = data;
+                    return self.mdControlCode.clientindustry;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            },
+            clienttype:function(){
+                //查询客户类型的控制编码
+                clientService.mdControlCode.defno("clienttype", function(data){
+                    var clienttype = data;
+                    return self.mdControlCode.clienttype;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            },
+            clientsource:function(){
+                //查询客户来源的控制编码
+                clientService.mdControlCode.defno("clientsource", function(data){
+                    var clientsource = data;
+                    return self.mdControlCode.clientsource;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            },
+            mdInstScaleId:function(){
+                //查询客户规模的控制编码
+                clientService.mdControlCode.mdInstScale(function(data){
+                    var mdInstScaleId = data.bizMdInstScales;
+                    return self.mdControlCode.mdInstScaleId;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            },
+            contactposition:function(){
+                //查询客户职位的控制编码
+                clientService.mdControlCode.defno("contactposition", function(data){
+                    var contactposition = data;
+                    return self.mdControlCode.contactposition;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            }
+        };
+
 
         //默认状态为关闭自定义查询
         this.query.toggle();
@@ -205,49 +277,109 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             })
         };
 
-
         //首先查询全部客户
         if (clientService.query.data.length <= 0) {
             $scope.queryByState();
         } else {
             $scope.data = clientService.query.data;
         }
+
+        $scope.clientSearch = function(){
+            $("#clientSearch").on("shown.bs.modal", function(){
+                //查询客户行业的控制编码
+                clientService.query.defno("clientindustry", function(data){
+                    $scope.clientindustry = data;
+                    $scope.selected=$scope.clientindustry1[0].name;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户类型的控制编码
+                clientService.query.defno("clienttype", function(data){
+                    $scope.clienttype = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户级别的控制编码
+                clientService.query.defno("clientlevel", function(data){
+                    $scope.clientlevel = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户来源的控制编码
+                clientService.query.defno("clientsource", function(data){
+                    $scope.clientsource = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            });
+        };
     })
     .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService) {
         $scope.clientid = $routeParams.id;
 
         $scope.query = clientService.query;
 
-/*        var orderProductConfig = bizModuleConfig.getModuleConfig("orderProduct");
-        $scope.productHeader = orderProductConfig.header;
-        $scope.productAction = [];
-
-        var orderWorkOrder = bizModuleConfig.getModuleConfig("orderWorkOrder");
-        $scope.workOrderHeader = orderWorkOrder.header;
-        $scope.workOrderAction = orderWorkOrder.action;
-
-        $scope.doOrderProducts = function (type, item, index) {
+        $scope.confirm = function(){
+            $location.path("/detail/" + $scope.clientid);
         };
 
-        $scope.doWorkorders = function (type, item, index) {
+        $scope.addClient = function () {
+            $location.path("/addClient/" + $scope.clientid);
         };
-
-        //刷新界面动作按钮控制状态
-        $scope.resetState = function () {
-            if ($scope.data.client.state === "waitconfirm") {
-                $scope.isConfirm = true;
-            } else {
-                $scope.isConfirm = false;
-            }
-        };*/
 
         //查询客户信息
         clientService.query.id($scope.clientid, function (data) {
             $scope.data = data || {client: {}};
-//            $scope.resetState();
         }, function (data) {
             //TODO 提示信息
         });
+
+        //添加或更新客户
+        $scope.addOrUpdateClientconfirm = function(){
+            var params={};
+            params["instid"] = "10000001463017";
+            params["sn"] = $scope.add.sn;
+            params["name"] = $scope.add.name;
+            params["fullname"] = $scope.add.fullname;
+            params["type"] = $scope.data.type;
+            params["level"] = $scope.data.level;
+            params["contactman"] = $scope.add.contactman;
+            params["contactphone"] = $scope.add.contactphone;
+            params["region"] = $scope.add.region;
+            params["source"] = $scope.data.source;
+            params["industry"] = $scope.data.industry;
+            params["contactposition"] = $scope.data.contactposition;
+            params["createby"] ="10000001498059";
+            params["scaleid"] = $scope.data.scaleid.type;
+            clientService.query.addOrUpdateInstClient(params, function(data){
+            }, function(data){
+                //TODO 弹出提示检索错误通知窗口
+            });
+        };
+
+        //编辑客户信息
+        $scope.editClientConfirm = function(){
+            var params={};
+            params["id"] = $scope.data.id;
+            params["instid"] = "10000001463017";
+            params["sn"] = $scope.data.sn;
+            params["name"] = $scope.data.name;
+            params["fullname"] = $scope.data.fullname;
+            params["type"] = $scope.data.type;
+            params["level"] = $scope.data.level;
+            params["contactman"] = $scope.data.contactman;
+            params["contactphone"] = $scope.data.contactphone;
+            params["region"] = $scope.data.region;
+            params["source"] = $scope.data.source;
+            params["industry"] = $scope.data.industry;
+            params["contactposition"] = $scope.data.contactposition;
+            params["createby"] ="10000001498059";
+            params["scaleid"] = $scope.data.scaleid;
+            clientService.query.addOrUpdateInstClient(params, function(data){
+            }, function(data){
+                //TODO 弹出提示检索错误通知窗口
+            });
+        }
 
         //查询客户行业的控制编码
         clientService.query.defno("clientindustry", function(data){
@@ -274,8 +406,8 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
            //TODO 提示信息
         });
         //查询客户规模的控制编码
-        clientService.query.defno("instscaletype", function(data){
-            $scope.instscaletype = data;
+        clientService.query.mdInstScale(function(data){
+            $scope.mdInstScaleId = data.bizMdInstScales;
         }, function(data){
             //TODO 提示信息
         });

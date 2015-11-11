@@ -1,19 +1,20 @@
 /*!
  * mars
- * Copyright(c) 2015 huangbinglong
+ * Copyright(c) 2015 Leon Huang
  * MIT Licensed
  */
 
 'use strict';
+
 var express = require("express");
 var router = express.Router();
 
 /**
- * 测试界面
+ * 订单列表路由
  */
 router.get("/", function (req, res, next) {
-    res.render("app/demo/demo");
+    res.render("app/inst/inst",{
+    });
 });
-
 
 module.exports = router;

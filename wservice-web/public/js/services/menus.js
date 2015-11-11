@@ -14,7 +14,9 @@ angular.module('wsweb.service').service('Menus', ['$http',
          * @returns {HttpPromise}
          */
         this.query = function (param) {
-            return $http.post('api/menus',param||{});
+            return $http.post('api/menus',param||{}).then(function(response) {
+                return response.data;
+            });
         }
     }
 ]);

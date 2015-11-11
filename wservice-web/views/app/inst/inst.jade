@@ -4,22 +4,11 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/app/workorder.js")
-    div(ng-app="workorderApp")
+    script(src="/js/app/inst.js")
+    div(ng-app="instApp")
         //通知区域
         //内容区域
         div(ng-view)
-
-        //组织结构树模板
-        //script(type="text/ng-template",id="org_nodes.html")
-        //    div.tree-node.tree-node-content(ui-tree-handle)
-        //        a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
-        //            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
-        //        | &nbsp &nbsp
-        //        a.btn-link(ng-click="clickOrg(node)") {{node.title}}
-        //
-        //    ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
-        //        li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
 
         //列表模板
         script(type="text/ng-template",id="list.html")
@@ -31,34 +20,11 @@ block content
                             a(href="/home")
                                 span.glyphicon.glyphicon-home
                                 span 首页
-                        li.active 工单列表
-            //功能按钮区域
-            div.row
-                div.col-md-12
-                    div.btn-group
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'all'",ng-click="queryByState()" data-loading-text="正在查询...",id="all") 全部
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'unstart'",ng-click="queryByState()" data-loading-text="正在查询...",id="unstart") 未处理
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'inservice'",ng-click="queryByState()" data-loading-text="正在查询...",id="inservice") 处理中
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'complete'",ng-click="queryByState()" data-loading-text="正在查询...",id="complete") 已完成
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm(ng-click="query.toggle()",data-loading-text="正在查询...",id="query") {{query.text}}
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm(ng-click="checkNew.toggle()",data-loading-text="正在查询...",id="checkNew") {{checkNew.text}}
-            p
-            //检查新工单区域
-            div.row
-                div.col-md-12
-                    div(uib-collapse="!checkNew.isCollapsed")
-                        div.well.well-lg 检查新工单
-            //条件查询内容输入区域
-            div.row
-                div.col-md-12
-                    div(uib-collapse="!query.isCollapsed")
-                        div.well.well-lg 条件查询内容
+                        li.active 机构列表
             //数据表格区域
             div.row
                 div.col-md-12
-                    npt-datatable(is-pagination="true",items-per-page="10",name="workorder",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
+                    npt-datatable(is-pagination="true",items-per-page="10",name="inst",data="data",action="action",is-index="true",on-action="instAction(type,item,index)")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -71,28 +37,11 @@ block content
                                 span 首页
                         li
                             a(href="#/list")
-                                span 工单列表
-                        li.active 工单详情
+                                span 机构列表
+                        li.active 机构详情
             nav.navbar.navbar-default
                 div.navbar-header
-                    a.navbar-brand(href="") 工单详情
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="",ng-click="query.previous(workorderid)",ng-show="{{query.previousId(workorderid)}}") 上一单
-                    li
-                        a(href="",ng-click="query.next(workorderid)",ng-show="{{query.nextId(workorderid)}}") 下一单
-                    li
-                        a(href="#/startWorkorder/{{workorderid}}",ng-show="isUnstart") 开始做
-                    li
-                        a(href="#/completeWorkorder/{{workorderid}}",ng-show="isInservice") 完成
-                    li
-                        a(href="#/deliverWorkorder/{{workorderid}}",ng-show="isNotComplete") 转交
-                    li
-                        a(href="/order/#/detail/{{data.workOrder.sourcevalue}}") 查看订单
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
+                    a.navbar-brand(href="") 机构详情
             div.row
                 div.col-md-12
                     div.panel.panel-default
