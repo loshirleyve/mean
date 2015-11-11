@@ -65,8 +65,12 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             "action": [
                 {
                     "name": "view",
-                    "label": "查看",
+                    "label": "详情/编辑",
                     "link": "#detail"
+                },
+                {
+                    "name": "initInst",
+                    "label": "初始化机构"
                 }
             ]
         });
@@ -110,24 +114,17 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 }
             }
             ,
-            list: function (state, success, error) {
+            list: function (params, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
-                //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
-                var params = {};
-
-                if (state !== "all") {
-                    params["state"] = state;
-                }
 
                 //总是加入当前用户以及机构作为查询参数
                 params["instid"] = "10000001463017";
-                params["userid"] = "10000001498059";
+                //params["userid"] = "10000001498059";
 
                 nptResource
                     .post("queryInstClients", params, function (data) {
                         self.query.data = data;
-                        self.query.state = state;
                         self.query.loading('reset');
                         success(data);
                     }, function (data) {
@@ -155,9 +152,6 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             },
             loading: function (state) {
                 $("#all").button(state);
-               /* $("#waitconfirm").button(state);
-                $("#inservice").button(state);
-                $("#buy").button(state);*/
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -188,6 +182,14 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
+            },
+            initInst:function(params, success, error){
+                nptResource.post("initClientInst", params, function(data){
+                    success(data);
+                }, function(data) {
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
             }
         };
 
@@ -260,6 +262,9 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
             if (item && type === "view") {
                 $location.path("/detail/" + item.id);
             }
+            if(item && type == "initInst"){
+                $scope.initInst(itme.id)
+            }
         };
 
         //设置自定义查询以及检查新订单
@@ -270,10 +275,18 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
          * 根据状态查询当前用户的客户列表
          */
         $scope.queryByState = function () {
-            clientService.query.list($scope.query.state, function (data) {
+            clientService.query.list({}, function (data) {
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
+            })
+        };
+
+        //初始化机构
+        $scope.initInst = function(clientInfo){
+            clientService.query.initInst(clientInfo, function(data){
+            }, function(data){
+                //TODO 弹出错误通知窗口
             })
         };
 
@@ -311,6 +324,23 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 }, function(data){
                     //TODO 提示信息
                 });
+            });
+        };
+
+        $scope.clientSearchConfirm = function(){
+            $("#clientSearch").on("hidden.bs.modal", function(data){
+                var params={};
+                params["contactman"]=$scope.contactman;
+                params["fullname"]=$scope.fullname;
+                params["industry"]=$scope.data.industry.no;
+                params["type"]=$scope.data.type;
+                params["level"]=$scope.data.level.no;
+                params["source"]=$scope.data.source;
+                clientService.query.list(params, function (data) {
+                    $scope.data = data;
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                })
             });
         };
     })
