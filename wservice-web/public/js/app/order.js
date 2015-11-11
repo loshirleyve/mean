@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute", 'ui.tree'])
+angular.module("orderApp", ["ui.neptune", "app.config", "ngRoute"])
     .config(function ($routeProvider, DatatableStoreProvider) {
         //注册订单路由
         $routeProvider
