@@ -164,7 +164,7 @@ block content
                                         &nbsp &nbsp &nbsp &nbsp
                                         a.btn.btn-default(type="button",href="#/list") 返回
 
-        //编辑产品
+        //编辑分组
         script(type="text/ng-template",id="editGroup.html")
             //弹出层，编辑分组
             div#editGroup.modal.fade(name="editGroup",tabindex="-1",role="dialog")
@@ -212,7 +212,7 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 分组信息
-                        npt-datatable(name="allProductGroup",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
+                        npt-datatable(name="group",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
 
 
 
