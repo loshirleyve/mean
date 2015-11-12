@@ -2,9 +2,9 @@
  * Created by leon on 15/11/6.
  */
 angular.module("app.config.selectTree", ["ui.neptune"])
-    .config(function (SelectTreeConfigProvider) {
+    .config(function (SelectTreeProvider) {
 
-        SelectTreeConfigProvider.setListHandler("selectUser", function (nptResource, id, done) {
+        SelectTreeProvider.setListHandler("selectUser", function (nptResource, id, done) {
             //根据组织ID查询用户列表
             nptResource.post("queryUsersByOrgid", {
                 "orgid": id
@@ -17,7 +17,7 @@ angular.module("app.config.selectTree", ["ui.neptune"])
             });
         });
 
-        SelectTreeConfigProvider.setTreeHandler("selectUser", function (nptResource, done) {
+        SelectTreeProvider.setTreeHandler("selectUser", function (nptResource, done) {
             var org = {
                 builderOrgTreeNode: function (nodes, data) {
                     if (data) {
