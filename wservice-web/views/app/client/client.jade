@@ -6,26 +6,25 @@ extends ../../layout/layout-bizpage
 block content
     script(src="js/app/client.js")
     div(ng-app="clientApp")
-        //功能导航区域
-        div.row
-            div.col-md-12
-                ul.breadcrumb
-                    li
-                        a(href="/home")
-                            span.glyphicon.glyphicon-home
-                            |  首页
-                    li.active 客户管理
         //内容区域
         div(ng-view)
+        //功能导航区域
+
         //列表模板
         script(type="text/ng-template", id="list.html")
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                |  首页
+                        li.active 客户管理
             //功能按钮区域
             div.row
                 div.col-md-12
                     div.btn-group
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'all'", ng-click="queryByState()" data-loading-text="正在查询...", id="all")全部客户
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'initialized'", ng-click="queryByState()" data-loading-text="正在查询...", id="initialized")已初始化客户
-                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'uninitialized'", ng-click="queryByState()" data-loading-text="正在查询...", id="uninitialized")未初始化客户
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'all'", ng-click="queryByState()" data-loading-text="正在查询...", id="all")客户列表
                         | &nbsp
                         label.btn.btn-primary.btn-sm(ng-click="query.toggle()", data-loading-text="正在查询...", id="query"){{query.text}}
                     a.btn.btn-default.glyphicon.glyphicon-search.pull-right(ng-click="clientSearch()", data-toggle="modal", data-target="#clientSearch")
@@ -55,11 +54,11 @@ block content
                                         .form-group
                                             label.col-md-3.control-label(for="contactman") 联系人
                                             .col-md-9
-                                                input.form-control(type="text", placeholder="联系人")
+                                                input.form-control(type="text", id="contactman", ng-model="contactman", placeholder="联系人")
                                         .form-group
                                             label.col-md-3.control-label(for="fullname") 客户名称
                                             .col-md-9
-                                                input.form-control(type="text", placeholder="客户名称")
+                                                input.form-control(type="text", id="fullname", ng-model="fullname", placeholder="客户名称")
                                         .form-group
                                             label.col-md-3.control-label(for="industry")客户行业
                                             .col-md-9
@@ -76,7 +75,7 @@ block content
                                             label.col-md-3.control-label(for="level") 客户级别
                                             .col-md-9
                                                 span.nullable
-                                                    select#type.form-control(ng-model="data.level", ng-options="level.no as level.name for level in clientlevel")
+                                                    select#level.form-control(ng-model="data.level", ng-options="level.no as level.name for level in clientlevel")
                                                         option(value="") ---请选择---
                                         .form-group
                                             label.col-md-3.control-label(for="source")客户来源
@@ -86,7 +85,7 @@ block content
                                                         option(value="") ---请选择---
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="clientSearchConfirm()") 确认
         //详情模板
         script(type="text/ng-template",id="detail.html")
             nav.navbar.navbar-default
