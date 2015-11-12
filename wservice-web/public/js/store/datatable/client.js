@@ -33,33 +33,13 @@ angular.module("wservice.dt.store.client", ["ui.neptune"]).
             },
             action: {
                 view: {
-                    label: "详情/编辑",
+                    label: "查看",
                     type: "none"
-                    /*target: "client", //跳转到客户详情的表单,
-                    listens: [
-                        function (params, $timeout, $q) {
-                            var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.")
-                            $timeout(function () {
-                                if (params.index === 0) {
-                                    deferd.reject("不能编辑第一行");
-                                } else {
-                                    deferd.resolve("执行成功!");
-                                    params.data["demo"] = "测试添加一行数据";
-                                    params.data["sn"] = "测试修改订单号"
-                                }
-                            }, 500);
-                            return deferd.promise;
-                        },
-                        function () {
-                            return "我是第二个方法";
-                        }
-                    ]*/
                 },
-                initInst: {
-                    label: "初始化机构",
-                    type: "none"
-                    /*target: "demo",
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target: "demo",
                     listens: [function ($q, $timeout) {
                         var deferd = $q.defer();
                         console.info("添加方法,在Store中配置");
@@ -86,7 +66,35 @@ angular.module("wservice.dt.store.client", ["ui.neptune"]).
                         return deferd.promise;
                     }, function (params) {
                         console.info("添加的第二个方法!");
-                    }]*/
+                    }]
+                },
+                del: {
+                    label: "删除",
+                    type: "del"
+                },
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target: "order",
+                    listens: [
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.")
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                    params.data["demo"] = "测试添加一行数据";
+                                    params.data["sn"] = "测试修改订单号"
+                                }
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
                 }
             }
         });
