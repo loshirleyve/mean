@@ -9,14 +9,14 @@ var router=express.Router();
 
 router.get("/",function(req,res,next)
 {
-    res.render("product/productList",{
+    res.render("app/product/product",{
         "title":"产品管理"
     });
 });
 
 router.get("/productDetail",function(req,res,next)
 {
-    res.render("product/productDetail",{
+    res.render("app/productDetail",{
         "title":"产品详情"
     });
 });

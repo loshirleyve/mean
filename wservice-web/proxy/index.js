@@ -133,6 +133,9 @@ proxy.action("queryInstClients", {
 }).action("queryInstRolesByUseridAndInstid", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
+}).action("instInit", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.InstInitService"
 });
 
 

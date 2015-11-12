@@ -1,8 +1,8 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
-    .config(function ($routeProvider, DatatableStoreProvider) {
+angular.module("productApp", ["wservice.store", "app.config", "ngRoute"])
+    .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
             .when("/list", {
@@ -28,247 +28,247 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             .otherwise({
                 redirectTo: "/list"
             });
-        DatatableStoreProvider.store("product", {
-            "header": [
-                {
-                    "name": "instid",
-                    "label": "服务商名称"
-                },
-                {
-                    "name": "sn",
-                    "label": "产品编号"
-                },
-                {
-                    "name": "name",
-                    "label": "产品名称"
-                },
-                {
-                    "name": "pricedescr",
-                    "label": "售价"
-                },
-                {
-                    "name": "state",
-                    "label": "产品状态"
-                },
-                {
-                    "name": "type",
-                    "label": "产品类型"
-                },
-                {
-                    "name": "createdate",
-                    "label": "创建日期"
-                }
-            ],
-            "action": [
-                {
-                    "name": "view",
-                    "label": "查看"
-                }
-            ]
-        }).store("productPhases", {
-            header: [
-                {
-                    name: "name",
-                    label: "阶段名称"
-                },
-                {
-                    name: "cyclevalue",
-                    label: "阶段周期"
-                },
-                {
-                    name: "duty",
-                    label: "阶段职责"
-                },
-                {
-                    name: "times",
-                    label: "办理天数"
-                },
-                {
-                    name: "processdays",
-                    label: "服务次数"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("productRequirements", {
-            header: [
-                {
-                    name: "name",
-                    label: "资料名称"
-                },
-                {
-                    name: "cyclevalue",
-                    label: "交接类型"
-                },
-                {
-                    name: "duty",
-                    label: "资料类型"
-                },
-                {
-                    name: "times",
-                    label: "要求描述"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("productProfiles", {
-            header: [
-                {
-                    name: "synopsis",
-                    label: "内容描述"
-                },
-                {
-                    name: "sort",
-                    label: "排序"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("productGroups", {
-            header: [
-                {
-                    name: "backgorundimgid",
-                    label: "分组图标"
-                },
-                {
-                    name: "groupname",
-                    label: "分组名称"
-                },
-                {
-                    name: "province",
-                    label: "省"
-                },
-                {
-                    name: "city",
-                    label: "市"
-                },
-                {
-                    name: "district",
-                    label: "区"
-                },
-                {
-                    name: "top",
-                    label: "是否置顶"
-                },
-                {
-                    name: "sort",
-                    label: "排序"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("productClassifies", {
-            header: [
-                {
-                    name: "classifyname",
-                    label: "分类名称"
-                },
-                {
-                    name: "classifyno",
-                    label: "分类编号"
-                },
-                {
-                    name: "price",
-                    label: "价格"
-                },
-                {
-                    name: "phasename",
-                    label: "所属服务阶段"
-                },
-                {
-                    name: "sort",
-                    label: "排序"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("productDescrs", {
-            header: [
-                {
-                    name: "descr",
-                    label: "标题"
-                },
-                {
-                    name: "descrvalue",
-                    label: "内容"
-                },
-                {
-                    name: "type",
-                    label: "类型"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        }).store("allProductGroup", {
-            header: [
-                {
-                    name: "name",
-                    label: "分类名称"
-                },
-                {
-                    name: "sort",
-                    label: "排序"
-                }
-            ],
-            "action": [
-                {
-                    "name": "edit",
-                    "label": "编辑"
-                },
-                {
-                    "name": "delete",
-                    "label": "删除"
-                }
-            ]
-        });
+//        DatatableStoreProvider.store("product", {
+//            "header": [
+//                {
+//                    "name": "instid",
+//                    "label": "服务商名称"
+//                },
+//                {
+//                    "name": "sn",
+//                    "label": "产品编号"
+//                },
+//                {
+//                    "name": "name",
+//                    "label": "产品名称"
+//                },
+//                {
+//                    "name": "pricedescr",
+//                    "label": "售价"
+//                },
+//                {
+//                    "name": "state",
+//                    "label": "产品状态"
+//                },
+//                {
+//                    "name": "type",
+//                    "label": "产品类型"
+//                },
+//                {
+//                    "name": "createdate",
+//                    "label": "创建日期"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "view",
+//                    "label": "查看"
+//                }
+//            ]
+//        }).store("productPhases", {
+//            header: [
+//                {
+//                    name: "name",
+//                    label: "阶段名称"
+//                },
+//                {
+//                    name: "cyclevalue",
+//                    label: "阶段周期"
+//                },
+//                {
+//                    name: "duty",
+//                    label: "阶段职责"
+//                },
+//                {
+//                    name: "times",
+//                    label: "办理天数"
+//                },
+//                {
+//                    name: "processdays",
+//                    label: "服务次数"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("productRequirements", {
+//            header: [
+//                {
+//                    name: "name",
+//                    label: "资料名称"
+//                },
+//                {
+//                    name: "cyclevalue",
+//                    label: "交接类型"
+//                },
+//                {
+//                    name: "duty",
+//                    label: "资料类型"
+//                },
+//                {
+//                    name: "times",
+//                    label: "要求描述"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("productProfiles", {
+//            header: [
+//                {
+//                    name: "synopsis",
+//                    label: "内容描述"
+//                },
+//                {
+//                    name: "sort",
+//                    label: "排序"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("productGroups", {
+//            header: [
+//                {
+//                    name: "backgorundimgid",
+//                    label: "分组图标"
+//                },
+//                {
+//                    name: "groupname",
+//                    label: "分组名称"
+//                },
+//                {
+//                    name: "province",
+//                    label: "省"
+//                },
+//                {
+//                    name: "city",
+//                    label: "市"
+//                },
+//                {
+//                    name: "district",
+//                    label: "区"
+//                },
+//                {
+//                    name: "top",
+//                    label: "是否置顶"
+//                },
+//                {
+//                    name: "sort",
+//                    label: "排序"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("productClassifies", {
+//            header: [
+//                {
+//                    name: "classifyname",
+//                    label: "分类名称"
+//                },
+//                {
+//                    name: "classifyno",
+//                    label: "分类编号"
+//                },
+//                {
+//                    name: "price",
+//                    label: "价格"
+//                },
+//                {
+//                    name: "phasename",
+//                    label: "所属服务阶段"
+//                },
+//                {
+//                    name: "sort",
+//                    label: "排序"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("productDescrs", {
+//            header: [
+//                {
+//                    name: "descr",
+//                    label: "标题"
+//                },
+//                {
+//                    name: "descrvalue",
+//                    label: "内容"
+//                },
+//                {
+//                    name: "type",
+//                    label: "类型"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        }).store("allProductGroup", {
+//            header: [
+//                {
+//                    name: "name",
+//                    label: "分类名称"
+//                },
+//                {
+//                    name: "sort",
+//                    label: "排序"
+//                }
+//            ],
+//            "action": [
+//                {
+//                    "name": "edit",
+//                    "label": "编辑"
+//                },
+//                {
+//                    "name": "delete",
+//                    "label": "删除"
+//                }
+//            ]
+//        });
     })
     .service("productService", function ($http, $location, nptResource) {
         var self = this;
@@ -298,9 +298,9 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             groupid: "all",
             data: [],
             groupdata: [],
-            cities:[],
+            cities: [],
             ctrlCode: [],
-            proPhase:[],
+            proPhase: [],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -359,7 +359,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["district"] = "全城";
                 nptResource.post("QueryMdProductGroupBylocation", params, function (data) {
                     self.query.groupdata = data;
-                    console.info( self.query.groupdata );
+                    console.info(self.query.groupdata);
                     self.query.loading('reset')
                     success(data);
                 }, function (data) {
@@ -369,8 +369,8 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 });
             },
             queryCities: function (success, error) {
-                var params={};
-                nptResource.post("queryCities",params, function (data) {
+                var params = {};
+                nptResource.post("queryCities", params, function (data) {
                     self.query.cities = data;
                     self.query.loading('reset')
                     success(data);
@@ -393,7 +393,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                     error(data);
                 });
             },
-            queryProductPhase: function (productid,success, error) {
+            queryProductPhase: function (productid, success, error) {
                 var params = {};
                 params["productid"] = productid;
                 nptResource.post("QueryProductPhaseByProductid", params, function (data) {
@@ -541,7 +541,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 params["descr"] = descr.descr;
                 params["descrvalue"] = descr.descrvalue;
                 params["sort"] = descr.sort;
-                params["createby"] ="10000001498059";
+                params["createby"] = "10000001498059";
                 params["createdate"] = descr.createdate;
                 params["createtimestamp"] = descr.createtimestamp;
                 params["updatetimestamp"] = descr.updatetimestamp;
@@ -682,7 +682,7 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
         var self = this;
 
         $scope.productAction = function (type, item, index) {
-            if (item && type === "view") {
+            if (item && type === "none") {
                 $location.path("/detail/" + item.id);
                 ///$location.replace();
             }
@@ -710,10 +710,8 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
             $scope.data = productService.query.data;
         }
 
-        $scope.queryCities=function()
-        {
-            productService.query.queryCities(function(data)
-            {
+        $scope.queryCities = function () {
+            productService.query.queryCities(function (data) {
                 $scope.cities = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
@@ -792,13 +790,13 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
 
 
         $scope.dollproductGroup = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.editgroup=item;
-                $('#editGroup').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteGroup(item.id);
-            }
+//            if (item && type === "edit") {
+//                $scope.editgroup = item;
+//                $('#editGroup').modal('show');
+//            }
+//            if (item && type === "delete") {
+//                $scope.deleteGroup(item.id);
+//            }
         };
 
         /**
@@ -824,7 +822,6 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
          */
         $scope.editGroup = function () {
             productService.query.editGroup($scope.editgroup, function (data) {
-                $scope.queryGroup();
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
             })
@@ -870,14 +867,13 @@ angular.module("productApp", ["ui.neptune", "ngRoute", 'ui.tree'])
                 //TODO 提示信息
             });
 
-        productService.query.queryProductPhase($scope.productid , function (data) {
+        productService.query.queryProductPhase($scope.productid, function (data) {
                 $scope.prophase = data || {prophase: {}};
                 $scope.prophase.unshift({name: "------请选择------"});
             },
             function (data) {
                 //TODO 提示信息
             });
-
 
 
         $scope.openModal = function (id) {
