@@ -2,8 +2,8 @@
  * Created by leon on 15/11/9.
  */
 
-angular.module("wservice.dt.store.order", ["ui.neptune"]).
-    run(function (nptDatatableStore) {
+angular.module("wservice.dt.store.order", ["ui.neptune"])
+    .run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("order", {
             header: {
                 sn: {
