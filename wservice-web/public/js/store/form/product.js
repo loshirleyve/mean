@@ -26,13 +26,172 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                     }
                 }
             ]
-        }).put("demo", {
+        }).put("productPhase", {
             fields: [
                 {
-                    key: 'lastName',
+                    key: 'name',
                     type: 'input',
                     templateOptions: {
-                        label: 'Last Name'
+                        label: '阶段名称:'
+                    }
+                },
+                {
+                    key: 'duty',
+                    type: 'input',
+                    templateOptions: {
+                        label: '阶段职责:'
+                    }
+                },
+                {
+                    key: 'name',
+                    type: 'ui-select',
+                    templateOptions: {
+                        label: '服务类型:',
+                        valueProp:'',
+                        labelProp:'',
+                        placeholder:'',
+                        options:[],
+                        datasource:'',
+                        datasourceParams:{}
+                    }
+                },
+                {
+                    key: 'times',
+                    type: 'input',
+                    templateOptions: {
+                        label: '办理天数:'
+                    }
+                },
+                {
+                    key: 'sortno',
+                    type: 'input',
+                    templateOptions: {
+                        label: '排序:'
+                    }
+                },
+                {
+                    key: 'phasedescr',
+                    type: 'input',
+                    templateOptions: {
+                        label: '阶段说明:'
+                    }
+                }
+            ]
+        }).put("productProfiles", {
+            fields: [
+                {
+                    key: 'synopsis',
+                    type: 'input',
+                    templateOptions: {
+                        label: '内容描述:'
+                    }
+                },
+                {
+                    key: 'sort',
+                    type: 'input',
+                    templateOptions: {
+                        label: '排序:'
+                    }
+                }
+            ]
+        }).put("productGroup", {
+            fields: [
+                {
+                    key: 'backgorundimgid',
+                    type: 'input',
+                    templateOptions: {
+                        label: '分组logo:'
+                    }
+                },
+                {
+                    key: 'groupid',
+                    type: 'input',
+                    templateOptions: {
+                        label: '分组名称:'
+                    }
+                },
+                {
+                    key: 'top',
+                    type: 'input',
+                    templateOptions: {
+                        label: '是否置顶:'
+                    }
+                },
+                {
+                    key: 'sort',
+                    type: 'input',
+                    templateOptions: {
+                        label: '排序:'
+                    }
+                }
+
+            ]
+        }).put("productClassifies", {
+            fields: [
+                {
+                    key: 'cityid',
+                    type: 'input',
+                    templateOptions: {
+                        label: '选择分类地域:'
+                    }
+                },
+                {
+                    key: 'classifyname',
+                    type: 'input',
+                    templateOptions: {
+                        label: '分类名称:'
+                    }
+                },
+                {
+                    key: 'classifyno',
+                    type: 'input',
+                    templateOptions: {
+                        label: '分类编号:'
+                    }
+                },
+                {
+                    key: 'price',
+                    type: 'input',
+                    templateOptions: {
+                        label: '价格:'
+                    }
+                },
+                {
+                    key: 'sort',
+                    type: 'input',
+                    templateOptions: {
+                        label: '排序:'
+                    }
+                },
+                {
+                    key: 'phaseid',
+                    type: 'input',
+                    templateOptions: {
+                        label: '所属服务阶段:'
+                    }
+                }
+            ]
+        }).put("productDescrs", {
+            fields: [
+                {
+                    key: 'descr',
+                    type: 'input',
+                    templateOptions: {
+                        label: '标题:'
+                    }
+                },
+                {
+                    key: 'type',
+                    type: 'input',
+                    templateOptions: {
+                        label: '类型:'
+                    }
+                },
+                {
+                    key: 'descrvalue',
+                    type: 'input',
+                    templateOptions: {
+                        label: '内容:'
                     }
                 }
             ]

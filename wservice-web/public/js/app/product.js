@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["wservice.store", "app.config", "ngRoute"])
+angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "app.config", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -437,6 +437,7 @@ angular.module("productApp", ["wservice.store", "app.config", "ngRoute"])
                 params["state"] = group.state;
                 params["global"] = group.global;
                 params["cityid"] = group.cityid;
+                params["sort"] = group.sort;
                 params["province"] = "陕西省";
                 params["city"] = "西安市";
                 params["district"] = "全城";

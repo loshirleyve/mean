@@ -63,9 +63,21 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                         }
                     ]
                 },
-                delete: {
+                del: {
                     label: "删除",
-                    type: "delete"
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteGroup(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
                 }
             }
         });
