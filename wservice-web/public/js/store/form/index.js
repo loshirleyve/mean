@@ -7,5 +7,5 @@
 'use strict';
 
 angular.module("wservice.form.store", [
-    "wservice.form.store.order"
+    "wservice.form.store.order","wservice.form.store.client"
 ]);
