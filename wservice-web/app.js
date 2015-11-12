@@ -35,6 +35,8 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 //设置public目录为前端资源公共目录,包括前端js、css、image都存放此目录
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/node_modules",express.static(path.join(__dirname, "node_modules")));
+
 
 //0.加载服务代理
 app.use(proxy());
