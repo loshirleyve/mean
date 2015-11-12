@@ -2,8 +2,8 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["ui.neptune", "ngRoute"])
-    .config(function ($routeProvider, DatatableStoreProvider) {
+angular.module("clientApp", ["wservice.store", "app.config", "ngRoute"])
+    .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
@@ -27,7 +27,7 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 redirectTo: "/list"
             });
 
-        DatatableStoreProvider.store("client", {
+        /*DatatableStoreProvider.store("client", {
             "header": [
                 {
                     "name": "name",
@@ -74,7 +74,7 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
                 }
             ]
         });
-
+*/
     })
     .service("clientService", function ($http, $location, nptResource) {
         var self = this;
@@ -121,7 +121,7 @@ angular.module("clientApp", ["ui.neptune", "ngRoute"])
 
                 //总是加入当前用户以及机构作为查询参数
                 params["instid"] = "10000001463017";
-                //params["userid"] = "10000001498059";
+                params["userid"] = "10000001498059";
 
                 nptResource
                     .post("queryInstClients", params, function (data) {

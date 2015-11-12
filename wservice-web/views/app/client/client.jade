@@ -6,19 +6,20 @@ extends ../../layout/layout-bizpage
 block content
     script(src="js/app/client.js")
     div(ng-app="clientApp")
-        //功能导航区域
-        div.row
-            div.col-md-12
-                ul.breadcrumb
-                    li
-                        a(href="/home")
-                            span.glyphicon.glyphicon-home
-                            |  首页
-                    li.active 客户管理
         //内容区域
         div(ng-view)
+        //功能导航区域
+
         //列表模板
         script(type="text/ng-template", id="list.html")
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                |  首页
+                        li.active 客户管理
             //功能按钮区域
             div.row
                 div.col-md-12

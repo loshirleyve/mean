@@ -3,5 +3,5 @@
  */
 
 angular.module("wservice.dt.store", [
-    "wservice.dt.store.order"
+    "wservice.dt.store.order","wservice.dt.store.client"
 ]);
