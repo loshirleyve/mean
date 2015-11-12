@@ -39,7 +39,7 @@ angular.module("wservice.dt.store.client", ["ui.neptune"]).
                 add: {
                     label: "添加",
                     type: "add",
-                    target: "demo",
+                    target: "addClient",
                     listens: [function ($q, $timeout) {
                         var deferd = $q.defer();
                         console.info("添加方法,在Store中配置");
@@ -75,7 +75,7 @@ angular.module("wservice.dt.store.client", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target: "order",
+                    target: "client",
                     listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();

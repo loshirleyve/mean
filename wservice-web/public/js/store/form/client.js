@@ -9,47 +9,135 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
             options: {},
             fields: [
                 {
+                    key: 'id',
+                    type: 'input',
+                    templateOptions: {
+                        disabled:true,
+                        required: true,
+                        label: 'ID:'
+                    }
+                },
+                {
+                    key: 'fullname',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '名称:',
+                        placeholder: "请输入客户名称"
+                    }
+                },
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户简称:',
+                        placeholder: "请输入客户简称"
+                    }
+                },
+                {
                     key: 'sn',
                     type: 'input',
                     templateOptions: {
+                        disabled:true,
                         required: true,
-                        label: '订单编号:',
-                        placeholder: "请输入订单编号"
+                        label: '编号:'
                     }
                 },
                 {
-                    key: 'state',
+                    key: 'industry',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '订单状态:',
-                        placeholder: "请输入订单编号"
+                        label: '行业:'
                     }
                 },
                 {
-                    key: 'clientid',
+                    key: 'type',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '客户编号:',
-                        placeholder: "请输入客户编号"
+                        label: '类型:'
                     }
                 },
                 {
-                    key: 'sales',
+                    key: 'level',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '销售顾问:',
-                        placeholder: "请输入销售顾问"
+                        label: '级别:'
                     }
                 },
                 {
-                    key: 'amount',
+                    key: 'source',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '订单金额:'
+                        label: '来源:'
+                    }
+                },
+                {
+                    key: 'scale',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '规模:'
+                    }
+                },
+                {
+                    key: 'contactman',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '联系人:'
+                    }
+                },
+                {
+                    key: 'contactphone',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '电话:'
+                    }
+                },
+                {
+                    key: 'contactposition',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '职位:'
+                    }
+                },
+                {
+                    key: 'region',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '地区:'
+                    }
+                },
+                {
+                    key: 'address',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '地址:'
+                    }
+                },
+                {
+                    key: 'clientinstid',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户机构:'
+                    }
+                },
+                {
+                    key: 'clientadminid',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户管理员:'
                     }
                 },
                 {
@@ -57,7 +145,15 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '创建日期:'
+                        label: '创建时间:'
+                    }
+                },
+                {
+                    key: 'updatedate',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '更新时间:'
                     }
                 },
                 {
@@ -68,13 +164,151 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     }
                 }
             ]
-        }).put("demo", {
+        }).put("addClient", {
             fields: [
                 {
-                    key: 'lastName',
+                    key: 'fullname',
                     type: 'input',
                     templateOptions: {
-                        label: 'Last Name'
+                        required: true,
+                        label: '名称:',
+                        placeholder: "请输入客户名称"
+                    }
+                },
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户简称:',
+                        placeholder: "请输入客户简称"
+                    }
+                },
+                {
+                    key: 'sn',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '编号:'
+                    }
+                },
+                {
+                    key: 'industry',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '行业:'
+                    }
+                },
+                {
+                    key: 'type',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '类型:'
+                    }
+                },
+                {
+                    key: 'level',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '级别:'
+                    }
+                },
+                {
+                    key: 'source',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '来源:'
+                    }
+                },
+                {
+                    key: 'scale',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '规模:'
+                    }
+                },
+                {
+                    key: 'contactman',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '联系人:'
+                    }
+                },
+                {
+                    key: 'contactphone',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '电话:'
+                    }
+                },
+                {
+                    key: 'contactposition',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '职位:'
+                    }
+                },
+                {
+                    key: 'region',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '地区:'
+                    }
+                },
+                {
+                    key: 'address',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '地址:'
+                    }
+                },
+                {
+                    key: 'clientinstid',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户机构:'
+                    }
+                },
+                {
+                    key: 'clientadminid',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '客户管理员:'
+                    }
+                },
+                {
+                    key: 'createdate',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '创建时间:'
+                    }
+                },
+                {
+                    key: 'updatedate',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '更新时间:'
+                    }
+                },
+                {
+                    key: 'remark',
+                    type: 'input',
+                    templateOptions: {
+                        label: '备注:'
                     }
                 }
             ]
