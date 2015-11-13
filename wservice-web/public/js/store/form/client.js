@@ -193,12 +193,12 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'clientindustry',
+                    key: 'industry',
                     type: 'ui-select',
                     templateOptions: {
                         label:'行业',
                         required: true,
-                        valueProp:'clientindustry',
+                        valueProp:'id',
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
