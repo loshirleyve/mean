@@ -42,19 +42,19 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                         label: '阶段职责:'
                     }
                 },
-//                {
-//                    key: 'name',
-//                    type: 'ui-select',
-//                    templateOptions: {
-//                        label: '服务类型:',
-//                        valueProp:'',
-//                        labelProp:'',
-//                        placeholder:'',
-//                        options:[],
-//                        datasource:'',
-//                        datasourceParams:{}
-//                    }
-//                },
+                {
+                    key: 'name',
+                    type: 'ui-select',
+                    templateOptions: {
+                        label: '服务类型:',
+                        valueProp:'id',
+                        labelProp:'value',
+                        placeholder:'',
+                        options:[],
+                        datasource:'queryProductPhase',
+                        datasourceParams:{}
+                    }
+                },
                 {
                     key: 'times',
                     type: 'input',

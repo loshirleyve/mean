@@ -818,27 +818,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             $scope.groupdata = productService.query.groupdata;
         }
 
-        /**
-         * 编辑分组
-         */
-        $scope.editGroup = function () {
-            productService.query.editGroup($scope.editgroup, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            })
-        };
-
-        /**
-         * 删除分组
-         */
-        $scope.deleteGroup = function (groupid) {
-            productService.query.deleteGroup(groupid, function (data) {
-                $scope.queryGroup();
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            })
-        };
-
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, productService) {
         $scope.productid = $routeParams.id;

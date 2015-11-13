@@ -70,7 +70,268 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                         function(params,$timeout,$q,productService)
                         {
                             var deferd = $q.defer();
-                            productService.query.deleteGroup(params.data,function(data){
+                            productService.query.deleteGroup(params.item.id,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                }
+            }
+        });
+        nptDatatableStore.putDatatable("productPhase",{
+            header: {
+                name: {
+                    label: "阶段名称"
+                },
+                cyclevalue: {
+                    label: "阶段周期"
+                },
+                duty: {
+                    label: "阶段职责"
+                },
+                times: {
+                    label: "办理天数"
+                },
+                processdays: {
+                    label: "服务次数"
+                }
+            },
+            action: {
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:"productPhase",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.editProductPhase(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                },
+                del: {
+                    label: "删除",
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteProductPhase(params.item.id,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                }
+            }
+        });
+        nptDatatableStore.putDatatable("productProfiles",{
+            header: {
+                synopsis: {
+                    label: "内容描述"
+                },
+                sort: {
+                    label: "排序"
+                }
+            },
+            action: {
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:"productProfiles",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.editProductProfile(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                },
+                del: {
+                    label: "删除",
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteProductProfile(params.item.id,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                }
+            }
+        });
+        nptDatatableStore.putDatatable("productGroup",{
+            header: {
+                backgorundimgid: {
+                    label: "分组图标"
+                },
+                groupname: {
+                    label: "分组名称"
+                },
+                province: {
+                    label: "省"
+                },
+                city: {
+                    label: "市"
+                },
+                district: {
+                    label: "区"
+                },
+                top: {
+                    label: "是否置顶"
+                },
+                sort: {
+                    label: "排序"
+                }
+            },
+            action: {
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:"productGroup",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.editProductGroup(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                },
+                del: {
+                    label: "删除",
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteProductGroup(params.item.id,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                }
+            }
+        });
+        nptDatatableStore.putDatatable("productClassifies",{
+            header: {
+                classifyname: {
+                    label: "分类名称"
+                },
+                classifyno: {
+                    label: "分类编号"
+                },
+                price: {
+                    label: "价格"
+                },
+                phasename: {
+                    label: "所属服务阶段"
+                },
+                sort: {
+                    label: "排序"
+                }
+            },
+            action: {
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:"productClassifies",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.editProductClassify(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                },
+                del: {
+                    label: "删除",
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteProductClassify(params.item.id,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                }
+            }
+        });
+        nptDatatableStore.putDatatable("productDescrs",{
+            header: {
+                descr: {
+                    label: "标题"
+                },
+                descrvalue: {
+                    label: "内容"
+                },
+                type: {
+                    label: "类型"
+                }
+            },
+            action: {
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:"productDescrs",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.editProductDescr(params.data,function(data){
+                                deferd.resolve(data);
+                            },function(error){
+                                deferd.reject(error);
+                            });
+                            return deferd.promise;
+                        }
+                    ]
+                },
+                del: {
+                    label: "删除",
+                    type: "del",
+                    listens:[
+                        function(params,$timeout,$q,productService)
+                        {
+                            var deferd = $q.defer();
+                            productService.query.deleteProductDescr(params.item.id,function(data){
                                 deferd.resolve(data);
                             },function(error){
                                 deferd.reject(error);
