@@ -46,10 +46,16 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                 },
                 {
                     key: 'industry',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
+                        label:'行业',
                         required: true,
-                        label: '行业:'
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdCtrlcode',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientindustry"}
                     }
                 },
                 {
@@ -77,7 +83,7 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'scale',
+                    key: 'scaleid',
                     type: 'input',
                     templateOptions: {
                         required: true,
@@ -198,44 +204,68 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     templateOptions: {
                         label:'行业',
                         required: true,
-                        valueProp:'id',
+                        valueProp:'no',
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
                         datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017"}
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientindustry"}
                     }
                 },
                 {
                     key: 'type',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
+                        label: '类型:',
                         required: true,
-                        label: '类型:'
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdCtrlcode',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clienttype"}
                     }
                 },
                 {
                     key: 'level',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '级别:'
+                        label: '级别:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdCtrlcode',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientlevel"}
                     }
                 },
                 {
                     key: 'source',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '来源:'
+                        label: '来源:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdCtrlcode',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientsource"}
                     }
                 },
                 {
-                    key: 'scale',
-                    type: 'input',
+                    key: 'scaleid',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '规模:'
+                        label: '规模:',
+                        valueProp:'type',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdInstScale',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017"}
                     }
                 },
                 {
@@ -256,10 +286,16 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                 },
                 {
                     key: 'contactposition',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '职位:'
+                        label: '职位:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        datasource:'queryMdCtrlcode',
+                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"contactposition"}
                     }
                 },
                 {
