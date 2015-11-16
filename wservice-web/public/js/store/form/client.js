@@ -266,6 +266,15 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         options:[],
                         datasource:'queryMdInstScale',
                         datasourceParams:{"userid":"10000001498059", "instid":"10000001463017"}
+                    },
+                    expressionProperties:{
+                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+                            if (scope.to.options && scope.to.options.length > 0
+                                && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+                            }
+                            return scope.to.options;
+                        }
                     }
                 },
                 {
