@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order", "app.config", "ngRoute"])
+angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
