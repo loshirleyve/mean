@@ -136,12 +136,12 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单资料
-                        npt-datatable(name="orderAttachmentHeader",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+                        npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 工单评价
-                        npt-datatable(name="workorderCommentHeader",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+                        npt-datatable(name="workorderComment",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
