@@ -11,6 +11,7 @@ angular.module("ui.neptune.service", [
     "ui.neptune.service.resource",
     "ui.neptune.service.repository",
     "ui.neptune.service.cache",
+    "ui.neptune.service.session",
     "ui.neptune.service.datatableStore",
     "ui.neptune.service.formStore"
 ]);
@@ -76,6 +77,25 @@ angular.module("ui.neptune.service.cache", [])
             return cacheFactory();
         };
 
+    }).filter('cacheFilter', function (nptCache) {
+        return function (input, key, labelProp, valueProp) {
+            if (!input || !key || !labelProp) { // 如果值为空，或者没有指定
+                return input;
+            }
+            var datas = nptCache.get(key);
+            if (datas && valueProp) {
+                var output;
+                angular.forEach(datas,function(data) {
+                    if (data[valueProp] == input) {
+                        output = data[labelProp];
+                    }
+                });
+                return output;
+            } else if (datas){
+                return datas[input][labelProp];
+            }
+            return input;
+        };
     });;/**
  * Created by leon on 15/11/9.
  */
@@ -316,7 +336,9 @@ angular.module("ui.neptune.service.repository", [])
                     params: request.params
                 };
 
-                var result = $http.post(scope._baseURL, postData).then(function (response) {
+                var result = $http.post(scope._baseURL, postData);
+
+                result = result.then(function (response) {
                     //处理逻辑code
                     if (response.data.code === "100") {
                         return response;
@@ -324,7 +346,7 @@ angular.module("ui.neptune.service.repository", [])
                         return $q.reject(response.data.cause);
                     }
                 }, function (error) {
-                    return error;
+                    return $q.reject(error);
                 });
 
                 //将全局响应拦截器插入
@@ -466,7 +488,57 @@ angular.module("ui.neptune.service.resource", [])
             return service;
         };
     })
-;;/*!
+;;/**
+ * Created by leon on 15/11/13.
+ */
+
+angular.module("ui.neptune.service.session", [])
+    .provider("nptSession", function () {
+        this._baseURL = "/session";
+        this._userProp = "user";
+
+        this.setBaseURL = function (baseURL) {
+            if (baseURL) {
+                this._baseURL = baseURL;
+            }
+        };
+
+        this.setUserProp = function (userProp) {
+            if (userProp) {
+                this._userProp = userProp;
+            }
+        };
+
+        this.$get = function ($http) {
+            var self = this;
+
+            function Session() {
+                this._response = undefined;
+                this._user = undefined;
+            }
+
+            Session.prototype.getUser = function () {
+                return this._user;
+            };
+
+            Session.prototype.getResponse = function () {
+                return this._response;
+            };
+
+            function sessionFactory() {
+                return $http.get(self._baseURL).then(function (response) {
+                    //响应转换为Session
+                    var session = new Session();
+                    session._response = response;
+                    session._user = response.data[self._userProp];
+
+                    return session;
+                });
+            }
+
+            return sessionFactory;
+        };
+    });;/*!
  * mars
  * Copyright(c) 2015 huangbinglong
  * MIT Licensed
@@ -1413,7 +1485,6 @@ angular.module("ui.neptune.directive.selectTree", ['ui.bootstrap', 'ui.tree', 'u
 
         //tree点击
         vm.onTreeClick = function (node) {
-            console.info("点击tree");
             vm.refreshList(node);
         };
 
@@ -1430,7 +1501,7 @@ angular.module("ui.neptune.directive.selectTree", ['ui.bootstrap', 'ui.tree', 'u
                 $scope.gridApi = gridApi;
             },
             columnDefs: [
-                {name: 'name', displayName: "名称"},
+                {name: 'name', displayName: "名称"}
             ]
         };
 
@@ -1461,72 +1532,324 @@ angular.module("ui.neptune.directive.selectTree", ['ui.bootstrap', 'ui.tree', 'u
 
 angular.module("ui.neptune.formly", [
     "ui.neptune.formly.ui-select",
-    "ui.neptune.formly.wrapper-validation"]);
+    "ui.neptune.formly.ui-mask",
+    "ui.neptune.formly.ui-validation",
+    "ui.neptune.formly.wrapper-validation",
+    "ui.neptune.formly.select-tree-single"]);
 
 angular.module("ui.neptune.formly.ui-select",
     ["ui.neptune.service.resource",'ui.select', 'ngSanitize',
     'ngAnimate',
     'ngMessages',"angular.filter"]);
 
-angular.module("ui.neptune.formly.wrapper-validation",[]);;/*!
+angular.module("ui.neptune.formly.ui-mask",['ui.utils.masks',"ui.mask"]);
+
+angular.module("ui.neptune.formly.ui-validation",[]).constant('is', window.is);
+angular.module("ui.neptune.formly.ui-mask", ['ui.utils.masks', "ui.mask"]);
+
+angular.module("ui.neptune.formly.wrapper-validation", []);
+;/**
+ * Created by leon on 15/11/16.
+ */
+
+
+angular.module("ui.neptune.formly.select-tree-single", [], function config(formlyConfigProvider) {
+    formlyConfigProvider.setType({
+        name: "npt-select-tree",
+        templateUrl: "/template/formly/npt-select-tree-single.html",
+        extends: 'input',
+        defaultOptions: {
+            controller: function ($scope, $log, $injector) {
+                var options = $scope.options;
+                var to = options.templateOptions;
+
+                //监听数据,如果发生变化重新检索远程显示值
+                $scope.$watch("model." + options.key, function (newValue, oldValue) {
+                    if (newValue && to.viewvalueRepository) {
+                        if (angular.isFunction(to.viewvalueRepository)) {
+                            to.viewvalue = $injector.invoke(to.viewvalueRepository);
+                        } else {
+                            var params = {};
+                            params[to.viewvalueQueryProp] = newValue;
+                            to.viewvalueRepository.post(params).then(function (response) {
+                                to.viewvalue = response.data[to.viewvalueProp];
+                            }, function (error) {
+                                //发生错误清空模型数据
+                                $scope.model[options.key] = undefined;
+                            });
+                        }
+                    }
+                });
+
+            },
+            templateOptions: {
+                label: "请选择:",
+                placeholder: "请选择.",
+                valueProp: 'id',
+                labelProp: 'name',
+                viewvalueQueryProp: "id",
+                viewvalueProp: "name",
+                viewvalue: undefined,
+                onClickSelect: function (modal, options) {
+                    var self = this;
+
+                    self.selectTreeApi.open().then(function (response) {
+                        if (response && response.length > 0) {
+                            modal[options.key] = response[0][self.valueProp];
+                            self.viewvalue = response[0][self.labelProp];
+                        }
+                    }, function () {
+                    });
+                },
+                onRegisterApi: function (selectTreeApi) {
+                    this.selectTreeApi = selectTreeApi;
+                },
+                treeRepository: undefined,
+                listRepository: undefined,
+                viewvalueRepository: undefined
+            }
+        }
+    });
+});;/*!
+ * mars
+ * Copyright(c) 2015 huangbinglong
+ * MIT Licensed
+ */
+
+angular.module("ui.neptune.formly.ui-mask")
+    .run(function (formlyConfig,uiMaskDateFactory) {
+        /*使用UI-MASK插件，由使用者自定义值格式*/
+        formlyConfig.setType({
+            name: 'maskedInput',
+            extends: 'input',
+            defaultOptions: {
+                ngModelAttrs: {
+                    mask: {
+                        attribute: 'ui-mask'
+                    },
+                    maskPlaceholder: {
+                        attribute: 'ui-mask-placeholder'
+                    },
+                    maskPlaceholderChar: {
+                        attribute:'ui-mask-placeholder-char'
+                    }
+                },
+                templateOptions: {
+                    maskPlaceholder: ''
+                }
+            }
+        });
+        /*规定数字类型格式*/
+        formlyConfig.setType({
+            name: 'numberInput',
+            extends: 'input',
+            defaultOptions: {
+                ngModelAttrs: {
+                    numberMask: {
+                        attribute: 'ui-number-mask'
+                    },
+                    negativeNumber: {
+                        attribute: 'ui-negative-number'
+                    },
+                    min: {
+                        attribute:'min'
+                    },
+                    max: {
+                        attribute:'max'
+                    }
+                },
+                templateOptions: {
+                    numberMask: '2',
+                    negativeNumber:''
+                }
+            }
+        });
+
+        /*规定时间戳类型格式*/
+        formlyConfig.setType({
+            name: 'dateInput',
+            extends: 'input',
+            defaultOptions: {
+                ngModelAttrs: {
+                    mask: {
+                        attribute: 'ui-mask'
+                    },
+                    maskPlaceholder: {
+                        attribute: 'ui-mask-placeholder'
+                    },
+                    maskPlaceholderChar: {
+                        attribute:'ui-mask-placeholder-char'
+                    }
+                },
+                templateOptions: {
+                    maskPlaceholder: ''
+                },
+                expressionProperties:{
+                    'templateOptions.mask':'to.formateType =="short"?"9999-99-99":"9999-99-99 99:99:99"'
+                },
+                parsers:[uiMaskDateFactory.parseToDate],
+                formatters:[uiMaskDateFactory.formateToString]
+            }
+        });
+    }).factory('uiMaskDateFactory',function($filter) {
+        var factory = {};
+
+        factory.parseToDate = function(viewValue,modleValue,scope) {
+            if (!viewValue) {
+                return viewValue;
+            }
+            var date = new Date(scope.fc.$viewValue.replace(/-/,"/")).getTime();
+            return date||undefined;
+        };
+        factory.formateToString = function(viewValue,modleValue,scope) {
+            if (!modleValue) {
+                return modleValue;
+            }
+            if (angular.isNumber(modleValue)) {
+                var dateFilter = $filter('date');
+                var formateString =
+                    scope.to.formateType=="short"?"yyyy-MM-dd":'yyyy-MM-dd hh:mm:ss';
+                var dateString = dateFilter(modleValue,formateString);
+                return dateString|| undefined;
+            }
+        };
+        return factory;
+    });;/*!
  * mars
  * Copyright(c) 2015 huangbinglong
  * MIT Licensed
  */
 
 angular.module("ui.neptune.formly.ui-select")
-    .run(function (formlyConfig,$q,nptResource) {
+    .run(function (formlyConfig, $q) {
         formlyConfig.setType({
             name: 'ui-select',
             extends: 'select',
-            template: ['<ui-select data-ng-model="model[options.key]" data-required="{{to.required}}" data-disabled="{{to.disabled}}" theme="bootstrap">',
-                '<ui-select-match placeholder="{{to.placeholder}}" data-allow-clear="true">{{$select.selected[to.labelProp]}}</ui-select-match>',
-                '<ui-select-choices data-repeat="{{to.ngOptions}}" data-refresh="to.refresh($select.search,model, options)" data-refresh-delay="{{to.refreshDelay}}">',
-                '<div ng-bind-html="option[to.labelProp] | highlight: $select.search"></div>',
-                '<small>',
-                '{{to.valueProp}}: <span ng-bind-html="\'\'+option[to.valueProp] | highlight: $select.search"></span>',
-                '</small>',
-                '</ui-select-choices>',
-                '</ui-select>'].join(""),
+            templateUrl: "/template/formly/ui-select.html",
             defaultOptions: {
                 templateOptions: {
-                    optionsAttr: 'bs-options',
                     ngOptions: 'option[to.valueProp] as option in to.options | filterBy:[to.valueProp,to.labelProp]: $select.search',
-                    refresh: function refreshAddresses(input, model,field) {
-                        function loadData(success, fail) {
-                            var params = {};
-                            if (field.templateOptions.searchProp) {
-                                params[field.templateOptions.searchProp] = input;
+                    refresh: function refresh(value, model, field) {
+                        //刷新逻辑
+                        //1 如果存在searchProp和repository,表示根据输入内容动态检索
+                        //2 如果存在options,表示使用静态选择
+                        //3 如果存在repository,表示单次检索资源
+                        //4 其他情况返回空数据
+
+                        //默认空内容
+                        var promise = $q.when({
+                            data: []
+                        });
+
+                        if (field.templateOptions.searchProp && field.templateOptions.repository) {
+                            //存在searchProp以及repository,表示按输入条件检索
+                            //model[field.key];
+                            //此处会有一个暂时不好解决的问题.如果当前模型数据上有值,在首次刷新页面后,由于没有输入值,会导致此处不刷新后台数据,
+                            //从而导致界面显示空,但是实际有模型数据
+                            if (!value) {
+
+                            } else {
+                                //检查到输入内容,检索数据
+                                var params = field.templateOptions.repositoryParams || {};
+                                params[field.templateOptions.searchProp] = value;
+                                promise = field.templateOptions.repository.post(params);
                             }
-                            params = angular.extend(field.templateOptions.datasourceParams || {}, params);
-                            nptResource.post(field.templateOptions.datasource,
-                                params,
-                                success, fail);
-                        }
-
-                        var promise;
-                        if (!field.templateOptions.datasource) {
-                            promise = $q.when(field.templateOptions.options);
-                        } else if (!field.templateOptions.options ||field.templateOptions.options.length===0 || field.templateOptions.searchProp) {
-                            var defered = $q.defer();
-                            promise = defered.promise;
-                            loadData(function (data) {
-                                defered.resolve(data);
-                            }, function (error) {
-                                defered.reject(error);
+                        } else if (field.templateOptions.options && field.templateOptions.options.length > 0) {
+                            //存在options,使用静态选择
+                            promise = $q.when({
+                                data: field.templateOptions.options
                             });
-                        } else {
-                            promise = $q.when(field.templateOptions.options);
+                        } else if (field.templateOptions.repository) {
+                            //存在repository表示,检索资源作为待选列表,只在首次检索
+                            promise = field.templateOptions.repository.post(field.templateOptions.repositoryParams || {});
                         }
 
-                        return promise.then(function (arr) {
-                            field.templateOptions.options = arr;
+                        return promise.then(function (response) {
+                            field.templateOptions.options = angular.isArray(response.data)?response.data:[response.data];
                         });
                     },
                     refreshDelay: 0
                 }
             }
         });
+    });;/*!
+ * mars
+ * Copyright(c) 2015 huangbinglong
+ * MIT Licensed
+ */
+
+angular.module("ui.neptune.formly.ui-validation")
+    .run(function (formlyConfig, is,$q,QueryCtrlCode) {
+
+        // 集成IS框架
+
+        addTypeForValidator('boolean');
+        addTypeForValidator('date');// Date
+        addTypeForValidator('nan');// NaN
+        addTypeForValidator('null');
+        addTypeForValidator('string');
+        addTypeForValidator('char');
+        addTypeForValidator('undefined');
+        addTypeForValidator('empty');
+        addTypeForValidator('existy');// not null,not undefinder
+        addTypeForValidator('truthy');// 有值
+        addTypeForValidator('space');
+        addTypeForValidator('url');
+        addTypeForValidator('email');
+        addTypeForValidator('creditCard');
+        addTypeForValidator('timeString');
+        addTypeForValidator('dateString');
+        addTypeForValidator('hexColor');
+        addTypeForValidator('ip');
+
+        function addTypeForValidator(validatorName) {
+            var validators = {};
+            validators[validatorName] = {
+                expression: is[validatorName],
+                message: '"Invalid ' + validatorName + '"'
+            };
+            formlyConfig.setType({
+                name: validatorName,
+                defaultOptions: {
+                    validators: validators
+                }
+            });
+        }
+
+        // 验证控制编码
+        formlyConfig.setType({
+            name: "ctrlCode",
+            defaultOptions: {
+                asyncValidators: {
+                    ctrlCode:{
+                        expression: function (viewValue, modelValue,scope) {
+                            var defer = $q.defer();
+                            if (!scope.options.templateOptions.defNo) {
+                                defer.reject();
+                            } else {
+                                QueryCtrlCode.post({defno:scope.options.templateOptions.defNo,no:viewValue})
+                                    .then(function(response) {
+                                        if (!response.data || response.data.length === 0) {
+                                            defer.reject();
+                                        } else {
+                                            defer.resolve();
+                                        }
+                                    },function(error) {
+                                        defer.reject(error);
+                                    });
+                            }
+
+                            return defer.promise;
+                        },
+                        message: '"无效的控制编码"'
+                    }
+                },
+                modelOptions:{ updateOn: 'blur' }
+            }
+        });
+    })
+    .factory("QueryCtrlCode", function (nptRepository) {
+        return nptRepository("QueryMdCtrlcode");
     });;/*!
  * mars
  * Copyright(c) 2015 huangbinglong
@@ -1545,7 +1868,7 @@ angular.module("ui.neptune.formly.wrapper-validation")
                 '</div>'
             ].join("")
         });
-    });;angular.module('ui.neptune.tpls', ['/template/datatable/datatable-edit.html', '/template/datatable/datatable.html', '/template/form/form.html', '/template/select-tree/select-tree-modal.html', '/template/select-tree/select-tree.html']);
+    });;angular.module('ui.neptune.tpls', ['/template/datatable/datatable-edit.html', '/template/datatable/datatable.html', '/template/form/form.html', '/template/formly/npt-select-tree-single.html', '/template/formly/ui-select.html', '/template/select-tree/select-tree-modal.html', '/template/select-tree/select-tree.html']);
 
 angular.module("/template/datatable/datatable-edit.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/template/datatable/datatable-edit.html",
@@ -1560,6 +1883,16 @@ angular.module("/template/datatable/datatable.html", []).run(["$templateCache", 
 angular.module("/template/form/form.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/template/form/form.html",
     "<div></div>");
+}]);
+
+angular.module("/template/formly/npt-select-tree-single.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/template/formly/npt-select-tree-single.html",
+    "<div><div npt-select-tree=\"to\"></div><div class=\"input-group\"><input placeholder=\"{{to.placeholder}}\" type=\"text\" ng-model=\"to.viewvalue\" disabled class=\"form-control\"><input type=\"text\" ng-model=\"model[options.key]\" disabled ng-hide=\"true\" class=\"form-control\"><span class=\"input-group-btn\"><button type=\"button\" ng-click=\"to.onClickSelect(model,options)\" class=\"btn btn-primary\">选择</button></span></div></div>");
+}]);
+
+angular.module("/template/formly/ui-select.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/template/formly/ui-select.html",
+    "<ui-select data-ng-model=\"model[options.key]\" data-required=\"{{to.required}}\" data-disabled=\"{{to.disabled}}\" theme=\"bootstrap\"><ui-select-match placeholder=\"{{to.placeholder}}\" data-allow-clear=\"true\">{{$select.selected[to.labelProp]}}</ui-select-match><ui-select-choices data-repeat=\"{{to.ngOptions}}\" data-refresh=\"to.refresh($select.search,model, options)\" data-refresh-delay=\"{{to.refreshDelay}}\"><div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div><small><span ng-bind-html=\"''+option[to.smallLabelProp] | highlight: $select.search\"></span></small></ui-select-choices></ui-select>");
 }]);
 
 angular.module("/template/select-tree/select-tree-modal.html", []).run(["$templateCache", function($templateCache) {
