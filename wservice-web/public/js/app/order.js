@@ -47,7 +47,7 @@ angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新订单"
+                    self.checkNew.text = "检查新订单";
                 }
             }
         };
@@ -75,21 +75,21 @@ angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order
                 var params = {};
 
                 if (state !== "all") {
-                    params["state"] = state;
+                    params.state = state;
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001463017";
-                params["userid"] = "10000001498059";
+                params.instid = "10000001463017";
+                params.userid = "10000001498059";
 
                 nptResource
                     .post("queryOrderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         success(data);
                     }, function (data) {
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         //TODO 弹出提示检索错误通知窗口
                         error(data);
                     });
@@ -163,7 +163,7 @@ angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //首先查询全部订单
@@ -191,7 +191,7 @@ angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order
 
         $scope.adviser = function () {
             $scope.selectAdviser.open();
-        }
+        };
 
         //刷新界面动作按钮控制状态
         $scope.resetState = function () {
