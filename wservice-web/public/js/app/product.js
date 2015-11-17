@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "app.config", "ngRoute"])
+angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
