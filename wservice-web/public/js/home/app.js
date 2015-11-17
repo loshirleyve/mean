@@ -2,9 +2,7 @@
  * Created by Leon on 15/9/11.
  */
 
-'use strict';
-
-angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
+angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
     .controller('launchCtrl',
         function ($scope, Menus, Session, menuService, navigationMaster,Notification,wswebProvider,initData) {
 

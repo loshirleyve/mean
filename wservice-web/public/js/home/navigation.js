@@ -4,9 +4,7 @@
  * MIT Licensed
  */
 
-'use strict';
-
-angular.module('wsweb')
+angular.module('wservice')
     .service('menuService', function (navigationMaster, Notification, storeManager) {
         /**menuService主要操作左侧导航菜单，联合navigationMaster控制右侧子窗口***/
 

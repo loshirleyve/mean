@@ -4,8 +4,7 @@
  * MIT Licensed
  */
 
-'use strict';
-angular.module('wsweb.service').service('Session', ['$http',
+angular.module('wservice.service').service('Session', ['$http',
     function($http) {
         /**
          * 加载session数据
