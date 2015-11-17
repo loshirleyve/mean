@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "app.config", "ngRoute"])
+angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -28,247 +28,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             .otherwise({
                 redirectTo: "/list"
             });
-//        DatatableStoreProvider.store("product", {
-//            "header": [
-//                {
-//                    "name": "instid",
-//                    "label": "服务商名称"
-//                },
-//                {
-//                    "name": "sn",
-//                    "label": "产品编号"
-//                },
-//                {
-//                    "name": "name",
-//                    "label": "产品名称"
-//                },
-//                {
-//                    "name": "pricedescr",
-//                    "label": "售价"
-//                },
-//                {
-//                    "name": "state",
-//                    "label": "产品状态"
-//                },
-//                {
-//                    "name": "type",
-//                    "label": "产品类型"
-//                },
-//                {
-//                    "name": "createdate",
-//                    "label": "创建日期"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "view",
-//                    "label": "查看"
-//                }
-//            ]
-//        }).store("productPhases", {
-//            header: [
-//                {
-//                    name: "name",
-//                    label: "阶段名称"
-//                },
-//                {
-//                    name: "cyclevalue",
-//                    label: "阶段周期"
-//                },
-//                {
-//                    name: "duty",
-//                    label: "阶段职责"
-//                },
-//                {
-//                    name: "times",
-//                    label: "办理天数"
-//                },
-//                {
-//                    name: "processdays",
-//                    label: "服务次数"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("productRequirements", {
-//            header: [
-//                {
-//                    name: "name",
-//                    label: "资料名称"
-//                },
-//                {
-//                    name: "cyclevalue",
-//                    label: "交接类型"
-//                },
-//                {
-//                    name: "duty",
-//                    label: "资料类型"
-//                },
-//                {
-//                    name: "times",
-//                    label: "要求描述"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("productProfiles", {
-//            header: [
-//                {
-//                    name: "synopsis",
-//                    label: "内容描述"
-//                },
-//                {
-//                    name: "sort",
-//                    label: "排序"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("productGroups", {
-//            header: [
-//                {
-//                    name: "backgorundimgid",
-//                    label: "分组图标"
-//                },
-//                {
-//                    name: "groupname",
-//                    label: "分组名称"
-//                },
-//                {
-//                    name: "province",
-//                    label: "省"
-//                },
-//                {
-//                    name: "city",
-//                    label: "市"
-//                },
-//                {
-//                    name: "district",
-//                    label: "区"
-//                },
-//                {
-//                    name: "top",
-//                    label: "是否置顶"
-//                },
-//                {
-//                    name: "sort",
-//                    label: "排序"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("productClassifies", {
-//            header: [
-//                {
-//                    name: "classifyname",
-//                    label: "分类名称"
-//                },
-//                {
-//                    name: "classifyno",
-//                    label: "分类编号"
-//                },
-//                {
-//                    name: "price",
-//                    label: "价格"
-//                },
-//                {
-//                    name: "phasename",
-//                    label: "所属服务阶段"
-//                },
-//                {
-//                    name: "sort",
-//                    label: "排序"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("productDescrs", {
-//            header: [
-//                {
-//                    name: "descr",
-//                    label: "标题"
-//                },
-//                {
-//                    name: "descrvalue",
-//                    label: "内容"
-//                },
-//                {
-//                    name: "type",
-//                    label: "类型"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        }).store("allProductGroup", {
-//            header: [
-//                {
-//                    name: "name",
-//                    label: "分类名称"
-//                },
-//                {
-//                    name: "sort",
-//                    label: "排序"
-//                }
-//            ],
-//            "action": [
-//                {
-//                    "name": "edit",
-//                    "label": "编辑"
-//                },
-//                {
-//                    "name": "delete",
-//                    "label": "删除"
-//                }
-//            ]
-//        });
     })
     .service("productService", function ($http, $location, nptResource) {
         var self = this;
@@ -288,7 +47,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新订单"
+                    self.checkNew.text = "检查新订单";
                 }
             }
         };
@@ -320,33 +79,33 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
                 var params = {};
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001468002";
+                params.instid= "10000001468002";
                 //params["userid"] = "10000001498059";
 
                 if (groupid == "weifenlei") {
                     nptResource
                         .post("QueryProductsNoGroup", params, function (data) {
                             self.query.data = data;
-                            self.query.loading('reset')
+                            self.query.loading('reset');
                             success(data);
                         }, function (data) {
-                            self.query.loading('reset')
+                            self.query.loading('reset');
                             //TODO 弹出提示检索错误通知窗口
                             error(data);
                         });
                 }
                 if (groupid != "weifenlei") {
                     if (groupid != "all") {
-                        params["groupid"] = groupid;
+                        params.groupid = groupid;
                     }
                     nptResource
                         .post("QueryProductsByGroupId", params, function (data) {
                             self.query.data = data;
                             self.query.groupid = groupid;
-                            self.query.loading('reset')
+                            self.query.loading('reset');
                             success(data);
                         }, function (data) {
-                            self.query.loading('reset')
+                            self.query.loading('reset');
                             //TODO 弹出提示检索错误通知窗口
                             error(data);
                         });
@@ -354,16 +113,16 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             queryGroup: function (province, city, district, success, error) {
                 var params = {};
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
+                params.province = "陕西省";
+                params.city = "西安市";
+                params.district = "全城";
                 nptResource.post("QueryMdProductGroupBylocation", params, function (data) {
                     self.query.groupdata = data;
                     console.info(self.query.groupdata);
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     success(data);
                 }, function (data) {
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
@@ -372,57 +131,57 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 var params = {};
                 nptResource.post("queryCities", params, function (data) {
                     self.query.cities = data;
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     success(data);
                 }, function (data) {
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
             },
             queryMdCtrlcode: function (defno, success, error) {
                 var params = {};
-                params["defno"] = defno;
+                params.defno = defno;
                 nptResource.post("queryMdCtrlcode", params, function (data) {
                     self.query.ctrlCode = data;
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     success(data);
                 }, function (data) {
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
             },
             queryProductPhase: function (productid, success, error) {
                 var params = {};
-                params["productid"] = productid;
+                params.productid = productid;
                 nptResource.post("QueryProductPhaseByProductid", params, function (data) {
                     self.query.proPhase = data;
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     success(data);
                 }, function (data) {
-                    self.query.loading('reset')
+                    self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
                     error(data);
                 });
             },
             editProduct: function (pro, success, error) {
                 var params = {};
-                params["id"] = pro.id;
-                params["sn"] = pro.sn;
-                params["state"] = pro.state;
-                params["name"] = pro.name;
-                params["type"] = "service";
-                params["saleprice"] = pro.saleprice;
-                params["imgid"] = "42500000000010019";
-                params["introduce"] = pro.introduce;
-                params["introduceurl"] = pro.introduceurl;
-                params["instid"] = "10000001468002";
-                params["createby"] = "10000001498059";
-                params["createdate"] = pro.createdate;
-                params["updatedate"] = pro.updatedate;
-                params["createtimestamp"] = pro.createtimestamp;
-                params["updatetimestamp"] = pro.updatetimestamp;
+                params.id = pro.id;
+                params.sn = pro.sn;
+                params.state = pro.state;
+                params.name = pro.name;
+                params.type = "service";
+                params.saleprice= pro.saleprice;
+                params.imgid= "42500000000010019";
+                params.introduce = pro.introduce;
+                params.introduceurl= pro.introduceurl;
+                params.instid= "10000001468002";
+                params.createby = "10000001498059";
+                params.createdate = pro.createdate;
+                params.updatedate = pro.updatedate;
+                params.createtimestamp = pro.createtimestamp;
+                params.updatetimestamp = pro.updatetimestamp;
                 nptResource.post("AddOrUpdateProduct", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -432,19 +191,19 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editGroup: function (group, success, error) {
                 var params = {};
-                params["id"] = group.id;
-                params["name"] = group.name;
-                params["state"] = group.state;
-                params["global"] = group.global;
-                params["cityid"] = group.cityid;
-                params["sort"] = group.sort;
-                params["province"] = "陕西省";
-                params["city"] = "西安市";
-                params["district"] = "全城";
-                params["createby"] = "10000001498059";
-                params["createdate"] = group.createdate;
-                params["createtimestamp"] = group.createtimestamp;
-                params["updatetimestamp"] = group.updatetimestamp;
+                params.id = group.id;
+                params.name = group.name;
+                params.state = group.state;
+                params.global = group.global;
+                params.cityid = group.cityid;
+                params.sort= group.sort;
+                params.province= "陕西省";
+                params.city= "西安市";
+                params.district= "全城";
+                params.createby = "10000001498059";
+                params.createdate= group.createdate;
+                params.createtimestamp = group.createtimestamp;
+                params.updatetimestamp = group.updatetimestamp;
                 nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -454,20 +213,20 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editProductPhase: function (phase, productid, success, error) {
                 var params = {};
-                params["id"] = phase.id;
-                params["no"] = phase.no;
-                params["sn"] = phase.sn;
-                params["times"] = phase.times;
-                params["name"] = phase.name;
-                params["cycle"] = phase.cycle;
-                params["cyclevalue"] = phase.cyclevalue;
-                params["processdays"] = phase.processdays;
-                params["productid"] = productid;
-                params["sortno"] = phase.sortno;
-                params["duty"] = phase.duty;
-                params["createby"] = "10000001498059";
-                params["createdate"] = phase.createdate;
-                params["updatedate"] = phase.updatedate;
+                params.id= phase.id;
+                params.no = phase.no;
+                params.sn = phase.sn;
+                params.times = phase.times;
+                params.name= phase.name;
+                params.cycle = phase.cycle;
+                params.cyclevalue= phase.cyclevalue;
+                params.processdays = phase.processdays;
+                params.productid = productid;
+                params.sortno = phase.sortno;
+                params.duty = phase.duty;
+                params.createby= "10000001498059";
+                params.createdate = phase.createdate;
+                params.updatedate= phase.updatedate;
                 nptResource.post("AddOrUpdateProductPhase", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -477,14 +236,14 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editProductProfile: function (profile, productid, success, error) {
                 var params = {};
-                params["id"] = profile.id;
-                params["productid"] = productid;
-                params["synopsis"] = profile.synopsis;
-                params["sort"] = profile.sort;
-                params["createby"] = "10000001498059";
-                params["createdate"] = profile.createdate;
-                params["createtimestamp"] = profile.createtimestamp;
-                params["updatetimestamp"] = profile.updatetimestamp;
+                params.id = profile.id;
+                params.productid= productid;
+                params.synopsis = profile.synopsis;
+                params.sort = profile.sort;
+                params.createby= "10000001498059";
+                params.createdate = profile.createdate;
+                params.createtimestamp = profile.createtimestamp;
+                params.updatetimestamp = profile.updatetimestamp;
                 nptResource.post("AddOrUpdateProductProfile", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -494,17 +253,17 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editProductGroup: function (group, productid, success, error) {
                 var params = {};
-                params["id"] = group.id;
-                params["instid"] = group.instid;
-                params["productid"] = productid;
-                params["sort"] = group.sort;
-                params["top"] = group.top;
-                params["backgorundimgid"] = "4";
-                params["groupid"] = "1";
-                params["createby"] = "10000001498059";
-                params["createdate"] = group.createdate;
-                params["createtimestamp"] = group.createtimestamp;
-                params["updatetimestamp"] = group.updatetimestamp;
+                params.id = group.id;
+                params.instid = group.instid;
+                params.productid= productid;
+                params.sort = group.sort;
+                params.top = group.top;
+                params.backgorundimgid= "4";
+                params.groupid= "1";
+                params.createby= "10000001498059";
+                params.createdate= group.createdate;
+                params.createtimestamp= group.createtimestamp;
+                params.updatetimestamp = group.updatetimestamp;
                 nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -514,19 +273,19 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editProductClassify: function (classify, productid, success, error) {
                 var params = {};
-                params["id"] = classify.id;
-                params["productid"] = productid;
-                params["sort"] = classify.sort;
-                params["cityid"] = "1";
-                params["price"] = classify.price;
-                params["phaseid"] = classify.phaseid;
-                params["classifyno"] = classify.classifyno;
-                params["classifyname"] = classify.classifyname;
-                params["phasename"] = classify.phasename;
-                params["createby"] = "10000001498059";
-                params["createdate"] = classify.createdate;
-                params["createtimestamp"] = classify.createtimestamp;
-                params["updatetimestamp"] = classify.updatetimestamp;
+                params.id = classify.id;
+                params.productid= productid;
+                params.sort = classify.sort;
+                params.cityid = "1";
+                params.price = classify.price;
+                params.phaseid = classify.phaseid;
+                params.classifyno= classify.classifyno;
+                params.classifyname = classify.classifyname;
+                params.phasename= classify.phasename;
+                params.createby= "10000001498059";
+                params.createdate= classify.createdate;
+                params.createtimestamp = classify.createtimestamp;
+                params.updatetimestamp = classify.updatetimestamp;
                 nptResource.post("AddOrUpdateProductclassify", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -536,16 +295,16 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             editProductDescr: function (descr, productid, success, error) {
                 var params = {};
-                params["id"] = descr.id;
-                params["productid"] = productid;
-                params["type"] = descr.type;
-                params["descr"] = descr.descr;
-                params["descrvalue"] = descr.descrvalue;
-                params["sort"] = descr.sort;
-                params["createby"] = "10000001498059";
-                params["createdate"] = descr.createdate;
-                params["createtimestamp"] = descr.createtimestamp;
-                params["updatetimestamp"] = descr.updatetimestamp;
+                params.id = descr.id;
+                params.productid = productid;
+                params.type = descr.type;
+                params.descr = descr.descr;
+                params.descrvalue = descr.descrvalue;
+                params.sort= descr.sort;
+                params.createby = "10000001498059";
+                params.createdate = descr.createdate;
+                params.createtimestamp= descr.createtimestamp;
+                params.updatetimestamp = descr.updatetimestamp;
                 nptResource.post("AddOrUpdateProductDescr", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -555,7 +314,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteGroup: function (id, success, error) {
                 var params = {};
-                params["groupid"] = id;
+                params.groupid = id;
                 nptResource.post("RemoveProductMdGroup", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -565,7 +324,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductPhase: function (phaseid, success, error) {
                 var params = {};
-                params["phaseid"] = phaseid;
+                params.phaseid= phaseid;
                 nptResource.post("RemoveProductPhase", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -575,7 +334,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductRequirement: function (requirementid, success, error) {
                 var params = {};
-                params["requirementid"] = requirementid;
+                params.requirementid = requirementid;
                 nptResource.post("RemoveProductRequirement", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -585,7 +344,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductProfile: function (profileid, success, error) {
                 var params = {};
-                params["profileid"] = profileid;
+                params.profileid= profileid;
                 nptResource.post("RemoveProductProfile", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -595,7 +354,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductGroup: function (groupid, success, error) {
                 var params = {};
-                params["groupid"] = groupid;
+                params.groupid = groupid;
                 nptResource.post("RemoveProductGroup", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -605,7 +364,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductClassify: function (classifyid, success, error) {
                 var params = {};
-                params["classifyid"] = classifyid;
+                params.classifyid = classifyid;
                 nptResource.post("RemoveProductClassify", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -615,7 +374,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
             deleteProductDescr: function (productDescrid, success, error) {
                 var params = {};
-                params["productDescrid"] = productDescrid;
+                params.productDescrid = productDescrid;
                 nptResource.post("RemoveProductDescr", params, function (data) {
                     success(data);
                 }, function (data) {
@@ -701,7 +460,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //首先查询全部产品
@@ -716,7 +475,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 $scope.cities = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //首先查询全部城市
@@ -734,7 +493,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 $scope.groupdata = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //首先查询全部分组信息
@@ -752,7 +511,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 $scope.queryGroup();
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
     })
@@ -760,12 +519,12 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.productid = $routeParams.id;
         var self = this;
         $scope.editProduct = function () {
-            console.info($scope.pro)
+            console.info($scope.pro);
             productService.query.editProduct($scope.pro, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
-        }
+            });
+        };
         //查询产品信息
         productService.query.id($scope.productid, function (data) {
             $scope.pro = data.product;
@@ -808,7 +567,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 $scope.groupdata = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //首先查询全部产品
@@ -868,7 +627,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.doProductPhases = function (type, item, index) {
             if (item && type === "edit") {
                 $scope.phases = item;
-                console.info($scope.phases)
+                console.info($scope.phases);
                 $('#productPhasesModal').modal('show');
             }
             if (item && type === "delete") {
@@ -891,7 +650,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.doProductProfiles = function (type, item, index) {
             if (item && type === "edit") {
                 $scope.profiles = item;
-                console.info($scope.profiles)
+                console.info($scope.profiles);
                 $('#productProfilesModal').modal('show');
             }
             if (item && type === "delete") {
@@ -902,7 +661,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.doProductGroups = function (type, item, index) {
             if (item && type === "edit") {
                 $scope.group = item;
-                console.info($scope.group)
+                console.info($scope.group);
                 $('#productGroupsModal').modal('show');
             }
             if (item && type === "delete") {
@@ -913,7 +672,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.doProductClassifies = function (type, item, index) {
             if (item && type === "edit") {
                 $scope.classify = item;
-                console.info($scope.classify)
+                console.info($scope.classify);
                 $('#productClassifiesModal').modal('show');
             }
             if (item && type === "delete") {
@@ -924,7 +683,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $scope.doProductDescrs = function (type, item, index) {
             if (item && type === "edit") {
                 $scope.descr = item;
-                console.info($scope.descr)
+                console.info($scope.descr);
                 $('#productDescrsModal').modal('show');
             }
             if (item && type === "delete") {
@@ -940,7 +699,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.editProductPhase($scope.phases, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -951,7 +710,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.editProductProfile($scope.profiles, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -962,7 +721,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.editProductGroup($scope.group, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -973,7 +732,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.editProductClassify($scope.classify, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -984,7 +743,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.editProductDescr($scope.descr, $scope.productid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -994,7 +753,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductPhase(phaseid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         /**
@@ -1004,7 +763,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductRequirement(requirementid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
         /**
          * 删除产品内容的绑定
@@ -1013,7 +772,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductProfile(profileid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
         /**
          * 删除产品分组的绑定
@@ -1022,7 +781,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductGroup(groupid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
         /**
          * 删除产品分类的绑定
@@ -1031,7 +790,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductClassify(classifyid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
         /**
          * 删除产品说明的绑定
@@ -1040,7 +799,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             productService.query.deleteProductDescr(productDescrid, function (data) {
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
     });

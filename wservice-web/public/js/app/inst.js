@@ -108,7 +108,7 @@ angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新工单"
+                    self.checkNew.text = "检查新工单";
                 }
             }
         };
@@ -128,8 +128,7 @@ angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
                 } else {
                     self.query.text = "打开查询";
                 }
-            }
-            ,
+            },
             list: function (state, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
@@ -137,20 +136,19 @@ angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
                 var params = {};
 
                 if (state !== "all") {
-                    params["state"] = state;
+                    params.state = state;
                 }
 
                 //总是加入当前用户以及机构作为查询参数
-                params["createby"] = "10000001463011";
-
+                params.createby = "10000001463011";
                 nptResource
                     .post("queryInsts", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         success(data);
                     }, function (data) {
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         //TODO 弹出提示检索错误通知窗口
                         error(data);
                     });
@@ -225,7 +223,7 @@ angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
 

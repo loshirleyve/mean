@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 
-'use strict';
 angular.module("wservice.form.store.order", ["ui.neptune"])
     .run(function (nptFormStore) {
         nptFormStore.put("order", {
