@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("instApp", ["wservice.dt.store.inst", "ngRoute", 'app.config'])
+angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
