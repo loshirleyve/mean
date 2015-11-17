@@ -4,8 +4,7 @@
  * MIT Licensed
  */
 
-'use strict';
-angular.module('wsweb')
+angular.module('wservice')
     .factory("storeManager",function(wswebProvider) {
         // 如果用户配置了不保存工作台，则清空之前的数据
         if (!wswebProvider.get("storeWorkbench") && store) {

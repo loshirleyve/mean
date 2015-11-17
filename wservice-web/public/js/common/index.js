@@ -4,5 +4,4 @@
  * MIT Licensed
  */
 
-'use strict';
-angular.module('wsweb.service',[]);
+angular.module("wservice.common",["wservice.common.repository"]);

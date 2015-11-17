@@ -10,8 +10,7 @@
  * MIT Licensed
  */
 
-'use strict';
-angular.module('master',[])
+angular.module('wservice.master',[])
     .service('masterService',function() {
         if (window.parent && window.parent.$masterService) {
             angular.copy(window.parent.$masterService,this);

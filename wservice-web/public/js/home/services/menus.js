@@ -4,8 +4,7 @@
  * MIT Licensed
  */
 
-'use strict';
-angular.module('wsweb.service').service('Menus', ['$http',
+angular.module('wservice.service').service('Menus', ['$http',
     function($http) {
         /**
          * 查询菜单
@@ -17,6 +16,6 @@ angular.module('wsweb.service').service('Menus', ['$http',
             return $http.post('api/menus',param||{}).then(function(response) {
                 return response.data;
             });
-        }
+        };
     }
 ]);
