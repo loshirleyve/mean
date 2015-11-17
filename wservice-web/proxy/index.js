@@ -161,4 +161,5 @@ proxy.action("queryInstDetail", {
     action:"com.yun9.sys.inst.serivce.QueryInstByIdService"
 });
 
+
 module.exports = proxy;
