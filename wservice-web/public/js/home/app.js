@@ -2,33 +2,30 @@
  * Created by Leon on 15/9/11.
  */
 
-'use strict';
-
-angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
+angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
     .controller('launchCtrl',
         function ($scope, Menus, Session, menuService, navigationMaster,Notification,wswebProvider,initData) {
 
             this.navigateTo = function (menuNo) {
                 menuService.navigateTo(menuNo);
-            }
+            };
 
             this.changeTab = function (menuNo) {
                 menuService.navigateTo(menuNo);
-            }
+            };
 
             this.closeWindow = function (menuNo, $event) {
                 if ($event.stopPropagation) {
                     $event.stopPropagation();
                 }
                 menuService.closeWindow(menuNo);
-            }
+            };
 
             /**
              * 从缓存中获取配置，加载程序
              */
             this.reloadFromLocal = function() {
-                if (wswebProvider.get('reloadFromLocal')
-                    && store) {
+                if (wswebProvider.get('reloadFromLocal') && store) {
                     var self = this;
                     // 恢复打开的菜单
                     var storeMenu = menuService.getStoreMenus()||{};
@@ -88,7 +85,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
         };
         this.setup = function(cfg) {
             config = cfg||config;
-        }
+        };
         this.$get = function() {
             var service = {
                 getConfig:function() {
@@ -99,7 +96,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
                 }
             };
             return service;
-        }
+        };
     })
     .config(function(wswebProviderProvider,$routeProvider) {
 
@@ -111,8 +108,7 @@ angular.module('wsweb', ['ngRoute', 'wsweb.service','ui-notification'])
                     function(Menus,Session,$q,Notification) {
                         return $q.all([Session.load(),Menus.query()]).then(function(data) {
                                 return data;
-                            }
-                            ,function(error) {
+                            },function(error) {
                                 Notification
                                     .error({message:"请先登录！",delay:2000,positionY:"top",positionX:"center"});
                                 setTimeout(function() {

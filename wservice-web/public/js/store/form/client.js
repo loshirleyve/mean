@@ -2,7 +2,6 @@
  * Created by shirley on 15/11/11.
  */
 
-'use strict';
 angular.module("wservice.form.store.client", ["ui.neptune"])
     .run(function (nptFormStore) {
         nptFormStore.put("client", {
@@ -269,8 +268,7 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                     },
                     expressionProperties:{
                         "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0
-                                && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
                                 scope.to.options =  scope.to.options[0].bizMdInstScales;
                             }
                             return scope.to.options;

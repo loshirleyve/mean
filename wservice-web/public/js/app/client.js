@@ -93,7 +93,7 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新订单"
+                    self.checkNew.text = "检查新订单";
                 }
             }
 
@@ -113,15 +113,14 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 } else {
                     self.query.text = "打开查询";
                 }
-            }
-            ,
+            },
             list: function (params, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
 
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001463017";
-                params["userid"] = "10000001498059";
+                params.instid = "10000001463017";
+                params.userid = "10000001498059";
 
                 nptResource
                     .post("queryInstClients", params, function (data) {
@@ -271,13 +270,13 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 clientService.query.id($scope.clientid, function (data) {
                     $scope.data = data || {client: {}};
                     var params = {};
-                    params["companyName"] = data.fullname;
-                    params["companyNo"] = data.sn;
-                    params["companyScale"] = data.scaleid;
-                    params["userNo"] = data.contactphone;
-                    params["userName"] = data.contactman;
-                    params["clientId"] = $scope.clientid;
-                    params["simpleName"] = data.name;
+                    params.companyName = data.fullname;
+                    params.companyNo = data.sn;
+                    params.companyScale = data.scaleid;
+                    params.userNo = data.contactphone;
+                    params.userName = data.contactman;
+                    params.clientId = $scope.clientid;
+                    params.simpleName = data.name;
                     $scope.initInst(params);
                 }, function (data) {
                     //TODO 提示信息
@@ -297,7 +296,7 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
         //初始化机构
@@ -305,7 +304,7 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
             clientService.query.initInst(clientInfo, function(data){
             }, function(data){
                 //TODO 弹出错误通知窗口
-            })
+            });
         };
 
         //首先查询全部客户
@@ -348,17 +347,17 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
         $scope.clientSearchConfirm = function(){
             $("#clientSearch").on("hidden.bs.modal", function(data){
                 var params={};
-                params["contactman"]=$scope.contactman;
-                params["fullname"]=$scope.fullname;
-                params["industry"]=$scope.data.industry.no;
-                params["type"]=$scope.data.type;
-                params["level"]=$scope.data.level.no;
-                params["source"]=$scope.data.source;
+                params.contactman=$scope.contactman;
+                params.fullname=$scope.fullname;
+                params.industry=$scope.data.industry.no;
+                params.type=$scope.data.type;
+                params.level=$scope.data.level.no;
+                params.source=$scope.data.source;
                 clientService.query.list(params, function (data) {
                     $scope.data = data;
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
-                })
+                });
             });
         };
     })
@@ -385,20 +384,20 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
         //添加或更新客户
         $scope.addOrUpdateClientconfirm = function(){
             var params={};
-            params["instid"] = "10000001463017";
-            params["sn"] = $scope.add.sn;
-            params["name"] = $scope.add.name;
-            params["fullname"] = $scope.add.fullname;
-            params["type"] = $scope.data.type;
-            params["level"] = $scope.data.level;
-            params["contactman"] = $scope.add.contactman;
-            params["contactphone"] = $scope.add.contactphone;
-            params["region"] = $scope.add.region;
-            params["source"] = $scope.data.source;
-            params["industry"] = $scope.data.industry;
-            params["contactposition"] = $scope.data.contactposition;
-            params["createby"] ="10000001498059";
-            params["scaleid"] = $scope.data.scaleid.type;
+            params.instid = "10000001463017";
+            params.sn = $scope.add.sn;
+            params.name = $scope.add.name;
+            params.fullname = $scope.add.fullname;
+            params.type = $scope.data.type;
+            params.level = $scope.data.level;
+            params.contactman = $scope.add.contactman;
+            params.contactphone = $scope.add.contactphone;
+            params.region = $scope.add.region;
+            params.source = $scope.data.source;
+            params.industry = $scope.data.industry;
+            params.contactposition = $scope.data.contactposition;
+            params.createby ="10000001498059";
+            params.scaleid = $scope.data.scaleid.type;
             clientService.query.addOrUpdateInstClient(params, function(data){
             }, function(data){
                 //TODO 弹出提示检索错误通知窗口
@@ -408,26 +407,26 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
         //编辑客户信息
         $scope.editClientConfirm = function(){
             var params={};
-            params["id"] = $scope.data.id;
-            params["instid"] = "10000001463017";
-            params["sn"] = $scope.data.sn;
-            params["name"] = $scope.data.name;
-            params["fullname"] = $scope.data.fullname;
-            params["type"] = $scope.data.type;
-            params["level"] = $scope.data.level;
-            params["contactman"] = $scope.data.contactman;
-            params["contactphone"] = $scope.data.contactphone;
-            params["region"] = $scope.data.region;
-            params["source"] = $scope.data.source;
-            params["industry"] = $scope.data.industry;
-            params["contactposition"] = $scope.data.contactposition;
-            params["createby"] ="10000001498059";
-            params["scaleid"] = $scope.data.scaleid;
+            params.id = $scope.data.id;
+            params.instid = "10000001463017";
+            params.sn = $scope.data.sn;
+            params.name = $scope.data.name;
+            params.fullname = $scope.data.fullname;
+            params.type = $scope.data.type;
+            params.level = $scope.data.level;
+            params.contactman = $scope.data.contactman;
+            params.contactphone = $scope.data.contactphone;
+            params.region = $scope.data.region;
+            params.source = $scope.data.source;
+            params.industry = $scope.data.industry;
+            params.contactposition = $scope.data.contactposition;
+            params.createby ="10000001498059";
+            params.scaleid = $scope.data.scaleid;
             clientService.query.addOrUpdateInstClient(params, function(data){
             }, function(data){
                 //TODO 弹出提示检索错误通知窗口
             });
-        }
+        };
 
         //查询客户行业的控制编码
         clientService.query.defno("clientindustry", function(data){
