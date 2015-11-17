@@ -2,7 +2,7 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.client", "app.config", "ngRoute"])
+angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.client", "ngRoute"])
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
