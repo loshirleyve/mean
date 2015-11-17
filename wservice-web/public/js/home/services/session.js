@@ -17,6 +17,6 @@ angular.module('wservice.service').service('Session', ['$http',
             }).then(function(response) {
                 return response.data;
             });
-        }
+        };
     }
 ]);

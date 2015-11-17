@@ -8,25 +8,24 @@ angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
 
             this.navigateTo = function (menuNo) {
                 menuService.navigateTo(menuNo);
-            }
+            };
 
             this.changeTab = function (menuNo) {
                 menuService.navigateTo(menuNo);
-            }
+            };
 
             this.closeWindow = function (menuNo, $event) {
                 if ($event.stopPropagation) {
                     $event.stopPropagation();
                 }
                 menuService.closeWindow(menuNo);
-            }
+            };
 
             /**
              * 从缓存中获取配置，加载程序
              */
             this.reloadFromLocal = function() {
-                if (wswebProvider.get('reloadFromLocal')
-                    && store) {
+                if (wswebProvider.get('reloadFromLocal') && store) {
                     var self = this;
                     // 恢复打开的菜单
                     var storeMenu = menuService.getStoreMenus()||{};
@@ -86,7 +85,7 @@ angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
         };
         this.setup = function(cfg) {
             config = cfg||config;
-        }
+        };
         this.$get = function() {
             var service = {
                 getConfig:function() {
@@ -97,7 +96,7 @@ angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
                 }
             };
             return service;
-        }
+        };
     })
     .config(function(wswebProviderProvider,$routeProvider) {
 
@@ -109,8 +108,7 @@ angular.module('wservice', ['ngRoute', 'wservice.service','ui-notification'])
                     function(Menus,Session,$q,Notification) {
                         return $q.all([Session.load(),Menus.query()]).then(function(data) {
                                 return data;
-                            }
-                            ,function(error) {
+                            },function(error) {
                                 Notification
                                     .error({message:"请先登录！",delay:2000,positionY:"top",positionX:"center"});
                                 setTimeout(function() {

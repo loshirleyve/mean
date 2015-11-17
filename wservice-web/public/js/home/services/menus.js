@@ -16,6 +16,6 @@ angular.module('wservice.service').service('Menus', ['$http',
             return $http.post('api/menus',param||{}).then(function(response) {
                 return response.data;
             });
-        }
+        };
     }
 ]);

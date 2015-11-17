@@ -11,26 +11,26 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: [
-                    "public/js/common/index.js",
-                    "public/js/common/master.js",
-                    "public/js/common/repository/*.js",
-                    "public/js/common/store/*.js"
+                    "public/js/home/app.js",
+                    "public/js/home/navigation.js",
+                    "public/js/home/storeLocalStorage.js",
+                    "public/js/home/services/*.js"
                 ],
-                dest: "dist/wservice-common-<%= pkg.version%>.js"
+                dest: "dist/wservice-home-<%= pkg.version%>.js"
             }
         },
         uglify: {
             options: {
-                banner: '/*! wservice-common  <%= grunt.template.today("yyyy-mm-dd") %>*/\n'
+                banner: '/*! wservice-home  <%= grunt.template.today("yyyy-mm-dd") %>*/\n'
             },
             dist: {
                 files: {
-                    "dist/wservice-common-<%= pkg.version%>.min.js": ["<%= concat.dist.dest%>"]
+                    "dist/wservice-home-<%= pkg.version%>.min.js": ["<%= concat.dist.dest%>"]
                 }
             }
         },
         jshint: {
-            files: ["public/js/**/*.js"],
+            files: ["public/js/home/**/*.js"],
             options: {
                 globals: {
                     jQuery: true,
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
         },
         watch: {
             files: ["<%= jshint.files%>"],
-            tasks: ["jshint", "concatCommon"]
+            tasks: ["jshint", "concat"]
         },
         clean: ["dist/*.js"]
     });
@@ -53,6 +53,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks('grunt-contrib-copy');
+
 
     grunt.registerTask("clean", ["clean"]);
     grunt.registerTask("test", ["jshint"]);

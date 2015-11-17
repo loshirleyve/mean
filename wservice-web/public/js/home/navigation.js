@@ -19,7 +19,7 @@ angular.module('wservice')
             navigationMaster.navigateTo(menuNo);
             this.focusMenus();
             storeMenus();
-        }
+        };
 
         /**
          * 重新定位菜单项
@@ -36,8 +36,8 @@ angular.module('wservice')
                 var ul = checkElement.parent().parent();
                 var parentNode = checkElement.parent();
                 parentNode.parent().children().removeClass('active');
-                if (navigationMaster.currentFocus
-                    && navigationMaster.currentFocus.menuNo == menuNo) {
+                if (navigationMaster.currentFocus &&
+                    navigationMaster.currentFocus.menuNo == menuNo) {
                     if (!ul.is(":visible")) {
                         ul.prev().click();
                         setTimeout(function () {
@@ -49,7 +49,7 @@ angular.module('wservice')
                     keepGoing = false;
                 }
             });
-        }
+        };
 
         /**
          * 关闭指定菜单项的窗口
@@ -59,7 +59,7 @@ angular.module('wservice')
             $("#mno_" + menuNo).parent().removeClass('active');
             navigationMaster.closeWindow(menuNo);
             storeMenus();
-        }
+        };
 
         /**
          * 获取缓存的当前编辑菜单项
@@ -69,7 +69,7 @@ angular.module('wservice')
             if (store) {
                 return store.get(storeId);
             }
-        }
+        };
 
         /**
          * 保存当前正在编辑的菜单项
@@ -77,16 +77,14 @@ angular.module('wservice')
         function storeMenus() {
             var menus = navigationMaster.subWindows;
             var storeObj = storeManager.get(storeId) || {};
-            var storeMenus = [];
+            var menuArr = [];
             menus.forEach(function (mm) {
                 if (mm.menuNo) {
-                    storeMenus.push(mm.menuNo);
+                    menuArr.push(mm.menuNo);
                 }
             });
-            storeObj.menus = storeMenus;
-            storeObj.focusMenu = navigationMaster.currentFocus
-                ? navigationMaster.currentFocus.menuNo
-                : undefined;
+            storeObj.menus = menuArr;
+            storeObj.focusMenu = navigationMaster.currentFocus ? navigationMaster.currentFocus.menuNo : undefined;
             storeManager.set(storeId, storeObj);
         }
 
@@ -120,7 +118,7 @@ angular.module('wservice')
         var SubWindow = function () {
             this.sid = "sub_" + (navigationMaster.increaseId++);
 
-        }
+        };
         /**
          * 子窗口加载界面
          * @param name
@@ -133,7 +131,7 @@ angular.module('wservice')
             this.isOpen = true;
             $("#" + this.sid, parent.document.body).attr("src", this.url);
             this.focus();
-        }
+        };
 
         /**
          * 使当前子窗口获取焦点
@@ -144,7 +142,7 @@ angular.module('wservice')
             $("#" + this.sid + '_li').parent().children().removeClass('active');
             $("#" + this.sid + '_li').show();
             $("#" + this.sid + '_li').addClass('active');
-        }
+        };
 
         /**
          * 关闭当前子窗口
@@ -158,7 +156,7 @@ angular.module('wservice')
             this.name = undefined;
             this.url = undefined;
             this.menuNo = undefined;
-        }
+        };
         /**
          * 初始化工程
          * @param menus 菜单数据
@@ -178,9 +176,9 @@ angular.module('wservice')
             });
             // 生成subWindow对象
             for (var i = 0; i < this.limitNums; i++) {
-                this.subWindows.push(new SubWindow())
+                this.subWindows.push(new SubWindow());
             }
-        }
+        };
         /**
          * 导航到指定menuNo界面
          * @param menuNo
@@ -215,7 +213,7 @@ angular.module('wservice')
             } else {
                 Notification.success('已达到限制的最多子窗口个数，' + this.limitNums);
             }
-        }
+        };
 
         /**
          * 关闭指定窗口
@@ -231,8 +229,7 @@ angular.module('wservice')
                 }
             });
             this.sortWindows();
-            if (this.currentFocus
-                && !this.currentFocus.menuNo) {
+            if (this.currentFocus && !this.currentFocus.menuNo) {
                 this.currentFocus = undefined;
                 keepGoing = true;
                 var self = this;
@@ -246,7 +243,7 @@ angular.module('wservice')
                     this.currentFocus.focus();
                 }
             }
-        }
+        };
 
         /**
          * 为当前子窗口排序，根据是否有打开东西排序
@@ -256,7 +253,7 @@ angular.module('wservice')
             this.subWindows.sort(function (a, b) {
                 return a.menuNo ? 0 : 1;
             });
-        }
+        };
 
         /**
          * 是否可以创建新窗口
@@ -264,7 +261,7 @@ angular.module('wservice')
          */
         navigationMaster.isNewable = function () {
             return (this.singleWindow) ? true : this.openedNums < this.subWindows.length;
-        }
+        };
 
         /**
          * 指定menuNo的窗口是否已经打开
@@ -274,7 +271,7 @@ angular.module('wservice')
         navigationMaster.isOpened = function (menuNo) {
 
             return !!this.findOpenMenu(menuNo);
-        }
+        };
 
         /**
          * 查找指定menuNo的窗口，如果有打开则返回
@@ -283,7 +280,7 @@ angular.module('wservice')
          */
         navigationMaster.findOpenMenu = function (menuNo) {
             var keepGoing = true;
-            var openOne = undefined;
+            var openOne;
             this.subWindows.forEach(function (win) {
                 if (keepGoing && win.menuNo == menuNo) {
                     openOne = win;
@@ -291,7 +288,7 @@ angular.module('wservice')
                 }
             });
             return openOne;
-        }
+        };
 
         return navigationMaster;
     });
