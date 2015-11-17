@@ -159,7 +159,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                     }
                 }
                 else {
-                    self.checkNew.text = "检查新工单"
+                    self.checkNew.text = "检查新工单";
                 }
             }
         };
@@ -179,8 +179,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 } else {
                     self.query.text = "打开查询";
                 }
-            }
-            ,
+            },
             list: function (state, success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
@@ -188,21 +187,19 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 var params = {};
 
                 if (state !== "all") {
-                    params["state"] = state;
+                    params.state = state;
                 }
-
                 //总是加入当前用户以及机构作为查询参数
-                params["instid"] = "10000001463017";
-                params["processid"] = "10000001498059";
-
+                params.instid = "10000001463017";
+                params.processid = "10000001498059";
                 nptResource
                     .post("queryWorkorderList", params, function (data) {
                         self.query.data = data;
                         self.query.state = state;
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         success(data);
                     }, function (data) {
-                        self.query.loading('reset')
+                        self.query.loading('reset');
                         //TODO 弹出提示检索错误通知窗口
                         error(data);
                     });
@@ -282,8 +279,8 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                     nodes.nodes = [];
                     for (var i = 0; i < data.length; i++) {
                         var node = {
-                            id: data[i]["id"],
-                            title: data[i]["name"]
+                            id: data[i].id,
+                            title: data[i].name
                         };
                         self.org.builderOrgTreeNode(node, data[i].children);
                         nodes.nodes.push(node);
@@ -321,7 +318,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
-            })
+            });
         };
 
 
@@ -344,17 +341,17 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 $scope.isUnstart = true;
             } else {
                 $scope.isUnstart = false;
-            };
+            }
             if ($scope.data.workOrder.state === "inservice") {
                 $scope.isInservice = true;
             } else {
                 $scope.isInservice = false;
-            };
+            }
             if ($scope.data.workOrder.state === "complete") {
                 $scope.isNotComplete = false;
             } else {
                 $scope.isNotComplete = true;
-            };
+            }
         };
 
         //查询工单信息
@@ -376,7 +373,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         //打开用户选择模态框
         $scope.deliver = function () {
             $scope.selectAdviser.open();
-        }
+        };
 
         //执行转交
         $scope.onSelect = function (type, item, index) {
@@ -388,9 +385,9 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
             var workorderids = [];
             workorderids.push($scope.workorderid);
 
-            params["workorderids"] = workorderids;
-            params["targetprocessid"] = item.id;
-            params["postscript"] = "ceshi";
+            params.workorderids = workorderids;
+            params.targetprocessid = item.id;
+            params.postscript = "ceshi";
 
             //调用服务
             nptResource.post("deliverWorkorder", params, function (data) {
@@ -417,9 +414,9 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
 
             workorderids.push($scope.workorderid);
 
-            params["postscript"] = $scope.postscript;
-            params["workorderids"] = workorderids;
-            params["userid"] = "10000001498059";
+            params.postscript = $scope.postscript;
+            params.workorderids = workorderids;
+            params.userid = "10000001498059";
 
             nptResource
                 .post("startWorkorder", params, function (data) {
@@ -448,9 +445,9 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
 
             workorderids.push($scope.workorderid);
 
-            params["postscript"] = $scope.postscript;
-            params["workorderids"] = workorderids;
-            params["userid"] = "10000001498059";
+            params.postscript = $scope.postscript;
+            params.workorderids = workorderids;
+            params.userid = "10000001498059";
 
             nptResource
                 .post("completeWorkorder", params, function (data) {
@@ -476,7 +473,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         $scope.onSelect = function (type, item, index) {
             deliverid = item.id;
             $scope.deliverName = item.name;
-        }
+        };
 
 
         $scope.deliver = function () {
@@ -485,9 +482,9 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
             var workorderids = [];
             workorderids.push($scope.workorderid);
 
-            params["workorderids"] = workorderids;
-            params["targetprocessid"] = deliverid;
-            params["postscript"] = $scope.postscript;
+            params.workorderids = workorderids;
+            params.targetprocessid = deliverid;
+            params.postscript = $scope.postscript;
 
             //调用服务
             nptResource.post("deliverWorkorder", params, function (data) {
