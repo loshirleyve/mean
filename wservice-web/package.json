@@ -23,6 +23,7 @@
     "angular-formly-templates-bootstrap": "^6.1.5",
     "angular-input-masks": "^2.1.0",
     "angular-messages": "^1.4.7",
+    "angular-resource": "^1.4.7",
     "angular-route": "^1.4.7",
     "angular-sanitize": "^1.4.7",
     "angular-ui-bootstrap": "^0.14.3",
