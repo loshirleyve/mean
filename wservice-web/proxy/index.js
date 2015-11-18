@@ -161,5 +161,11 @@ proxy.action("queryInstDetail", {
     action:"com.yun9.sys.inst.serivce.QueryInstByIdService"
 });
 
+//收款
+proxy.action("QueryPayRegisters", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryPayRegistersByInstidAndCreatebyService"
+});
+
 
 module.exports = proxy;

@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/11.
  */
-'use strict';
+
 angular.module("wservice.form.store.product", ["ui.neptune"])
     .run(function (nptFormStore) {
         nptFormStore.put("group", {
