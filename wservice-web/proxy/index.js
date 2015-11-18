@@ -167,5 +167,17 @@ proxy.action("QueryPayRegisters", {
     action:"com.yun9.ws.biz.service.QueryPayRegistersByInstidAndCreatebyService"
 });
 
+// 用户
+/*用户登录*/
+proxy.action("QueryIdentificationByUsernoAndPasswd", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryIdentificationByUsernoAndPasswd"
+});
+/*获取导航数据*/
+proxy.action("QueryInstRoleNaviService", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstRoleNaviService"
+});
+
 
 module.exports = proxy;

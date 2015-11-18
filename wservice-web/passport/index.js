@@ -5,6 +5,8 @@
 var passport = require("passport");
 var PassportLocal = require("passport-local").Strategy;
 var flash=require("express-flash");
+var proxy = require("../proxy");
+var y9MarsUtil = require("y9-mars-util");
 
 module.exports = function (app) {
 
@@ -19,27 +21,15 @@ module.exports = function (app) {
             "passwordField": "password"
         },
         function (username, password, done) {
-            //TODO 此处验证用户密码是否正确,目前写入伪代码
-            var user = {
-                id: "1",
-                username: "admin",
-                password: "pass",
-                role: ["user", "admin"]
-            }
-
-            if (username !== user.username) {
-                return done(null, false, {
-                    message: "登录失败!你输入的用户编号不存在."
+            proxy.post("QueryIdentificationByUsernoAndPasswd")
+                .params({userno:username,passwd:password})
+                .launch(function(response) {
+                    done(null, response.body.data);
+                },function(error) {
+                    done(null, false, {
+                        message: error.message
+                    });
                 });
-            }
-
-            if (password !== user.password) {
-                return done(null, false, {
-                    message: "登录失败!你输入的用户编号不存在."
-                });
-            }
-
-            done(null, user);
         }));
 
     //配置用户持久化策略
@@ -49,8 +39,9 @@ module.exports = function (app) {
     });
     //配置用户读取策略
     passport.deserializeUser(function (user, done) {
-        //TODO 根据用户编号,检索用户信息,相关机构信息等.
-        done(null, user);
+        var dUser = y9MarsUtil.Merge({},user.user);
+        dUser.insts = user.insts;
+        done(null, dUser);
     });
 
     //配置登录访问路由,对应本地登录策略
