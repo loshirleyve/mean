@@ -139,7 +139,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                     error(data);
                 });
             },
-            queryMdCtrlcode: function (defno, success, error) {
+            queryMdCtrlCode: function (defno, success, error) {
                 var params = {};
                 params.defno = defno;
                 nptResource.post("queryMdCtrlcode", params, function (data) {
@@ -532,7 +532,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             //TODO 提示信息
         });
 
-        productService.query.queryMdCtrlcode('producttype', function (data) {
+        productService.query.queryMdCtrlCode('producttype', function (data) {
                 $scope.producttypecode = data || {producttypecode: {}};
                 $scope.producttypecode.unshift({name: "------请选择------"});
             },
@@ -590,7 +590,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             //TODO 提示信息
         });
 
-        productService.query.queryMdCtrlcode('cycle', function (data) {
+        productService.query.queryMdCtrlCode('cycle', function (data) {
                 $scope.cyclecode = data || {cyclecode: {}};
                 $scope.cyclecode.unshift({name: "------请选择------"});
             },
@@ -598,7 +598,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 //TODO 提示信息
             });
 
-        productService.query.queryMdCtrlcode('productdescrtype', function (data) {
+        productService.query.queryMdCtrlCode('productdescrtype', function (data) {
                 $scope.productdescrtypecode = data || {productdescrtypecode: {}};
                 $scope.productdescrtypecode.unshift({name: "------请选择------"});
             },
