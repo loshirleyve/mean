@@ -2,7 +2,6 @@
  * Created by rxy on 15/11/17.
  */
 
-'use strict';
 angular.module("wservice.form.store.receivable", ["ui.neptune"])
     .run(function (nptFormStore) {
         nptFormStore.put("group", {
