@@ -4,6 +4,7 @@
  * MIT Licensed
  */
 
+
 angular.module("wservice.common.repository.common",
     ['ui.neptune.service.repository', "ui.neptune.service.session"])
     .factory("QueryCtrlCode", function (nptRepository) {
@@ -23,8 +24,8 @@ angular.module("wservice.common.repository.common",
                 nodes.nodes = [];
                 for (var i = 0; i < data.length; i++) {
                     var node = {
-                        id: data[i]["id"],
-                        title: data[i]["name"]
+                        id: data[i].id,
+                        title: data[i].name
                     };
                     builderOrgTreeNode(node, data[i].children);
                     nodes.nodes.push(node);
@@ -58,3 +59,9 @@ angular.module("wservice.common.repository.common",
     .factory("QueryUserInfoById", function (nptRepository) {
         return nptRepository("QueryUserInfoById");
     });
+
+angular.module("wservice.common.repository.common",['ui.neptune.service.repository'])
+.factory("QueryCtrlCode", function (nptRepository) {
+    return nptRepository("QueryMdCtrlcode");
+});
+
