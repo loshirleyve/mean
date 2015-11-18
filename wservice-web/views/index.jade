@@ -53,10 +53,10 @@ html(ng-app='wservice')
                     a.logo(href="/")
                         // mini logo for sidebar mini 50x50 pixels
                         span.logo-mini
-                            b(ng-bind='session.inst.pingyin')
+                            b(ng-bind='session.user.inst.pingyin')
                         // logo for regular state and mobile devices
                         span.logo-lg
-                            b(ng-bind='session.inst.shotName')
+                            b(ng-bind='session.user.inst.shotName')
                     // Header Navbar: style can be found in header.less
                     nav.navbar.navbar-static-top(role="navigation")
                         // Sidebar toggle button
@@ -223,8 +223,8 @@ html(ng-app='wservice')
                                         li.user-header
                                             img.img-circle(ng-src="{{session.user.iconPath}}", alt="User Image")
                                             p
-                                                | {{session.user.name}} - {{session.inst.shotName}}
-                                                small {{session.inst.fullName}}
+                                                | {{session.user.name}} - {{session.user.inst.shotName}}
+                                                small {{session.user.inst.fullName}}
                                         // Menu Body
                                         li.user-body
                                             .col-xs-4.text-center
@@ -254,7 +254,7 @@ html(ng-app='wservice')
                                 img.img-circle(ng-src="{{session.user.iconPath}}", alt="User Image")
                             .pull-left.info
                                 p {{session.user.name}}
-                                a(href="javascript:void(0);", title="{{session.inst.fullName}}") {{session.inst.shotName}}
+                                a(href="javascript:void(0);", title="{{session.user.inst.fullName}}") {{session.user.inst.shotName}}
                         // search form
                         form.sidebar-form(action="javascript:void(0);", method="get")
                             .input-group
