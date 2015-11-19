@@ -8,7 +8,7 @@
 angular.module("wservice.common.repository.common",
     ['ui.neptune.service.repository', "ui.neptune.service.session"])
     .factory("QueryCtrlCode", function (nptRepository) {
-        return nptRepository("QueryMdCtrlcode");
+        return nptRepository("queryMdCtrlcode");
     }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryFile").params({
             "userid": nptSessionManager.getSession.getUser().id,
@@ -59,9 +59,3 @@ angular.module("wservice.common.repository.common",
     .factory("QueryUserInfoById", function (nptRepository) {
         return nptRepository("QueryUserInfoById");
     });
-
-angular.module("wservice.common.repository.common",['ui.neptune.service.repository'])
-.factory("QueryCtrlCode", function (nptRepository) {
-    return nptRepository("QueryMdCtrlcode");
-});
-
