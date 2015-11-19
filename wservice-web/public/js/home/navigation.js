@@ -126,7 +126,7 @@ angular.module('wservice')
          */
         SubWindow.prototype.load = function (menu) {
             this.name = menu.name;
-            this.url = menu.mainurl;
+            this.url = menu.actionvalue;
             this.menuNo = menu.no;
             this.isOpen = true;
             $("#" + this.sid, parent.document.body).attr("src", this.url);
@@ -168,8 +168,8 @@ angular.module('wservice')
             this.singleWindow = (this.limitNums == 1);
             var self = this;
             menus.forEach(function (menu) {
-                if (menu.navigationItems) {
-                    menu.navigationItems.forEach(function (item) {
+                if (menu.items) {
+                    menu.items.forEach(function (item) {
                         self.menus[item.no] = item;
                     });
                 }
