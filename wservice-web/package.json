@@ -48,11 +48,12 @@
     "path": "^0.12.7",
     "serve-favicon": "^2.3.0",
     "util": "^0.10.3",
+    "y9-mars-inst-passport": "^1.0.1",
     "y9-mars-repository": "^1.0.0",
     "y9-mars-security": "^1.0.0",
     "y9-mars-service": "^1.0.2",
     "y9-mars-util": "^1.0.2",
-    "y9-neptune": "^1.0.1"
+    "y9-neptune": "^1.0.6"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
