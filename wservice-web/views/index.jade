@@ -272,7 +272,7 @@ html(ng-app='wservice')
                                     span {{menu.name}}
                                     i.fa.fa-angle-left.pull-right
                                 ul.treeview-menu.menu-open(style="display: none;")
-                                    li(ng-repeat='item in menu.navigationItems')
+                                    li(ng-repeat='item in menu.items')
                                         a(id='mno_{{item.no}}',href="javascript:void(0);", ng-click='launchCtrl.navigateTo(item.no)')
                                             i.fa.fa-circle-o
                                             | {{item.name}}
