@@ -20,8 +20,13 @@ module.exports = function (app) {
     filter.use(security.LocalInstHandler({
         validInst: function (req, item, done) {
             debug("开始检查是机构信息.");
-            done(true);
-        }
+            if (req.isExisInst()) {
+                done(true);
+            } else {
+                done(false);
+            }
+        },
+        failureRedirect: "/api/select-inst"
     }));
 
     //载入过滤配置

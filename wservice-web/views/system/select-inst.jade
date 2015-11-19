@@ -1,0 +1,38 @@
+doctype html
+html(lang="zh_CN",ng-app="selectInstApp")
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible",content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+        block titleContent
+        link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet',href= '/stylesheets/app.css')
+    body.container-fluid(style="background-color:#445160;",ng-controller="SelectInstController")
+        script(src="/node_modules/jquery/dist/jquery.min.js")
+        script(src="/node_modules/angular/angular.min.js")
+        script(src="/node_modules/angular-route/angular-route.min.js")
+        script(src="/node_modules/bootstrap/dist/js/bootstrap.min.js")
+        script(src="/js/system/select-inst.js")
+
+        div.row.table-responsive.clearfix(style="background-color:white;")
+            table(style="margin:20px;")
+                tr
+                    td.col-md-1(rowspan="2")
+                        img(src="/image/yun9logo.png",width="52.2",height="69.6")
+                    td.col-md-3(style="border-right:1px solid #DCDCDC")
+                        h4 深圳市顶聚科技有限公司
+                    td(rowspan="2",style="padding-left:20px;")
+                        h4 选择机构
+                tr
+                    td.col-md-2(style="border-right:1px solid #DCDCDC;")
+                        h4
+                            a(href="http://www.yun9.com" style="color:black;") www.yun9.com
+
+        div.row(style="background:white;position:absolute;top:30%;left:30%;right:30% ")
+            div.col-md-12
+                div.page-header
+                    h4 请选择你需要登录的机构
+
+                div.list-group
+                    a.list-group-item(href="/set-inst?instid=111") 深圳市顶聚科技有限公司
+                    a.list-group-item(href="/set-inst?instid=111") 深圳市顶聚咨询有限公司
