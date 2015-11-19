@@ -59,34 +59,66 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'type',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '类型:'
+                        label: '类型:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clienttype"}
                     }
                 },
                 {
                     key: 'level',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '级别:'
+                        label: '级别:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientlevel"}
                     }
                 },
                 {
                     key: 'source',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '来源:'
+                        label: '来源:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientsource"}
                     }
                 },
                 {
                     key: 'scaleid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '规模:'
+                        label: '规模:',
+                        valueProp:'type',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryMdInstScale,
+                        repositoryParams: {"instid":"10000001463017"}
+                    },
+                    expressionProperties:{
+                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+                            }
+                            return scope.to.options;
+                        }
                     }
                 },
                 {
@@ -107,10 +139,16 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'contactposition',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
                         required: true,
-                        label: '职位:'
+                        label: '职位:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "contactposition"}
                     }
                 },
                 {
