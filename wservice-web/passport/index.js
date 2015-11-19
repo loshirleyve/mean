@@ -4,7 +4,7 @@
 
 var passport = require("passport");
 var PassportLocal = require("passport-local").Strategy;
-var flash=require("express-flash");
+var flash = require("express-flash");
 var proxy = require("../proxy");
 var y9MarsUtil = require("y9-mars-util");
 
@@ -22,10 +22,10 @@ module.exports = function (app) {
         },
         function (username, password, done) {
             proxy.post("QueryIdentificationByUsernoAndPasswd")
-                .params({userno:username,passwd:password})
-                .launch(function(response) {
+                .params({userno: username, passwd: password})
+                .launch(function (response) {
                     done(null, response.body.data);
-                },function(error) {
+                }, function (error) {
                     done(null, false, {
                         message: error.message
                     });
@@ -39,7 +39,7 @@ module.exports = function (app) {
     });
     //配置用户读取策略
     passport.deserializeUser(function (user, done) {
-        var dUser = y9MarsUtil.Merge({},user.user);
+        var dUser = y9MarsUtil.Merge({}, user.user);
         dUser.insts = user.insts;
         done(null, dUser);
     });
@@ -48,7 +48,8 @@ module.exports = function (app) {
     app.post("/auth", passport.authenticate("local", {
         successRedirect: "/home",
         failureRedirect: "/login",
-        failureFlash: true
+        failureFlash: true,
+        "successReturnToOrRedirect": "/home"
     }));
 
 
