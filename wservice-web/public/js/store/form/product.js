@@ -47,12 +47,13 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                     type: 'ui-select',
                     templateOptions: {
                         label: '服务类型:',
+                        required: true,
                         valueProp:'id',
-                        labelProp:'value',
-                        placeholder:'',
+                        labelProp:'name',
+                        placeholder:'请选择',
                         options:[],
                         datasource:'queryProductPhase',
-                        datasourceParams:{}
+                        datasourceParams:{"productid":"10000001519207"}
                     }
                 },
                 {
