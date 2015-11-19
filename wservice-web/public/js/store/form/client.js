@@ -194,7 +194,10 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '编号:'
+                        label: '编号:',
+                        placeholder: "请输入4至8位客户编号",
+                        maxlength:8,
+                        minlength:4
                     }
                 },
                 {
@@ -280,7 +283,8 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '联系人:'
+                        label: '联系人:',
+                        placeholder: "请输入联系人"
                     }
                 },
                 {
@@ -288,7 +292,8 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '电话:'
+                        label: '电话:',
+                        placeholder: "请输入电话号码"
                     }
                 },
                 {
@@ -310,7 +315,8 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地区:'
+                        label: '地区:',
+                        placeholder: "请输入地区"
                     }
                 },
                 {
@@ -318,15 +324,8 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地址:'
-                    }
-                },
-                {
-                    key: 'createby',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '创建人:'
+                        label: '地址:',
+                        placeholder: "请输入地址"
                     }
                 }
             ]
