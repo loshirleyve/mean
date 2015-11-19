@@ -11,7 +11,20 @@ module.exports = function (app) {
 
     //注册过滤器处理策略
     //登录验证过滤器
-    filter.use(security.LocalLoginHandler());
+    filter.use(security.LocalLoginHandler({
+        validLogin: function (req, item, done) {
+
+            if (req.isAuthenticated()) {
+                done(true);
+            } else {
+                //检查登录没有通过,记录原始路径,在登录成功后跳转回原访问路径
+                if (req.session) {
+                    req.session.returnTo = req.originalUrl;
+                }
+                done(false);
+            }
+        }
+    }));
 
     //角色检查过滤器
     filter.use(security.LocalRoleHandler());
@@ -23,10 +36,14 @@ module.exports = function (app) {
             if (req.isExisInst()) {
                 done(true);
             } else {
+                //检查机构没有通过,记录原始路径,在登录成功后跳转回原访问路径
+                if (req.session) {
+                    req.session.returnTo = req.originalUrl;
+                }
                 done(false);
             }
         },
-        failureRedirect: "/api/select-inst"
+        failureRedirect: "/system/inst/select"
     }));
 
     //载入过滤配置
