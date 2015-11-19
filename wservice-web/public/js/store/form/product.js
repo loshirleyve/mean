@@ -2,8 +2,8 @@
  * Created by rxy on 15/11/11.
  */
 
-angular.module("wservice.form.store.product", ["ui.neptune"])
-    .run(function (nptFormStore) {
+angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
+    .run(function (nptFormStore,queryMdCtrlCode) {
         nptFormStore.put("group", {
             options: {},
             fields: [
@@ -52,8 +52,8 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryProductPhase',
-                        datasourceParams:{"productid":"10000001519207"}
+                        repository:queryMdCtrlCode,
+                        repositoryParams:{"defno":"producttype"}
                     }
                 },
                 {
