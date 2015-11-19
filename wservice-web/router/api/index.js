@@ -12,7 +12,7 @@ var fs = require('fs');
 
 var files = fs.readdirSync(__dirname+'');
 files.forEach(function(filePath){
-    if (filePath != 'index.js') {
+    if (filePath != 'index.js' && filePath.indexOf(".js") > 0) {
         require('./'+filePath)(router);
     }
 });
