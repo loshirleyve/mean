@@ -40,6 +40,13 @@ angular.module("demoApp",
             });
 }).controller("ListController",function($scope,demoService,sessionData) {
         $scope.data = [];
+        /**
+         * 除了增删改，其他配置的方法，如查看，会进入这个方法；
+         * 我们可以在这里定制自己的处理逻辑
+         * @param type
+         * @param item
+         * @param index
+         */
         $scope.demoAction = function (type, item, index) {
             console.info(type);
         };
@@ -65,7 +72,7 @@ angular.module("demoApp",
         } else {
             $scope.data = orderService.query.data;
         }
-}).service("demoService",function($http, $location, nptResource) {
+}).service("demoService",function($http, $location, QueryOrderListRepo, nptResource) {
         var self = this;
         /**
          * 切换是否执行检查新订单
@@ -117,56 +124,21 @@ angular.module("demoApp",
                 params.instid = "10000001463017";
                 params.userid = "10000001498059";
 
-                nptResource
-                    .post("queryOrderList", params, function (data) {
-                        self.query.data = data;
-                        self.query.state = state;
-                        self.query.loading('reset');
-                        success(data);
-                    }, function (data) {
-                        self.query.loading('reset');
-                        //TODO 弹出提示检索错误通知窗口
-                        error(data);
-                    });
-            },
-            id: function (id, success, error) {
-                nptResource.post("queryOrderInfo", {"orderid": id}, success, error);
+                QueryOrderListRepo.post(params).then( function (response) {
+                    self.query.data = response.data;
+                    self.query.state = state;
+                    self.query.loading('reset');
+                    success(response.data);
+                }, function (error) {
+                    self.query.loading('reset');
+                    error(error);
+                });
             },
             loading: function (state) {
                 $("#all").button(state);
                 $("#waitconfirm").button(state);
                 $("#inservice").button(state);
                 $("#buy").button(state);
-            },
-            nextId: function (id) {
-                if (id && self.query.data.length > 0) {
-                    for (var i = 0; i < self.query.data.length; i++) {
-                        if (id === self.query.data[i].id && i + 1 < self.query.data.length) {
-                            return self.query.data[i + 1].id;
-                        }
-                    }
-                }
-            },
-            previousId: function (id) {
-                if (id && self.query.data.length > 0) {
-                    for (var i = 0; i < self.query.data.length; i++) {
-                        if (id === self.query.data[i].id && i - 1 >= 0) {
-                            return self.query.data[i - 1].id;
-                        }
-                    }
-                }
-            },
-            next: function (orderid) {
-                var newId = self.query.nextId(orderid);
-                if (newId) {
-                    $location.path("/detail/" + newId);
-                }
-            },
-            previous: function (orderid) {
-                var newId = self.query.previousId(orderid);
-                if (newId) {
-                    $location.path("/detail/" + newId);
-                }
             }
         };
 
@@ -175,4 +147,6 @@ angular.module("demoApp",
         this.query.toggle();
         //默认状态为启动检查新单据
         this.checkNew.toggle();
-});
+}).factory("QueryOrderListRepo",function(nptRepository) {
+        return nptRepository("queryOrderList");
+    });

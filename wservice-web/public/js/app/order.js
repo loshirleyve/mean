@@ -35,7 +35,6 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
         nptSession().then(function (session) {
             self.user = session.getUser();
             self.inst = session.getInst();
-            debugger;
         });
 
         /**
