@@ -9,6 +9,7 @@
 var main = require("./main");
 var auth = require("./auth");
 var order = require("./app/order");
+var demo = require("./app/demo");
 var workorder = require("./workorder");
 var receivable = require("./receivable");
 var product = require("./product");
@@ -27,6 +28,8 @@ module.exports = function (app) {
     app.use("/auth", auth);
 
     app.use("/app/order", order);
+
+    app.use("/app/demo", demo);
 
     app.use("/order", order);
 

@@ -2,8 +2,8 @@
  * Created by shirley on 15/11/11.
  */
 
-angular.module("wservice.form.store.client", ["ui.neptune"])
-    .run(function (nptFormStore) {
+angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
+    .run(function (nptFormStore,QueryCtrlCode,QueryMdInstScale) {
         nptFormStore.put("client", {
             options: {},
             fields: [
@@ -53,8 +53,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientindustry"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientindustry"}
                     }
                 },
                 {
@@ -207,8 +207,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientindustry"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientindustry"}
                     }
                 },
                 {
@@ -221,8 +221,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clienttype"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "cycle"}
                     }
                 },
                 {
@@ -235,8 +235,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientlevel"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientlevel"}
                     }
                 },
                 {
@@ -249,8 +249,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"clientsource"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "clientsource"}
                     }
                 },
                 {
@@ -263,8 +263,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdInstScale',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017"}
+                        repository: QueryMdInstScale,
+                        repositoryParams: {"instid":"10000001463017"}
                     },
                     expressionProperties:{
                         "templateOptions.options":function($viewValue,$modelValue,scope) {
@@ -301,8 +301,8 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        datasource:'queryMdCtrlcode',
-                        datasourceParams:{"userid":"10000001498059", "instid":"10000001463017","defno":"contactposition"}
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "contactposition"}
                     }
                 },
                 {
@@ -362,4 +362,6 @@ angular.module("wservice.form.store.client", ["ui.neptune"])
                 }
             ]
         });
+    }).factory("QueryMdInstScale",function(nptRepository){
+        return nptRepository("queryMdInstScale");
     });
