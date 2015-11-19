@@ -50,10 +50,9 @@ angular.module("wservice.dt.store.client", ["ui.neptune"]).
                         }, 1000);
 
                         return deferd.promise;
-                    }, function (params, $timeout, $q) {
+                    }, function (params, $timeout, $q, nptResource) {
                         var deferd = $q.defer();
                         console.info("开始调用后台添加服务.");
-
                         $timeout(function () {
                             if (params.index === 0) {
                                 deferd.reject("不能在第一行上添加.");

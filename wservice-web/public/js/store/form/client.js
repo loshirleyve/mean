@@ -222,7 +222,7 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                         placeholder:'请选择',
                         options:[],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "cycle"}
+                        repositoryParams: {"defno": "clienttype"}
                     }
                 },
                 {
@@ -322,42 +322,11 @@ angular.module("wservice.form.store.client", ["ui.neptune","wservice.common"])
                     }
                 },
                 {
-                    key: 'clientinstid',
+                    key: 'createby',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '客户机构:'
-                    }
-                },
-                {
-                    key: 'clientadminid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户管理员:'
-                    }
-                },
-                {
-                    key: 'createdate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '创建时间:'
-                    }
-                },
-                {
-                    key: 'updatedate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '更新时间:'
-                    }
-                },
-                {
-                    key: 'remark',
-                    type: 'input',
-                    templateOptions: {
-                        label: '备注:'
+                        label: '创建人:'
                     }
                 }
             ]
