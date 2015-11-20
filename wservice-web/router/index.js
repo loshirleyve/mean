@@ -8,8 +8,7 @@
 
 var main = require("./main");
 var auth = require("./auth");
-var order = require("./app/order");
-var demo = require("./app/demo");
+var appRouter = require("./app");
 var workorder = require("./workorder");
 var receivable = require("./receivable");
 var product = require("./product");
@@ -24,14 +23,12 @@ module.exports = function (app) {
     //使用主路由器
     app.use("/", main);
 
+    //app.use("/app",appRouter)
+
     //认证路由器
     app.use("/auth", auth);
 
-    app.use("/app/order", order);
-
-    app.use("/app/demo", demo);
-
-    app.use("/order", order);
+    //app.use("/order", order);
 
     //工单
     app.use("/workorder", workorder);

@@ -20,6 +20,8 @@ var passport = require("./passport");
 var security = require("./security");
 var proxy = require("./proxy");
 var repository = require("./repository");
+var instPassport = require("./inst");
+var middleware = require("./middleware");
 
 //设置视图引擎
 app.set("views", path.join(__dirname, "views"));
@@ -35,8 +37,8 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 //设置public目录为前端资源公共目录,包括前端js、css、image都存放此目录
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/node_modules",express.static(path.join(__dirname, "node_modules")));
-app.use("/dist",express.static(path.join(__dirname, "dist")));
+app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
+app.use("/dist", express.static(path.join(__dirname, "dist")));
 
 
 //0.加载服务代理
@@ -58,15 +60,21 @@ app.use(flash());
 //2.加载登录验证管理
 passport(app);
 
+//加载机构管理器
+instPassport(app);
+
 //3.加载安全过滤器,注意安全过滤器一定要在业务路由器之前加载.
 security(app);
 
 //4.载入路由
 router(app);
 
+//5.载入中间件
+middleware(app);
+
 // 找不到页面
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found ' + req.url);
     err.status = 404;
     next(err);
 });
@@ -76,6 +84,7 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
+        console.error(err.stack);
         res.status(err.status || 500);
         res.render('system/error', {
             message: err.message,
