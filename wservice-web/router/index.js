@@ -7,20 +7,15 @@
 'use strict';
 
 var main = require("./main");
-var workorder = require("./workorder");
 var receivable = require("./receivable");
 var product = require("./product");
 var client = require("./client");
 var file = require("./file");
-var inst = require("./inst");
 
 module.exports = function (app) {
 
     //使用主路由器
     app.use("/", main);
-
-    //工单
-    app.use("/workorder", workorder);
 
     //收款列表
     app.use("/receivable", receivable);
@@ -34,7 +29,4 @@ module.exports = function (app) {
     //文件
     app.use("/file", file);
 
-
-    //机构
-    app.use("/inst", inst);
 };
