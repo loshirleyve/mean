@@ -27,54 +27,6 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 redirectTo: "/list"
             });
 
-        /*DatatableStoreProvider.store("client", {
-            "header": [
-                {
-                    "name": "name",
-                    "label": "名称"
-                },
-                {
-                    "name": "industry",
-                    "label": "行业"
-                },
-                {
-                    "name": "type",
-                    "label": "类型"
-                },
-                {
-                    "name": "level",
-                    "label": "级别"
-                },
-                {
-                    "name": "source",
-                    "label": "来源"
-                },
-                {
-                    "name": "contactman",
-                    "label": "联系人"
-                },
-                {
-                    "name": "contactphone",
-                    "label": "电话"
-                },
-                {
-                    "name": "createdate",
-                    "label": "创建日期"
-                }
-            ],
-            "action": [
-                {
-                    "name": "view",
-                    "label": "详情/编辑",
-                    "link": "#detail"
-                },
-                {
-                    "name": "initInst",
-                    "label": "初始化机构"
-                }
-            ]
-        });
-*/
     })
     .service("clientService", function ($http, $location, nptResource) {
         var self = this;
@@ -359,6 +311,20 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                     //TODO 弹出提示检索错误通知窗口
                 });
             });
+        };
+
+        $scope.onAddClient = function(params, $q, nptResource){
+            params.data.instid = "10000001463017";
+            params.data.createby = "10000001498059";
+            var deferd = $q.defer();
+            nptResource
+                .post("addOrUpdateInstClients", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
     })
     .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService) {

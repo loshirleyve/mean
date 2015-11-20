@@ -17,8 +17,6 @@ angular.module("demoApp",
         /**
          * 注册路由
          *
-         * 一般情况下，只需要配置一个路由，即list路由，编辑跟新增界面由控件处理
-         * 不需要额外路由的
          *
          * 请注意，如果如果你的模块中需要用到session数据，如当前用户，机构信息等；
          * 则需要模仿下面resolve的使用，按下面的代码，程序会在你的ListController里面
@@ -40,6 +38,115 @@ angular.module("demoApp",
             .otherwise({
                 redirectTo: "/list"
             });
-}).controller("ListController",function($scope,sessionData) {
-        console.log('in listController...');
-});
+}).controller("ListController",function($scope,demoService,sessionData) {
+        $scope.data = [];
+        /**
+         * 除了增删改，其他配置的方法，如查看，会进入这个方法；
+         * 我们可以在这里定制自己的处理逻辑
+         * @param type
+         * @param item
+         * @param index
+         */
+        $scope.demoAction = function (type, item, index) {
+            console.info(type);
+        };
+
+        //设置自定义查询以及检查新订单
+        $scope.query = demoService.query;
+        $scope.checkNew = demoService.checkNew;
+
+        /**
+         * 根据状态查询当前用户机构的订单列表
+         */
+        $scope.queryByState = function () {
+            demoService.query.list($scope.query.state, function (data) {
+                $scope.data = data;
+            }, function (data) {
+                //TODO 弹出提示检索错误通知窗口
+            });
+        };
+
+        //首先查询全部订单
+        if (demoService.query.data.length <= 0) {
+            $scope.queryByState();
+        } else {
+            $scope.data = orderService.query.data;
+        }
+}).service("demoService",function($http, $location, QueryOrderListRepo, nptResource) {
+        var self = this;
+        /**
+         * 切换是否执行检查新订单
+         */
+        this.checkNew = {
+            isCollapsed: false,
+            toggle: function () {
+
+                self.checkNew.isCollapsed = !self.checkNew.isCollapsed;
+                if (self.checkNew.isCollapsed) {
+                    self.checkNew.text = "停止检查";
+                    if (self.query.isCollapsed) {
+                        self.query.toggle();
+                    }
+                }
+                else {
+                    self.checkNew.text = "检查新订单";
+                }
+            }
+        };
+
+        this.query = {
+            state: "all",
+            data: [],
+            currPage: 0,
+            isCollapsed: false,
+            toggle: function () {
+                self.query.isCollapsed = !self.query.isCollapsed;
+                if (self.query.isCollapsed) {
+                    self.query.text = "关闭查询";
+                    if (self.checkNew.isCollapsed) {
+                        self.checkNew.toggle();
+                    }
+                } else {
+                    self.query.text = "打开查询";
+                }
+            },
+            list: function (state, success, error) {
+                //将按钮设置为查询中
+                self.query.loading('loading');
+                //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
+                var params = {};
+
+                if (state !== "all") {
+                    params.state = state;
+                }
+
+                //总是加入当前用户以及机构作为查询参数
+                params.instid = "10000001463017";
+                params.userid = "10000001498059";
+
+                QueryOrderListRepo.post(params).then( function (response) {
+                    self.query.data = response.data;
+                    self.query.state = state;
+                    self.query.loading('reset');
+                    success(response.data);
+                }, function (error) {
+                    self.query.loading('reset');
+                    error(error);
+                });
+            },
+            loading: function (state) {
+                $("#all").button(state);
+                $("#waitconfirm").button(state);
+                $("#inservice").button(state);
+                $("#buy").button(state);
+            }
+        };
+
+
+        //默认状态为关闭自定义查询
+        this.query.toggle();
+        //默认状态为启动检查新单据
+        this.checkNew.toggle();
+}).factory("QueryOrderListRepo",function(nptRepository) {
+        return nptRepository("queryOrderList");
+    });

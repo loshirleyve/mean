@@ -6,26 +6,28 @@ angular.module("wservice.dt.store.demo", ["ui.neptune"])
     .run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("demo", {
             header: {
-                sn: {
+                id: {
                     label: "订单编号"
                 },
                 state: {
-                    label: "订单状态"
+                    label: "状态",
+                    filter:"ctrlCodeFilter:'orderstatetype':'name':'no'"
                 },
-                clientid: {
-                    label: "客户编号"
+                name: {
+                    label: "名称"
                 },
-                sales: {
-                    label: "销售顾问"
+                instid: {
+                    label: "机构ID"
                 },
-                amount: {
+                orderamount: {
                     label: "订单金额"
                 },
                 createdate: {
-                    label: "创建日期"
+                    label: "创建日期",
+                    filter:"timestampFilter"
                 },
-                remark: {
-                    label: "备注"
+                introduce: {
+                    label: "简介"
                 }
             },
             action: {
