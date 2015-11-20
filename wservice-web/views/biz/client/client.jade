@@ -42,7 +42,7 @@ block content
                 div.col-md-12
                     npt-datatable(name="client",is-pagination="true",items-per-page="10",data="data",action="action",is-index="true",on-action="clientAction(type,item,index)",on-add-listens="[onAddClient]",on-edit-listens="[onAddClient]")
             //弹出层，客户搜索
-            div#clientSearch.modal.fade(tabindex="-1",role="dialog")
+            div#clientSearch.modal.fade(tabindex="-1",role="dialog", ng-controller="clientSearchController")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
