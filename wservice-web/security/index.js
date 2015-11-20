@@ -23,7 +23,8 @@ module.exports = function (app) {
                 }
                 done(false);
             }
-        }
+        },
+        failureRedirect: "/auth/login"
     }));
 
     //角色检查过滤器
@@ -43,7 +44,7 @@ module.exports = function (app) {
                 done(false);
             }
         },
-        failureRedirect: "/system/inst/select"
+        failureRedirect: "/inst/select"
     }));
 
     //载入过滤配置
