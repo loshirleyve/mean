@@ -42,7 +42,7 @@ block content
                 div.col-md-12
                     npt-datatable(name="client",is-pagination="true",items-per-page="10",data="data",action="action",is-index="true",on-action="clientAction(type,item,index)",on-add-listens="[onAddClient]",on-edit-listens="[onAddClient]")
             //弹出层，客户搜索
-            div#clientSearch.modal.fade(tabindex="-1",role="dialog", ng-controller="clientSearchController")
+            div#clientSearch.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
@@ -65,25 +65,25 @@ block content
                                             label.col-md-3.control-label(for="industry")客户行业
                                             .col-md-9
                                                 span.nullable
-                                                    select#industry.form-control(ng-model="data.industry", ng-options="industry.name for industry in clientindustry")
+                                                    select#industry.form-control(ng-model="curClientindustry", ng-options="industry.no as industry.name for industry in clientindustry")
                                                         option(value="") ---请选择---
                                         .form-group
                                             label.col-md-3.control-label(for="type")客户类型
                                             .col-md-9
                                                 span.nullable
-                                                    select#type.form-control(ng-model="data.type", ng-options="type.no as type.name for type in clienttype")
+                                                    select#type.form-control(ng-model="curClienttype", ng-options="type.no as type.name for type in clienttype")
                                                         option(value="") ---请选择---
                                         .form-group
                                             label.col-md-3.control-label(for="level") 客户级别
                                             .col-md-9
                                                 span.nullable
-                                                    select#level.form-control(ng-model="data.level", ng-options="level.no as level.name for level in clientlevel")
+                                                    select#level.form-control(ng-model="curClientlevel", ng-options="level.no as level.name for level in clientlevel")
                                                         option(value="") ---请选择---
                                         .form-group
                                             label.col-md-3.control-label(for="source")客户来源
                                             .col-md-9
                                                 span.nullable
-                                                    select#source.form-control(ng-model="data.source", ng-options="source.no as source.name for source in clientsource")
+                                                    select#source.form-control(ng-model="curClientsource", ng-options="source.no as source.name for source in clientsource")
                                                         option(value="") ---请选择---
                             div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
