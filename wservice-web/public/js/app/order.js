@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order","wservice.common", "ngRoute"])
+angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.order", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -29,8 +29,13 @@ angular.module("orderApp", ["wservice.dt.store.order","wservice.form.store.order
                 redirectTo: "/list"
             });
     })
-    .service("orderService", function ($http, $location, nptResource,QueryCtrlCode) {
+    .service("orderService", function ($http, $location, nptResource, QueryCtrlCode, nptSession) {
         var self = this;
+
+        nptSession().then(function (session) {
+            self.user = session.getUser();
+            self.inst = session.getInst();
+        });
 
         /**
          * 切换是否执行检查新订单
