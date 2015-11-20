@@ -9,7 +9,6 @@
 var main = require("./main");
 var receivable = require("./receivable");
 var product = require("./product");
-var client = require("./client");
 var file = require("./file");
 
 module.exports = function (app) {
@@ -22,9 +21,6 @@ module.exports = function (app) {
 
     //产品列表
     app.use("/product", product);
-
-    //客户
-    app.use("/client", client);
 
     //文件
     app.use("/file", file);
