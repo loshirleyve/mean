@@ -10,8 +10,8 @@ exports = module.exports = function () {
         if (req.user) {
             session.user = req.user;
         }
-        if (req.session.instPassport && req.session.instPassport.inst) {
-            session.inst = req.session.instPassport.inst;
+        if (req.inst) {
+            session.inst = req.inst;
         }
         res.send(session);
     }
