@@ -4,8 +4,9 @@
  * MIT Licensed
  */
 
-angular.module("wservice.form.store.demo", ["ui.neptune"])
-    .run(function (nptFormStore) {
+angular.module("wservice.form.store.demo", ["ui.neptune","wservice.common"])
+    .run(function (nptFormStore,OrgListBySelectTree,
+                   UserListBySelectTree,QueryUserInfoById,QueryCtrlCode,QueryImageByUserLevel) {
         nptFormStore.put("demo", {
             options: {},
             fields: [
@@ -20,11 +21,15 @@ angular.module("wservice.form.store.demo", ["ui.neptune"])
                 },
                 {
                     key: 'sales',
-                    type: 'input',
+                    type: 'npt-select-tree-single',
                     templateOptions: {
                         required: true,
                         label: '销售顾问:',
-                        placeholder: "请输入销售顾问"
+                        placeholder: "请输入销售顾问",
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
                     }
                 },
                 {
@@ -33,6 +38,21 @@ angular.module("wservice.form.store.demo", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '请输入订单金额:'
+                    }
+                },
+                {
+                    "key": "cycle2",
+                    "type": "ui-select",
+                    templateOptions: {
+                        label: '服务周期(指定数据源):',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        smallLabelProp: "defname",
+                        placeholder: '请选择服务周期',
+                        required: true,
+                        options: [],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "cycle"},
                     }
                 },
                 {
@@ -49,6 +69,14 @@ angular.module("wservice.form.store.demo", ["ui.neptune"])
                     type: 'textarea',
                     templateOptions: {
                         label: '备注:'
+                    }
+                },
+                {
+                    key: 'selectImage',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        label: "选择图片",
+                        imageRepository: QueryImageByUserLevel
                     }
                 }
             ]
