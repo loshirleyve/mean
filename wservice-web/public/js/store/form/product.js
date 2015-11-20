@@ -3,7 +3,7 @@
  */
 
 angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
-    .run(function (nptFormStore,queryMdCtrlCode) {
+    .run(function (nptFormStore,QueryCtrlCode,QueryProductPhases) {
         nptFormStore.put("group", {
             options: {},
             fields: [
@@ -52,7 +52,7 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
-                        repository:queryMdCtrlCode,
+                        repository:QueryCtrlCode,
                         repositoryParams:{"defno":"producttype"}
                     }
                 },
@@ -166,9 +166,16 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'phaseid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '所属服务阶段:'
+                        label: '服务阶段:',
+                        required: true,
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository:QueryProductPhases,
+                        repositoryParams:{"productid":"10000001519207"}
                     }
                 }
             ]
@@ -183,9 +190,16 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'type',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '类型:'
+                        label: '类型:',
+                        required: true,
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository:QueryCtrlCode,
+                        repositoryParams:{"defno":"productdescrtype"}
                     }
                 },
                 {

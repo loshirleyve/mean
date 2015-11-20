@@ -29,7 +29,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 redirectTo: "/list"
             });
     })
-    .service("productService", function ($http, $location, nptResource) {
+    .service("productService", function ($http, $location, nptResource,QueryCtrlCode,QueryProductPhases,queryCities) {
         var self = this;
 
         /**
@@ -127,42 +127,42 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                     error(data);
                 });
             },
-            queryCities: function (success, error) {
+            queryMdCities: function (success, error) {
                 var params = {};
-                nptResource.post("queryCities", params, function (data) {
-                    self.query.cities = data;
+                queryCities.post(params).then(function(response){
+                    self.query.cities = response.data;
                     self.query.loading('reset');
-                    success(data);
-                }, function (data) {
+                    success(response.data);
+                },function(error) {
                     self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
-                    error(data);
+                    error(error);
                 });
             },
             queryMdCtrlCode: function (defno, success, error) {
                 var params = {};
                 params.defno = defno;
-                nptResource.post("queryMdCtrlcode", params, function (data) {
-                    self.query.ctrlCode = data;
+                QueryCtrlCode.post(params).then(function(response){
+                    self.query.ctrlCode = response.data;
                     self.query.loading('reset');
-                    success(data);
-                }, function (data) {
+                    success(response.data);
+                },function(error) {
                     self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
-                    error(data);
+                    error(error);
                 });
             },
             queryProductPhase: function (productid, success, error) {
                 var params = {};
                 params.productid = productid;
-                nptResource.post("QueryProductPhaseByProductid", params, function (data) {
-                    self.query.proPhase = data;
+                QueryProductPhases.post(params).then(function(response){
+                    self.query.proPhase = response.data;
                     self.query.loading('reset');
-                    success(data);
-                }, function (data) {
+                    success(response.data);
+                },function(error) {
                     self.query.loading('reset');
                     //TODO 弹出提示检索错误通知窗口
-                    error(data);
+                    error(error);
                 });
             },
             editProduct: function (pro, success, error) {
@@ -471,7 +471,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         }
 
         $scope.queryCities = function () {
-            productService.query.queryCities(function (data) {
+            productService.query.queryMdCities(function (data) {
                 $scope.cities = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
@@ -802,4 +802,8 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             });
         };
 
+    }).factory("QueryProductPhases",function(nptRepository) {
+        return nptRepository("QueryProductPhaseByProductid");
+    }).factory("queryCities",function(nptRepository) {
+        return nptRepository("queryCities");
     });
