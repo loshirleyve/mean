@@ -10,30 +10,12 @@ angular.module("wservice.form.store.demo", ["ui.neptune"])
             options: {},
             fields: [
                 {
-                    key: 'sn',
+                    key: 'name',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '订单编号:',
-                        placeholder: "请输入订单编号"
-                    }
-                },
-                {
-                    key: 'state',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '订单状态:',
-                        placeholder: "请输入订单编号"
-                    }
-                },
-                {
-                    key: 'clientid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户编号:',
-                        placeholder: "请输入客户编号"
+                        label: '名称:',
+                        placeholder: "请输入订单名称"
                     }
                 },
                 {
@@ -46,19 +28,20 @@ angular.module("wservice.form.store.demo", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'amount',
-                    type: 'input',
+                    key: 'orderamount',
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
-                        label: '订单金额:'
+                        label: '请输入订单金额:'
                     }
                 },
                 {
                     key: 'createdate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         required: true,
-                        label: '创建日期:'
+                        label: '创建日期:',
+                        placeholder: "请输入创建日期"
                     }
                 },
                 {
