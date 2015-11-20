@@ -241,7 +241,7 @@ angular.module("instApp", ["wservice.dt.store.inst", "ngRoute"])
 
         //查询机构信息
         instService.query.id($scope.instid, function (data) {
-            $scope.data = data || {inst: {}};
+            $scope.data = [data] || [];
         }, function (data) {
             //TODO 提示信息
         });
