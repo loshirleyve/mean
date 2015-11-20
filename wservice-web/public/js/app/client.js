@@ -205,9 +205,8 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
         this.query.toggle();
         //默认状态为启动检查新单据
         this.checkNew.toggle();
-
-    }).
-    controller("BizPageListController", function ($scope, $http, $location, clientService) {
+    })
+    .controller("BizPageListController", function ($scope, $http, $location, clientService) {
         $scope.data = [];
         $scope.clientAction = function (type, item, index) {
             console.info(type);
@@ -325,6 +324,59 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                     deferd.reject("不能在第一行上添加.");
                 });
             return deferd.promise;
+        };
+    })
+    .controller("clientSearchController", function($scope, $http, $location, clientService){
+        $scope.clientindustry="";
+        $scope.clienttype="";
+        $scope.clientlevel="";
+        $scope.clientsource="";
+
+        $scope.clientSearch = function(){
+            $("#clientSearch").on("shown.bs.modal", function(){
+                //查询客户行业的控制编码
+                clientService.query.defno("clientindustry", function(data){
+                    $scope.clientindustry = data;
+                    $scope.selected=$scope.clientindustry1[0].name;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户类型的控制编码
+                clientService.query.defno("clienttype", function(data){
+                    $scope.clienttype = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户级别的控制编码
+                clientService.query.defno("clientlevel", function(data){
+                    $scope.clientlevel = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+                //查询客户来源的控制编码
+                clientService.query.defno("clientsource", function(data){
+                    $scope.clientsource = data;
+                }, function(data){
+                    //TODO 提示信息
+                });
+            });
+        };
+
+        $scope.clientSearchConfirm = function(){
+            $("#clientSearch").on("hidden.bs.modal", function(data){
+                var params={};
+                params.contactman=$scope.contactman;
+                params.fullname=$scope.fullname;
+                params.industry=$scope.data.industry;
+                params.type=$scope.data.type;
+                params.level=$scope.data.level;
+                params.source=$scope.data.source;
+                clientService.query.list(params, function (data) {
+                    $scope.data = data;
+                }, function (data) {
+                    //TODO 弹出提示检索错误通知窗口
+                });
+            });
         };
     })
     .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService) {

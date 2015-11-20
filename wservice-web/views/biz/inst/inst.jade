@@ -6,6 +6,7 @@ extends ../../layout/layout-bizpage
 block content
     script(src="/js/app/inst.js")
     script(src="/js/store/datatable/inst.js")
+    script(src="/js/store/form/inst.js")
     div(ng-app="instApp")
         //通知区域
         //内容区域
@@ -43,30 +44,35 @@ block content
             nav.navbar.navbar-default
                 div.navbar-header
                     a.navbar-brand(href="") 机构详情
+            //div.row
+            //    div.col-md-12
+            //        div.panel.panel-default
+            //            div.panel-heading 基本信息
+            //            div.panel-body
+            //                form.form-horizontal
+            //                    div.form-group
+            //                        label.col-md-2.control-label(for="sn") 机构全称:
+            //                        div.col-md-10
+            //                            input.form-control(type="text",id="sn",value="{{data.name}}",disabled)
+            //                    div.form-group
+            //                        label.col-md-2.control-label(for="sn") 机构简称:
+            //                        div.col-md-10
+            //                            input.form-control(type="text",id="sn",value="{{data.simplename}}",disabled)
+            //                    div.form-group
+            //                        label.col-md-2.control-label(for="sn") 机构网址:
+            //                        div.col-md-10
+            //                            input.form-control(type="text",id="sn",value="{{data.hostname}}",disabled)
+            //                    div.form-group
+            //                        label.col-md-2.control-label(for="sn") 机构电话:
+            //                        div.col-md-10
+            //                            input.form-control(type="text",id="sn",value="{{data.tel}}",disabled)
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 基本信息
-                        div.panel-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 机构全称:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.name}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 机构简称:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.simplename}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 机构网址:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.hostname}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 机构电话:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.tel}}",disabled)
+                        npt-datatable(name="instDetail",data="data",is-index="true")
             div.row
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 资料交接方式
-                        npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+                        //npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")

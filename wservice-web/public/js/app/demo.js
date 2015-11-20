@@ -38,12 +38,18 @@ angular.module("demoApp",
             .otherwise({
                 redirectTo: "/list"
             });
-}).controller("ListController",function($scope,demoService,sessionData) {
+}).controller("ListController",function($scope,sessionData,demoService) {
+        /**
+         * 注意上面的sessionData，这个就是在上面config里面controller跳转前配置的resolve的参数；
+         * 可以通过，getInst();getUser()获取当前机构，当前用户；
+         */
+
+
         $scope.data = [];
         /**
          * 除了增删改，其他配置的方法，如查看，会进入这个方法；
          * 我们可以在这里定制自己的处理逻辑
-         * @param type
+         * @param type 按钮类型
          * @param item
          * @param index
          */
@@ -72,7 +78,10 @@ angular.module("demoApp",
         } else {
             $scope.data = orderService.query.data;
         }
-}).service("demoService",function($http, $location, QueryOrderListRepo, nptResource) {
+}).service("demoService",function($http, $location, QueryOrderListRepo, nptSessionManager) {
+        /*如果你在上面的controller使用了resolve获取session，那么接下来的其他构件中，你就可以如上这样
+        * 注入nptSessionManager，从中getSession()获取当前session数据；然后从session中getInst();getUser()*/
+
         var self = this;
         /**
          * 切换是否执行检查新订单
@@ -120,9 +129,11 @@ angular.module("demoApp",
                     params.state = state;
                 }
 
-                //总是加入当前用户以及机构作为查询参数
-                params.instid = "10000001463017";
-                params.userid = "10000001498059";
+                /**
+                 * 从session中获取当前用户跟当前机构
+                 */
+                params.instid = nptSessionManager.getSession().getInst().id;
+                params.userid = nptSessionManager.getSession().getUser().id;
 
                 QueryOrderListRepo.post(params).then( function (response) {
                     self.query.data = response.data;

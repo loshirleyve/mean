@@ -13,6 +13,9 @@ store.use("/app*", {
     needLogin: true,
     needInst: true,
     role: ["admin"]
+}).use("/biz*", {
+    needLogin: true,
+    needInst: true
 });
 
 module.exports = store;
