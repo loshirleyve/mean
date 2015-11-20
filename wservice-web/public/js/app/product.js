@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "ngRoute"])
+angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.product", "wservice.common","ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -211,108 +211,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                     error(data);
                 });
             },
-//            editProductPhase: function (phase, productid, success, error) {
-//                var params = {};
-//                params.id= phase.id;
-//                params.no = phase.no;
-//                params.sn = phase.sn;
-//                params.times = phase.times;
-//                params.name= phase.name;
-//                params.cycle = phase.cycle;
-//                params.cyclevalue= phase.cyclevalue;
-//                params.processdays = phase.processdays;
-//                params.productid = productid;
-//                params.sortno = phase.sortno;
-//                params.duty = phase.duty;
-//                params.createby= "10000001498059";
-//                params.createdate = phase.createdate;
-//                params.updatedate= phase.updatedate;
-//                nptResource.post("AddOrUpdateProductPhase", params, function (data) {
-//                    success(data);
-//                }, function (data) {
-//                    //TODO 弹出提示检索错误通知窗口
-//                    error(data);
-//                });
-//            },
-//            editProductProfile: function (profile, productid, success, error) {
-//                var params = {};
-//                params.id = profile.id;
-//                params.productid= productid;
-//                params.synopsis = profile.synopsis;
-//                params.sort = profile.sort;
-//                params.createby= "10000001498059";
-//                params.createdate = profile.createdate;
-//                params.createtimestamp = profile.createtimestamp;
-//                params.updatetimestamp = profile.updatetimestamp;
-//                nptResource.post("AddOrUpdateProductProfile", params, function (data) {
-//                    success(data);
-//                }, function (data) {
-//                    //TODO 弹出提示检索错误通知窗口
-//                    error(data);
-//                });
-//            },
-//            editProductGroup: function (group, productid, success, error) {
-//                var params = {};
-//                params.id = group.id;
-//                params.instid = group.instid;
-//                params.productid= productid;
-//                params.sort = group.sort;
-//                params.top = group.top;
-//                params.backgorundimgid= "4";
-//                params.groupid= "1";
-//                params.createby= "10000001498059";
-//                params.createdate= group.createdate;
-//                params.createtimestamp= group.createtimestamp;
-//                params.updatetimestamp = group.updatetimestamp;
-//                nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
-//                    success(data);
-//                }, function (data) {
-//                    //TODO 弹出提示检索错误通知窗口
-//                    error(data);
-//                });
-//            },
-//            editProductClassify: function (classify, productid, success, error) {
-//                var params = {};
-//                params.id = classify.id;
-//                params.productid= productid;
-//                params.sort = classify.sort;
-//                params.cityid = "1";
-//                params.price = classify.price;
-//                params.phaseid = classify.phaseid;
-//                params.classifyno= classify.classifyno;
-//                params.classifyname = classify.classifyname;
-//                params.phasename= classify.phasename;
-//                params.createby= "10000001498059";
-//                params.createdate= classify.createdate;
-//                params.createtimestamp = classify.createtimestamp;
-//                params.updatetimestamp = classify.updatetimestamp;
-//                nptResource.post("AddOrUpdateProductclassify", params, function (data) {
-//                    success(data);
-//                }, function (data) {
-//                    //TODO 弹出提示检索错误通知窗口
-//                    error(data);
-//                });
-//            },
-//            editProductDescr: function (descr, productid, success, error) {
-//                var params = {};
-//                params.id = descr.id;
-//                params.productid = productid;
-//                params.type = descr.type;
-//                params.descr = descr.descr;
-//                params.descrvalue = descr.descrvalue;
-//                params.sort= descr.sort;
-//                params.createby = "10000001498059";
-//                params.createdate = descr.createdate;
-//                params.createtimestamp= descr.createtimestamp;
-//                params.updatetimestamp = descr.updatetimestamp;
-//                nptResource.post("AddOrUpdateProductDescr", params, function (data) {
-//                    success(data);
-//                }, function (data) {
-//                    //TODO 弹出提示检索错误通知窗口
-//                    error(data);
-//                });
-//            },
-
             deleteGroup: function (id, success, error) {
                 var params = {};
                 params.groupid = id;
