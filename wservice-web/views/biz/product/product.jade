@@ -262,7 +262,7 @@ block content
                             div.col-md-6 服务阶段
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(ng-click="openModal('#productPhasesModal');") 添加
-                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-action="doProductPhases(type,item,index)")
+                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-edit-listens="[editProductPhase]")
 
             div.row
                 div.col-md-12
@@ -280,7 +280,7 @@ block content
                             div.col-md-6 服务内容
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(ng-click="openModal('#productProfilesModal');") 添加
-                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-action="doProductProfiles(type,item,index)")
+                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-edit-listens="[editProductProfile]")
 
             div.row
                 div.col-md-12
@@ -289,7 +289,7 @@ block content
                             div.col-md-6 服务分组
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(ng-click="openModal('#productGroupsModal');") 添加
-                        npt-datatable(name="productGroup" data="data.productGroups",is-index="true",on-action="doProductGroups(type,item,index)")
+                        npt-datatable(name="productGroup" data="data.productGroups",is-index="true",on-edit-listens="[editProductGroup]")
 
             div.row
                 div.col-md-12
@@ -298,7 +298,7 @@ block content
                             div.col-md-6 服务分类
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(ng-click="openModal('#productClassifiesModal');") 添加
-                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-action="doProductClassifies(type,item,index)")
+                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-edit-listens="[editProductClassify]")
 
             div.row
                 div.col-md-12
@@ -307,7 +307,7 @@ block content
                             div.col-md-6 服务说明
                             div.col-md-6.text-right
                                 button.btn.btn-primary.btn-sm(ng-click="openModal('#productDescrsModal');")  添加
-                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-action="doProductDescrs(type,item,index)")
+                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-edit-listens="[editProductDescr]")
 
             //弹出层，服务阶段
             div#productPhasesModal.modal.fade(tabindex="-1",role="dialog")

@@ -4,68 +4,79 @@
  * MIT Licensed
  */
 
-angular.module("wservice.form.store.demo", ["ui.neptune"])
-    .run(function (nptFormStore) {
+angular.module("wservice.form.store.demo", ["ui.neptune","wservice.common"])
+    .run(function (nptFormStore,OrgListBySelectTree,
+                   UserListBySelectTree,QueryUserInfoById,QueryCtrlCode,QueryImageByUserLevel) {
         nptFormStore.put("demo", {
             options: {},
             fields: [
                 {
-                    key: 'sn',
+                    key: 'name',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '订单编号:',
-                        placeholder: "请输入订单编号"
-                    }
-                },
-                {
-                    key: 'state',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '订单状态:',
-                        placeholder: "请输入订单编号"
-                    }
-                },
-                {
-                    key: 'clientid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户编号:',
-                        placeholder: "请输入客户编号"
+                        label: '名称:',
+                        placeholder: "请输入订单名称"
                     }
                 },
                 {
                     key: 'sales',
-                    type: 'input',
+                    type: 'npt-select-tree-single',
                     templateOptions: {
                         required: true,
                         label: '销售顾问:',
-                        placeholder: "请输入销售顾问"
+                        placeholder: "请输入销售顾问",
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
                     }
                 },
                 {
-                    key: 'amount',
-                    type: 'input',
+                    key: 'orderamount',
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
-                        label: '订单金额:'
+                        label: '请输入订单金额:'
+                    }
+                },
+                {
+                    "key": "cycle2",
+                    "type": "ui-select",
+                    templateOptions: {
+                        label: '服务周期(指定数据源):',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        smallLabelProp: "defname",
+                        placeholder: '请选择服务周期',
+                        required: true,
+                        options: [],
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "cycle"},
                     }
                 },
                 {
                     key: 'createdate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         required: true,
-                        label: '创建日期:'
+                        label: '创建日期:',
+                        placeholder: "请输入创建日期"
                     }
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
+                    }
+                },
+                {
+                    key: 'selectImage',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        label: "选择图片",
+                        imageRepository: QueryImageByUserLevel
                     }
                 }
             ]

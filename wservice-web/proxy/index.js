@@ -172,6 +172,9 @@ proxy.action("QueryPayRegisters", {
 proxy.action("QueryIdentificationByUsernoAndPasswd", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryIdentificationByUsernoAndPasswd"
+}).action("QueryUserInfoById", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUserInfoByIdService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
@@ -179,5 +182,10 @@ proxy.action("QueryInstRoleNaviService", {
     action:"com.yun9.sys.inst.serivce.QueryInstRoleNaviService"
 });
 
+/*查询文件*/
+proxy.action("QueryFile", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryFileService"
+});
 
 module.exports = proxy;
