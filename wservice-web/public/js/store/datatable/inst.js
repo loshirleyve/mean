@@ -2,7 +2,7 @@
  * Created by leon on 15/11/9.
  */
 
-angular.module("wservice.dt.store.inst", ["ui.neptune"]).
+angular.module("wservice.dt.store.datatable.inst", ["ui.neptune"]).
     run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("inst", {
             header: {
