@@ -43,12 +43,12 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
                     }
                 },
                 {
-                    key: 'name',
+                    key: 'cycle',
                     type: 'ui-select',
                     templateOptions: {
                         label: '服务类型:',
                         required: true,
-                        valueProp:'id',
+                        valueProp:'no',
                         labelProp:'name',
                         placeholder:'请选择',
                         options:[],
@@ -68,13 +68,6 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
                     type: 'input',
                     templateOptions: {
                         label: '排序:'
-                    }
-                },
-                {
-                    key: 'phasedescr',
-                    type: 'input',
-                    templateOptions: {
-                        label: '阶段说明:'
                     }
                 }
             ]

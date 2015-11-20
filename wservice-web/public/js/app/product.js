@@ -211,107 +211,108 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                     error(data);
                 });
             },
-            editProductPhase: function (phase, productid, success, error) {
-                var params = {};
-                params.id= phase.id;
-                params.no = phase.no;
-                params.sn = phase.sn;
-                params.times = phase.times;
-                params.name= phase.name;
-                params.cycle = phase.cycle;
-                params.cyclevalue= phase.cyclevalue;
-                params.processdays = phase.processdays;
-                params.productid = productid;
-                params.sortno = phase.sortno;
-                params.duty = phase.duty;
-                params.createby= "10000001498059";
-                params.createdate = phase.createdate;
-                params.updatedate= phase.updatedate;
-                nptResource.post("AddOrUpdateProductPhase", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            editProductProfile: function (profile, productid, success, error) {
-                var params = {};
-                params.id = profile.id;
-                params.productid= productid;
-                params.synopsis = profile.synopsis;
-                params.sort = profile.sort;
-                params.createby= "10000001498059";
-                params.createdate = profile.createdate;
-                params.createtimestamp = profile.createtimestamp;
-                params.updatetimestamp = profile.updatetimestamp;
-                nptResource.post("AddOrUpdateProductProfile", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            editProductGroup: function (group, productid, success, error) {
-                var params = {};
-                params.id = group.id;
-                params.instid = group.instid;
-                params.productid= productid;
-                params.sort = group.sort;
-                params.top = group.top;
-                params.backgorundimgid= "4";
-                params.groupid= "1";
-                params.createby= "10000001498059";
-                params.createdate= group.createdate;
-                params.createtimestamp= group.createtimestamp;
-                params.updatetimestamp = group.updatetimestamp;
-                nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            editProductClassify: function (classify, productid, success, error) {
-                var params = {};
-                params.id = classify.id;
-                params.productid= productid;
-                params.sort = classify.sort;
-                params.cityid = "1";
-                params.price = classify.price;
-                params.phaseid = classify.phaseid;
-                params.classifyno= classify.classifyno;
-                params.classifyname = classify.classifyname;
-                params.phasename= classify.phasename;
-                params.createby= "10000001498059";
-                params.createdate= classify.createdate;
-                params.createtimestamp = classify.createtimestamp;
-                params.updatetimestamp = classify.updatetimestamp;
-                nptResource.post("AddOrUpdateProductclassify", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            editProductDescr: function (descr, productid, success, error) {
-                var params = {};
-                params.id = descr.id;
-                params.productid = productid;
-                params.type = descr.type;
-                params.descr = descr.descr;
-                params.descrvalue = descr.descrvalue;
-                params.sort= descr.sort;
-                params.createby = "10000001498059";
-                params.createdate = descr.createdate;
-                params.createtimestamp= descr.createtimestamp;
-                params.updatetimestamp = descr.updatetimestamp;
-                nptResource.post("AddOrUpdateProductDescr", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
+//            editProductPhase: function (phase, productid, success, error) {
+//                var params = {};
+//                params.id= phase.id;
+//                params.no = phase.no;
+//                params.sn = phase.sn;
+//                params.times = phase.times;
+//                params.name= phase.name;
+//                params.cycle = phase.cycle;
+//                params.cyclevalue= phase.cyclevalue;
+//                params.processdays = phase.processdays;
+//                params.productid = productid;
+//                params.sortno = phase.sortno;
+//                params.duty = phase.duty;
+//                params.createby= "10000001498059";
+//                params.createdate = phase.createdate;
+//                params.updatedate= phase.updatedate;
+//                nptResource.post("AddOrUpdateProductPhase", params, function (data) {
+//                    success(data);
+//                }, function (data) {
+//                    //TODO 弹出提示检索错误通知窗口
+//                    error(data);
+//                });
+//            },
+//            editProductProfile: function (profile, productid, success, error) {
+//                var params = {};
+//                params.id = profile.id;
+//                params.productid= productid;
+//                params.synopsis = profile.synopsis;
+//                params.sort = profile.sort;
+//                params.createby= "10000001498059";
+//                params.createdate = profile.createdate;
+//                params.createtimestamp = profile.createtimestamp;
+//                params.updatetimestamp = profile.updatetimestamp;
+//                nptResource.post("AddOrUpdateProductProfile", params, function (data) {
+//                    success(data);
+//                }, function (data) {
+//                    //TODO 弹出提示检索错误通知窗口
+//                    error(data);
+//                });
+//            },
+//            editProductGroup: function (group, productid, success, error) {
+//                var params = {};
+//                params.id = group.id;
+//                params.instid = group.instid;
+//                params.productid= productid;
+//                params.sort = group.sort;
+//                params.top = group.top;
+//                params.backgorundimgid= "4";
+//                params.groupid= "1";
+//                params.createby= "10000001498059";
+//                params.createdate= group.createdate;
+//                params.createtimestamp= group.createtimestamp;
+//                params.updatetimestamp = group.updatetimestamp;
+//                nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
+//                    success(data);
+//                }, function (data) {
+//                    //TODO 弹出提示检索错误通知窗口
+//                    error(data);
+//                });
+//            },
+//            editProductClassify: function (classify, productid, success, error) {
+//                var params = {};
+//                params.id = classify.id;
+//                params.productid= productid;
+//                params.sort = classify.sort;
+//                params.cityid = "1";
+//                params.price = classify.price;
+//                params.phaseid = classify.phaseid;
+//                params.classifyno= classify.classifyno;
+//                params.classifyname = classify.classifyname;
+//                params.phasename= classify.phasename;
+//                params.createby= "10000001498059";
+//                params.createdate= classify.createdate;
+//                params.createtimestamp = classify.createtimestamp;
+//                params.updatetimestamp = classify.updatetimestamp;
+//                nptResource.post("AddOrUpdateProductclassify", params, function (data) {
+//                    success(data);
+//                }, function (data) {
+//                    //TODO 弹出提示检索错误通知窗口
+//                    error(data);
+//                });
+//            },
+//            editProductDescr: function (descr, productid, success, error) {
+//                var params = {};
+//                params.id = descr.id;
+//                params.productid = productid;
+//                params.type = descr.type;
+//                params.descr = descr.descr;
+//                params.descrvalue = descr.descrvalue;
+//                params.sort= descr.sort;
+//                params.createby = "10000001498059";
+//                params.createdate = descr.createdate;
+//                params.createtimestamp= descr.createtimestamp;
+//                params.updatetimestamp = descr.updatetimestamp;
+//                nptResource.post("AddOrUpdateProductDescr", params, function (data) {
+//                    success(data);
+//                }, function (data) {
+//                    //TODO 弹出提示检索错误通知窗口
+//                    error(data);
+//                });
+//            },
+
             deleteGroup: function (id, success, error) {
                 var params = {};
                 params.groupid = id;
@@ -694,56 +695,86 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         /**
          * 编辑产品阶段
          */
-        $scope.editProductPhase = function () {
-            console.info($scope.phases);
-            productService.query.editProductPhase($scope.phases, $scope.productid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.editProductPhase = function (params, $q, nptResource) {
+            params.data.createby = "10000001498059";
+            params.productid =  $scope.productid;
+            delete params.data.phasedescr;
+            var deferd = $q.defer();
+            nptResource
+                .post("AddOrUpdateProductPhase", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
 
         /**
          * 编辑产品说明
          */
-        $scope.editProductProfile = function () {
-            console.info($scope.profiles);
-            productService.query.editProductProfile($scope.profiles, $scope.productid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.editProductProfile = function (params, $q, nptResource) {
+            params.data.createby = "10000001498059";
+            params.productid =  $scope.productid;
+            var deferd = $q.defer();
+            nptResource
+                .post("AddOrUpdateProductProfile", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
 
         /**
          * 编辑产品分组
          */
-        $scope.editProductGroup = function () {
-            console.info($scope.group);
-            productService.query.editProductGroup($scope.group, $scope.productid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.editProductGroup = function (params, $q, nptResource) {
+            params.data.createby = "10000001498059";
+            params.productid =  $scope.productid;
+            var deferd = $q.defer();
+            nptResource
+                .post("AddOrUpdateMdProductGroup", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
+
 
         /**
          * 编辑产品内容
          */
-        $scope.editProductClassify = function () {
-            console.info($scope.classify);
-            productService.query.editProductClassify($scope.classify, $scope.productid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.editProductClassify = function (params, $q, nptResource) {
+            params.data.createby = "10000001498059";
+            var deferd = $q.defer();
+            nptResource
+                .post("AddOrUpdateProductclassify", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
 
         /**
          * 编辑产品说明
          */
-        $scope.editProductDescr = function () {
-            console.info($scope.descr);
-            productService.query.editProductDescr($scope.descr, $scope.productid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.editProductDescr = function (params, $q, nptResource) {
+            params.data.createby = "10000001498059";
+            var deferd = $q.defer();
+            nptResource
+                .post("AddOrUpdateProductDescr", params.data, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("添加成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
 
         /**
