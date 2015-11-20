@@ -1,12 +1,10 @@
-/*!
- * mars
- * Copyright(c) 2015 huangbinglong
- * MIT Licensed
+/**
+ * Created by leon on 15/11/20.
  */
 
-'use strict';
-module.exports = function (router) {
-    router.all('/session', function (req, res, next) {
+
+exports = module.exports = function () {
+    return function (req, res, next) {
         var session = {};
 
         if (req.user) {
@@ -16,6 +14,7 @@ module.exports = function (router) {
             session.inst = req.session.instPassport.inst;
         }
         res.send(session);
-    });
-
+    }
 };
+
+exports.type = ["post", "get"];

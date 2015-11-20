@@ -7,6 +7,9 @@
 'use strict';
 
 
-module.exports = function (req, res, next) {
-    res.render("app/order/order");
+module.exports = function () {
+
+    return function (req, res, next) {
+        res.render("app/order/order");
+    };
 };
