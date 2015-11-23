@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-angular.module("wservice.form.store.order", ["ui.neptune"])
+angular.module("orderApp.orderForm", ["ui.neptune"])
     .run(function (nptFormStore) {
         nptFormStore.put("order", {
             options: {},

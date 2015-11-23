@@ -4,12 +4,10 @@
 extends ../../layout/layout-bizpage
 
 block content
-    script(src="/js/store/datatable/order.js")
-    script(src="/js/store/form/order.js")
-    script(src="/js/app/order.js")
+    script(src="/js/biz/order/orderListDatatable.js")
+    script(src="/js/biz/order/orderForm.js")
+    script(src="/js/biz/order/order.js")
     div(ng-app="orderApp")
-        //通知区域
-
         //内容区域
         div(ng-view)
 
@@ -31,9 +29,9 @@ block content
                         a.navbar-brand(href="#") 订单列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.state.$$state.status === 0")
+                            li(ng-if="vm.orderList.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='vm.state.$$state.status !== 0')
+                            li.dropdown(ng-if='!vm.orderList.loading()')
                                 a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryName}}
                                     span.caret
                                 ul.dropdown-menu
@@ -49,39 +47,38 @@ block content
                                         a(href="") 条件查询
 
             //数据表格区域
-            npt-datatable(name="order",is-pagination="true",items-per-page="10",data="vm.data",is-index="true",on-action="vm.orderAction(action,item,index)")
+            npt-datatable(name="order",is-pagination="true",items-per-page="10",data="vm.orderList.data",is-index="true",on-action="vm.orderAction(action,item,index)")
 
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 订单列表
+                li.active 订单详情
+
+            nav.navbar.navbar-default
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 订单详情
+                    ul.nav.navbar-nav.navbar-right
+                        li(ng-if="vm.orderInfo.loading()")
+                            a(href="") 正在查询,请稍后...
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
+                            a(href="#/confirm/{{vm.orderid}}",ng-show="isConfirm") 确认订单
                         li
-                            a(href="#list")
-                                span 订单列表
-                        li.active 订单详情
-            div.row
-                div.col-md-12
-                    nav.navbar.navbar-default
-                        div.container-fluid
-                            div.navbar-header
-                                a.navbar-brand(href="") 订单详情
-                            ul.nav.navbar-nav.navbar-right
-                                li
-                                    a(href="#/confirm/{{vm.orderid}}",ng-show="isConfirm") 确认订单
-                                li
-                                    a(href="",ng-click="vm.adviser()") 分配顾问
-                                li
-                                    a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
-                                li
-                                    a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
-                                li
-                                    a(href="#/list") 返回
+                            a(href="",ng-click="vm.adviser()") 分配顾问
+                        li
+                            a(href="#/list") 返回
             div.row
                 div.col-md-12
                     div.panel.panel-default

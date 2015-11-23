@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.order", "wservice.common", "ngRoute"])
+angular.module("orderApp", ["orderApp.orderListDatatable", "orderApp.orderForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -61,6 +61,8 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
     .controller("OrderListController", function ($scope, $http, $location, QueryOrderList) {
         var vm = this;
 
+        vm.orderList = QueryOrderList;
+
         vm.orderAction = function (action, item, index) {
             console.info(action);
             if (item && action.type === "view") {
@@ -74,20 +76,15 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
         vm.queryByState = function (state, name) {
             vm.state = QueryOrderList.post({
                 state: state
-            }).then(function (response) {
-                vm.data = response.data;
+            }).then(function () {
                 vm.queryName = name;
             }, function (error) {
-                //查询失败
-                vm.data = [];
             });
         };
 
         //首先查询全部订单
         if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
             vm.queryByState("", '全部');
-        } else {
-            vm.data = QueryOrderList.data;
         }
     })
     .controller("OrderDetailController", function ($scope, $location, $routeParams, QueryOrderList, QueryOrderInfo) {
