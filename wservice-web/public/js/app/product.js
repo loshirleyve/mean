@@ -118,7 +118,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 params.district = "全城";
                 nptResource.post("QueryMdProductGroupBylocation", params, function (data) {
                     self.query.groupdata = data;
-                    console.info(self.query.groupdata);
                     self.query.loading('reset');
                     success(data);
                 }, function (data) {
@@ -205,76 +204,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 params.createtimestamp = group.createtimestamp;
                 params.updatetimestamp = group.updatetimestamp;
                 nptResource.post("AddOrUpdateMdProductGroup", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteGroup: function (id, success, error) {
-                var params = {};
-                params.groupid = id;
-                nptResource.post("RemoveProductMdGroup", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductPhase: function (phaseid, success, error) {
-                var params = {};
-                params.phaseid= phaseid;
-                nptResource.post("RemoveProductPhase", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductRequirement: function (requirementid, success, error) {
-                var params = {};
-                params.requirementid = requirementid;
-                nptResource.post("RemoveProductRequirement", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductProfile: function (profileid, success, error) {
-                var params = {};
-                params.profileid= profileid;
-                nptResource.post("RemoveProductProfile", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductGroup: function (groupid, success, error) {
-                var params = {};
-                params.groupid = groupid;
-                nptResource.post("RemoveProductGroup", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductClassify: function (classifyid, success, error) {
-                var params = {};
-                params.classifyid = classifyid;
-                nptResource.post("RemoveProductClassify", params, function (data) {
-                    success(data);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            deleteProductDescr: function (productDescrid, success, error) {
-                var params = {};
-                params.productDescrid = productDescrid;
-                nptResource.post("RemoveProductDescr", params, function (data) {
                     success(data);
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
@@ -447,15 +376,16 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
 
         var self = this;
 
-
-        $scope.dollproductGroup = function (type, item, index) {
-//            if (item && type === "edit") {
-//                $scope.editgroup = item;
-//                $('#editGroup').modal('show');
-//            }
-//            if (item && type === "delete") {
-//                $scope.deleteGroup(item.id);
-//            }
+        $scope.deleteGroup = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductMdGroup", {groupid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除.");
+                });
+            return deferd.promise;
         };
 
         /**
@@ -523,79 +453,12 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             $(id).modal('show');
         };
 
-        $scope.doProductPhases = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.phases = item;
-                console.info($scope.phases);
-                $('#productPhasesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductPhase(item.id);
-            }
-        };
-
-        $scope.doProductRequirement = function (type, item, index) {
-            if (item && type === "edit") {
-                // $scope.phases = item;
-                //console.info($scope.phases)
-                $('#productRequirementModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductRequirement(item.id);
-            }
-        };
-
-
-        $scope.doProductProfiles = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.profiles = item;
-                console.info($scope.profiles);
-                $('#productProfilesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductProfile(item.id);
-            }
-        };
-
-        $scope.doProductGroups = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.group = item;
-                console.info($scope.group);
-                $('#productGroupsModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductGroup(item.id);
-            }
-        };
-
-        $scope.doProductClassifies = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.classify = item;
-                console.info($scope.classify);
-                $('#productClassifiesModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductClassify(item.id);
-            }
-        };
-
-        $scope.doProductDescrs = function (type, item, index) {
-            if (item && type === "edit") {
-                $scope.descr = item;
-                console.info($scope.descr);
-                $('#productDescrsModal').modal('show');
-            }
-            if (item && type === "delete") {
-                $scope.deleteProductDescr(item.id);
-            }
-        };
-
         /**
          * 编辑产品阶段
          */
         $scope.editProductPhase = function (params, $q, nptResource) {
             params.data.createby = "10000001498059";
-            params.productid =  $scope.productid;
+            params.data.productid =  $scope.productid;
             delete params.data.phasedescr;
             var deferd = $q.defer();
             nptResource
@@ -613,7 +476,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
          */
         $scope.editProductProfile = function (params, $q, nptResource) {
             params.data.createby = "10000001498059";
-            params.productid =  $scope.productid;
+            params.data.productid =  $scope.productid;
             var deferd = $q.defer();
             nptResource
                 .post("AddOrUpdateProductProfile", params.data, function (data) {
@@ -630,10 +493,11 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
          */
         $scope.editProductGroup = function (params, $q, nptResource) {
             params.data.createby = "10000001498059";
-            params.productid =  $scope.productid;
+            params.data.productid =  $scope.productid;
+            params.data.instid= "10000001468002";
             var deferd = $q.defer();
             nptResource
-                .post("AddOrUpdateMdProductGroup", params.data, function (data) {
+                .post("AddOrUpdateProductGroup", params.data, function (data) {
                     console.info("后台调用更成功.controller");
                     deferd.resolve("添加成功");
                 }, function (data) {
@@ -648,6 +512,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
          */
         $scope.editProductClassify = function (params, $q, nptResource) {
             params.data.createby = "10000001498059";
+            params.data.productid =  $scope.productid;
             var deferd = $q.defer();
             nptResource
                 .post("AddOrUpdateProductclassify", params.data, function (data) {
@@ -664,6 +529,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
          */
         $scope.editProductDescr = function (params, $q, nptResource) {
             params.data.createby = "10000001498059";
+            params.data.productid =  $scope.productid;
             var deferd = $q.defer();
             nptResource
                 .post("AddOrUpdateProductDescr", params.data, function (data) {
@@ -678,57 +544,87 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         /**
          * 删除产品阶段的绑定
          */
-        $scope.deleteProductPhase = function (phaseid) {
-            productService.query.deleteProductPhase(phaseid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductPhase = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductPhase", {phaseid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("不能在第一行上添加.");
+                });
+            return deferd.promise;
         };
 
         /**
          * 删除产品资料的绑定
          */
-        $scope.deleteProductRequirement = function (requirementid) {
-            productService.query.deleteProductRequirement(requirementid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductRequirement = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductRequirement", {requirementid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除.");
+                });
+            return deferd.promise;
         };
         /**
-         * 删除产品内容的绑定
+         * 删除产品内容
          */
-        $scope.deleteProductProfile = function (profileid) {
-            productService.query.deleteProductProfile(profileid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductProfile = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductProfile", {profileid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除.");
+                });
+            return deferd.promise;
         };
         /**
          * 删除产品分组的绑定
          */
-        $scope.deleteProductGroup = function (groupid) {
-            productService.query.deleteProductGroup(groupid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductGroup = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductGroup", {groupid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除.");
+                });
+            return deferd.promise;
         };
         /**
          * 删除产品分类的绑定
          */
-        $scope.deleteProductClassify = function (classifyid) {
-            productService.query.deleteProductClassify(classifyid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductClassify = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductClassify", {classifyid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除.");
+                });
+            return deferd.promise;
         };
         /**
          * 删除产品说明的绑定
          */
-        $scope.deleteProductDescr = function (productDescrid) {
-            productService.query.deleteProductDescr(productDescrid, function (data) {
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
-            });
+        $scope.deleteProductDescr = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            nptResource
+                .post("RemoveProductDescr", {productDescrid:params.item.id}, function (data) {
+                    console.info("后台调用更成功.controller");
+                    deferd.resolve("删除成功");
+                }, function (data) {
+                    deferd.reject("删除");
+                });
+            return deferd.promise;
         };
 
     }).factory("QueryProductPhases",function(nptRepository) {

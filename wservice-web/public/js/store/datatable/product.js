@@ -67,15 +67,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteGroup(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
@@ -100,6 +100,23 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             },
             action: {
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target:"productPhase",
+                    listens:[
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                },
                 edit: {
                     label: "编辑",
                     type: "edit",
@@ -126,15 +143,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteProductPhase(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
@@ -150,6 +167,23 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             },
             action: {
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target:"productProfiles",
+                    listens:[
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                },
                 edit: {
                     label: "编辑",
                     type: "edit",
@@ -176,15 +210,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteProductProfile(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
@@ -215,6 +249,23 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             },
             action: {
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target:"productGroup",
+                    listens:[
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                },
                 edit: {
                     label: "编辑",
                     type: "edit",
@@ -241,15 +292,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteProductGroup(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
@@ -274,6 +325,23 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             },
             action: {
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target:"productClassifies",
+                    listens:[
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                },
                 edit: {
                     label: "编辑",
                     type: "edit",
@@ -300,15 +368,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteProductClassify(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
@@ -327,6 +395,23 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             },
             action: {
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target:"productDescrs",
+                    listens:[
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                },
                 edit: {
                     label: "编辑",
                     type: "edit",
@@ -353,15 +438,15 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "删除",
                     type: "del",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.deleteProductDescr(params.item.id,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 }
