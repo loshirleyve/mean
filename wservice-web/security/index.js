@@ -13,7 +13,6 @@ module.exports = function (app) {
     //登录验证过滤器
     filter.use(security.LocalLoginHandler({
         validLogin: function (req, item, done) {
-
             if (req.isAuthenticated()) {
                 done(true);
             } else {

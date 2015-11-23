@@ -2,8 +2,8 @@
  * Created by rxy on 15/11/11.
  */
 
-angular.module("wservice.form.store.product", ["ui.neptune"])
-    .run(function (nptFormStore) {
+angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
+    .run(function (nptFormStore,QueryCtrlCode,QueryProductPhases) {
         nptFormStore.put("group", {
             options: {},
             fields: [
@@ -43,16 +43,17 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'name',
+                    key: 'cycle',
                     type: 'ui-select',
                     templateOptions: {
                         label: '服务类型:',
-                        valueProp:'id',
-                        labelProp:'value',
-                        placeholder:'',
+                        required: true,
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
                         options:[],
-                        datasource:'queryProductPhase',
-                        datasourceParams:{}
+                        repository:QueryCtrlCode,
+                        repositoryParams:{"defno":"producttype"}
                     }
                 },
                 {
@@ -67,13 +68,6 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         label: '排序:'
-                    }
-                },
-                {
-                    key: 'phasedescr',
-                    type: 'input',
-                    templateOptions: {
-                        label: '阶段说明:'
                     }
                 }
             ]
@@ -165,9 +159,16 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                 },
                 {
                     key: 'phaseid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '所属服务阶段:'
+                        label: '服务阶段:',
+                        required: true,
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository:QueryProductPhases,
+                        repositoryParams:{"productid":"10000001519207"}
                     }
                 }
             ]
@@ -182,9 +183,16 @@ angular.module("wservice.form.store.product", ["ui.neptune"])
                 },
                 {
                     key: 'type',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '类型:'
+                        label: '类型:',
+                        required: true,
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository:QueryCtrlCode,
+                        repositoryParams:{"defno":"productdescrtype"}
                     }
                 },
                 {

@@ -38,7 +38,7 @@ angular.module("demoApp",
             .otherwise({
                 redirectTo: "/list"
             });
-}).controller("ListController",function($scope,demoService,sessionData) {
+}).controller("ListController",function($scope,sessionData,demoService) {
         /**
          * 注意上面的sessionData，这个就是在上面config里面controller跳转前配置的resolve的参数；
          * 可以通过，getInst();getUser()获取当前机构，当前用户；
@@ -134,9 +134,6 @@ angular.module("demoApp",
                  */
                 params.instid = nptSessionManager.getSession().getInst().id;
                 params.userid = nptSessionManager.getSession().getUser().id;
-
-                params.instid = "10000001463017";
-                params.userid = "10000001498059";
 
                 QueryOrderListRepo.post(params).then( function (response) {
                     self.query.data = response.data;

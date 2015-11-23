@@ -14,12 +14,16 @@ exports = module.exports = function () {
         var instId = req.body['instId'];
 
         /**如果没有如此则使用当前登录用户信息*/
-
         if (!userId && req.isAuthenticated()) {
             userId = req.user.id;
-            instId = req.user.instId || '2';// TODO 现在没有缓冲机构信息
         }
+
+        if (!instId && req.isExisInst()) {
+            instId = req.inst.id;
+        }
+
         if (userId && instId) {
+            //TODO 加入正确的机构以及用户作为参数检索
             proxy.post("QueryInstRoleNaviService")
                 .params({instroleids: ["10000001468003"], device: "web"})
                 .launch(function (response) {

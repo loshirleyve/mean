@@ -105,15 +105,20 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     type: "edit",
                     target:"productPhase",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.editProductPhase(params.data,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                }
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 },
@@ -150,15 +155,20 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     type: "edit",
                     target:"productProfiles",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.editProductProfile(params.data,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                }
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 },
@@ -210,15 +220,20 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     type: "edit",
                     target:"productGroup",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.editProductGroup(params.data,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                }
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 },
@@ -264,15 +279,20 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     type: "edit",
                     target:"productClassifies",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.editProductClassify(params.data,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                }
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 },
@@ -312,15 +332,20 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     type: "edit",
                     target:"productDescrs",
                     listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                        function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            productService.query.editProductDescr(params.data,function(data){
-                                deferd.resolve(data);
-                            },function(error){
-                                deferd.reject(error);
-                            });
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                }
+                            }, 500);
                             return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
                         }
                     ]
                 },

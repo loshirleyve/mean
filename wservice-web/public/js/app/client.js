@@ -205,9 +205,8 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
         this.query.toggle();
         //默认状态为启动检查新单据
         this.checkNew.toggle();
-
-    }).
-    controller("BizPageListController", function ($scope, $http, $location, clientService) {
+    })
+    .controller("BizPageListController", function ($scope, $http, $location, clientService) {
         $scope.data = [];
         $scope.clientAction = function (type, item, index) {
             console.info(type);
@@ -271,25 +270,28 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 //查询客户行业的控制编码
                 clientService.query.defno("clientindustry", function(data){
                     $scope.clientindustry = data;
-                    $scope.selected=$scope.clientindustry1[0].name;
+                    $scope.curClientindustry=data[0].no;
                 }, function(data){
                     //TODO 提示信息
                 });
                 //查询客户类型的控制编码
                 clientService.query.defno("clienttype", function(data){
                     $scope.clienttype = data;
+                    $scope.curClienttype=data[0].no;
                 }, function(data){
                     //TODO 提示信息
                 });
                 //查询客户级别的控制编码
                 clientService.query.defno("clientlevel", function(data){
                     $scope.clientlevel = data;
+                    $scope.curClientlevel=data[0].no;
                 }, function(data){
                     //TODO 提示信息
                 });
                 //查询客户来源的控制编码
                 clientService.query.defno("clientsource", function(data){
                     $scope.clientsource = data;
+                    $scope.curClientsource=data[0].no;
                 }, function(data){
                     //TODO 提示信息
                 });
@@ -301,18 +303,26 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 var params={};
                 params.contactman=$scope.contactman;
                 params.fullname=$scope.fullname;
-                params.industry=$scope.data.industry.no;
-                params.type=$scope.data.type;
-                params.level=$scope.data.level.no;
-                params.source=$scope.data.source;
+                if($scope.curClientindustry !== null){
+                    params.industry=$scope.curClientindustry;
+                }
+                if($scope.curClienttype !== null){
+                    params.type=$scope.curClienttype;
+                }
+                if($scope.curClientlevel !== null){
+                    params.level=$scope.curClientlevel;
+                }
+                if($scope.curClientsource !== null){
+                    params.source=$scope.curClientsource;
+                }
                 clientService.query.list(params, function (data) {
+                    $scope.data={};
                     $scope.data = data;
                 }, function (data) {
                     //TODO 弹出提示检索错误通知窗口
                 });
             });
         };
-
         $scope.onAddClient = function(params, $q, nptResource){
             params.data.instid = "10000001463017";
             params.data.createby = "10000001498059";
@@ -327,6 +337,7 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
             return deferd.promise;
         };
     })
+
     .controller("BizPageDetailController", function ($scope, $location, $routeParams, clientService) {
         $scope.clientid = $routeParams.id;
 

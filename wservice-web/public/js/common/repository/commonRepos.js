@@ -10,12 +10,15 @@ angular.module("wservice.common.repository.common",
     .factory("QueryCtrlCode", function (nptRepository) {
         return nptRepository("queryMdCtrlcode");
     }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").params({
-            "userid": nptSessionManager.getSession.getUser().id,
-            "level": "user",
-            "instid": nptSessionManager.getSession.getUser().inst.id,
-            "filetype": "image"
-        }).addRequestInterceptor(function (request) {
+        return nptRepository("QueryFile").delayParamsFn(function() {
+            return {
+                "userid": nptSessionManager.getSession().getUser().id,
+                "level": "user",
+                "instid": nptSessionManager.getSession().getInst().id,
+                "filetype": "image"
+            };
+        })
+            .addRequestInterceptor(function (request) {
             return request;
         });
     }).factory("OrgListBySelectTree", function (nptRepository,nptSessionManager) {
@@ -33,9 +36,11 @@ angular.module("wservice.common.repository.common",
             }
         }
 
-        return nptRepository("queryOrgTree").params({
-            "instid": nptSessionManager.getSession.getUser().inst.id,
-            "dimtype": "hr"
+        return nptRepository("queryOrgTree").delayParamsFn(function() {
+            return {
+                "instid": nptSessionManager.getSession().getInst().id,
+                "dimtype": "hr"
+            };
         }).addResponseInterceptor(function (response) {
             var orgNodes = [{
                 id: response.data.id,
