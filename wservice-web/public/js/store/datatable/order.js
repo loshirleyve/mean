@@ -6,23 +6,68 @@ angular.module("wservice.dt.store.order", ["ui.neptune"])
     .run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("order", {
             header: {
-                sn: {
+                ordersn: {
                     label: "订单编号"
                 },
+                buyerinstid: {
+                    label: "客户",
+                    filter: "cacheFilter:'inst':'instname':'instid'"
+                },
+                purchase: {
+                    label: "购买人",
+                    filter: "cacheFilter:'user':'name':'id'"
+                },
+                name: {
+                    label: "订单内容"
+                },
+                introduce: {
+                    label: "简介"
+                },
                 state: {
-                    label: "订单状态"
+                    label: "订单状态",
+                    filter: "ctrlCodeFilter:'orderstatetype':'name':'no'"
                 },
-                clientid: {
-                    label: "客户编号"
+                paystate: {
+                    label: "支付状态",
+                    filter: "ctrlCodeFilter:'orderpaystate':'name':'no'"
                 },
-                sales: {
-                    label: "销售顾问"
+                begindate: {
+                    label: "开始日期",
+                    filter: "timestampFilter"
                 },
-                amount: {
+                enddate: {
+                    label: "结束日期",
+                    filter: "timestampFilter"
+                },
+                adviser: {
+                    label: "专属顾问",
+                    filter: "cacheFilter:'user':'name':'id'"
+                },
+                factamount: {
+                    label: "订单原价"
+                },
+                orderamount: {
                     label: "订单金额"
                 },
+                salesmanid: {
+                    label: "销售人",
+                    filter: "cacheFilter:'user':'name':'id'"
+                },
+                proxyinstid: {
+                    label: "代理机构",
+                    filter: "cacheFilter:'inst':'instname':'instid'"
+                },
+                proxyman: {
+                    label: "代理人",
+                    filter: "cacheFilter:'user':'name':'id'"
+                },
+                createby: {
+                    label: "创建人",
+                    filter: "cacheFilter:'user':'name':'id'"
+                },
                 createdate: {
-                    label: "创建日期"
+                    label: "创建日期",
+                    filter: "timestampFilter"
                 },
                 remark: {
                     label: "备注"
@@ -31,7 +76,7 @@ angular.module("wservice.dt.store.order", ["ui.neptune"])
             action: {
                 view: {
                     label: "查看",
-                    type: "none"
+                    type: "view"
                 },
                 add: {
                     label: "添加",
