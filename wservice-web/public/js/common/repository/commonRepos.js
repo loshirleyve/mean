@@ -15,6 +15,7 @@ angular.module("wservice.common.repository.common",
             request.params.level = "user";
             request.params.instid = nptSessionManager.getSession().getInst().id;
             request.params.filetype = "image";
+            return request;
         })
             .addRequestInterceptor(function (request) {
             return request;
@@ -37,6 +38,7 @@ angular.module("wservice.common.repository.common",
         return nptRepository("queryOrgTree").addRequestInterceptor(function(request) {
             request.params.instid = nptSessionManager.getSession().getInst().id;
             request.params.dimtype = "hr";
+            return request;
         }).addResponseInterceptor(function (response) {
             var orgNodes = [{
                 id: response.data.id,
