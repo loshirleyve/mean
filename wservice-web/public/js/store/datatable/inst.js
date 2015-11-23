@@ -46,7 +46,7 @@ angular.module("wservice.dt.store.datatable.inst", ["ui.neptune"]).
                     type: "edit",
                     target: "inst",
                     listens: [
-                        function (params, $timeout, $q,nptResource) {
+                        function (params, $timeout, $q,UpdateInstRepo) {
                             var deferd = $q.defer();
                             var temp_params = {};
 
@@ -57,19 +57,15 @@ angular.module("wservice.dt.store.datatable.inst", ["ui.neptune"]).
                             temp_params.updateby = "10000002334767";
                             temp_params.name = params.data.name;
 
-                            console.info(params);
-                            nptResource
-                                .post("updateInst", params, function (data) {
-                                    success(data);
-                                }, function (data) {
-                                    //TODO 弹出提示检索错误通知窗口
-                                });
+                            console.info(temp_params);
+                            UpdateInstRepo.post(temp_params).then( function (response) {
+                                success(response.data);
+                            }, function (error) {
+                            });
                             return deferd.promise;
                         }
                     ]
                 }
             }
         });
-    }).factory("UpdateInstRepo",function(nptRepository) {
-        return nptRepository("updateInst");
     });
