@@ -246,4 +246,6 @@ angular.module("instApp", ["wservice.dt.store.datatable.inst","wservice.form.sto
             //TODO 提示信息
         });
 
+    }).factory("UpdateInstRepo",function(nptRepository) {
+        return nptRepository("updateInst");
     });
