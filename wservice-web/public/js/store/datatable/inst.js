@@ -46,25 +46,30 @@ angular.module("wservice.dt.store.datatable.inst", ["ui.neptune"]).
                     type: "edit",
                     target: "inst",
                     listens: [
-                        function (params, $timeout, $q) {
+                        function (params, $timeout, $q,nptResource) {
                             var deferd = $q.defer();
+                            var temp_params = {};
+
                             console.info("开始执行后台更新服务.");
-                            $timeout(function () {
-                                if (params.index === 0) {
-                                    deferd.reject("不能编辑第一行");
-                                } else {
-                                    deferd.resolve("执行成功!");
-                                    params.data.demo = "测试添加一行数据";
-                                    params.data.sn = "测试修改订单号";
-                                }
-                            }, 500);
+                            console.info(params);
+
+                            temp_params.instid = params.data.id;
+                            temp_params.updateby = "10000002334767";
+                            temp_params.name = params.data.name;
+
+                            console.info(params);
+                            nptResource
+                                .post("updateInst", params, function (data) {
+                                    success(data);
+                                }, function (data) {
+                                    //TODO 弹出提示检索错误通知窗口
+                                });
                             return deferd.promise;
-                        },
-                        function () {
-                            return "我是第二个方法";
                         }
                     ]
                 }
             }
         });
+    }).factory("UpdateInstRepo",function(nptRepository) {
+        return nptRepository("updateInst");
     });

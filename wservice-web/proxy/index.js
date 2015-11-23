@@ -160,6 +160,10 @@ proxy.action("queryInstDetail", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryInstByIdService"
 });
+proxy.action("updateInst", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.UpdateInstService"
+});
 
 //收款
 proxy.action("QueryPayRegisters", {
