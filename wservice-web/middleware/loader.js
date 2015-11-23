@@ -1,5 +1,4 @@
 var express = require("express");
-var router = express.Router();
 var fs = require('fs');
 var path = require('path');
 var debug = require("debug")("wservice-web-middleware-loader");
@@ -7,6 +6,7 @@ var debug = require("debug")("wservice-web-middleware-loader");
 module.exports = function (currDir) {
 
     var files = fs.readdirSync(currDir + "");
+    var router = express.Router();
 
     files.forEach(function (file) {
         var fileStat = fs.statSync(path.join(currDir, file));
