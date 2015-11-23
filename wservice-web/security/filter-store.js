@@ -16,6 +16,9 @@ store.use("/app*", {
 }).use("/biz*", {
     needLogin: true,
     needInst: true
+}).use("/", {
+    needLogin: true,
+    needInst: true
 });
 
 module.exports = store;

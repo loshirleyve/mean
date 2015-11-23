@@ -19,6 +19,7 @@ module.exports = function (currDir) {
                 var middleware = require(path.join(currDir, file));
                 var type = middleware.type || "get";
                 var types = [];
+                var paths = ["/" + name];
 
                 if (type instanceof Array) {
                     types = types.concat(type);
@@ -26,13 +27,21 @@ module.exports = function (currDir) {
                     types.push(type);
                 }
 
+                if (middleware.otherPaths) {
+                    paths = paths.concat(middleware.otherPaths);
+                }
+
                 types.forEach(function (itemType) {
                     if (itemType === "get") {
-                        debug("正在加载中间件(get):/" + name);
-                        router.get("/" + name, middleware());
+                        paths.forEach(function (pathValue) {
+                            debug("正在加载中间件(get):" + pathValue);
+                            router.get(pathValue, middleware());
+                        });
                     } else if (itemType === "post") {
-                        debug("正在加载中间件(post):/" + name);
-                        router.post("/" + name, middleware());
+                        paths.forEach(function (pathValue) {
+                            debug("正在加载中间件(post):" + pathValue);
+                            router.post(pathValue, middleware());
+                        });
                     }
                 });
             }
