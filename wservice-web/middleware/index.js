@@ -13,7 +13,8 @@ module.exports = function (app) {
 
         if (fileStat.isDirectory()) {
             debug("加载目录:/" + file);
-            app.use("/" + file, require(path.join(__dirname, file))());
+            var router = require(path.join(__dirname, file))();
+            app.use("/" + file, router);
         }
     });
 };

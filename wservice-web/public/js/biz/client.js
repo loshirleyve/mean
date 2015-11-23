@@ -11,7 +11,6 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 templateUrl: "detail.html"
             })
             .when("/detail", {
-                //redirectTo: "/detail/add"
                 controller: "BizPageDetailController",
                 templateUrl: "addClient.html"
             })

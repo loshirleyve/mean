@@ -10,13 +10,12 @@ angular.module("wservice.common.repository.common",
     .factory("QueryCtrlCode", function (nptRepository) {
         return nptRepository("queryMdCtrlcode");
     }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").delayParamsFn(function() {
-            return {
-                "userid": nptSessionManager.getSession().getUser().id,
-                "level": "user",
-                "instid": nptSessionManager.getSession().getInst().id,
-                "filetype": "image"
-            };
+        return nptRepository("QueryFile").addRequestInterceptor(function(request) {
+            request.params.userid = nptSessionManager.getSession().getUser().id;
+            request.params.level = "user";
+            request.params.instid = nptSessionManager.getSession().getInst().id;
+            request.params.filetype = "image";
+            return request;
         })
             .addRequestInterceptor(function (request) {
             return request;
@@ -36,11 +35,10 @@ angular.module("wservice.common.repository.common",
             }
         }
 
-        return nptRepository("queryOrgTree").delayParamsFn(function() {
-            return {
-                "instid": nptSessionManager.getSession().getInst().id,
-                "dimtype": "hr"
-            };
+        return nptRepository("queryOrgTree").addRequestInterceptor(function(request) {
+            request.params.instid = nptSessionManager.getSession().getInst().id;
+            request.params.dimtype = "hr";
+            return request;
         }).addResponseInterceptor(function (response) {
             var orgNodes = [{
                 id: response.data.id,
