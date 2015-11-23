@@ -47,12 +47,14 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute"])
                 });
             },
             navigateTo: function navigateTo(item) {
-                self.moduleUrl = "/biz/order"
-                $location.path("/" + item.no);
-                self.setFocus(item);
+                if (item && item.actionvalue && item.actiontype === "link") {
+                    self.moduleUrl = item.actionvalue;
+                    $location.path("/" + item.no);
+                    self.setFocus(item);
+                }
             },
             findByName: function (name) {
-                var tempMenuItem = undefined;
+                var tempMenuItem;
                 angular.forEach(self.menus, function (menu) {
                     if (menu.items) {
                         angular.forEach(menu.items, function (menuItem) {

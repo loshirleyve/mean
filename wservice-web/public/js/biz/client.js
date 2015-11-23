@@ -11,7 +11,6 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 templateUrl: "detail.html"
             })
             .when("/detail", {
-                //redirectTo: "/detail/add"
                 controller: "BizPageDetailController",
                 templateUrl: "addClient.html"
             })
@@ -303,16 +302,16 @@ angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.cli
                 var params={};
                 params.contactman=$scope.contactman;
                 params.fullname=$scope.fullname;
-                if($scope.curClientindustry != null){
+                if($scope.curClientindustry !== null){
                     params.industry=$scope.curClientindustry;
                 }
-                if($scope.curClienttype != null){
+                if($scope.curClienttype !== null){
                     params.type=$scope.curClienttype;
                 }
-                if($scope.curClientlevel != null){
+                if($scope.curClientlevel !== null){
                     params.level=$scope.curClientlevel;
                 }
-                if($scope.curClientsource != null){
+                if($scope.curClientsource !== null){
                     params.source=$scope.curClientsource;
                 }
                 clientService.query.list(params, function (data) {

@@ -14,7 +14,6 @@ var logger = require('morgan');
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var flash = require("express-flash");
-var router = require("./router");
 var session = require("express-session");
 var passport = require("./passport");
 var security = require("./security");
@@ -66,10 +65,7 @@ instPassport(app);
 //3.加载安全过滤器,注意安全过滤器一定要在业务路由器之前加载.
 security(app);
 
-//4.载入路由
-router(app);
-
-//5.载入中间件
+//4.载入中间件
 middleware(app);
 
 // 找不到页面

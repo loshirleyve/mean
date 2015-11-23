@@ -13,7 +13,7 @@
  */
 angular.module("demoApp",
     ["wservice.dt.store.demo","wservice.form.store.demo","wservice.common", "ngRoute"])
-.config(function($routeProvider){
+    .config(function($routeProvider){
         /**
          * 注册路由
          *
@@ -38,7 +38,7 @@ angular.module("demoApp",
             .otherwise({
                 redirectTo: "/list"
             });
-}).controller("ListController",function($scope,sessionData,demoService) {
+    }).controller("ListController",function($scope,sessionData,demoService) {
         /**
          * 注意上面的sessionData，这个就是在上面config里面controller跳转前配置的resolve的参数；
          * 可以通过，getInst();getUser()获取当前机构，当前用户；
@@ -78,9 +78,9 @@ angular.module("demoApp",
         } else {
             $scope.data = orderService.query.data;
         }
-}).service("demoService",function($http, $location, QueryOrderListRepo, nptSessionManager) {
+    }).service("demoService",function($http, $location, QueryOrderListRepo, nptSessionManager) {
         /*如果你在上面的controller使用了resolve获取session，那么接下来的其他构件中，你就可以如上这样
-        * 注入nptSessionManager，从中getSession()获取当前session数据；然后从session中getInst();getUser()*/
+         * 注入nptSessionManager，从中getSession()获取当前session数据；然后从session中getInst();getUser()*/
 
         var self = this;
         /**
@@ -158,6 +158,6 @@ angular.module("demoApp",
         this.query.toggle();
         //默认状态为启动检查新单据
         this.checkNew.toggle();
-}).factory("QueryOrderListRepo",function(nptRepository) {
+    }).factory("QueryOrderListRepo",function(nptRepository) {
         return nptRepository("queryOrderList");
     });
