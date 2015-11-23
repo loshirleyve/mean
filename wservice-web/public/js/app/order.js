@@ -7,7 +7,7 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "OrderDetailController",
+                controller: "OrderDetailController as vm",
                 templateUrl: "detail.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -17,11 +17,6 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
             })
             .when("/detail", {
                 redirectTo: "/detail/add",
-                resolve: {
-                    sessionData: function (nptSession) {
-                        return nptSession();
-                    }
-                }
             })
             .when("/list", {
                 controller: "OrderListController as vm",
@@ -95,8 +90,13 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
             vm.data = QueryOrderList.data;
         }
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, QueryOrderList) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, QueryOrderList, QueryOrderInfo) {
         var vm = this;
+
+        //设置当前订单id
+        vm.orderid = $routeParams.id;
+        vm.orderList = QueryOrderList;
+        vm.orderInfo = QueryOrderInfo;
 
         vm.next = function (order) {
             var nextOrder = QueryOrderList.next(order);
@@ -112,21 +112,27 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
             }
         };
 
-        vm.orderid = $routeParams.id;
 
         vm.query = function () {
-
+            QueryOrderInfo.post({
+                orderid: vm.orderid
+            }).then(function (response) {
+            });
         };
 
         //刷新界面动作按钮控制状态
         vm.resetState = function () {
-            if (vm.data.order.state === "waitconfirm") {
+            if (vm.orderInfo.data.order.state === "waitconfirm") {
                 vm.isConfirm = true;
             } else {
                 vm.isConfirm = false;
             }
         };
-    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
+
+        //初始化查询
+        vm.query();
+    }).
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
         $scope.orderid = $routeParams.id;
         $scope.org = orderService.org;
         $scope.query = orderService.query;
