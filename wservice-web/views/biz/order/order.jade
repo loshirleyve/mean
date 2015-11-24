@@ -89,7 +89,7 @@ block content
             div.page-header
                 h4 产品列表
             div.page-body
-
+                npt-datatable(name="orderProduct",data="vm.model.orderproducts",is-index="true",on-action="doOrderProducts(type,item,index)")
             div.page-header
                 h4 工单列表
             div.page-body
@@ -97,7 +97,7 @@ block content
             //    div.col-md-12
             //        div.panel.panel-default
             //            div.panel-heading 产品列表
-            //            npt-datatable(name="orderProduct",data="data.orderproducts",is-index="true",on-action="doOrderProducts(type,item,index)")
+            //
             //div.row
             //    div.col-md-12
             //        div.panel.panel-default
