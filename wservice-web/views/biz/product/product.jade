@@ -79,7 +79,7 @@ block content
             //数据表格区域
             div.row
                 div.col-md-12
-                npt-datatable(name="product" is-pagination="true",items-per-page="10",data="data",is-index="true")
+                    npt-datatable(name="product" is-pagination="true",items-per-page="10",data="data",is-index="true")
 
             //弹出层，添加分组
             div#addGroup.modal.fade(tabindex="-1",role="dialog")
@@ -194,7 +194,7 @@ block content
                 div.col-md-12
                     div.panel.panel-default
                         div.panel-heading 分组信息
-                        npt-datatable(name="group",data="groupdata",is-index="true",on-action="dollproductGroup(type,item,index)")
+                        npt-datatable(name="group",data="groupdata",is-index="true",on-del-listens="[deleteGroup]")
 
 
 
@@ -258,243 +258,43 @@ block content
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 服务阶段
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productPhasesModal');") 添加
-                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-edit-listens="[editProductPhase]")
+                        div.panel-heading
+                            div 服务阶段
+                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-add-listens="[editProductPhase]",on-edit-listens="[editProductPhase]",on-del-listens="[deleteProductPhase]")
 
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 资料清单
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productPhasesModal');") 添加
-                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-action="doProductPhases(type,item,index)")
+                        div.panel-heading
+                            div 资料清单
+                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-del-listens="[deleteProductPhase]")
 
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 服务内容
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productProfilesModal');") 添加
-                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-edit-listens="[editProductProfile]")
+                        div.panel-heading
+                            div 服务内容
+                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-add-listens="[editProductProfile]",on-edit-listens="[editProductProfile]",on-del-listens="[deleteProductProfile]")
 
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 服务分组
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productGroupsModal');") 添加
-                        npt-datatable(name="productGroup" data="data.productGroups",is-index="true",on-edit-listens="[editProductGroup]")
+                        div.panel-heading
+                            div 服务分组
+                        npt-datatable(name="productGroup" data="data.productGroups",is-index="true",on-add-listens="[editProductGroup]",on-edit-listens="[editProductGroup]",on-del-listens="[deleteProductGroup]")
 
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 服务分类
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productClassifiesModal');") 添加
-                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-edit-listens="[editProductClassify]")
+                        div.panel-heading
+                            div 服务分类
+                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-add-listens="[editProductClassify]",on-edit-listens="[editProductClassify]",on-del-listens="[deleteProductClassify]")
 
             div.row
                 div.col-md-12
                     div.panel.panel-default
-                        div.col-md-12.panel-heading
-                            div.col-md-6 服务说明
-                            div.col-md-6.text-right
-                                button.btn.btn-primary.btn-sm(ng-click="openModal('#productDescrsModal');")  添加
-                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-edit-listens="[editProductDescr]")
-
-            //弹出层，服务阶段
-            div#productPhasesModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture") &times;
-                            h4.modal-title 服务阶段
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    labelc.col-md-2.control-label 阶段名称:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="phases.name" type="text" value="{{phases.name}}")
-
-                                    labelc.col-md-2.control-label 阶段职责:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="phases.duty" type="text" value="{{phases.duty}}")
-
-                                    labelc.col-md-2.control-label 服务类型:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            select.form-control
-                                                option(ng-repeat="code in cyclecode" value="{{code.no}}") {{code.name}}
-
-                                    labelc.col-md-2.control-label 办理天数:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="phases.times" type="number" value="{{phases.times}}")
-
-                                    labelc.col-md-2.control-label 排序:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="phases.sortno" type="number" value="{{phases.sortno}}")
-
-                                    labelc.col-md-2.control-label 阶段说明:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="phases.phasedescr" type="text" value="{{phases.phasedescr}}")
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="editProductPhase()") 确认
-
-            //弹出层，服务内容
-            div#productProfilesModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 服务内容
-                        div.modal-body
-                            from.form-horizontal
-                                div.form-group
-                                    label.col-md-2.control-label 内容描述:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            textarea.form-control(ng-model="profiles.synopsis") {{profiles.synopsis}}
-
-                                    label.col-md-2.control-label 排序:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="profiles.sort",type="number",value="{{profiles.sort}}")
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal" ng-click="editProductProfile();") 确认
-
-            //弹出层，服务分组
-            div#productGroupsModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 服务分组
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    labelc.col-md-2.control-label 分组logo:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            labele.hidden(ng-model="group.backgorundimgid")
-                                            button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal4") 选择
-
-                                    labelc.col-md-2.control-label 分组名称:
-                                    div.col-md-10
-                                        p.form-control-static 精选
-                                            labele.hidden(ng-model="group.groupid")
-                                            button.btn.btn-primary(type="button",data-toggle="modal",data-target="#myModal4") 选择
-
-                                    labelc.col-md-2.control-label 是否置顶:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            label.control-label
-                                                input(type="radio",ng-model="group.top",name="yesorno",checked)
-                                                label 是 &nbsp;&nbsp;&nbsp;&nbsp;
-                                            label.control-label
-                                                input(type="radio",ng-model="group.top",name="yesorno")
-                                                label 否
-
-                                    labelc.col-md-2.control-label 排序:
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="group.sort",type="number" value="{{group.sort}}")
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal" ng-click="editProductGroup();") 确认
-
-            //弹出层，服务分类
-            div#productClassifiesModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 服务分类
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-3.control-label 选择分类地域:
-                                    div.col-md-9
-                                        p.form-control-static
-                                            labele.hidden(ng-model="classify.cityid")
-                                            button.btn.btn-primary(data-toggle="modal" data-target="#myModal4" type="button") 选择
-
-                                    label.col-md-3.control-label 分类名称:
-                                    div.col-md-3
-                                        p.form-control-static
-                                            input.form-control(ng-model="classify.classifyname",value="{{classify.classifyname}}" type="text")
-
-                                    label.col-md-3.control-label 分类编号:
-                                    div.col-md-3
-                                        p.form-control-static
-                                            input.form-control(ng-model="classify.classifyno",value="{{classify.classifyno}}" type="text")
-
-                                    label.col-md-3.control-label 价格:
-                                    div.col-md-3
-                                        p.form-control-static
-                                            input.form-control(ng-model="classify.price",value="{{classify.price}}" type="number")
-
-                                    label.col-md-3.control-label 排序:
-                                    div.col-md-3
-                                        p.form-control-static
-                                            input.form-control(ng-model="classify.sort",value="{{classify.sort}}" type="number")
-
-                                    label.col-md-3.control-label 所属服务阶段:
-                                    div.col-md-3
-                                        p.form-control-static
-                                            select.form-control(ng-model="classify.phaseid")
-                                                option(ng-repeat="phase in prophase" value="{{phase.id}}") {{phase.name}}
-
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal" ng-click="editProductClassify();") 确认
-
-            //弹出层，服务说明
-            div#productDescrsModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 服务说明
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-2.control-label 标题
-                                    div.col-md-10
-                                        p.form-control-static
-                                            input.form-control(ng-model="descr.descr",type="text" value="{{descr.descr}}")
-                                div.form-group
-                                    label.col-md-2.control-label 类型
-                                    div.col-md-10
-                                        select.form-control(ng-model="descr.type")
-                                            option(ng-repeat="productdescrtype in productdescrtypecode" value="{{productdescrtype.no}}") {{productdescrtype.name}}
-
-                                div.form-group
-                                    label.col-md-2.control-label 内容
-                                    div.col-md-10
-                                        p.form-control-static
-                                            textarea.form-control(ng-model="descr.descrvalue",) {{descr.descrvalue}}
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal" ng-click="editProductDescr();") 确认
-
+                        div.panel-heading
+                            div 服务说明
+                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-add-listens="[editProductDescr]",on-edit-listens="[editProductDescr]",on-del-listens="[deleteProductDescr]")
 
 
