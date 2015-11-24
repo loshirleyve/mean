@@ -2,7 +2,8 @@
    Created by Leon on 15/10/15.
 
 extends ../../layout/layout-bizpage
-
+block titleContent
+    title 订单管理
 block content
     script(src="/js/biz/order/orderListDatatable.js")
     script(src="/js/biz/order/orderForm.js")
@@ -14,14 +15,13 @@ block content
         //列表模板
         script(type="text/ng-template",id="list.html")
             //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/app/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li.active 订单列表
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li.active 订单列表
+
             //功能导航
             nav.navbar.navbar-default
                 div.container-fluid
@@ -46,7 +46,7 @@ block content
                                     li
                                         a(href="") 条件查询
 
-            //数据表格区域
+
             npt-datatable(name="order",is-pagination="true",items-per-page="10",data="vm.orderList.data",is-index="true",on-action="vm.orderAction(action,item,index)")
 
         //详情模板
@@ -74,49 +74,25 @@ block content
                         li(ng-if="!vm.orderInfo.loading()")
                             a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
-                            a(href="#/confirm/{{vm.orderid}}",ng-show="isConfirm") 确认订单
+                            a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
                         li
                             a(href="",ng-click="vm.adviser()") 分配顾问
                         li
                             a(href="#/list") 返回
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 基本信息
-                        div.panel-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-2.control-label(for="ordersn") 订单编号:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="ordersn",value="{{vm.orderInfo.data.order.ordersn}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="buyerinstid") 客户名称:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="buyerinstid",value="{{data.order.buyerinstid}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="begindate") 开始日期:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="begindate",value="{{data.order.begindate}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="enddate") 结束日期:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="enddate",value="{{data.order.enddate}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="orderamount") 订单金额:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="orderamount",value="{{data.order.orderamount}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="factamount") 实际金额:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="factamount",value="{{data.order.factamount}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="createdate") 创建日期:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="createdate",value="{{data.order.createdate}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="remark") 备注:
-                                    div.col-md-10
-                                        textarea.form-control(rows=3,id="remark",disabled) {{data.order.remark}}
+
+            //数据表格区域
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.orderFormOptions",model="vm.model.order")
+
+            div.page-header
+                h4 产品列表
+            div.page-body
+
+            div.page-header
+                h4 工单列表
+            div.page-body
             //div.row
             //    div.col-md-12
             //        div.panel.panel-default
@@ -130,89 +106,27 @@ block content
 
         //确认订单模板
         script(type="text/ng-template",id="confirm.html")
-            //
-            npt-select-tree(name="selectAdviserByConfirm",select-type="selectUser",on-select="onSelect(type,item,index)")
-            div.row
-                div.col-md-12
-                    //功能导航区域
-                    div.row
-                        div.col-md-12
-                            ul.breadcrumb
-                                li
-                                    a(href="/home")
-                                        span.glyphicon.glyphicon-home
-                                        span 首页
-                                li
-                                    a(href="#list")
-                                        span 订单列表
-                                li
-                                    a(href="#detail/{{orderid}}")
-                                        span 订单详情
-                                li.active 确认订单
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 订单列表
+                li
+                    a(href="#detail/{{orderid}}")
+                        span 订单详情
+                li.active 确认订单
 
-                    nav.navbar.navbar-default
-                        div.navbar-header
-                            a.navbar-brand(href="") 确认订单
-                        ul.nav.navbar-nav.navbar-right
-                            li
-                                a(href="#detail/{{orderid}}") 返回
-                            li
-                                | &nbsp &nbsp &nbsp &nbsp
-
-                    div.row
-                        div.col-md-12
-                            div.panel.panel-primary
-                                div.panel-heading 订单信息
-                                div.panel-body
-                                    form.form-horizontal(name="confirmForm")
-                                        div.form-group
-                                            label.col-md-2.control-label(for="ordersn") 订单编号:
-                                            div.col-md-10
-                                                input.form-control(type="text",id="ordersn",value="{{data.order.ordersn}}",disabled)
-                                        div.form-group
-                                            label.col-md-2.control-label(for="buyerinstid") 客户名称:
-                                            div.col-md-10
-                                                input.form-control(type="text",id="buyerinstid",value="{{data.order.buyerinstid}}",disabled)
-                                        div.form-group(ng-class="{'has-error': confirmForm.begindate.$dirty && confirmForm.begindate.$invalid}")
-                                            label.col-md-2.control-label(for="begindate") 开始日期:
-                                            div.col-md-10
-                                                input.form-control(type="number",id="begindate",name="begindate",ng-model="begindate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,npt-Number2date)
-                                                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.begindate.$dirty && confirmForm.begindate.$valid")
-                                        div.form-group(ng-class="{'has-error': confirmForm.enddate.$dirty && confirmForm.enddate.$invalid}")
-                                            label.col-md-2.control-label(for="enddate") 结束日期:
-                                            div.col-md-10
-                                                input.form-control(type="number",id="enddate",name="enddate",ng-model="enddate",placeholder="请输入8位数字的日期.例如:20150808",ng-minlength="8",ng-maxlength="8",required,npt-Number2date)
-                                                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.enddate.$dirty && confirmForm.enddate.$valid")
-                                        div.form-group
-                                            label.col-md-2.control-label(for="adviserName") 专属顾问:
-                                            div.col-md-10
-                                                div.input-group
-                                                    span.input-group-btn
-                                                        button.btn.btn-primary(type="button",ng-click="openSelectUser()") 选择专属顾问
-                                                    input.form-control(type="text",id="adviserName",name="adviserName",placeholder="请选择专属顾问",ng-model="adviserName",required,disabled)
-                                                    span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="confirmForm.adviserName.$dirty && confirmForm.adviserName.$valid")
-                                        div.form-group
-                                            label.col-md-2.control-label(for="orderamount") 订单金额:
-                                            div.col-md-10
-                                                input.form-control(type="text",id="orderamount",value="{{data.order.orderamount}}",disabled)
-                                        div.form-group
-                                            label.col-md-2.control-label(for="factamount") 实际金额:
-                                            div.col-md-10
-                                                input.form-control(type="text",id="factamount",value="{{data.order.factamount}}",disabled)
-                                        div.form-group
-                                            label.col-md-2.control-label(for="createdate") 创建日期:
-                                            div.col-md-10
-                                                input.form-control(type="text",id="createdate",value="{{data.order.createdate}}",disabled)
-                                        div.form-group
-                                            label.col-md-2.control-label(for="remark") 备注:
-                                            div.col-md-10
-                                                textarea.form-control(rows=3,id="remark",disabled) {{data.order.remark}}
-
-                                        div.form-group
-                                            div.col-sm-offset-2.col-md-10
-                                                button.btn.btn-primary(type="button",ng-click="confirm()",ng-disabled="!(confirmForm.$dirty && confirmForm.$valid)") 确认订单
-                                                | &nbsp &nbsp
-                                                a.btn.btn-default(type="button",href="#/detail/{{orderid}}") 返回
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 确认订单
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#detail/{{orderid}}") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
 
 
 

@@ -5,79 +5,118 @@
  */
 
 angular.module("orderApp.orderForm", ["ui.neptune"])
-    .run(function (nptFormStore) {
-        nptFormStore.put("order", {
-            options: {},
+    .factory("OrderForm", function (nptFormlyStore, QueryCtrlCode) {
+        return nptFormlyStore("OrderForm", {
+            options: {
+                formState: {
+                    disabled: true
+                }
+
+            },
             fields: [
                 {
-                    key: 'sn',
+                    key: 'ordersn',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '订单编号:',
-                        placeholder: "请输入订单编号"
+                    }
+                },
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        label: '订单内容:'
+                    }
+                },
+                {
+                    key: 'introduce',
+                    type: 'input',
+                    templateOptions: {
+                        label: '订单简介:'
                     }
                 },
                 {
                     key: 'state',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        required: true,
                         label: '订单状态:',
-                        placeholder: "请输入订单编号"
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "orderstatetype"},
                     }
                 },
                 {
-                    key: 'clientid',
+                    key: 'paystate',
                     type: 'input',
                     templateOptions: {
-                        required: true,
-                        label: '客户编号:',
-                        placeholder: "请输入客户编号"
+                        label: '支付状态:'
                     }
                 },
                 {
-                    key: 'sales',
+                    key: 'instid',
                     type: 'input',
                     templateOptions: {
-                        required: true,
-                        label: '销售顾问:',
-                        placeholder: "请输入销售顾问"
+                        label: '服务机构:'
                     }
                 },
                 {
-                    key: 'amount',
+                    key: 'begindate',
                     type: 'input',
                     templateOptions: {
-                        required: true,
-                        label: '订单金额:'
+                        label: '开始日期:'
+                    }
+                },
+                {
+                    key: 'enddate',
+                    type: 'input',
+                    templateOptions: {
+                        label: '结束日期:'
+                    }
+                },
+                {
+                    key: 'salesmanid',
+                    type: 'input',
+                    templateOptions: {
+                        label: '业务员:'
+                    }
+                },
+                {
+                    key: 'adviser',
+                    type: 'input',
+                    templateOptions: {
+                        label: '专属顾问:'
+                    }
+                },
+                {
+                    key: 'createby',
+                    type: 'input',
+                    templateOptions: {
+                        label: '创建人:'
                     }
                 },
                 {
                     key: 'createdate',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '创建日期:'
                     }
-                },
-                {
-                    key: 'remark',
-                    type: 'input',
-                    templateOptions: {
-                        label: '备注:'
-                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
                 }
             ]
-        }).put("demo", {
-            fields: [
-                {
-                    key: 'lastName',
-                    type: 'input',
-                    templateOptions: {
-                        label: 'Last Name'
-                    }
-                }
-            ]
-        });
+        })
     });
