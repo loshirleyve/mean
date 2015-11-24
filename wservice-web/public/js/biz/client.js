@@ -2,25 +2,45 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.client", "ngRoute"])
+angular.module("clientApp", ["wservice.form.store.client","wservice.dt.store.client", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
                 controller: "BizPageDetailController",
-                templateUrl: "detail.html"
+                templateUrl: "detail.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
             })
             .when("/detail", {
                 controller: "BizPageDetailController",
-                templateUrl: "addClient.html"
+                templateUrl: "addClient.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
             })
             .when("/addClient",{
                 controller:"BizPageDetailController",
-                templateUrl: "addClient.html"
+                templateUrl: "addClient.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
             })
             .when("/list", {
                 controller: "BizPageListController",
-                templateUrl: "list.html"
+                templateUrl: "list.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
             })
             .otherwise({
                 redirectTo: "/list"
