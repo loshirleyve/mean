@@ -118,5 +118,5 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     return deferd.promise;
                 }
             ]
-        })
+        });
     });
