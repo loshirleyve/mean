@@ -8,26 +8,51 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         $routeProvider
             .when("/detail/:id", {
                 controller: "WorkorderDetailController",
-                templateUrl: "detail.html"
+                templateUrl: "detail.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             //.when("/detail", {
             //    redirectTo: "/detail/add"
             //})
             .when("/list", {
                 controller: "WorkorderListController",
-                templateUrl: "list.html"
+                templateUrl: "list.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/startWorkorder/:id",{
                 controller: "WorkorderStartController",
-                templateUrl: "startWorkorder.html"
+                templateUrl: "startWorkorder.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/completeWorkorder/:id",{
                 controller: "WorkorderCompleteController",
-                templateUrl: "completeWorkorder.html"
+                templateUrl: "completeWorkorder.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/deliverWorkorder/:id",{
                 controller: "WorkorderDeliverController",
-                templateUrl: "deliverWorkorder.html"
+                templateUrl: "deliverWorkorder.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .otherwise({
                 redirectTo: "/list"
@@ -142,7 +167,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         //    ]
         //});
     })
-    .service("workorderService", function ($http, $location, nptResource) {
+    .service("workorderService", function ($http, $location, nptResource, nptSessionManager) {
         var self = this;
 
         /**
@@ -190,8 +215,8 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                     params.state = state;
                 }
                 //总是加入当前用户以及机构作为查询参数
-                params.instid = "10000001463017";
-                params.processid = "10000001498059";
+                params.instid = nptSessionManager.getSession().getInst().id;
+                params.processid = nptSessionManager.getSession().getUser().id;
                 nptResource
                     .post("queryWorkorderList", params, function (data) {
                         self.query.data = data;
@@ -295,7 +320,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         this.checkNew.toggle();
 
     }).
-    controller("WorkorderListController", function ($scope, $http, $location, workorderService) {
+    controller("WorkorderListController", function ($scope, $http, $location, workorderService, nptSessionManager) {
         $scope.data = [];
 
         $scope.workorderAction = function (type, item, index) {
@@ -329,7 +354,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
             $scope.data = workorderService.query.data;
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
         $scope.org = workorderService.org;
 
@@ -397,7 +422,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
             });
         };
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -416,7 +441,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
 
             params.postscript = $scope.postscript;
             params.workorderids = workorderids;
-            params.userid = "10000001498059";
+            params.userid = nptSessionManager.getSession().getUser().id;
 
             nptResource
                 .post("startWorkorder", params, function (data) {
@@ -428,7 +453,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 });
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -447,7 +472,7 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
 
             params.postscript = $scope.postscript;
             params.workorderids = workorderids;
-            params.userid = "10000001498059";
+            params.userid = nptSessionManager.getSession().getUser().id;
 
             nptResource
                 .post("completeWorkorder", params, function (data) {

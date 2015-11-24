@@ -8,6 +8,16 @@
 var proxy = require("../../proxy");
 
 exports = module.exports = function () {
+
+    function queryNavByRoleIds(roles,req,res,next) {
+        proxy.post("QueryInstRoleNaviService")
+            .params({instroleids: roles, device: "web"})
+            .launch(function (resp) {
+                res.send(resp.body.data);
+            }, function (error) {
+                next(error);
+            });
+    }
     return function (req, res, next) {
         /** 获取请求参数*/
         var userId = req.body['userId'];
@@ -23,11 +33,16 @@ exports = module.exports = function () {
         }
 
         if (userId && instId) {
-            //TODO 加入正确的机构以及用户作为参数检索
-            proxy.post("QueryInstRoleNaviService")
-                .params({instroleids: ["10000001468003"], device: "web"})
-                .launch(function (response) {
-                    res.send(response.body.data);
+            proxy.post("queryInstRolesByUseridAndInstid")
+                .params({
+                    instid:instId,
+                    userid:userId
+                }).launch(function (response) {
+                    var roles = [];
+                    response.body.data.forEach(function(role) {
+                        roles.push(role.id);
+                    });
+                    queryNavByRoleIds(roles,req, res, next);
                 }, function (error) {
                     next(error);
                 });
