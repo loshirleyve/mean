@@ -4,6 +4,8 @@
 
 var loader = require("../loader");
 
-module.exports = function () {
+exports = module.exports = function () {
     return loader(__dirname);
 };
+
+exports.otherPaths = ["/"];

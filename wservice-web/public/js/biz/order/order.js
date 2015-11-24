@@ -2,12 +2,12 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.order", "wservice.common", "ngRoute"])
+angular.module("orderApp", ["orderApp.orderListDatatable", "orderApp.orderForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "OrderDetailController",
+                controller: "OrderDetailController as vm",
                 templateUrl: "detail.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -15,13 +15,8 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
                     }
                 }
             })
-            .when("/detail", {
+            .when("/detail/add", {
                 redirectTo: "/detail/add",
-                resolve: {
-                    sessionData: function (nptSession) {
-                        return nptSession();
-                    }
-                }
             })
             .when("/list", {
                 controller: "OrderListController as vm",
@@ -66,6 +61,8 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
     .controller("OrderListController", function ($scope, $http, $location, QueryOrderList) {
         var vm = this;
 
+        vm.orderList = QueryOrderList;
+
         vm.orderAction = function (action, item, index) {
             console.info(action);
             if (item && action.type === "view") {
@@ -79,76 +76,77 @@ angular.module("orderApp", ["wservice.dt.store.order", "wservice.form.store.orde
         vm.queryByState = function (state, name) {
             vm.state = QueryOrderList.post({
                 state: state
-            }).then(function (response) {
-                vm.data = response.data;
+            }).then(function () {
                 vm.queryName = name;
             }, function (error) {
-                //查询失败
-                vm.data = [];
             });
         };
 
         //首先查询全部订单
         if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
             vm.queryByState("", '全部');
-        } else {
-            vm.data = QueryOrderList.data;
         }
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, QueryOrderList) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo) {
         var vm = this;
 
+        //设置当前订单id
+        vm.orderList = QueryOrderList;
+        vm.orderInfo = QueryOrderInfo;
+        vm.model = {};
+
         vm.next = function (order) {
-            var nextOrder = QueryOrderList.next(order);
+            var nextOrder = vm.orderList.next(order);
             if (nextOrder) {
                 $location.path("/detail/" + nextOrder.id);
             }
         };
 
         vm.previous = function (order) {
-            var previousOrder = QueryOrderList.previous(order);
+            var previousOrder = vm.orderList.previous(order);
             if (previousOrder) {
                 $location.path("/detail/" + previousOrder.id);
             }
         };
 
-        vm.orderid = $routeParams.id;
-
         vm.query = function () {
+            var id = $routeParams.id;
+            
+            if (id) {
+                vm.orderInfo.post({
+                    orderid: id
+                }).then(function (response) {
+                    vm.model = response.data;
+                }, function (error) {
+                    var de = error;
+                });
+            }
 
         };
 
-        //刷新界面动作按钮控制状态
-        vm.resetState = function () {
-            if (vm.data.order.state === "waitconfirm") {
-                vm.isConfirm = true;
+
+        vm.isConfirm = function () {
+            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "waitconfirm") {
+                return true;
             } else {
-                vm.isConfirm = false;
+                return false;
             }
         };
-    }).controller("ConfirmOrderController", function ($scope, $routeParams, $location, $timeout, orderService) {
+
+        //初始化查询(由于可能在点击确认订单后返回,需要重新刷新界面,所以每次都刷新订单)
+        vm.query();
+
+        //表单配置
+        vm.orderFormOptions = {
+            store: OrderForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+
+            }
+        };
+
+    }).
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo) {
         $scope.orderid = $routeParams.id;
-        $scope.org = orderService.org;
-        $scope.query = orderService.query;
-
-        $scope.confirm = function () {
-            $location.path("/detail/" + $scope.orderid);
-        };
-
-        $scope.openSelectUser = function () {
-            $scope.selectAdviserByConfirm.open();
-        };
-
-        $scope.onSelect = function (type, item, index) {
-            $scope.adviser = item;
-            $scope.adviserName = item.name;
-        };
-
-        //查询订单信息
-        orderService.query.id($scope.orderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
 
     });

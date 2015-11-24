@@ -3,8 +3,11 @@
  */
 
 
-module.exports = function () {
+exports = module.exports = function () {
     return function (req, res, next) {
         res.render("app/home/frame");
     }
 };
+
+exports.otherPaths = ["/"];
+

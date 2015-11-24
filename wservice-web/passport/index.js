@@ -46,10 +46,10 @@ module.exports = function (app) {
 
     //配置登录访问路由,对应本地登录策略
     app.post("/auth", passport.authenticate("local", {
-        successRedirect: "/home",
-        failureRedirect: "/login",
+        successRedirect: "/app/home",
+        failureRedirect: "/auth/login",
         failureFlash: true,
-        "successReturnToOrRedirect": "/home"
+        "successReturnToOrRedirect": "/app/home"
     }));
 
 
