@@ -8,32 +8,34 @@ angular.module("wservice.dt.store.receivable", ["ui.neptune"]).
     run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("receivable", {
                 header: {
-                    instid: {
-                        label: "服务商名称"
+                    businessKey: {
+                        label: "业务内容"
                     },
-                    sn: {
-                        label: "产品编号"
+                    amount: {
+                        label: "应收金额"
                     },
-                    name: {
-                        label: "产品名称"
+                    payamount: {
+                        label: "已收金额"
                     },
-                    pricedescr: {
-                        label: "售价"
+                    complete: {
+                        label: "收款状态"
                     },
-                    state: {
-                        label: "产品状态"
-                    },
-                    type: {
-                        label: "产品类型"
+                    paymodeName: {
+                        label: "支付方式"
                     },
                     createdate: {
-                        label: "创建日期"
+                        label: "创建日期",
+                        filter:"timestampFilter|json"
+                    },
+                    expirydate: {
+                        label: "确定日期",
+                        filter:"timestampFilter|json"
                     }
                 },
                 action: {
                     view: {
                         label: "查看",
-                        type: "none"
+                        type: "view"
                     }
                 }
             }

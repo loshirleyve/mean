@@ -7,11 +7,21 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         $routeProvider
             .when("/list", {
                 controller: "productListController",
-                templateUrl: "list.html"
+                templateUrl: "list.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/product/:id", {
                 controller: "editProductInfoController",
-                templateUrl: "product.html"
+                templateUrl: "product.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/product", {
                 controller: "editProductInfoController",
@@ -19,11 +29,21 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             })
             .when("/group/:province/:city/:district", {
                 controller: "editGroupController",
-                templateUrl: "editGroup.html"
+                templateUrl: "editGroup.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/detail/:id", {
                 controller: "productDetailController",
-                templateUrl: "detail.html"
+                templateUrl: "detail.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .otherwise({
                 redirectTo: "/list"
@@ -264,21 +284,22 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         this.checkNew.toggle();
 
     })
-    .controller("productListController", function ($scope, $http, $location, productService) {
+    .controller("productListController", function ($scope,sessionData, productService) {
         $scope.data = [];
         $scope.groupdata = [];
         var self = this;
 
-        $scope.productAction = function (type, item, index) {
-            if (item && type === "none") {
-                $location.path("/detail/" + item.id);
-                ///$location.replace();
-            }
-        };
-
         //设置自定义查询以及检查新订单
         $scope.query = productService.query;
         $scope.checkNew = productService.checkNew;
+
+
+        $scope.productAction = function (action, item, index) {
+            console.info(action);
+            if (item && action.type === "view") {
+                $location.path("/detail/" + item.id);
+            }
+        };
 
         /**
          * 根据状态查询当前用户机构的产品列表
@@ -442,16 +463,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             function (data) {
                 //TODO 提示信息
             });
-
-
-        $scope.openModal = function (id) {
-            $scope.phases = {};
-            $scope.profiles = {};
-            $scope.group = {};
-            $scope.classify = {};
-            $scope.descr = {};
-            $(id).modal('show');
-        };
 
         /**
          * 编辑产品阶段

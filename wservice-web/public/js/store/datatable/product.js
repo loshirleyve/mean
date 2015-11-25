@@ -8,6 +8,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 header: {
                     instid: {
                         label: "服务商名称"
+
                     },
                     sn: {
                         label: "产品编号"
@@ -19,24 +20,27 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                         label: "售价"
                     },
                     state: {
-                        label: "产品状态"
+                        label: "产品状态",
+                        filter:"ctrlCodeFilter:'productstate':'name':'no'"
                     },
                     type: {
                         label: "产品类型"
+
                     },
                     createdate: {
-                        label: "创建日期"
+                        label: "创建日期",
+                        filter:"timestampFilter|json"
                     }
                 },
                 action: {
                     view: {
                         label: "查看",
-                        type: "none"
+                        type: "view"
                     }
                 }
             }
         );
-        nptDatatableStore.putDatatable("group",{
+        nptDatatableStore.putDatatable("group", {
             header: {
                 name: {
                     label: "分组名称"
@@ -49,14 +53,13 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"group",
-                    listens:[
-                        function(params,$timeout,$q,productService)
-                        {
+                    target: "group",
+                    listens: [
+                        function (params, $timeout, $q, productService) {
                             var deferd = $q.defer();
-                            productService.query.editGroup(params.data,function(data){
+                            productService.query.editGroup(params.data, function (data) {
                                 deferd.resolve(data);
-                            },function(error){
+                            }, function (error) {
                                 deferd.reject(error);
                             });
                             return deferd.promise;
@@ -66,10 +69,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -81,7 +83,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
-        nptDatatableStore.putDatatable("productPhase",{
+        nptDatatableStore.putDatatable("productPhase", {
             header: {
                 name: {
                     label: "阶段名称"
@@ -103,11 +105,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productPhase",
-                    listens:[
+                    target: "productPhase",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -120,11 +121,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productPhase",
-                    listens:[
+                    target: "productPhase",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                                 if (params.index === 0) {
                                     deferd.reject("不能编辑第一行");
@@ -142,10 +142,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -157,7 +156,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
-        nptDatatableStore.putDatatable("productProfiles",{
+        nptDatatableStore.putDatatable("productProfiles", {
             header: {
                 synopsis: {
                     label: "内容描述"
@@ -170,11 +169,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productProfiles",
-                    listens:[
+                    target: "productProfiles",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -187,11 +185,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productProfiles",
-                    listens:[
+                    target: "productProfiles",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                                 if (params.index === 0) {
                                     deferd.reject("不能编辑第一行");
@@ -209,10 +206,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -224,7 +220,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
-        nptDatatableStore.putDatatable("productGroup",{
+        nptDatatableStore.putDatatable("productGroup", {
             header: {
                 backgorundimgid: {
                     label: "分组图标"
@@ -252,11 +248,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productGroup",
-                    listens:[
+                    target: "productGroup",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -269,11 +264,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productGroup",
-                    listens:[
+                    target: "productGroup",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                                 if (params.index === 0) {
                                     deferd.reject("不能编辑第一行");
@@ -291,10 +285,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -306,7 +299,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
-        nptDatatableStore.putDatatable("productClassifies",{
+        nptDatatableStore.putDatatable("productClassifies", {
             header: {
                 classifyname: {
                     label: "分类名称"
@@ -328,11 +321,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productClassifies",
-                    listens:[
+                    target: "productClassifies",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -345,11 +337,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productClassifies",
-                    listens:[
+                    target: "productClassifies",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                                 if (params.index === 0) {
                                     deferd.reject("不能编辑第一行");
@@ -367,10 +358,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -382,7 +372,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
-        nptDatatableStore.putDatatable("productDescrs",{
+        nptDatatableStore.putDatatable("productDescrs", {
             header: {
                 descr: {
                     label: "标题"
@@ -391,18 +381,18 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                     label: "内容"
                 },
                 type: {
-                    label: "类型"
+                    label: "类型",
+                    filter: "ctrlCodeFilter:'productdescrtype':'name':'no'"
                 }
             },
             action: {
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productDescrs",
-                    listens:[
+                    target: "productDescrs",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;
@@ -415,11 +405,10 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productDescrs",
-                    listens:[
+                    target: "productDescrs",
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                                 if (params.index === 0) {
                                     deferd.reject("不能编辑第一行");
@@ -437,10 +426,9 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 del: {
                     label: "删除",
                     type: "del",
-                    listens:[
+                    listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
-                            console.info("开始执行后台更新服务.");
                             $timeout(function () {
                             }, 500);
                             return deferd.promise;

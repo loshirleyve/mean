@@ -1,13 +1,22 @@
 /**
- * Created by rxy on 15/11/17.
+ * Created by rxy on 15/11/3.
  */
-angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.store.receivable", "ngRoute"])
+angular.module("receivableApp", ["wservice.dt.store.receivable", "wservice.form.store.receivable", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
             .when("/list", {
                 controller: "receivableListController",
-                templateUrl: "list.html"
+                templateUrl: "list.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/detail/:id", {
+                controller: "receivableDetailController",
+                templateUrl: "detail.html"
             })
             .otherwise({
                 redirectTo: "/list"
@@ -38,12 +47,7 @@ angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.s
 
 
         this.query = {
-            groupid: "all",
             data: [],
-            groupdata: [],
-            cities: [],
-            ctrlCode: [],
-            proPhase: [],
             currPage: 0,
             isCollapsed: false,
             toggle: function () {
@@ -57,57 +61,35 @@ angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.s
                     self.query.text = "打开查询";
                 }
             },
-            list: function (groupid, success, error) {
+            list: function (state,success, error) {
                 //将按钮设置为查询中
                 self.query.loading('loading');
                 //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
                 var params = {};
+                if(state!='all')
+                    params.complete=state;
                 //总是加入当前用户以及机构作为查询参数
-                params.instid= "10000001468002";
-                //params["userid"] = "10000001498059";
+                params.instid = "10000001468002";
+                params.createby = "10000001519061";
+                nptResource
+                    .post("QueryPayRegisters", params, function (data) {
+                        self.query.data = data;
+                        self.query.loading('reset');
+                        success(data);
+                    }, function (data) {
+                        self.query.loading('reset');
+                        //TODO 弹出提示检索错误通知窗口
+                        error(data);
+                    });
 
-                if (groupid == "weifenlei") {
-                    nptResource
-                        .post("QueryProductsNoGroup", params, function (data) {
-                            self.query.data = data;
-                            self.query.loading('reset');
-                            success(data);
-                        }, function (data) {
-                            self.query.loading('reset');
-                            //TODO 弹出提示检索错误通知窗口
-                            error(data);
-                        });
-                }
-                if (groupid != "weifenlei") {
-                    if (groupid != "all") {
-                        params.groupid = groupid;
-                    }
-                    nptResource
-                        .post("QueryProductsByGroupId", params, function (data) {
-                            self.query.data = data;
-                            self.query.groupid = groupid;
-                            self.query.loading('reset');
-                            success(data);
-                        }, function (data) {
-                            self.query.loading('reset');
-                            //TODO 弹出提示检索错误通知窗口
-                            error(data);
-                        });
-                }
             },
             id: function (id, success, error) {
-                nptResource.post("QueryProductInfoById", {"productid": id}, success, error);
+                nptResource.post("QueryProductInfoById", {"receivableid": id}, success, error);
             },
-            loading: function (groupid) {
-//                $("#all").button(groupid);
-//                $("#weifenlei").button(groupid);
-//                if(self.query.groupdata.length>0)
-//                {
-//                    for(i=0;i<=self.query.groupdata.length;i++)
-//                    {
-//                        $(self.query.groupdata[i].id).button(groupid);
-//                    }
-//                }
+            loading: function (state) {
+                $("#all").button(state);
+                $("#yishoukuan").button(state);
+                $("#weishoukuan").button(state);
             },
             nextId: function (id) {
                 if (id && self.query.data.length > 0) {
@@ -127,14 +109,14 @@ angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.s
                     }
                 }
             },
-            next: function (productid) {
-                var newId = self.query.nextId(productid);
+            next: function (receivableid) {
+                var newId = self.query.nextId(receivableid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
             },
-            previous: function (productid) {
-                var newId = self.query.previousId(productid);
+            previous: function (receivableid) {
+                var newId = self.query.previousId(receivableid);
                 if (newId) {
                     $location.path("/detail/" + newId);
                 }
@@ -147,28 +129,20 @@ angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.s
         //默认状态为启动检查新单据
         this.checkNew.toggle();
 
-    })
-    .controller("receivableListController", function ($scope, $http, $location, productService) {
+    }).controller("receivableListController", function ($scope, $http, $location, receivableService) {
         $scope.data = [];
-        $scope.groupdata = [];
         var self = this;
 
-        $scope.productAction = function (type, item, index) {
-            if (item && type === "none") {
-                $location.path("/detail/" + item.id);
-                ///$location.replace();
-            }
-        };
 
         //设置自定义查询以及检查新订单
-        $scope.query = productService.query;
-        $scope.checkNew = productService.checkNew;
+        $scope.query = receivableService.query;
+        $scope.checkNew = receivableService.checkNew;
 
         /**
          * 根据状态查询当前用户机构的产品列表
          */
-        $scope.queryByGroupId = function () {
-            productService.query.list($scope.query.groupid, function (data) {
+        $scope.queryByState = function () {
+            receivableService.query.list($scope.query.state, function (data) {
                 $scope.data = data;
             }, function (data) {
                 //TODO 弹出提示检索错误通知窗口
@@ -176,10 +150,22 @@ angular.module("receivableApp", ["wservice.dt.store.receivable","wservice.form.s
         };
 
         //首先查询全部产品
-        if (productService.query.data.length <= 0) {
-            $scope.queryByGroupId();
+        if (receivableService.query.data.length <= 0) {
+            $scope.queryByState();
         } else {
-            $scope.data = productService.query.data;
+            $scope.data = receivableService.query.data;
         }
 
+    }).controller("receivableDetailController", function ($scope, $location, $routeParams, receivableService) {
+        $scope.receivableid = $routeParams.id;
+
+        $scope.query = receivableService.query;
+
+
+        //查询产品信息
+        receivableService.query.id($scope.receivableid, function (data) {
+            $scope.data = data || {receivable: {}};
+        }, function (data) {
+            //TODO 提示信息
+        });
     });
