@@ -31,7 +31,7 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 action: {
                     view: {
                         label: "查看",
-                        type: "none"
+                        type: "view"
                     }
                 }
             }
