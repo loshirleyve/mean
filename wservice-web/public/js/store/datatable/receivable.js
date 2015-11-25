@@ -24,16 +24,18 @@ angular.module("wservice.dt.store.receivable", ["ui.neptune"]).
                         label: "支付方式"
                     },
                     createdate: {
-                        label: "创建日期"
+                        label: "创建日期",
+                        filter:"timestampFilter|json"
                     },
                     expirydate: {
-                        label: "确定日期"
+                        label: "确定日期",
+                        filter:"timestampFilter|json"
                     }
                 },
                 action: {
                     view: {
                         label: "查看",
-                        type: "none"
+                        type: "view"
                     }
                 }
             }

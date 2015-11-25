@@ -284,7 +284,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         this.checkNew.toggle();
 
     })
-    .controller("productListController", function ($scope, $http, $location, productService) {
+    .controller("productListController", function ($scope,sessionData, productService) {
         $scope.data = [];
         $scope.groupdata = [];
         var self = this;
@@ -463,16 +463,6 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             function (data) {
                 //TODO 提示信息
             });
-
-
-        $scope.openModal = function (id) {
-            $scope.phases = {};
-            $scope.profiles = {};
-            $scope.group = {};
-            $scope.classify = {};
-            $scope.descr = {};
-            $(id).modal('show');
-        };
 
         /**
          * 编辑产品阶段
