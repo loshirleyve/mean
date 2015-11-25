@@ -32,7 +32,7 @@ angular.module("fileApp", ["wservice.common","ngRoute"])
                         return nptSession;
                     }
                 }
-            })
+            });
     })
     .controller("MaterialController", function($scope){
     })
