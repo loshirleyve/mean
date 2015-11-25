@@ -3,6 +3,21 @@
  */
 
 angular.module("fileApp", ["wservice.common","ngRoute"])
+    .run(function(nptFormStore,QueryImageByUserLevel){
+        nptFormStore.put("material",{
+            options:{},
+            field:[
+                {
+                    key:'selectImage',
+                    type:'npt-select-image',
+                    templateOptions: {
+                        label: "选择图片",
+                        imageRepository: QueryImageByUserLevel
+                    }
+                }
+            ]
+        });
+    })
     .config(function($routeProvider){
         //注册文件管理路由
         $routeProvider
