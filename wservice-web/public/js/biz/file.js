@@ -14,7 +14,31 @@ angular.module("fileApp", ["wservice.common","ngRoute"])
                         return nptSession;
                     }
                 }
-        })
+            })
+            .when("/systemFile",{
+                controller:"SystemFileController",
+                templateUrl: "systemFile.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
+            })
+            .when("/userFile",{
+                controller:"UserFileController",
+                templateUrl: "userFile.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
+            })
     })
     .controller("MaterialController", function($scope){
+    })
+    .controller("SystemFileController", function($scope){
+
+    })
+    .controller("UserFileController", function($scope){
+
     });
