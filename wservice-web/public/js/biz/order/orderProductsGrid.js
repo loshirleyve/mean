@@ -6,8 +6,6 @@ angular.module("orderApp.OrderProductGrid", [])
     .factory("OrderProductGrid", function (nptGridStore) {
         return nptGridStore("OrderProductGrid", {
             gridOptions: {
-                paginationPageSizes: [],
-                paginationPageSize: 0,
                 columnDefs: [
                     {field: 'productname', displayName: "产品名称", width: 150},
                     {field: 'productIntroduce', displayName: "产品简介", width: 500},
