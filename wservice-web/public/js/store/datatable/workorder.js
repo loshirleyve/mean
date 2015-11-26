@@ -13,34 +13,44 @@ angular.module("wservice.dt.store.workorder", ["ui.neptune"]).
                     "label": "工单名称"
                 },
                 assignedid:{
-                    "label": "分配人"
+                    "label": "分配人",
+                    filter: "cacheFilter:'user':'name':'id'"
                 },
                 assigneddate:{
-                    "label": "分配日期"
+                    "label": "分配日期",
+                    filter:"timestampFilter"
                 },
                 processid:{
-                    "label": "处理人"
+                    "label": "处理人",
+                    filter: "cacheFilter:'user':'name':'id'"
                 },
                 processdate:{
-                    "label": "计划开始日期"
+                    "label": "计划开始日期",
+                    filter:"timestampFilter"
                 },
                 doactiondate:{
-                    "label": "实际开始日期"
+                    "label": "实际开始日期",
+                    filter:"timestampFilter"
                 },
                 expirydate:{
-                    "label": "计划完成日期"
+                    "label": "计划完成日期",
+                    filter:"timestampFilter"
                 },
                 completedate:{
-                    "label": "实际完成日期"
+                    "label": "实际完成日期",
+                    filter:"timestampFilter"
                 },
                 expriyday:{
-                    "label": "距离完成期限(天)"
+                    "label": "距离完成期限(天)",
+                    filter:"timestampFilter"
                 },
                 state:{
-                    "label": "工单状态"
+                    "label": "工单状态",
+                    filter: "ctrlCodeFilter:'workstate':'name':'no'"
                 },
                 createdate:{
-                    "label": "创建日期"
+                    "label": "创建日期",
+                    filter:"timestampFilter"
                 }
             },
             action: {

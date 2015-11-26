@@ -58,116 +58,8 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 redirectTo: "/list"
             });
 
-        //DatatableStoreProvider.store("workorder", {
-        //    "header": [
-        //        {
-        //            "name": "sn",
-        //            "label": "工单号"
-        //        },
-        //        {
-        //            "name": "name",
-        //            "label": "工单名称"
-        //        },
-        //        {
-        //            "name": "assignedid",
-        //            "label": "分配人"
-        //        },
-        //        {
-        //            "name": "assigneddate",
-        //            "label": "分配日期"
-        //        },
-        //        {
-        //            "name": "processid",
-        //            "label": "处理人"
-        //        },
-        //        {
-        //            "name": "processdate",
-        //            "label": "计划开始日期"
-        //        },
-        //        {
-        //            "name": "doactiondate",
-        //            "label": "实际开始日期"
-        //        },
-        //        {
-        //            "name": "expirydate",
-        //            "label": "计划完成日期"
-        //        },
-        //        {
-        //            "name": "completedate",
-        //            "label": "实际完成日期"
-        //        },
-        //        {
-        //            "name": "expriyday",
-        //            "label": "距离完成期限(天)"
-        //        },
-        //        {
-        //            "name": "state",
-        //            "label": "工单状态"
-        //        },
-        //        {
-        //            "name": "createdate",
-        //            "label": "创建日期"
-        //        }
-        //    ],
-        //    "action": [
-        //        {
-        //            "name": "view",
-        //            "label": "查看",
-        //            "link": "#/detail"
-        //        }
-        //    ]
-        //}).store("orderAttachment",{
-        //    "header":[
-        //        {
-        //            "name": "attachname",
-        //            "label": "资料名称"
-        //        },
-        //        {
-        //            "name": "transfertype",
-        //            "label": "资料交接类型"
-        //        },
-        //        {
-        //            "name": "inputtype",
-        //            "label": "资料类型"
-        //        }
-        //    ],
-        //    "action": [
-        //        {
-        //            "name": "view",
-        //            "label": "下载",
-        //            "link": "#"
-        //        }
-        //    ]
-        //}).store("workorderComment",{
-        //    "header":[
-        //        {
-        //            "name": "commenttext",
-        //            "label": "评价心得"
-        //        },
-        //        {
-        //            "name": "createdate",
-        //            "label": "评论时间"
-        //        },
-        //        {
-        //            "name": "senderid",
-        //            "label": "评论者"
-        //        }
-        //    ]
-        //}).store("userList", {
-        //    header: [
-        //        {
-        //            name: "name",
-        //            label: "姓名"
-        //        }],
-        //    action: [
-        //        {
-        //            name: "select",
-        //            label: "选择"
-        //        }
-        //    ]
-        //});
     })
-    .service("workorderService", function ($http, $location, nptResource, nptSessionManager) {
+    .service("workorderService", function ($http, $location, nptResource, nptSessionManager, QueryWorkorderList) {
         var self = this;
 
         /**
@@ -217,17 +109,16 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
                 //总是加入当前用户以及机构作为查询参数
                 params.instid = nptSessionManager.getSession().getInst().id;
                 params.processid = nptSessionManager.getSession().getUser().id;
-                nptResource
-                    .post("queryWorkorderList", params, function (data) {
-                        self.query.data = data;
-                        self.query.state = state;
-                        self.query.loading('reset');
-                        success(data);
-                    }, function (data) {
-                        self.query.loading('reset');
-                        //TODO 弹出提示检索错误通知窗口
-                        error(data);
-                    });
+                QueryWorkorderList.post( params).then(function (response) {
+                    self.query.data = response.data;
+                    self.query.state = state;
+                    self.query.loading('reset');
+                    success(response.data);
+                }, function (data) {
+                    self.query.loading('reset');
+                    //TODO 弹出提示检索错误通知窗口
+                    error(data);
+                });
             },
             id: function (id, success, error) {
                 nptResource.post("queryWorkorderDetail", {"workorderid": id}, success, error);
@@ -387,14 +278,6 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
             //TODO 提示信息
         });
 
-        $scope.doOrderAttachments = function(type,item,index) {
-
-        };
-
-        $scope.doWorkorderComment = function(type,item,index) {
-
-        };
-
         //打开用户选择模态框
         $scope.deliver = function () {
             $scope.selectAdviser.open();
@@ -518,4 +401,6 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
 
             });
         };
+    }).factory("QueryWorkorderList",function(nptRepository) {
+        return nptRepository("queryWorkorderList");
     });
