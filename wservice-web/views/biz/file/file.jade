@@ -19,7 +19,7 @@ block content
                         li.active 素材管理
         script(type="text/ng-template", id="systemFile.html")
             div.row
-                .col-md-12
+                div.col-md-12
                     ul.breadcrumb
                         li
                             a(href="/home")
@@ -27,6 +27,23 @@ block content
                                 | 首页
                         li.active 文件管理
                         li.active 系统文件
+            div.row
+                div.col-md-12.breadcrumb
+                    form.navbar-form
+                        span.pull-left.h4 素材文件
+                        a.btn.btn-default.pull-right 刷新
+                        span.pull-right &nbsp;
+                        a.btn.btn-default.pull-right(role="button", data-toggle="modal", data-target="#uploadModal") 上传
+            div#uploadModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="uploadModalLabel", aria-hidden="true")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+                            h4 文件上传
+                        div.modal-body
+                        div.modal-footer
+                            button.btn(data-dismiss="modal", aria-hidden="true") 关闭
+                            button.btn.btn-primary 确定
         script(type="text/ng-template", id="userFile.html")
             div.row
                 .col-md-12
