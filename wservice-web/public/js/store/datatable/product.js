@@ -84,6 +84,37 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                 }
             }
         });
+        nptDatatableStore.putDatatable("productInfo", {
+                header: {
+                    name: {
+                        label: "产品名称"
+                    },
+                    pricedescr: {
+                        label: "售价"
+                    },
+                    state: {
+                        label: "产品状态",
+                        filter:"ctrlCodeFilter:'productstate':'name':'no'"
+                    },
+                    saleprice: {
+                        label: "促销价格"
+                    },
+                    type: {
+                        label: "产品类型",
+                        filter:"ctrlCodeFilter:'producttype':'name':'no'"
+                    },
+                    daynum: {
+                        label: "办理天数"
+                    }
+                },
+                action: {
+                    view: {
+                        label: "编辑",
+                        type: "view"
+                    }
+                }
+            }
+        );
         nptDatatableStore.putDatatable("productPhase", {
             header: {
                 name: {

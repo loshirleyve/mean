@@ -49,7 +49,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 redirectTo: "/list"
             });
     })
-    .service("productService", function ($http, $location, nptResource,QueryProductsNoGroup,QueryProductsByGroupId,QueryCtrlCode,QueryProductPhases,queryCities) {
+    .service("productService", function ($http, $location, nptResource,QueryProductsNoGroup,QueryProductsByGroupId,QueryProductInfoById,QueryCtrlCode,QueryProductPhases,queryCities) {
         var self = this;
 
         /**
@@ -228,7 +228,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
 
             id: function (id, success, error) {
-                nptResource.post("QueryProductInfoById", {"productid": id}, success, error);
+                QueryProductInfoById.post("", {"productid": id}).then(success, error);
             },
             loading: function (groupid) {
 //                $("#all").button(groupid);
@@ -634,6 +634,8 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             return deferd.promise;
         };
 
+    }).factory("QueryProductInfoById",function(nptRepository) {
+        return nptRepository("QueryProductInfoById");
     }).factory("QueryProductPhases",function(nptRepository) {
         return nptRepository("QueryProductPhaseByProductid");
     }).factory("queryCities",function(nptRepository) {

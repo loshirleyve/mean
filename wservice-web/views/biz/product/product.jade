@@ -249,7 +249,7 @@ block content
                                             td.text-center 1
                                             td.text-center {{data.product.name}}
                                             td.text-center {{data.product.saleprice}}
-                                            td.text-center {{data.product.state}}
+                                            td.text-center {{data.product.state|filter:"ctrlCodeFilter:'productstate':'name':'no'"}}
                                             td.text-center {{data.product.pricedescr}}
                                             td.text-center {{data.product.type}}
                                             td.text-center {{data.product.daynum}}
