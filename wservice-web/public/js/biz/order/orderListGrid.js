@@ -5,10 +5,8 @@ angular.module("orderApp.OrderListGrid", [])
     .factory("OrderListGrid", function (nptGridStore) {
         return nptGridStore("OrderListGrid", {
             gridOptions: {
-                paginationPageSizes: [],
-                paginationPageSize: 0,
                 columnDefs: [
-                    {field: 'ordersn', displayName: "订单编号", width: 150},
+                    {field: 'ordersn', displayName: "订单编号", width: 120},
                     {
                         field: 'buyerinstid',
                         displayName: "客户",

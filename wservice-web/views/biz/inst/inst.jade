@@ -68,11 +68,11 @@ block content
             //                            input.form-control(type="text",id="sn",value="{{data.tel}}",disabled)
             div.row
                 div.col-md-12
-                    div.panel.panel-default
+                    div
                         div.panel-heading 基本信息
-                        npt-datatable(name="instDetail",data="data",is-index="true")
+                        npt-datatable(name="instDetail",data="data",is-index="true",action="action",is-pagination="true")
             div.row
                 div.col-md-12
-                    div.panel.panel-default
+                    div
                         div.panel-heading 资料交接方式
                         //npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")

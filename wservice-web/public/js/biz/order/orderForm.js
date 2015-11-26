@@ -18,7 +18,8 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     key: 'ordersn',
                     type: 'input',
                     templateOptions: {
-                        label: '订单编号:'
+                        label: '订单编号:',
+                        disabled:true
                     }
                 },
                 {
@@ -45,7 +46,8 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         labelProp: 'name',
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "orderstatetype"},
-                        options: []
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
@@ -58,14 +60,21 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         labelProp: 'name',
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "orderpaystate"},
-                        options: []
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
                     key: 'instid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '服务机构:'
+                        label: '服务机构:',
+                        optionsAttr: 'bs-options',
+                        valueProp: 'id',
+                        labelProp: 'instname',
+                        search: ['instname'],
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {

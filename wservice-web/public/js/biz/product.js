@@ -228,7 +228,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
             },
 
             id: function (id, success, error) {
-                nptResource.post("QueryProductInfoById", {"productid": id}, success, error);
+                nptResource.post("QueryProductInfoById", {"productid": id},success, error);
             },
             loading: function (groupid) {
 //                $("#all").button(groupid);
