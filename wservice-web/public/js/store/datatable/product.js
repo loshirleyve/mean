@@ -7,8 +7,8 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
         nptDatatableStore.putDatatable("product", {
                 header: {
                     instid: {
-                        label: "服务商名称"
-
+                        label: "服务商名称",
+                        filter: "cacheFilter:'inst':'instname':'instid'"
                     },
                     sn: {
                         label: "产品编号"
@@ -24,7 +24,8 @@ angular.module("wservice.dt.store.product", ["ui.neptune"]).
                         filter:"ctrlCodeFilter:'productstate':'name':'no'"
                     },
                     type: {
-                        label: "产品类型"
+                        label: "产品类型",
+                        filter:"ctrlCodeFilter:'producttype':'name':'no'"
 
                     },
                     createdate: {

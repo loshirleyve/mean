@@ -49,7 +49,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 redirectTo: "/list"
             });
     })
-    .service("productService", function ($http, $location, nptResource,QueryCtrlCode,QueryProductPhases,queryCities) {
+    .service("productService", function ($http, $location, nptResource,QueryProductsNoGroup,QueryProductsByGroupId,QueryCtrlCode,QueryProductPhases,queryCities) {
         var self = this;
 
         /**
@@ -99,36 +99,32 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
                 //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
                 var params = {};
                 //总是加入当前用户以及机构作为查询参数
-                params.instid= "10000001468002";
+               // params.instid= "10000001468002";
                 //params["userid"] = "10000001498059";
 
                 if (groupid == "weifenlei") {
-                    nptResource
-                        .post("QueryProductsNoGroup", params, function (data) {
-                            self.query.data = data;
-                            self.query.loading('reset');
-                            success(data);
-                        }, function (data) {
-                            self.query.loading('reset');
-                            //TODO 弹出提示检索错误通知窗口
-                            error(data);
-                        });
+                    QueryProductsNoGroup.post(params).then( function (response) {
+                        self.query.data = response.data;
+                        self.query.loading('reset');
+                        success(response.data);
+                    }, function (error) {
+                        self.query.loading('reset');
+                        error(error);
+                    });
                 }
+
                 if (groupid != "weifenlei") {
                     if (groupid != "all") {
                         params.groupid = groupid;
                     }
-                    nptResource
-                        .post("QueryProductsByGroupId", params, function (data) {
-                            self.query.data = data;
-                            self.query.groupid = groupid;
-                            self.query.loading('reset');
-                            success(data);
-                        }, function (data) {
-                            self.query.loading('reset');
-                            //TODO 弹出提示检索错误通知窗口
-                            error(data);
-                        });
+                    QueryProductsByGroupId.post(params).then( function (response) {
+                        self.query.data = response.data;
+                        self.query.loading('reset');
+                        success(response.data);
+                    }, function (error) {
+                        self.query.loading('reset');
+                        error(error);
+                    });
                 }
             },
             queryGroup: function (province, city, district, success, error) {
@@ -284,7 +280,7 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         this.checkNew.toggle();
 
     })
-    .controller("productListController", function ($scope,sessionData, productService) {
+    .controller("productListController", function ($scope,$location,sessionData, productService) {
         $scope.data = [];
         $scope.groupdata = [];
         var self = this;
@@ -642,4 +638,8 @@ angular.module("productApp", ["wservice.dt.store.product","wservice.form.store.p
         return nptRepository("QueryProductPhaseByProductid");
     }).factory("queryCities",function(nptRepository) {
         return nptRepository("queryCities");
+    }).factory("QueryProductsByGroupId",function(nptRepository) {
+        return nptRepository("QueryProductsByGroupId");
+    }).factory("QueryProductsNoGroup",function(nptRepository) {
+        return nptRepository("QueryProductsNoGroup");
     });
