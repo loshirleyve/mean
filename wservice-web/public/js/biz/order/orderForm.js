@@ -19,6 +19,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         label: '订单编号:',
+                        disabled:true
                     }
                 },
                 {
@@ -39,25 +40,41 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     key: 'state',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         label: '订单状态:',
-                        valueProp: 'id',
+                        valueProp: 'no',
                         labelProp: 'name',
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "orderstatetype"},
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
                     key: 'paystate',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '支付状态:'
+                        optionsAttr: "bs-options",
+                        label: '支付状态:',
+                        valueProp: 'no',
+                        labelProp: 'name',
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "orderpaystate"},
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
                     key: 'instid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '服务机构:'
+                        label: '服务机构:',
+                        optionsAttr: 'bs-options',
+                        valueProp: 'id',
+                        labelProp: 'instname',
+                        search: ['instname'],
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
@@ -97,7 +114,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                 },
                 {
                     key: 'createdate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         label: '创建日期:'
                     }

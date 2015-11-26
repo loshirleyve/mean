@@ -1,0 +1,109 @@
+//
+   Created by rxy on 15/11/3.
+
+extends ../../layout/layout-bizpage
+
+block content
+    script(src="/js/biz/receivable.js")
+    script(src="/js/store/datatable/receivable.js")
+    script(src="/js/store/form/receivable.js")
+    div(ng-app="receivableApp")
+        //通知区域
+        //内容区域
+        div(ng-view)
+        //列表模板
+        script(type="text/ng-template",id="list.html")
+            //功能导航区
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li.active 收款列表
+
+            //功能按钮区域
+            div.row
+                div.col-md-12
+                    div.btn-group
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'all'" ng-click="queryByState()" data-loading-text="正在查询..." id="all") 全部
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'0'" ng-click="queryByState()" data-loading-text="正在查询..." id="yishoukuan") 已收款
+                        label.btn.btn-primary.btn-sm(ng-model="query.state" uib-btn-radio="'1'"  ng-click="queryByState()" data-loading-text="正在查询..." id="weishoukuan") 未收款
+                    | &nbsp
+                    label.btn.btn-primary.btn-sm(ng-click="query.toggle()",data-loading-text="正在查询...",id="query") {{query.text}}
+                    | &nbsp
+                    label.btn.btn-primary.btn-sm(ng-click="checkNew.toggle()",data-loading-text="正在查询...",id="checkNew") {{checkNew.text}}
+            p
+                //检查新订单区域
+            div.row
+                div.col-md-12
+                    div(uib-collapse="!checkNew.isCollapsed")
+                        div.well.well-lg 检查新订单
+            //条件查询内容输入区域
+            div.row
+                div.col-md-12
+                    div(uib-collapse="!query.isCollapsed")
+                        div.well.well-lg 条件查询内容
+            //数据表格区域
+            div.row
+                div.col-md-12
+                    npt-datatable(name="receivable" is-pagination="true",items-per-page="10",data="data",is-index="true")
+
+        //详情模板
+        script(type="text/ng-template",id="detail.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#list")
+                                span 收款列表
+                        li.active 收款详情
+
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 收款详情
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="") 下架
+                    li
+                        a(href="",ng-click="query.previous(receivableid)",ng-show="{{query.previousId(receivableid)}}") 上一单
+                    li
+                        a(href="",ng-click="query.next(receivableid)",ng-show="{{query.nextId(receivableid)}}") 下一单
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+            div.row
+                div.col-md-12
+                    div.panel.panel-default
+                        div.panel-heading 基本信息
+                        div(style="padding-top:10px;")
+                            div.table-responsive
+                                table#table1.table.table-striped.table-hover.table-bordered.table-condensed
+                                    tbody
+                                        tr
+                                            th.text-center #
+                                            th.text-center 产品名称
+                                            th.text-center 价钱
+                                            th.text-center 产品状态
+                                            th.text-center 促销价格
+                                            th.text-center 产品类型
+                                            th.text-center 办理天数
+                                            th.text-center.col-md-2 操作
+                                        tr
+                                            td.text-center 1
+                                            td.text-center {{data..name}}
+                                            td.text-center {{data.product.saleprice}}
+                                            td.text-center {{data.product.state}}
+                                            td.text-center {{data.product.pricedescr}}
+                                            td.text-center {{data.product.type}}
+                                            td.text-center {{data.product.daynum}}
+                                            td.text-center
+                                                a.btn.btn-sm.btn-primary(type="button",href="#/product/{{data.product.id}}") 编辑
+

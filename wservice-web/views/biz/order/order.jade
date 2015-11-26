@@ -5,7 +5,9 @@ extends ../../layout/layout-bizpage
 block titleContent
     title 订单管理
 block content
-    script(src="/js/biz/order/orderListDatatable.js")
+    script(src="/js/biz/order/orderListGrid.js")
+    script(src="/js/biz/order/orderProductsGrid.js")
+    script(src="/js/biz/order/orderWorkorderGrid.js")
     script(src="/js/biz/order/orderForm.js")
     script(src="/js/biz/order/order.js")
     div(ng-app="orderApp")
@@ -23,7 +25,7 @@ block content
                 li.active 订单列表
 
             //功能导航
-            nav.navbar.navbar-default
+            nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 订单列表
@@ -46,9 +48,7 @@ block content
                                     li
                                         a(href="") 条件查询
 
-
-            npt-datatable(name="order",is-pagination="true",items-per-page="10",data="vm.orderList.data",is-index="true",on-action="vm.orderAction(action,item,index)")
-
+            div(npt-grid="vm.orderListGridOptions",model="vm.orderList.data")
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -62,7 +62,7 @@ block content
                         span 订单列表
                 li.active 订单详情
 
-            nav.navbar.navbar-default
+            nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="") 订单详情
@@ -85,24 +85,14 @@ block content
                 h4 基本信息
             div.page-body
                 div(npt-form="vm.orderFormOptions",model="vm.model.order")
-
             div.page-header
                 h4 产品列表
             div.page-body
-
+                div(npt-grid="vm.orderProductGridOptions",model="vm.modelProducts")
             div.page-header
                 h4 工单列表
             div.page-body
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 产品列表
-            //            npt-datatable(name="orderProduct",data="data.orderproducts",is-index="true",on-action="doOrderProducts(type,item,index)")
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 工单列表
-            //            npt-datatable(name="orderWorkOrder",data="data.workorders",is-index="true",on-action="doWorkorders(type,item,index)")
+                div(npt-grid="vm.orderWorkorderOptions",model="vm.modelWorkorders")
 
         //确认订单模板
         script(type="text/ng-template",id="confirm.html")
