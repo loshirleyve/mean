@@ -3,7 +3,7 @@
  */
 
 angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
-    .run(function (nptFormStore,QueryCtrlCode,QueryProductPhases) {
+    .run(function (nptFormStore,QueryCtrlCode,QueryProductPhases,QueryImageByUserLevel) {
         nptFormStore.put("group", {
             options: {},
             fields: [
@@ -75,7 +75,7 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
             fields: [
                 {
                     key: 'synopsis',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '内容描述:'
                     }
@@ -92,9 +92,10 @@ angular.module("wservice.form.store.product", ["ui.neptune","wservice.common"])
             fields: [
                 {
                     key: 'backgorundimgid',
-                    type: 'input',
+                    type: 'npt-select-image',
                     templateOptions: {
-                        label: '分组logo:'
+                        label: "选择logo",
+                        imageRepository: QueryImageByUserLevel
                     }
                 },
                 {
