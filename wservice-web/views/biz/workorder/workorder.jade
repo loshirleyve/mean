@@ -2,10 +2,11 @@
    Created by Leon on 15/10/15.
 
 extends ../../layout/layout-bizpage
-
+block titleContent
+    title 工单管理
 block content
+    script(src="/js/biz/workorder/workorderListGrid.js")
     script(src="/js/biz/workorder/workorder.js")
-    script(src="/js/biz/workorder/workorderListDatatable.js")
     div(ng-app="workorderApp")
         //通知区域
         //内容区域
@@ -44,28 +45,28 @@ block content
             //        | &nbsp
             //        label.btn.btn-primary.btn-sm(ng-click="checkNew.toggle()",data-loading-text="正在查询...",id="checkNew") {{checkNew.text}}
             //npt-datatable(is-pagination="true",items-per-page="10",name="workorder",data="data",action="action",is-index="true",on-action="workorderAction(type,item,index)")
-        nav.navbar.navbar-default.navbar-fixed-top
-            div.container-fluid
-                div.navbar-header
-                    a.navbar-brand(href="#") 工单列表
-                div.collapse.navbar-collapse
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.orderList.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li.dropdown(ng-if='!vm.orderList.loading()')
-                            a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryName}}
-                                span.caret
-                            ul.dropdown-menu
-                                li
-                                    a(href="",ng-click="vm.queryByState('','全部')") 全部
-                                li
-                                    a(href="",ng-click="vm.queryByState('waitconfirm','待确认')") 待确认
-                                li
-                                    a(href="",ng-click="vm.queryByState('buy','待支付')") 待支付
-                                li
-                                    a(href="",ng-click="vm.queryByState('inservice','服务中')") 服务中
-                                li
-                                    a(href="") 条件查询
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 工单列表
+                    div.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right
+                            li(ng-if="vm.workorderList.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li.dropdown(ng-if='!vm.workorderList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryName}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(href="",ng-click="vm.queryByState('','全部')") 全部
+                                    li
+                                        a(href="",ng-click="vm.queryByState('unstart','未处理')") 未处理
+                                    li
+                                        a(href="",ng-click="vm.queryByState('inservice','处理中')") 处理中
+                                    li
+                                        a(href="",ng-click="vm.queryByState('complete','已完成')") 已完成
+                                    li
+                                        a(href="") 条件查询
             div(npt-grid="vm.workorderListGridOptions",model="vm.workorderList.data")
         //详情模版
         script(type="text/ng-template",id="detail.html")
