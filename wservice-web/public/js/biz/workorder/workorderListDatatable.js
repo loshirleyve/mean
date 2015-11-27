@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
+angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -210,39 +210,42 @@ angular.module("workorderApp", ["wservice.dt.store.workorder", "ngRoute"])
         //默认状态为启动检查新单据
         this.checkNew.toggle();
 
-    }).
-    controller("WorkorderListController", function ($scope, $http, $location, workorderService, nptSessionManager) {
-        $scope.data = [];
+    })
+    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList) {
+        var vm = this;
 
-        $scope.workorderAction = function (type, item, index) {
-            console.info(type);
-            if (item && type === "view") {
-                $location.path("/detail/" + item.id);
-                //$location.replace();
+        //订单列表数据资源库
+        vm.orderList = QueryWorkorderList;
+
+        vm.orderListGridOptions = {
+            store: WorkorderListGrid,
+            onRegisterApi: function (nptGridApi) {
+                vm.nptGridApi = nptGridApi;
             }
         };
 
-        //设置自定义查询以及检查新订单
-        $scope.query = workorderService.query;
-        $scope.checkNew = workorderService.checkNew;
+        vm.orderAction = function (action, item, index) {
+            console.info(action);
+            if (item && action.type === "view") {
+                $location.path("/detail/" + item.id);
+            }
+        };
 
         /**
          * 根据状态查询当前用户机构的订单列表
          */
-        $scope.queryByState = function () {
-            workorderService.query.list($scope.query.state, function (data) {
-                $scope.data = data;
-            }, function (data) {
-                //TODO 弹出提示检索错误通知窗口
+        vm.queryByState = function (state, name) {
+            vm.state = QueryOrderList.post({
+                state: state
+            }).then(function () {
+                vm.queryName = name;
+            }, function (error) {
             });
         };
 
-
         //首先查询全部订单
-        if (workorderService.query.data.length <= 0) {
-            $scope.queryByState();
-        } else {
-            $scope.data = workorderService.query.data;
+        if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
+            vm.queryByState("", '全部');
         }
     }).
     controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
