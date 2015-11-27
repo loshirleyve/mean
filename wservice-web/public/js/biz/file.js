@@ -76,7 +76,7 @@ angular.module("fileApp", ["wservice.form.store.file", "wservice.common", "ngRou
                     $log.info("取消选择", error);
                 });
             }
-        }
+        };
     })
     .controller("UserFileController", function($scope){
 

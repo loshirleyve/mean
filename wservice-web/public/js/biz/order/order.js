@@ -146,7 +146,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
             if (previousOrder) {
                 $location.path("/detail/" + previousOrder.id);
             }
-        }
+        };
 
         //查询订单
         vm.query = function () {

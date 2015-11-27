@@ -112,6 +112,6 @@ angular.module("orderApp.OrderListGrid", [])
                     ]
                 }
             }
-        })
+        });
     });
 
