@@ -64,7 +64,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         //订单列表数据资源库
         vm.orderList = QueryOrderList;
 
-        vm.workorderListGridOptions = {
+        vm.orderListGridOptions = {
             store: OrderListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.nptGridApi = nptGridApi;
@@ -156,7 +156,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 vm.orderInfo.post({
                     orderid: id
                 }).then(function (response) {
-                    vm.model = response.data;
+                    vm.model.data = response.data;
                     vm.modelProducts = response.data.orderproducts;
                     vm.modelWorkorders = response.data.workorders;
                 }, function (error) {
