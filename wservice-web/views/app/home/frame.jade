@@ -229,12 +229,12 @@ html(ng-app='wservice.web.home')
                                 li.dropdown.user.user-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
                                         //img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
-                                        div(style="width:18px;height:18px",npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                        img.user-image(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                         span.hidden-xs {{vm.profile.user.name}}
                                     ul.dropdown-menu
                                         // User image
                                         li.user-header
-                                            div.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                            img.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                             p
                                                 | {{vm.profile.user.name}} - {{vm.profile.inst.simplename}}
                                                 small {{session.user.inst.fullName}}
