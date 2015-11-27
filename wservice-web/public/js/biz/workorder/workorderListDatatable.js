@@ -215,9 +215,9 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
         var vm = this;
 
         //订单列表数据资源库
-        vm.orderList = QueryWorkorderList;
+        vm.workorderList = QueryWorkorderList;
 
-        vm.orderListGridOptions = {
+        vm.workorderListGridOptions = {
             store: WorkorderListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.nptGridApi = nptGridApi;
@@ -235,7 +235,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
          * 根据状态查询当前用户机构的订单列表
          */
         vm.queryByState = function (state, name) {
-            vm.state = QueryOrderList.post({
+            vm.state = QueryWorkorderList.post({
                 state: state
             }).then(function () {
                 vm.queryName = name;
@@ -244,7 +244,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
         };
 
         //首先查询全部订单
-        if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
+        if (!QueryWorkorderList.data || QueryWorkorderList.data.length <= 0) {
             vm.queryByState("", '全部');
         }
     }).

@@ -66,6 +66,7 @@ block content
                                     a(href="",ng-click="vm.queryByState('inservice','服务中')") 服务中
                                 li
                                     a(href="") 条件查询
+            div(npt-grid="vm.workorderListGridOptions",model="vm.workorderList.data")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域

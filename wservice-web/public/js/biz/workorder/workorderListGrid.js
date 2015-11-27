@@ -20,6 +20,6 @@ angular.module("workorderApp.WorkorderListGrid", [])
                     {field: 'createdate', displayName: "创建日期", cellFilter: "timestampFilter"},
                 ]
             }
-        })
+        });
     });
 
