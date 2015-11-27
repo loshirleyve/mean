@@ -2,7 +2,7 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"])
+angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid","wservice.common","ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -19,7 +19,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
             //    redirectTo: "/detail/add"
             //})
             .when("/list", {
-                controller: "WorkorderListController",
+                controller: "WorkorderListController as vm",
                 templateUrl: "list.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -59,159 +59,13 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
             });
 
     })
-    .service("workorderService", function ($http, $location, nptResource, nptSessionManager, QueryWorkorderList) {
-        var self = this;
-
-        /**
-         * 切换是否执行检查新订单
-         */
-        this.checkNew = {
-            isCollapsed: false,
-            toggle: function () {
-                self.checkNew.isCollapsed = !self.checkNew.isCollapsed;
-                if (self.checkNew.isCollapsed) {
-                    self.checkNew.text = "停止检查";
-                    if (self.query.isCollapsed) {
-                        self.query.toggle();
-                    }
-                }
-                else {
-                    self.checkNew.text = "检查新工单";
-                }
-            }
-        };
-
-        this.query = {
-            state: "all",
-            data: [],
-            isCollapsed: false,
-            toggle: function
-                () {
-                self.query.isCollapsed = !self.query.isCollapsed;
-                if (self.query.isCollapsed) {
-                    self.query.text = "关闭查询";
-                    if (self.checkNew.isCollapsed) {
-                        self.checkNew.toggle();
-                    }
-                } else {
-                    self.query.text = "打开查询";
-                }
-            },
-            list: function (state, success, error) {
-                //将按钮设置为查询中
-                self.query.loading('loading');
-                //如果当前查询状态不是全部类型则将状态作为参数传递到服务器查询
-                var params = {};
-
-                if (state !== "all") {
-                    params.state = state;
-                }
-                //总是加入当前用户以及机构作为查询参数
-                params.instid = nptSessionManager.getSession().getInst().id;
-                params.processid = nptSessionManager.getSession().getUser().id;
-                QueryWorkorderList.post( params).then(function (response) {
-                    self.query.data = response.data;
-                    self.query.state = state;
-                    self.query.loading('reset');
-                    success(response.data);
-                }, function (data) {
-                    self.query.loading('reset');
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
-            },
-            id: function (id, success, error) {
-                nptResource.post("queryWorkorderDetail", {"workorderid": id}, success, error);
-            },
-            loading: function (state) {
-                $("#all").button(state);
-                $("#unstart").button(state);
-                $("#inservice").button(state);
-                $("#complete").button(state);
-            },
-            nextId: function (id) {
-                if (id && self.query.data.length > 0) {
-                    for (var i = 0; i < self.query.data.length; i++) {
-                        if (id === self.query.data[i].id && i + 1 < self.query.data.length) {
-                            return self.query.data[i + 1].id;
-                        }
-                    }
-                }
-            },
-            previousId: function (id) {
-                if (id && self.query.data.length > 0) {
-                    for (var i = 0; i < self.query.data.length; i++) {
-                        if (id === self.query.data[i].id && i - 1 >= 0) {
-                            return self.query.data[i - 1].id;
-                        }
-                    }
-                }
-            },
-            next: function (workorderid) {
-                var newId = self.query.nextId(workorderid);
-                if (newId) {
-                    $location.path("/detail/" + newId);
-                }
-            },
-            previous: function (workorderid) {
-                var newId = self.query.previousId(workorderid);
-                if (newId) {
-                    $location.path("/detail/" + newId);
-                }
-            }
-        };
-
-        this.org = {
-            queryUserByOrgId: function (orgid, success, error) {
-                //根据组织ID查询用户列表
-                nptResource.post("queryUsersByOrgid", {
-                    "orgid": orgid
-                }, success, error);
-
-            },
-            queryOrgTreeAndBuilderNode: function (instid, success, error) {
-                //根据机构id查询组织结构,并重新构建为适应tree指令的数据结构
-                nptResource.post("queryOrgTree", {
-                    "instid": instid,
-                    "dimtype": "hr"
-                }, function (data) {
-                    var orgNodes = [{
-                        id: data.id,
-                        title: data.simplename
-                    }];
-                    self.org.builderOrgTreeNode(orgNodes[0], data.children);
-                    if (success) {
-                        success(orgNodes);
-                    }
-                }, function (data) {
-                    if (error) {
-                        error(data);
-                    }
-                });
-
-            },
-            builderOrgTreeNode: function (nodes, data) {
-                if (data) {
-                    nodes.nodes = [];
-                    for (var i = 0; i < data.length; i++) {
-                        var node = {
-                            id: data[i].id,
-                            title: data[i].name
-                        };
-                        self.org.builderOrgTreeNode(node, data[i].children);
-                        nodes.nodes.push(node);
-                    }
-                }
-            }
-        };
-
-        //默认状态为关闭自定义查询
-        this.query.toggle();
-        //默认状态为启动检查新单据
-        this.checkNew.toggle();
-
+    .factory("QueryWorkorderList",function(nptRepository, nptSessionManager) {
+        return nptRepository("queryWorkorderList").params({
+            instid: nptSessionManager.getSession().getInst().id,
+            userid: nptSessionManager.getSession().getUser().id
+        });
     })
-    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList) {
+    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid) {
         var vm = this;
 
         //订单列表数据资源库
@@ -224,7 +78,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
             }
         };
 
-        vm.orderAction = function (action, item, index) {
+        vm.workorderAction = function (action, item, index) {
             console.info(action);
             if (item && action.type === "view") {
                 $location.path("/detail/" + item.id);
@@ -248,7 +102,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
             vm.queryByState("", '全部');
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
         $scope.org = workorderService.org;
 
@@ -308,7 +162,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
             });
         };
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -339,7 +193,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
                 });
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, workorderService, nptResource, nptSessionManager) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager) {
         $scope.workorderid = $routeParams.id;
 
         //查询工单信息
@@ -370,7 +224,7 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
                 });
         };
     }).
-    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, workorderService, nptResource) {
+    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, nptResource) {
         $scope.workorderid = $routeParams.id;
         var deliverid;
         $scope.postscript = "";
@@ -404,6 +258,4 @@ angular.module("workorderApp", ["workorderApp.workorderListDatatable", "ngRoute"
 
             });
         };
-    }).factory("QueryWorkorderList",function(nptRepository) {
-        return nptRepository("queryWorkorderList");
     });
