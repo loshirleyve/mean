@@ -228,12 +228,13 @@ html(ng-app='wservice.web.home')
                                 // User Account: style can be found in dropdown.less
                                 li.dropdown.user.user-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
-                                        img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
+                                        //img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
+                                        div(npt-image="vm.profile.user.headerfileid")
                                         span.hidden-xs {{vm.profile.user.name}}
                                     ul.dropdown-menu
                                         // User image
                                         li.user-header
-                                            img.img-circle(ng-src="{{session.user.iconPath}}", alt="User Image")
+                                            div.img-circle(npt-image="vm.profile.user.headerfileid")
                                             p
                                                 | {{vm.profile.user.name}} - {{vm.profile.inst.simplename}}
                                                 small {{session.user.inst.fullName}}
