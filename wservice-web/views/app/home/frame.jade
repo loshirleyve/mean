@@ -19,6 +19,7 @@ html(ng-app='wservice.web.home')
                    folder instead of downloading all of them to reduce the load.
         link(rel="stylesheet", href="/vendor/adminlte/css/skins/_all-skins.min.css")
         link(rel="stylesheet", href="/stylesheets/y9-red.css")
+        link(rel="stylesheet", href="/stylesheets/frame.css")
         // 提示框样式
         link(rel="stylesheet" href="/vendor/angular-ui-notification/dist/angular-ui-notification.min.css")
         // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -229,12 +230,12 @@ html(ng-app='wservice.web.home')
                                 li.dropdown.user.user-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
                                         //img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
-                                        div(style="width:18px;height:18px",npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                        img.user-image(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                         span.hidden-xs {{vm.profile.user.name}}
                                     ul.dropdown-menu
                                         // User image
                                         li.user-header
-                                            div.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                            img.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                             p
                                                 | {{vm.profile.user.name}} - {{vm.profile.inst.simplename}}
                                                 small {{session.user.inst.fullName}}
@@ -292,14 +293,10 @@ html(ng-app='wservice.web.home')
                     // /.sidebar
                 // Content Wrapper. Contains page content
                 .content-wrapper
-                    //section.content-header(style="padding:0px",ng-if='!singleWindow')
-                    //    ul.nav.nav-tabs
-                    //        li(ng-repeat='sub in tabs',id='{{sub.sid}}_li',ng-click='launchCtrl.changeTab(sub.menuNo)',ng-show='sub.menuNo',role='presentation')
-                    //            a(href="javascript:void(0);") {{sub.name}}
-                    //                span.glyphicon.glyphicon-remove(ng-click='launchCtrl.closeWindow(sub.menuNo,$event)')
-                    section.content(style="padding:0px")
-                        div.embed-responsive.embed-responsive-4by3
-                            iframe.embed-responsive-item(ng-src="{{vm.navigateMenu.moduleUrl}}")
+                    //div.embed-responsive.embed-responsive-16by9
+                    //    iframe.embed-responsive-item(ng-src="{{vm.navigateMenu.moduleUrl}}")
+
+                    iframe(id="contentIFrame",ng-src="{{vm.navigateMenu.moduleUrl}}")
                 // /.content-wrapper
                 footer.main-footer
                     .pull-right.hidden-xs
