@@ -257,7 +257,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         /**
          * 根据状态查询当前用户的客户列表
          */
-        vm.queryByState = function () {
+        vm.queryByState = function (state, name) {
             vm.state = QueryInstClients.post({
                 state:state
             }).then(function(){
