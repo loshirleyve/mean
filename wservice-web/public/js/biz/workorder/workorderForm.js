@@ -4,9 +4,9 @@
  * MIT Licensed
  */
 
-angular.module("orderApp.orderForm", ["ui.neptune"])
-    .factory("OrderForm", function (nptFormlyStore, QueryCtrlCode) {
-        return nptFormlyStore("OrderForm", {
+angular.module("workorderApp.orderForm", ["ui.neptune"])
+    .factory("workOrderForm", function (nptFormlyStore, QueryCtrlCode) {
+        return nptFormlyStore("workOrderForm", {
             options: {
                 formState: {
                     disabled: true
@@ -15,25 +15,24 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
             },
             fields: [
                 {
-                    key: 'ordersn',
+                    key: 'sn',
                     type: 'input',
                     templateOptions: {
-                        label: '订单编号:',
-                        disabled:true
+                        label: '工单编号:'
                     }
                 },
                 {
                     key: 'name',
                     type: 'input',
                     templateOptions: {
-                        label: '订单内容:'
+                        label: '工单名称:'
                     }
                 },
                 {
-                    key: 'introduce',
+                    key: 'descr ',
                     type: 'input',
                     templateOptions: {
-                        label: '订单简介:'
+                        label: '工单描述:'
                     }
                 },
                 {
@@ -41,7 +40,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     type: 'ui-select',
                     templateOptions: {
                         optionsAttr: "bs-options",
-                        label: '订单状态:',
+                        label: '工单状态:',
                         valueProp: 'no',
                         labelProp: 'name',
                         repository: QueryCtrlCode,
@@ -51,17 +50,10 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'paystate',
-                    type: 'ui-select',
+                    key: 'processid',
+                    type: 'input',
                     templateOptions: {
-                        optionsAttr: "bs-options",
-                        label: '支付状态:',
-                        valueProp: 'no',
-                        labelProp: 'name',
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "orderpaystate"},
-                        options: [],
-                        allowClear:false
+                        label: '处理人:'
                     }
                 },
                 {
