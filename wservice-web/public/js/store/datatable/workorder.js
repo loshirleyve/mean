@@ -2,7 +2,7 @@
  * Created by leon on 15/11/9.
  */
 
-angular.module("wservice.dt.store.workorder", ["ui.neptune"]).
+angular.module("workorderApp.workorderListDatatable", ["ui.neptune"]).
     run(function (nptDatatableStore) {
         nptDatatableStore.putDatatable("workorder", {
             header: {

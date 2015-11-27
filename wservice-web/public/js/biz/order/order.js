@@ -64,7 +64,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         //订单列表数据资源库
         vm.orderList = QueryOrderList;
 
-        vm.orderListGridOptions = {
+        vm.workorderListGridOptions = {
             store: OrderListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.nptGridApi = nptGridApi;
