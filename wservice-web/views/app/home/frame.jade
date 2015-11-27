@@ -27,7 +27,7 @@ html(ng-app='wservice.web.home')
         //if lt IE 9
           script(src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js")
           script(src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js")
-    body.hold-transition.y9-red.sidebar-mini.fixed
+    body.hold-transition.y9-red.sidebar-mini.fixed(style="overflow-y:hidden")
         div(ng-view)
         script(src="/node_modules/jquery/dist/jquery.min.js")
         script(src="/node_modules/jquery/dist/jquery.min.js")
@@ -230,12 +230,12 @@ html(ng-app='wservice.web.home')
                                 li.dropdown.user.user-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
                                         //img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
-                                        div(style="width:18px;height:18px",npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                        img.user-image(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                         span.hidden-xs {{vm.profile.user.name}}
                                     ul.dropdown-menu
                                         // User image
                                         li.user-header
-                                            div.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                                            img.img-circle(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
                                             p
                                                 | {{vm.profile.user.name}} - {{vm.profile.inst.simplename}}
                                                 small {{session.user.inst.fullName}}
@@ -293,9 +293,14 @@ html(ng-app='wservice.web.home')
                     // /.sidebar
                 // Content Wrapper. Contains page content
                 .content-wrapper
+<<<<<<< HEAD
                     //div.embed-responsive.embed-responsive-16by9
                     //    iframe.embed-responsive-item(ng-src="{{vm.navigateMenu.moduleUrl}}")
                     iframe(id="contentIFrame",ng-src="{{vm.navigateMenu.moduleUrl}}")
+=======
+                    //section.content(style="padding:0px")
+                    iframe(id="contentIFrame",ng-src="{{vm.navigateMenu.moduleUrl}}", frameborder="0", name="home", style="margin-left: 0px; margin-top: 0px;*margin-top: -0px;position:static;", width="100%")
+>>>>>>> 34514753c23ce8bf771de72c04d39f78f74734f7
                 // /.content-wrapper
                 footer.main-footer
                     .pull-right.hidden-xs

@@ -51,6 +51,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     self.moduleUrl = item.actionvalue;
                     $location.path("/" + item.no);
                     self.setFocus(item);
+                    self.resizeFrame();
                 }
             },
             findByName: function (name) {
@@ -91,6 +92,9 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                 });
 
             },
+            resizeFrame : function() {
+                $("#contentIFrame").height($('.content-wrapper').height());
+            },
             menus: [],
             moduleUrl: "/app/home"
         };
@@ -100,7 +104,12 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
     .controller("MainController", function (sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
-        //var iframe = $("#contentIFrame");
+        $.AdminLTE.layout.fix();    // 重新计算界面content-wrapper高度
+        // iframe初始化时，重新计算iframe高度
+        $("#contentIFrame").load(function() {
+            NavigateMenu.resizeFrame();
+        });
+
 
 
         vm.imageOptions = {
