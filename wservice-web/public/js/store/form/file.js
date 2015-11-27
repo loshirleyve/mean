@@ -16,5 +16,5 @@ angular.module("wservice.form.store.file", ["ui.neptune", "wservice.common"])
                     }
                 }
             ]
-        })
+        });
     });

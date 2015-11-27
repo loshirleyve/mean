@@ -14,5 +14,5 @@ angular.module("orderApp.OrderProductGrid", [])
                     {field: 'productclassifyname', displayName: "已选分类", width: 100}
                 ]
             }
-        })
+        });
     });

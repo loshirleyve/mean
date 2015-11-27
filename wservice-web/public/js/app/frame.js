@@ -2,7 +2,7 @@
  * Created by leon on 15/11/20.
  */
 
-angular.module("wservice.web.home", ["ui.neptune", "ngRoute"])
+angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"])
     .config(function ($routeProvider) {
         $routeProvider
             .when("/:id", {
@@ -97,9 +97,17 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute"])
 
         return self;
     })
-    .controller("MainController", function (sessionData, NavigateMenu) {
+    .controller("MainController", function (sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
+        //var iframe = $("#contentIFrame");
+
+
+        vm.imageOptions = {
+            repository: QueryFileById,
+            searchProp: "fileid",
+            labelProp: "thumbnailUrl"
+        };
 
         vm.navigateMenu = NavigateMenu;
 
