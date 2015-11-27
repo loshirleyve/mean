@@ -100,6 +100,9 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
     .controller("MainController", function (sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
+        //var iframe = $("#contentIFrame");
+
+
         vm.imageOptions = {
             repository: QueryFileById,
             searchProp: "fileid",
