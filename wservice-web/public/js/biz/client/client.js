@@ -47,11 +47,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             });
 
     })
-    .factory("QueryInstClients", function(nptRepository, nptSessionManager){
-        return nptRepository("queryInstClients").params({
-            instid: nptSessionManager.getSession().getInst().id,
-            userid:nptSessionManager.getSession().getUser().id
-        });
+    .factory("QueryInstClients", function (nptRepository, nptSessionManager) {
+        return nptRepository("queryInstClients");
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
