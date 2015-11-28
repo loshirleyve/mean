@@ -51,6 +51,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     self.moduleUrl = item.actionvalue;
                     $location.path("/" + item.no);
                     self.setFocus(item);
+                    self.resizeFrame();
                 }
             },
             findByName: function (name) {
@@ -91,6 +92,13 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                 });
 
             },
+            resizeFrame : function() {
+                // 在每次重新设置iframe高度后，$('.content-wrapper').height()都会+5，找不到原因
+                // 所以这里在设置前先保存一次原高度
+                this.frameHeight = this.frameHeight || $('.content-wrapper').height();
+                $("#contentIFrame").height(this.frameHeight);
+                $('.content-wrapper').height(this.frameHeight);
+            },
             menus: [],
             moduleUrl: "/app/home"
         };
@@ -100,7 +108,12 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
     .controller("MainController", function (sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
-        //var iframe = $("#contentIFrame");
+        $.AdminLTE.layout.fix();    // 重新计算界面content-wrapper高度
+        // iframe初始化时，重新计算iframe高度
+        $("#contentIFrame").load(function() {
+            NavigateMenu.resizeFrame();
+        });
+
 
 
         vm.imageOptions = {

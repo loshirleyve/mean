@@ -27,7 +27,7 @@ html(ng-app='wservice.web.home')
         //if lt IE 9
           script(src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js")
           script(src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js")
-    body.hold-transition.y9-red.sidebar-mini.fixed
+    body.hold-transition.y9-red.sidebar-mini.fixed(style="overflow-y:hidden")
         div(ng-view)
         script(src="/node_modules/jquery/dist/jquery.min.js")
         script(src="/node_modules/jquery/dist/jquery.min.js")
@@ -293,10 +293,8 @@ html(ng-app='wservice.web.home')
                     // /.sidebar
                 // Content Wrapper. Contains page content
                 .content-wrapper
-                    //div.embed-responsive.embed-responsive-16by9
-                    //    iframe.embed-responsive-item(ng-src="{{vm.navigateMenu.moduleUrl}}")
-
-                    iframe(id="contentIFrame",ng-src="{{vm.navigateMenu.moduleUrl}}")
+                    //section.content(style="padding:0px")
+                    iframe(id="contentIFrame",ng-src="{{vm.navigateMenu.moduleUrl}}", frameborder="0", name="home", style="margin-left: 0px; margin-top: 0px;position:static;", width="100%")
                 // /.content-wrapper
                 footer.main-footer
                     .pull-right.hidden-xs
