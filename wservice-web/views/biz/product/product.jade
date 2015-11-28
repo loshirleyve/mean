@@ -3,10 +3,17 @@
 
 extends ../../layout/layout-bizpage
 
+block titleContent
+    title  产品管理
 block content
-    script(src="/js/biz/product.js")
-    script(src="/js/store/datatable/product.js")
-    script(src="/js/store/form/product.js")
+    script(src="/js/biz/product/productListGrid.js")
+    script(src="/js/biz/product/productPhaseListGrid.js")
+    script(src="/js/biz/product/productProfilesListGrid.js")
+    script(src="/js/biz/product/productGroupListGrid.js")
+    script(src="/js/biz/product/productClassifiesListGrid.js")
+    script(src="/js/biz/product/productDescrsListGrid.js")
+    script(src="/js/biz/product/productForm.js")
+    script(src="/js/biz/product/product.js")
     div(ng-app="productApp")
         //通知区域
         //内容区域
@@ -23,279 +30,111 @@ block content
                                 span 首页
                         li.active 产品列表
 
-            div.row
-                div.col-md-12
-                    form.form-inline(style="padding-top:10px;padding-bottom:10px;")
-                        div.form-group
-                            p.form-control-static 省
-                            &nbsp
-                        div.form-group
-                            select.form-control(ng-model="query.province")
-                                option(ng-repeat="city in cities" value="{{city.id}}") {{city.province}}
-                        &nbsp &nbsp
-                        div.form-group
-                            p.form-control-static 市
-                            &nbsp
-                        div.form-group
-                            select.form-control(ng-model="query.city")
-                                option(ng-repeat="city in cities" value="{{city.id}}") {{city.city}}
-                        &nbsp &nbsp
-                        div.form-group
-                            p.form-control-static 区
-                            &nbsp
-                        div.form-group
-                        select.form-control(ng-model="query.district")
-                            option(ng-repeat="city in cities" value="{{city.id}}") {{city.district}}
-            //功能按钮区域
-            div.row
-                div.col-md-12
-                    div.btn-group
-                        div.btn-group
-                            label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'all'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="all") 全部
-                            label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="'weifenlei'" ng-click="queryByGroupId()" data-loading-text="正在查询..." id="weifenlei") 未分组
-                        div.btn-group(ng-repeat="group in groupdata")
-                            label.btn.btn-primary.btn-sm(ng-model="query.groupid" uib-btn-radio="{{group.id}}"  ng-click="queryByGroupId()" data-loading-text="正在查询..." id="{{group.id}}") {{group.name}}
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm
-                        a(href="#/product",style="text-decoration:none;color: white") 添加产品
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm(data-toggle="modal",data-target="#addGroup") 添加分组
-                    | &nbsp
-                    a.btn.btn-primary.btn-sm(type="button",href="#/group/{{query.province}}/{{query.city}}/{{query.district}}") 编辑分组
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm(ng-click="query.toggle()",data-loading-text="正在查询...",id="query") {{query.text}}
-                    | &nbsp
-                    label.btn.btn-primary.btn-sm(ng-click="checkNew.toggle()",data-loading-text="正在查询...",id="checkNew") {{checkNew.text}}
-            p
-                //检查新订单区域
-            div.row
-                div.col-md-12
-                    div(uib-collapse="!checkNew.isCollapsed")
-                        div.well.well-lg 检查新订单
-            //条件查询内容输入区域
-            div.row
-                div.col-md-12
-                    div(uib-collapse="!query.isCollapsed")
-                        div.well.well-lg 条件查询内容
-            //数据表格区域
-            div.row
-                div.col-md-12
-                    npt-datatable(name="product" is-pagination="true",items-per-page="10",data="data",is-index="true",on-action="productAction(action,item,index)")
-
-            //弹出层，添加分组
-            div#addGroup.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 添加分组
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-3.control-label 分组名称:
-                                    div.col-md-9
-                                        input.form-control(type="text"  ng-model="addgroup.name")
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="addGroup()") 确认
-
-        //编辑产品
-        script(type="text/ng-template",id="product.html")
-            //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li
-                            a(href="#list")
-                                span 产品列表
-                        li.active 产品信息
-
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 产品信息
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 基本信息
-                        form.form-horizontal.container
-                            div.form-group
-                                label.col-md-2.control-label 产品logo:
-                                div.col-md-10
-                                    p.form-control-static
-                                        button.btn.btn-primary(ng-model="imgid" ,type="button",data-toggle="modal",data-target="#myModal4") 选择
-
-                                label.col-md-2.control-label 产品名称:
-                                div.col-md-10
-                                    p.form-control-static
-                                        input.form-control(ng-model="pro.name", type="text", value="{{pro.name}}")
-
-                                label.col-md-2.control-label 产品价格:
-                                div.col-md-10
-                                    p.form-control-static
-                                        input.form-control(ng-model="pro.saleprice", type="number" ,value="{{pro.saleprice}}")
-
-                                label.col-md-2.control-label 服务类型:
-                                div.col-md-10
-                                    p.form-control-static
-                                        select.form-control(ng-model="pro.type")
-                                            option(ng-repeat="producttype in producttypecode" value="{{producttype.no}}") {{producttype.name}}
-
-                                label.col-md-2.control-label 服务详情:
-                                div.col-md-10
-                                    p.form-control-static
-                                        input.form-control(type="text",ng-model="pro.introduce" ,value="{{pro.introduce}}")
-
-                                lable.col-md-2.control-label 详情链接:
-                                div.col-md-10
-                                    p.form-control-static
-                                        input.form-control(type="text",ng-model="pro.introduceurl" ,value="{{pro.introduceurl}}")
-
-                                lable.col-md-2.control-label
-                                div.col-md-10
-                                    p.form-control-static
-                                        button.btn.btn-primary(type="button",ng-click="editProduct()") 确认
-                                        &nbsp &nbsp &nbsp &nbsp
-                                        a.btn.btn-default(type="button",href="#/list") 返回
-
-        //编辑分组
-        script(type="text/ng-template",id="editGroup.html")
-            //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li
-                            a(href="#list")
-                                span 产品列表
-                        li.active 分组信息
-
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 分组信息
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 分组信息
-                        npt-datatable(name="group",data="groupdata",is-index="true",on-del-listens="[deleteGroup]")
-
-
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header.col-md-5
+                        a.navbar-brand(href="#") 产品列表
+                    div.collapse.navbar-collapse.col-md-7
+                        ul.nav.navbar-nav.navbar-left
+                            li(ng-if="vm.productList.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li.dropdown(ng-if='!vm.productList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.currProvince}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(ng-click="vm.selectProvince(province)",ng-repeat="province in vm.provinces track by $index",value="{{province.province}}") {{province.province}}
+                        ul.nav.navbar-nav.navbar-left
+                            li(ng-if="vm.productList.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li.dropdown(ng-if='!vm.productList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.currCity}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(ng-click="vm.selectCity(city)",ng-repeat="city in vm.citys track by $index" value="{{city.city}}") {{city.city}}
+                        ul.nav.navbar-nav.navbar-left
+                            li(ng-if="vm.productList.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li.dropdown(ng-if='!vm.productList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.currDistrict}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(ng-click="vm.selectDistrict(district)",ng-repeat="district in vm.districts track by $index" value="{{district.district}}") {{district.district}}
+                        ul.nav.navbar-nav.navbar-left
+                            li(ng-if="vm.productList.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li.dropdown(ng-if='!vm.productList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 分组 - {{vm.queryName}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(href="",ng-click="vm.queryByGroupId('all','全部')") 全部
+                                    li
+                                        a(href="",ng-click="vm.queryByGroupId('weifenlei','未分类')") 未分类
+                                    li(ng-repeat="group in vm.productMdGroupList.data")
+                                        a(href="",ng-click="vm.queryByGroupId(group.id,group.name)") {{group.name}}
+                                    li
+                                        a(href="") 条件查询
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="#") 添加产品
+                            li
+                                a(href="#") 编辑分组
+            div(npt-grid="vm.productListGridOptions",model="vm.productList.data")
 
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 产品列表
+                li.active 产品详情
+
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 产品详情
+                    ul.nav.navbar-nav.navbar-right
+                        li(ng-if="vm.productInfo.loading()")
+                            a(href="") 正在查询,请稍后...
+                        li(ng-if="!vm.productInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.productInfo.data.product)",ng-show="vm.productList.previous(vm.productInfo.data.product)") 上一单
+                        li(ng-if="!vm.productInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.productInfo.data.product)",ng-show="vm.productList.next(vm.productInfo.data.product)") 下一单
                         li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li
-                            a(href="#list")
-                                span 产品列表
-                        li.active 产品详情
+                            a(href="#/list") 返回
 
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 产品详情
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="") 下架
-                    li
-                        a(href="",ng-click="query.previous(productid)",ng-show="{{query.previousId(productid)}}") 上一单
-                    li
-                        a(href="",ng-click="query.next(productid)",ng-show="{{query.nextId(productid)}}") 下一单
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 基本信息
-                        div(style="padding-top:10px;")
-                            div.table-responsive
-                                table#table1.table.table-striped.table-hover.table-bordered.table-condensed
-                                    tbody
-                                        tr
-                                            th.text-center #
-                                            th.text-center 产品名称
-                                            th.text-center 价钱
-                                            th.text-center 产品状态
-                                            th.text-center 促销价格
-                                            th.text-center 产品类型
-                                            th.text-center 办理天数
-                                            th.text-center.col-md-2 操作
-                                        tr
-                                            td.text-center 1
-                                            td.text-center {{data.product.name}}
-                                            td.text-center {{data.product.saleprice}}
-                                            td.text-center {{data.product.state}}
-                                            td.text-center {{data.product.pricedescr}}
-                                            td.text-center {{data.product.type}}
-                                            td.text-center {{data.product.daynum}}
-                                            td.text-center
-                                                a.btn.btn-sm.btn-primary(type="button",href="#/product/{{data.product.id}}") 编辑
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 服务阶段
-                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-add-listens="[editProductPhase]",on-edit-listens="[editProductPhase]",on-del-listens="[deleteProductPhase]")
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 资料清单
-                        npt-datatable(name="productPhase" data="data.productPhases",is-index="true",on-del-listens="[deleteProductPhase]")
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 服务内容
-                        npt-datatable(name="productProfiles" data="data.bizProductProfiles",is-index="true",on-add-listens="[editProductProfile]",on-edit-listens="[editProductProfile]",on-del-listens="[deleteProductProfile]")
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 服务分组
-                        npt-datatable(name="productGroup" data="data.productGroups",is-index="true",on-add-listens="[editProductGroup]",on-edit-listens="[editProductGroup]",on-del-listens="[deleteProductGroup]")
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 服务分类
-                        npt-datatable(name="productClassifies" data="data.bizProductClassifies",is-index="true",on-add-listens="[editProductClassify]",on-edit-listens="[editProductClassify]",on-del-listens="[deleteProductClassify]")
-
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading
-                            div 服务说明
-                        npt-datatable(name="productDescrs" data="data.bizProductDescrs",is-index="true",on-add-listens="[editProductDescr]",on-edit-listens="[editProductDescr]",on-del-listens="[deleteProductDescr]")
-
+            //数据表格区域
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.productFormOptions",model="vm.model.product")
+            div.page-header
+                h4 服务阶段
+            div.page-body
+                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases")
+            div.page-header
+                h4 服务内容
+            div.page-body
+                div(npt-grid="vm.productProfilesListGridOptions",model="vm.modelProfiles")
+            div.page-header
+                h4 服务分组
+            div.page-body
+                div(npt-grid="vm.productGroupListGridOptions",model="vm.modelGroups")
+            div.page-header
+                h4 服务分类
+            div.page-body
+                div(npt-grid="vm.productClassifiesListGridOptions",model="vm.modelClassifies")
+            div.page-header
+                h4 服务说明
+            div.page-body
+                div(npt-grid="vm.productDescrsListGridOptions",model="vm.modelDescrs")
 

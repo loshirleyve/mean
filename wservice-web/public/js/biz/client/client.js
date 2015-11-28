@@ -400,7 +400,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };*/
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById) {
+    .controller("BizPageDetailController", function ($scope, $location, $routeParams,AddClientForm, QueryInstClients, QueryInstClientById) {
         var vm = this;
 
         //客户列表数据库
@@ -410,9 +410,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //数据模型
         vm.model = {};
 
-        //表单配置
-        vm.clientFormOptions = {
-            store:ClientForm,
+        //新增客户表单配置
+        vm.addClientFormOptions = {
+            store:AddClientForm,
             onRegisterApi: function(nptFormApi){
                 vm.nptFormApi = nptFormApi;
             }
