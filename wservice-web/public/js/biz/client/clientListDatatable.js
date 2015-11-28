@@ -51,7 +51,7 @@ angular.module("clientApp.clientListDatatable", ["ui.neptune"])
                 add: {
                     label: "添加",
                     type: "add",
-                    target: "demo",
+                    target: "addClient",
                     listens: [function ($q, $timeout) {
                         var deferd = $q.defer();
                         console.info("添加方法,在Store中配置");
