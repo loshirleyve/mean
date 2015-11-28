@@ -19,6 +19,18 @@ angular.module("productApp.productGroupListGrid", [])
                 view: {
                     label: "查看",
                     type: "view"
+                },
+                add: {
+                    label: "添加",
+                    type: "add"
+                },
+                edit: {
+                    label: "编辑",
+                    type: "edit"
+                },
+                del: {
+                    label: "删除",
+                    type: "del"
                 }
             }
         })

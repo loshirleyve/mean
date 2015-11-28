@@ -31,12 +31,6 @@ angular.module("wservice.dt.store.receivable", ["ui.neptune"]).
                         label: "确定日期",
                         filter:"timestampFilter|json"
                     }
-                },
-                action: {
-                    view: {
-                        label: "查看",
-                        type: "view"
-                    }
                 }
             }
         );

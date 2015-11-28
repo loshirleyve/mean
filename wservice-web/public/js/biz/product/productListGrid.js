@@ -6,11 +6,10 @@ angular.module("productApp.productListGrid", [])
         return nptGridStore("productListGrid", {
             gridOptions: {
                 columnDefs: [
-                    {field: 'id', displayName: "产品Id", width: 120},
                     {
                         field: 'instid',
                         displayName: "服务商名称",
-                        width: 200,
+                        width: 250,
                         cellFilter: "cacheFilter:'inst':'instname':'instid'"
                     },
                     {field: 'sn', displayName: "产品编号", width: 120},
@@ -28,8 +27,7 @@ angular.module("productApp.productListGrid", [])
                         width: 100,
                         cellFilter: "ctrlCodeFilter:'producttype':'name':'no'"
                     },
-                    {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"},
-                    {field: 'remark', displayName: "备注", width: 100}
+                    {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"}
                 ]
             },
             action: {

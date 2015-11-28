@@ -1,7 +1,6 @@
-/*!
- * mars
- * Copyright(c) 2015 huangbinglong
- * MIT Licensed
+
+/**
+ * Created by rxy on 15/11/17.
  */
 
 angular.module("productApp.productForm", ["ui.neptune"])

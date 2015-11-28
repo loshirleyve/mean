@@ -6,8 +6,8 @@ angular.module("productApp.productDescrsListGrid", [])
         return nptGridStore("productDescrsListGrid", {
             gridOptions: {
                 columnDefs: [
-                    {field: 'descr', displayName: "标题", width: 120},
-                    {field: 'descrvalue', displayName: "内容", width: 120},
+                    {field: 'descr', displayName: "标题", width: 150},
+                    {field: 'descrvalue', displayName: "内容", width: 700},
                     {field: 'type', displayName: "类型", width: 100,cellFilter: "ctrlCodeFilter:'productdescrtype':'name':'no'"}
                 ]
             },
@@ -15,6 +15,18 @@ angular.module("productApp.productDescrsListGrid", [])
                 view: {
                     label: "查看",
                     type: "view"
+                },
+                add: {
+                    label: "添加",
+                    type: "add"
+                },
+                edit: {
+                    label: "编辑",
+                    type: "edit"
+                },
+                del: {
+                    label: "删除",
+                    type: "del"
                 }
             }
         })

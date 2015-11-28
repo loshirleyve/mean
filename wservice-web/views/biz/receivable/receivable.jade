@@ -3,6 +3,8 @@
 extends ../../layout/layout-bizpage
 block content
     script(src="/js/biz/receivable/receivableListGrid.js")
+    script(src="/js/biz/receivable/receivableCollectionListGrid.js")
+    script(src="/js/biz/receivable/receivableForm.js")
     script(src="/js/biz/receivable/receivable.js")
     div(ng-app="receivableApp")
         //通知区域
@@ -57,18 +59,16 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 订单详情
+                        a.navbar-brand(href="") 收款详情
                     ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.orderInfo.loading()")
+                        li(ng-if="vm.receivableInfo.loading()")
                             a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
+                        li(ng-if="!vm.receivableInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.receivableInfo.data)",ng-show="vm.receivableList.previous(vm.receivableInfo.data)") 上一单
+                        li(ng-if="!vm.receivableInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.receivableInfo.data)",ng-show="vm.receivableList.next(vm.receivableInfo.data)") 下一单
                         li
-                            a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
-                        li
-                            a(href="",ng-click="vm.adviser()") 分配顾问
+                            a(href="#/confirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isConfirm()") 确认收款
                         li
                             a(href="#/list") 返回
 
@@ -76,8 +76,9 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.orderFormOptions",model="vm.model.order")
+                div(npt-form="vm.receivableFormOptions",model="vm.model")
             div.page-header
-                h4 产品列表
+                h4 付款明细
             div.page-body
-                div(npt-grid="vm.orderProductGridOptions",model="vm.modelProducts")
+                div(npt-grid="vm.receivableCollectionListGridOptions",model="vm.modelCollections")
+
