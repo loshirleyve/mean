@@ -4,9 +4,9 @@
  * MIT Licensed
  */
 
-angular.module("workorderApp.orderForm", ["ui.neptune"])
-    .factory("workOrderForm", function (nptFormlyStore, QueryCtrlCode) {
-        return nptFormlyStore("workOrderForm", {
+angular.module("workorderApp.workorderForm", ["ui.neptune"])
+    .factory("WorkorderForm", function (nptFormlyStore, QueryCtrlCode) {
+        return nptFormlyStore("WorkorderForm", {
             options: {
                 formState: {
                     disabled: true
@@ -57,58 +57,24 @@ angular.module("workorderApp.orderForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'instid',
-                    type: 'ui-select',
-                    templateOptions: {
-                        label: '服务机构:',
-                        optionsAttr: 'bs-options',
-                        valueProp: 'id',
-                        labelProp: 'instname',
-                        search: ['instname'],
-                        options: [],
-                        allowClear:false
-                    }
-                },
-                {
-                    key: 'begindate',
+                    key: 'assignedid',
                     type: 'input',
                     templateOptions: {
-                        label: '开始日期:'
+                        label: '处理人:'
                     }
                 },
                 {
-                    key: 'enddate',
+                    key: 'assigneddate',
                     type: 'input',
                     templateOptions: {
-                        label: '结束日期:'
+                        label: '分配日期:'
                     }
                 },
                 {
-                    key: 'salesmanid',
+                    key: 'completedate',
                     type: 'input',
                     templateOptions: {
-                        label: '业务员:'
-                    }
-                },
-                {
-                    key: 'adviser',
-                    type: 'input',
-                    templateOptions: {
-                        label: '专属顾问:'
-                    }
-                },
-                {
-                    key: 'createby',
-                    type: 'input',
-                    templateOptions: {
-                        label: '创建人:'
-                    }
-                },
-                {
-                    key: 'createdate',
-                    type: 'dateInput',
-                    templateOptions: {
-                        label: '创建日期:'
+                        label: '完成日期:'
                     }
                 }
             ],

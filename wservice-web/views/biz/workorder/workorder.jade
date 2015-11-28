@@ -6,6 +6,7 @@ block titleContent
     title 工单管理
 block content
     script(src="/js/biz/workorder/workorderListGrid.js")
+    script(src="/js/biz/workorder/workorderForm.js")
     script(src="/js/biz/workorder/workorder.js")
     div(ng-app="workorderApp")
         //通知区域
@@ -73,22 +74,6 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="") 工单详情
                     ul.nav.navbar-nav.navbar-right
-                        //li
-                        //    a(href="",ng-click="query.previous(workorderid)",ng-show="{{query.previousId(workorderid)}}") 上一单
-                        //li
-                        //    a(href="",ng-click="query.next(workorderid)",ng-show="{{query.nextId(workorderid)}}") 下一单
-                        //li
-                        //    a(href="#/startWorkorder/{{workorderid}}",ng-show="isUnstart") 开始做
-                        //li
-                        //    a(href="#/completeWorkorder/{{workorderid}}",ng-show="isInservice") 完成
-                        //li
-                        //    a(href="#/deliverWorkorder/{{workorderid}}",ng-show="isNotComplete") 转交
-                        //li
-                        //    a(href="/order/#/detail/{{data.workOrder.sourcevalue}}") 查看订单
-                        //li
-                        //    a(href="#/list") 返回
-                        //li
-                        //    | &nbsp &nbsp &nbsp &nbsp
                         li(ng-if="vm.workorderInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="!vm.workorderInfo.loading()")
@@ -146,17 +131,17 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.orderFormOptions",model="vm.model.order")
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 工单资料
-                        npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
-            div.row
-                div.col-md-12
-                    div.panel.panel-default
-                        div.panel-heading 工单评价
-                        npt-datatable(name="workorderComment",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+                div(npt-form="vm.workorderFormOptions",model="vm.model.data.workOrder")
+            //div.row
+            //    div.col-md-12
+            //        div.panel.panel-default
+            //            div.panel-heading 工单资料
+            //            npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+            //div.row
+            //    div.col-md-12
+            //        div.panel.panel-default
+            //            div.panel-heading 工单评价
+            //            npt-datatable(name="workorderComment",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
