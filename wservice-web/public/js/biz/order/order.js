@@ -146,7 +146,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
             if (previousOrder) {
                 $location.path("/detail/" + previousOrder.id);
             }
-        }
+        };
 
         //查询订单
         vm.query = function () {
@@ -156,7 +156,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 vm.orderInfo.post({
                     orderid: id
                 }).then(function (response) {
-                    vm.model = response.data;
+                    vm.model.data = response.data;
                     vm.modelProducts = response.data.orderproducts;
                     vm.modelWorkorders = response.data.workorders;
                 }, function (error) {

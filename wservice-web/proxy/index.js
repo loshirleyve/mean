@@ -28,7 +28,6 @@ proxy.action("queryOrderList", {
 });
 
 
-
 //产品模块
 proxy.action("QueryProductsByGroupId", {
     proxy: "Y9",
@@ -87,9 +86,9 @@ proxy.action("QueryProductsByGroupId", {
 }).action("RemoveProductDescr", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductDescrService"
-}).action("QueryProductPhaseByProductid",{
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
+}).action("QueryProductPhaseByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
 });
 
 //工单
@@ -111,12 +110,12 @@ proxy.action("queryWorkorderList", {
 }).action("completeWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderCompleteByIdService"
-}).action("queryUsersByOrgid",{
-    proxy:"Y9",
-    action:"com.yun9.sys.user.service.QueryUsersByOrgidService"
-}).action("deliverWorkorder",{
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
+}).action("queryUsersByOrgid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
+}).action("deliverWorkorder", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
 });
 
 
@@ -134,62 +133,65 @@ proxy.action("queryInstClients", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRolesByUseridAndInstidService"
 }).action("instInit", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.InstInitService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.InstInitService"
 });
 
 
 //获取控制编码
 proxy.action("queryMdCtrlcode", {
-    proxy:"Y9",
-    action:"com.yun9.sys.md.service.QueryMdCtrlcodeService"
+    proxy: "Y9",
+    action: "com.yun9.sys.md.service.QueryMdCtrlcodeService"
 });
 
 //获取规模的控制编码
 proxy.action("queryMdInstScale", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryMdInstScaleService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryMdInstScaleService"
 });
 
 //机构
 proxy.action("queryInsts", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryInstsService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstsService"
 });
 proxy.action("queryInstDetail", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryInstByIdService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstByIdService"
 });
 proxy.action("updateInst", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.UpdateInstService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.UpdateInstService"
 });
 
 //收款
 proxy.action("QueryPayRegisters", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryPayRegistersByInstidAndCreatebyService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryPayRegistersByInstidAndCreatebyService"
 });
 
 // 用户
 /*用户登录*/
 proxy.action("QueryIdentificationByUsernoAndPasswd", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryIdentificationByUsernoAndPasswd"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryIdentificationByUsernoAndPasswd"
 }).action("QueryUserInfoById", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUserInfoByIdService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
-    proxy:"Y9",
-    action:"com.yun9.sys.inst.serivce.QueryInstRoleNaviService"
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstRoleNaviService"
 });
 
 /*查询文件*/
 proxy.action("QueryFile", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryFileService"
+}).action("QueryFileById", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryFileByIdService"
 });
 
 module.exports = proxy;

@@ -1,49 +1,24 @@
 /**
- * Created by leon on 15/11/26.
+ * Created by Shirley on 15/11/27.
  */
-angular.module("orderApp.OrderListGrid", [])
-    .factory("OrderListGrid", function (nptGridStore) {
-        return nptGridStore("OrderListGrid", {
+angular.module("clientApp.ClientListGrid", [])
+    .factory("ClientListGrid", function (nptGridStore) {
+        return nptGridStore("ClientListGrid", {
             gridOptions: {
                 columnDefs: [
-                    {field: 'ordersn', displayName: "订单编号", width: 120},
-                    {
-                        field: 'buyerinstid',
-                        displayName: "客户",
-                        width: 200,
-                        cellFilter: "cacheFilter:'inst':'instname':'instid'"
-                    },
-                    {field: 'purchase', displayName: "购买人", width: 60, cellFilter: "cacheFilter:'user':'name':'id'"},
-                    {field: 'name', displayName: "订单内容", width: 120},
-                    {field: 'introduce', displayName: "简介", width: 200},
-                    {
-                        field: 'state',
-                        displayName: "订单状态",
-                        width: 100,
-                        cellFilter: "ctrlCodeFilter:'orderstatetype':'name':'no'"
-                    },
-                    {
-                        field: 'paystate',
-                        displayName: "支付状态",
-                        width: 100,
-                        cellFilter: "ctrlCodeFilter:'orderpaystate':'name':'no'"
-                    },
-                    {field: 'begindate', displayName: "开始日期", width: 100, cellFilter: "timestampFilter"},
-                    {field: 'enddate', displayName: "结束日期", width: 100, cellFilter: "timestampFilter"},
-                    {field: 'adviser', displayName: "专属顾问", width: 100, cellFilter: "cacheFilter:'user':'name':'id'"},
-                    {field: 'factamount', displayName: "订单原价", width: 100, cellFilter: "number"},
-                    {field: 'orderamount', displayName: "订单金额", width: 100, cellFilter: "number"},
-                    {field: 'salesmanid', displayName: "业务员", width: 100, cellFilter: "cacheFilter:'user':'name':'id'"},
-                    {
-                        field: 'proxyinstid',
-                        displayName: "代理机构",
-                        width: 100,
-                        cellFilter: "cacheFilter:'inst':'instname':'instid'"
-                    },
-                    {field: 'proxyman', displayName: "代理人", width: 100, cellFilter: "cacheFilter:'user':'name':'id'"},
-                    {field: 'createby', displayName: "创建人", width: 100, cellFilter: "cacheFilter:'user':'name':'id'"},
-                    {field: 'createdate', displayName: "创建日期", width: 100, cellFilter: "timestampFilter"},
-                    {field: 'remark', displayName: "备注", width: 100}
+                    {field: 'sn', displayName: "客户编号", width: 85},
+                    {field: 'name', displayName: "公司简称", width: 85},
+                    {field: 'fullname', displayName: "公司全称", width: 85},
+                    {field: 'type', displayName: "类型", width: 80},
+                    {field: 'industry', displayName: "行业", width: 100},
+                    {field: 'scaleid', displayName: "公司规模", width: 85},
+                    {field: 'source', displayName: "来源", width: 120},
+                    {field: 'region', displayName: "区域", width: 80},
+                    {field: 'address', displayName: "客户地址", width: 85},
+                    {field: 'contactman', displayName: "联系人名", width: 85},
+                    {field: 'contactphone', displayName: "联系电话", width: 120},
+                    {field: 'contactposition', displayName: "职位", width: 85},
+                    {field: 'level', displayName: "客户等级", width: 85}
                 ]
             },
             action: {
@@ -90,7 +65,7 @@ angular.module("orderApp.OrderListGrid", [])
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target: "order",
+                    target: "client",
                     listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
@@ -112,6 +87,6 @@ angular.module("orderApp.OrderListGrid", [])
                     ]
                 }
             }
-        });
+        })
     });
 

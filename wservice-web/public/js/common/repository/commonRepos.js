@@ -10,7 +10,7 @@ angular.module("wservice.common.repository.common",
     .factory("QueryCtrlCode", function (nptRepository) {
         return nptRepository("queryMdCtrlcode");
     }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").addRequestInterceptor(function(request) {
+        return nptRepository("QueryFile").addRequestInterceptor(function (request) {
             request.params.userid = nptSessionManager.getSession().getUser().id;
             request.params.level = "user";
             request.params.instid = nptSessionManager.getSession().getInst().id;
@@ -18,9 +18,9 @@ angular.module("wservice.common.repository.common",
             return request;
         })
             .addRequestInterceptor(function (request) {
-            return request;
-        });
-    }).factory("OrgListBySelectTree", function (nptRepository,nptSessionManager) {
+                return request;
+            });
+    }).factory("OrgListBySelectTree", function (nptRepository, nptSessionManager) {
         function builderOrgTreeNode(nodes, data) {
             if (data) {
                 nodes.nodes = [];
@@ -35,7 +35,7 @@ angular.module("wservice.common.repository.common",
             }
         }
 
-        return nptRepository("queryOrgTree").addRequestInterceptor(function(request) {
+        return nptRepository("queryOrgTree").addRequestInterceptor(function (request) {
             request.params.instid = nptSessionManager.getSession().getInst().id;
             request.params.dimtype = "hr";
             return request;
@@ -61,4 +61,12 @@ angular.module("wservice.common.repository.common",
     })
     .factory("QueryUserInfoById", function (nptRepository) {
         return nptRepository("QueryUserInfoById");
+    })
+    .factory("QueryFileById", function (nptRepository) {
+        return nptRepository("QueryFileById").addResponseInterceptor(function (response) {
+            if (response.data && response.data.fileUrl) {
+                response.data.thumbnailUrl = response.data.fileUrl;
+            }
+            return response;
+        });
     });
