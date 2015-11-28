@@ -5,7 +5,7 @@
  */
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode) {
+    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("ClientForm", {
             options: {
                 formState: {
@@ -213,8 +213,27 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         label: '备注:'
                     }
                 }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
             ]
-        }).put("addClient", {
+        });
+    })
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+        return nptFormlyStore("AddClientForm", {
+            options: {},
             fields: [
                 {
                     key: 'fullname',
@@ -390,4 +409,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 }
             ]
         });
+    })
+    .factory("QueryMdInstScale",function(nptRepository){
+        return nptRepository("queryMdInstScale");
     });
