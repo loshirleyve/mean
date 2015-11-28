@@ -93,7 +93,11 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
 
             },
             resizeFrame : function() {
-                $("#contentIFrame").height($('.content-wrapper').height());
+                // 在每次重新设置iframe高度后，$('.content-wrapper').height()都会+5，找不到原因
+                // 所以这里在设置前先保存一次原高度
+                this.frameHeight = this.frameHeight || $('.content-wrapper').height();
+                $("#contentIFrame").height(this.frameHeight);
+                $('.content-wrapper').height(this.frameHeight);
             },
             menus: [],
             moduleUrl: "/app/home"
