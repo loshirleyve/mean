@@ -1,8 +1,8 @@
 /**
- * Created by leon on 15/11/26.
+ * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productClassifiesListGrid", [])
-    .factory("productClassifiesListGrid", function (nptGridStore) {
+    .factory("productClassifiesListGrid", function (nptGridStore,productForm) {
         return nptGridStore("productClassifiesListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -20,11 +20,13 @@ angular.module("productApp.productClassifiesListGrid", [])
                 },
                 add: {
                     label: "添加",
-                    type: "add"
+                    type: "add",
+                    target:"productClassifies"
                 },
                 edit: {
                     label: "编辑",
-                    type: "edit"
+                    type: "edit",
+                    target:"productClassifies"
                 },
                 del: {
                     label: "删除",
