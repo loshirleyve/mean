@@ -2,13 +2,22 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp.clientForm", "wservice.common", "ngRoute"])
+angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp.clientForm", "clientApp.addClientForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
                 controller: "BizPageDetailController as vm",
                 templateUrl: "detail.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession;
+                    }
+                }
+            })
+            .when("/addClient", {
+                controller:"AddClientController as vm",
+                templateUrl:"addClient.html",
                 resolve:{
                     sessionData:function(nptSession){
                         return nptSession;
@@ -34,6 +43,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
+    })
+    .factory("AddOrUpdateInstClients", function(nptRepository){
+        return nptRepository("addOrUpdateInstClients");
     })
     .controller("BizPageListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientForm) {
         var vm = this;
@@ -127,4 +139,31 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //初始化查询
         vm.query();
+    })
+
+    .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients){
+        var vm = this;
+        vm.newClientInfo = AddOrUpdateInstClients;
+
+        //客户详情表单配置
+        vm.addClientFormOptions = {
+            store:AddClientForm,
+            onRegisterApi: function(nptFormApi){
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        //新增客户
+        vm.addClient = function(){
+            vm.newClientInfo.post({
+
+            }).then(function(response){
+
+            }, function(error){
+                var de = error;
+            });
+        };
+
+        //初始化新增客户
+        vm.addClient();
     });

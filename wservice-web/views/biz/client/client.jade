@@ -7,6 +7,7 @@ block titleContent
 block content
     script(src="/js/biz/client/clientListGrid.js")
     script(src="/js/biz/client/clientForm.js")
+    script(src="/js/biz/client/addClientForm.js")
     script(src="/js/biz/client/client.js")
     div(ng-app="clientApp")
         //内容区域
@@ -30,6 +31,8 @@ block content
                         a.navbar-brand(href="#") 客户列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="#/addClient") 新增客户
                             li(ng-if="vm.clientList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.clientList.loading()')
