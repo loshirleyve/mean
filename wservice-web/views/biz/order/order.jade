@@ -69,14 +69,14 @@ block content
                     ul.nav.navbar-nav.navbar-right
                         li(ng-if="vm.orderInfo.loading()")
                             a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
                             a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
                         li
                             a(href="#/adviser/{{vm.orderInfo.data.order.id}}",ng-click="vm.adviser()") 分配顾问
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
                             a(href="#/list") 返回
 
@@ -110,7 +110,7 @@ block content
                         strong 支付状态:&nbsp
                         span {{vm.modelOrder.paystate | ctrlCodeFilter:'orderpaystate':'name':'no'}}
                     li
-                        strong订单金额:&nbsp
+                        strong 订单金额:&nbsp
                         span {{vm.modelOrder.orderamount}}
                     li
                         strong 实际金额:&nbsp
