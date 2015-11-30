@@ -246,7 +246,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             } else {
                 return false;
             }
-        }
+        };
 
         vm.query();
 
