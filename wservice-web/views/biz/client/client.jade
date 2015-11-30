@@ -7,6 +7,7 @@ block titleContent
 block content
     script(src="/js/biz/client/clientListGrid.js")
     script(src="/js/biz/client/clientForm.js")
+    script(src="/js/biz/client/addClientForm.js")
     script(src="/js/biz/client/client.js")
     div(ng-app="clientApp")
         //内容区域
@@ -30,6 +31,8 @@ block content
                         a.navbar-brand(href="#") 客户列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="#/addClient") 新增客户
                             li(ng-if="vm.clientList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.clientList.loading()')
@@ -37,7 +40,7 @@ block content
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(href="",ng-click="vm.queryByState('','全部')") 全部
+                                        a(href="",ng-click="vm.query('全部')") 全部
                                     li
                                         a(href="") 条件查询
 
@@ -62,12 +65,16 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="") 客户详情
                     ul.nav.navbar-nav.navbar-right
+                        li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
+                            a(href="",ng-click="vm.initInst(vm.clientInfo.data)") 初始化机构
+                        li
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateClient(vm.clientInfo.data)") 保存
                         li(ng-if="vm.clientInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.clientInfo.data.client)",ng-show="vm.clientList.previous(vm.clientInfo.data.client)") 上一单
+                            a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上个客户
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.clientInfo.data.client)",ng-show="vm.clientList.next(vm.clientInfo.data.client)") 下一单
+                            a(href="",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下个客户
                         li
                             a(href="#/list") 返回
 

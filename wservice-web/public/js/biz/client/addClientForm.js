@@ -1,27 +1,20 @@
+/**
+ * Created by Shirley on 2015/11/30.
+ */
 /*!
  * mars
  * Copyright(c) 2015 huangbinglong
  * MIT Licensed
  */
 
-angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
-        return nptFormlyStore("ClientForm", {
+angular.module("clientApp.addClientForm", ["ui.neptune"])
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+        return nptFormlyStore("AddClientForm", {
             fields: [
-                {
-                    key: 'id',
-                    type: 'input',
-                    disabled:true,
-                    templateOptions: {
-                        required: true,
-                        label: 'ID:'
-                    }
-                },
                 {
                     key: 'fullname',
                     type: 'input',
                     templateOptions: {
-                        disabled:true,
                         required: true,
                         label: '名称:',
                         placeholder: "请输入客户名称"
@@ -42,7 +35,10 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         disabled:true,
                         required: true,
-                        label: '编号:'
+                        label: '编号:',
+                        minlength: 4,
+                        maxlength: 8,
+                        placeholder: "请输入4至8位客户编号"
                     }
                 },
                 {
@@ -133,10 +129,13 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 },
                 {
                     key: 'contactphone',
-                    type: 'input',
+                    type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '电话:'
+                        label: '电话:',
+                        minlength: 11,
+                        maxlength: 11,
+                        "mask":"(9999)9999999"
                     }
                 },
                 {
@@ -210,8 +209,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 }
             ],
             buttons: {
-                ok: true,
-                reset: true
+                ok: false,
+                reset: false
             },
             onSubmitListens: [
                 function (model, $timeout, $q) {
