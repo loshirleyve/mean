@@ -183,7 +183,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm) {
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, $location) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
@@ -210,6 +210,9 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
             console.info(vm.model);
         };
 
+        vm.toDetail = function () {
+            $location.path("/detail/" + vm.orderid);
+        };
 
         //表单配置
         vm.orderConfirmFormOptions = {
@@ -222,4 +225,43 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         //执行查询
         vm.query();
 
+    }).controller("AdviserOrderController", function (QueryOrderInfo, OrderAdviserForm, $routeParams, $location) {
+        var vm = this;
+        vm.orderid = $routeParams.id;
+
+        //订单信息资源库
+        vm.orderInfo = QueryOrderInfo;
+
+        vm.model = {};
+
+        vm.adviser = function () {
+
+        };
+
+        //表单配置
+        vm.orderAdviserFormOptions = {
+            store: OrderAdviserForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        vm.toDetail = function () {
+            $location.path("/detail/" + vm.orderid);
+        };
+
+        //查询订单
+        vm.query = function () {
+            if (vm.orderid) {
+                vm.orderInfo.post({
+                    "orderid": vm.orderid
+                }).then(function (response) {
+                    vm.modelOrder = response.data.order;
+                }, function (error) {
+                });
+            }
+        };
+
+        //执行查询
+        vm.query();
     });

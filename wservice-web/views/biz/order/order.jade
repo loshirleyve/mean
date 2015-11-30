@@ -76,7 +76,7 @@ block content
                         li
                             a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
                         li
-                            a(href="",ng-click="vm.adviser()") 分配顾问
+                            a(href="#/adviser/{{vm.orderInfo.data.order.id}}",ng-click="vm.adviser()") 分配顾问
                         li
                             a(href="#/list") 返回
 
@@ -119,7 +119,7 @@ block content
                         li
                             button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.nptFormApi.reset()") 重置
                         li
-                            button.btn.btn-warning.navbar-btn(href="#detail/{{orderid}}") 返回
+                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
             div.well
@@ -135,3 +135,44 @@ block content
 
             div(npt-form="vm.orderConfirmFormOptions",model="vm.model")
 
+        //确认订单模板
+        script(type="text/ng-template",id="adviser.html")
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 订单列表
+                li
+                    a(href="#detail/{{vm.orderid}}")
+                        span 订单详情
+                li.active 分配顾问
+
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 确认订单
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.adviser()",ng-disabled="vm.nptFormApi.form.$invalid") 立即分配
+                        li
+                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
+
+            div.well
+                span 请为当前订单选择一个新的专属顾问.
+                ul
+                    li 编号:{{vm.modelOrder.ordersn}}
+                    li 说明:{{vm.modelOrder.name}}
+                    li 简介:{{vm.modelOrder.introduce}}
+                    li 订单金额:{{vm.modelOrder.orderamount}}
+                    li 实际金额:{{vm.modelOrder.factamount}}
+                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                    li.lead 当前专属顾问:{{vm.modelOrder.adviser}}
+
+
+            div(npt-form="vm.orderAdviserFormOptions",model="vm.model")
