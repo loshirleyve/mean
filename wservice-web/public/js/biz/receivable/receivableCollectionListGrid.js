@@ -21,6 +21,6 @@ angular.module("receivableApp.receivableCollectionListGrid", [])
                     type: "view"
                 }
             }
-        })
+        });
     });
 

@@ -35,6 +35,6 @@ angular.module("productApp.productGroupListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 

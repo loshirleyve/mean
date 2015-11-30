@@ -21,6 +21,6 @@ angular.module("productApp.productMdGroupListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 

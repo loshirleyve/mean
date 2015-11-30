@@ -33,6 +33,6 @@ angular.module("productApp.productClassifiesListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 

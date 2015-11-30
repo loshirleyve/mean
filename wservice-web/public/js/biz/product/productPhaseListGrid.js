@@ -34,6 +34,6 @@ angular.module("productApp.productPhaseListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 
