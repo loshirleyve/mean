@@ -7,18 +7,12 @@
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("ClientForm", {
-            options: {
-                formState: {
-                    disabled: true
-                }
-
-            },
             fields: [
                 {
                     key: 'id',
                     type: 'input',
+                    disabled:true,
                     templateOptions: {
-                        disabled:true,
                         required: true,
                         label: 'ID:'
                     }
@@ -27,6 +21,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'fullname',
                     type: 'input',
                     templateOptions: {
+                        disabled:true,
                         required: true,
                         label: '名称:',
                         placeholder: "请输入客户名称"
@@ -215,8 +210,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 }
             ],
             buttons: {
-                ok: false,
-                reset: false
+                ok: true,
+                reset: true
             },
             onSubmitListens: [
                 function (model, $timeout, $q) {

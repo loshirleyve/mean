@@ -28,7 +28,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 }
             })
             .when("/confirm/:id", {
-                controller: "ConfirmOrderController",
+                controller: "ConfirmOrderController as vm",
                 templateUrl: "confirm.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -37,7 +37,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 }
             })
             .when("/adviser/:id", {
-                controller: "AdviserOrderController",
+                controller: "AdviserOrderController as vm",
                 templateUrl: "adviser.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -183,6 +183,43 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo) {
-        $scope.orderid = $routeParams.id;
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm) {
+        var vm = this;
+        vm.orderid = $routeParams.id;
+
+        //订单信息资源库
+        vm.orderInfo = QueryOrderInfo;
+
+        vm.model = {};
+
+        //查询订单
+        vm.query = function () {
+            if (vm.orderid) {
+                vm.orderInfo.post({
+                    "orderid": vm.orderid
+                }).then(function (response) {
+                    vm.modelOrder = response.data.order;
+                }, function (error) {
+
+                });
+            }
+
+        };
+
+        vm.confirm = function () {
+            console.info(vm.model);
+        };
+
+
+        //表单配置
+        vm.orderConfirmFormOptions = {
+            store: OrderConfirmForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        //执行查询
+        vm.query();
+
     });
