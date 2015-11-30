@@ -97,28 +97,28 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         repositoryParams: {"defno": "clientsource"}
                     }
                 },
-                {
-                    key: 'scaleid',
-                    type: 'ui-select',
-                    templateOptions: {
-                        required: true,
-                        label: '规模:',
-                        valueProp:'type',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryMdInstScale,
-                        repositoryParams: {"instid":"10000001463017"}
-                    },
-                    expressionProperties:{
-                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-                            }
-                            return scope.to.options;
-                        }
-                    }
-                },
+//                {
+//                    key: 'scaleid',
+//                    type: 'ui-select',
+//                    templateOptions: {
+//                        required: true,
+//                        label: '规模:',
+//                        valueProp:'type',
+//                        labelProp:'name',
+//                        placeholder:'请选择',
+//                        options:[],
+//                        repository: QueryMdInstScale,
+//                        repositoryParams: {"instid":"10000001463017"}
+//                    },
+//                    expressionProperties:{
+//                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+//                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+//                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+//                            }
+//                            return scope.to.options;
+//                        }
+//                    }
+//                },
                 {
                     key: 'contactman',
                     type: 'input',
@@ -169,58 +169,11 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'clientinstid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户机构:'
-                    }
-                },
-                {
-                    key: 'clientadminid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户管理员:'
-                    }
-                },
-                {
-                    key: 'createdate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '创建时间:'
-                    }
-                },
-                {
-                    key: 'updatedate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '更新时间:'
-                    }
-                },
-                {
                     key: 'remark',
                     type: 'input',
                     templateOptions: {
                         label: '备注:'
                     }
-                }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            },
-            onSubmitListens: [
-                function (model, $timeout, $q) {
-                    var deferd = $q.defer();
-
-                    $timeout(function () {
-                        deferd.resolve();
-                    }, 1000);
-
-                    return deferd.promise;
                 }
             ]
         });
