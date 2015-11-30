@@ -1,5 +1,5 @@
 /**
- * Created by leon on 15/11/26.
+ * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productListGrid", [])
     .factory("productListGrid", function (nptGridStore) {
@@ -36,6 +36,6 @@ angular.module("productApp.productListGrid", [])
                     type: "view"
                 }
             }
-        })
+        });
     });
 

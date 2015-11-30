@@ -17,7 +17,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             })
             .when("/detail", {
                 controller: "BizPageDetailController as vm",
-                templateUrl: "addClient.html",
+                templateUrl: "detail.html",
                 resolve:{
                     sessionData:function(nptSession){
                         return nptSession;
@@ -246,7 +246,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         vm.clientAction = function(action, item, index){
             console.info(action);
-            if(item && action.type === "view"){
+            if(item && action.type === "edit"){
                 $location.path("/detail/" + item.id);
             }
         };
@@ -400,7 +400,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };*/
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams,AddClientForm, QueryInstClients, QueryInstClientById) {
+    .controller("BizPageDetailController", function ($scope, $location, $routeParams,AddClientForm, ClientForm, QueryInstClients, QueryInstClientById) {
         var vm = this;
 
         //客户列表数据库
@@ -409,6 +409,15 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.clientInfo = QueryInstClientById;
         //数据模型
         vm.model = {};
+
+        //客户详情表单配置
+        vm.clientFormOptions = {
+            store:ClientForm,
+            onRegisterApi: function(nptFormApi){
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
 
         //新增客户表单配置
         vm.addClientFormOptions = {

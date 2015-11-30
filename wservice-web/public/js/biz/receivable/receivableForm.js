@@ -56,8 +56,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         label: '已收金额:',
                         placeholder: "请输入排序"
                     }
-                }
-                ,
+                },
                 {
                     key: 'unPayamount',
                     type: 'input',

@@ -2,7 +2,11 @@
  * Created by leon on 15/11/26.
  */
 angular.module("orderApp.OrderListGrid", [])
+<<<<<<< HEAD
     .factory("OrderListGrid", function (nptGridStore, OrderForm) {
+=======
+    .factory("OrderListGrid", function (nptGridStore) {
+>>>>>>> 272cdb069bd83552d8de637dc2b8044bb17e50af
         return nptGridStore("OrderListGrid", {
             gridStyle: "height:500px",
             gridOptions: {
@@ -50,7 +54,52 @@ angular.module("orderApp.OrderListGrid", [])
             action: {
                 view: {
                     label: "查看",
+<<<<<<< HEAD
                     type: "view",
+=======
+                    type: "view"
+                },
+                add: {
+                    label: "添加",
+                    type: "add",
+                    target: "OrderForm",
+                    listens: [function ($q, $timeout) {
+                        var deferd = $q.defer();
+                        console.info("添加方法,在Store中配置");
+
+                        $timeout(function () {
+                            deferd.resolve();
+                            console.info("添加方法,在配置中执行完成");
+                        }, 1000);
+
+                        return deferd.promise;
+                    }, function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始调用后台添加服务.");
+
+                        $timeout(function () {
+                            if (params.index === 0) {
+                                deferd.reject("不能在第一行上添加.");
+                            } else {
+                                console.info("后台调用更成功.controller");
+                                deferd.resolve("添加成功");
+                            }
+                        }, 500);
+
+                        return deferd.promise;
+                    }, function (params) {
+                        console.info("添加的第二个方法!");
+                    }]
+                },
+                del: {
+                    label: "删除",
+                    type: "del"
+                },
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target: "OrderForm",
+>>>>>>> 272cdb069bd83552d8de637dc2b8044bb17e50af
                     listens: [
                         function ($location, params) {
                             if (params.item && params.item.length > 0) {

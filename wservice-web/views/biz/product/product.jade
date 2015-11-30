@@ -7,6 +7,7 @@ block titleContent
     title  产品管理
 block content
     script(src="/js/biz/product/productListGrid.js")
+    script(src="/js/biz/product/productMdGroupListGrid.js")
     script(src="/js/biz/product/productPhaseListGrid.js")
     script(src="/js/biz/product/productProfilesListGrid.js")
     script(src="/js/biz/product/productGroupListGrid.js")
@@ -53,7 +54,7 @@ block content
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-click="vm.selectCity(city)",ng-repeat="city in vm.citys track by $index" value="{{city.city}}") {{city.city}}
+                                        a(ng-click="vm.selectCity(city)",ng-repeat="city in vm.citys track by $index",value="{{city.city}}") {{city.city}}
                         ul.nav.navbar-nav.navbar-left
                             li(ng-if="vm.productList.loading()")
                                 a(href="") 正在查询,请稍后...
@@ -62,7 +63,7 @@ block content
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-click="vm.selectDistrict(district)",ng-repeat="district in vm.districts track by $index" value="{{district.district}}") {{district.district}}
+                                        a(ng-click="vm.selectDistrict(district)",ng-repeat="district in vm.districts track by $index" ,value="{{district.district}}") {{district.district}}
                         ul.nav.navbar-nav.navbar-left
                             li(ng-if="vm.productList.loading()")
                                 a(href="") 正在查询,请稍后...
@@ -80,10 +81,92 @@ block content
                                         a(href="") 条件查询
                         ul.nav.navbar-nav.navbar-right
                             li
-                                a(href="#") 添加产品
+                                a(href="#/product") 添加产品
                             li
-                                a(href="#") 编辑分组
-            div(npt-grid="vm.productListGridOptions",model="vm.productList.data")
+                                a(data-toggle="modal",data-target="#addGroup") 添加分组
+                            li
+                                a(href="#/group/{{vm.currProvince}}/{{vm.currCity}}/{{vm.currDistrict}}") 编辑分组
+            div(npt-grid="vm.productListGridOptions",model="vm.productList.data",on-action="productAction(action,item,index)")
+            //弹出层，添加分组
+            div#addGroup.modal.fade(tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture")&times;
+                            h4.modal-title 添加分组
+                        div.modal-body
+                            form.form-horizontal
+                                div.form-group
+                                    label.col-md-3.control-label 分组名称:
+                                    div.col-md-9
+                                        input.form-control(type="text",ng-model="vm.groupName")
+                            div.modal-footer
+                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="vm.addGroup()") 确认
+
+        //编辑产品
+        script(type="text/ng-template",id="editGroup.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#list")
+                                span 产品列表
+                        li.active 分组信息
+
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 分组信息
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+
+            div.row
+                div.col-md-12
+                    div.page-header
+                        h4 分组信息
+                    div.page-body
+                            div(npt-grid="vm.productMdGroupListGridOptions",model="vm.productMdGroupList.data",on-edit-listens="[vm.editGroup]")
+
+
+        //编辑分组
+        script(type="text/ng-template",id="product.html")
+            //功能导航区域
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#list")
+                                span 产品列表
+                        li.active 产品信息
+
+            nav.navbar.navbar-default
+                div.navbar-header
+                    a.navbar-brand(href="") 产品信息
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href="#/list") 返回
+                    li
+                        | &nbsp &nbsp &nbsp &nbsp
+
+            div.row
+                div.col-md-12
+                    div.page-header
+                        h4 服务内容
+                    div.page-body
+                        div(npt-form="vm.productFormOptions",model="vm.model.product")
 
         //详情模板
         script(type="text/ng-template",id="detail.html")
@@ -120,7 +203,7 @@ block content
             div.page-header
                 h4 服务阶段
             div.page-body
-                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases")
+                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases",on-add-listens="[editProductPhase]",on-edit-listens="[editProductPhase]")
             div.page-header
                 h4 服务内容
             div.page-body

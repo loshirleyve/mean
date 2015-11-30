@@ -1,8 +1,8 @@
 /**
- * Created by leon on 15/11/26.
+ * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productProfilesListGrid", [])
-    .factory("productProfilesListGrid", function (nptGridStore) {
+    .factory("productProfilesListGrid", function (nptGridStore,productForm) {
         return nptGridStore("productProfilesListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -17,17 +17,19 @@ angular.module("productApp.productProfilesListGrid", [])
                 },
                 add: {
                     label: "添加",
-                    type: "add"
+                    type: "add",
+                    target:"productProfiles"
                 },
                 edit: {
                     label: "编辑",
-                    type: "edit"
+                    type: "edit",
+                    target:"productProfiles"
                 },
                 del: {
                     label: "删除",
                     type: "del"
                 }
             }
-        })
+        });
     });
 
