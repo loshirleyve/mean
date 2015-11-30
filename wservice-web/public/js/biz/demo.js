@@ -140,9 +140,9 @@ angular.module("demoApp",
                     self.query.state = state;
                     self.query.loading('reset');
                     success(response.data);
-                }, function (error) {
+                }, function (err) {
                     self.query.loading('reset');
-                    error(error);
+                    error(err);
                 });
             },
             loading: function (state) {
