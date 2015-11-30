@@ -105,7 +105,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
 
         return self;
     })
-    .controller("MainController", function (sessionData, NavigateMenu, QueryFileById) {
+    .controller("MainController", function ($scope,sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
         $.AdminLTE.layout.fix();    // 重新计算界面content-wrapper高度
@@ -114,7 +114,10 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
             NavigateMenu.resizeFrame();
         });
 
-
+        $(window).resize(function () {
+            NavigateMenu.frameHeight = undefined;
+            NavigateMenu.resizeFrame();
+        });
 
         vm.imageOptions = {
             repository: QueryFileById,
