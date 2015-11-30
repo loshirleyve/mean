@@ -71,6 +71,12 @@ block content
                         li
                             a(href="#/list") 返回
 
+            //数据表单区域
+            div.page-header
+               h4 基本信息
+            div.page-body
+               div(npt-form="vm.clientFormOptions",model="vm.model.client")
+
         //新增客户模板
         script(type="text/ng-template", id="addClient.html")
             //功能导航区域
