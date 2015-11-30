@@ -58,7 +58,7 @@ angular.module("orderApp.OrderListGrid", [])
                             }
                         }
                     ]
-                }
+                },
                 //add: {
                 //    label: "添加",
                 //    type: "add",
@@ -95,30 +95,30 @@ angular.module("orderApp.OrderListGrid", [])
                 ////    label: "删除",
                 ////    type: "del"
                 ////},
-                ////edit: {
-                ////    label: "编辑",
-                ////    type: "edit",
-                ////    target: "order",
-                ////    listens: [
-                ////        function (params, $timeout, $q) {
-                ////            var deferd = $q.defer();
-                ////            console.info("开始执行后台更新服务.");
-                ////            $timeout(function () {
-                ////                if (params.index === 0) {
-                ////                    deferd.reject("不能编辑第一行");
-                ////                } else {
-                ////                    deferd.resolve("执行成功!");
-                ////                    params.data.demo = "测试添加一行数据";
-                ////                    params.data.sn = "测试修改订单号";
-                ////                }
-                ////            }, 500);
-                ////            return deferd.promise;
-                ////        },
-                ////        function () {
-                ////            return "我是第二个方法";
-                ////        }
-                ////    ]
-                ////}
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target: OrderForm,
+                    listens: [
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            console.info("开始执行后台更新服务.");
+                            $timeout(function () {
+                                if (params.index === 0) {
+                                    deferd.reject("不能编辑第一行");
+                                } else {
+                                    deferd.resolve("执行成功!");
+                                    params.data.demo = "测试添加一行数据";
+                                    params.data.sn = "测试修改订单号";
+                                }
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
+                }
             }
         });
     });
