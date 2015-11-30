@@ -58,7 +58,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
     .factory("QueryOrderInfo", function (nptRepository) {
         return nptRepository("queryOrderInfo");
     })
-    .controller("OrderListController", function ($scope, $http, $location, QueryOrderList, OrderListGrid) {
+    .controller("OrderListController", function ($scope, $http, $location, QueryOrderList, OrderListGrid,OrderForm) {
         var vm = this;
 
         //订单列表数据资源库
@@ -68,6 +68,9 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
             store: OrderListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.nptGridApi = nptGridApi;
+            },
+            formlyStore:{
+                "OrderForm":OrderForm
             }
         };
 
