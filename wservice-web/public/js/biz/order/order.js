@@ -183,7 +183,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, $location) {
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
@@ -257,6 +257,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                     "orderid": vm.orderid
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
+                    vm.model.adviser = vm.modelOrder.adviser;
                 }, function (error) {
                 });
             }

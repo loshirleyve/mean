@@ -69,14 +69,14 @@ block content
                     ul.nav.navbar-nav.navbar-right
                         li(ng-if="vm.orderInfo.loading()")
                             a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
                             a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
                         li
                             a(href="#/adviser/{{vm.orderInfo.data.order.id}}",ng-click="vm.adviser()") 分配顾问
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
+                        li(ng-if="!vm.orderInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
                         li
                             a(href="#/list") 返回
 
@@ -84,7 +84,58 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.orderFormOptions",model="vm.modelOrder")
+                ul
+                    li
+                        strong 订单编号:&nbsp
+                        span {{vm.modelOrder.ordersn}}
+                    li
+                        strong 订单说明:&nbsp
+                        span {{vm.modelOrder.name}}
+                    li
+                        strong 订单简介:&nbsp
+                        span {{vm.modelOrder.introduce}}
+                    li
+                        strong 服务机构:&nbsp
+                        span {{vm.modelOrder.instid | cacheFilter:'inst':'instname':'instid'}}
+                    li
+                        strong 开始服务日期:&nbsp
+                        span {{vm.modelOrder.begindate | timestampFilter}}
+                    li
+                        strong 结束服务日期:&nbsp
+                        span {{vm.modelOrder.enddate | timestampFilter}}
+                    li
+                        strong 订单状态:&nbsp
+                        span {{vm.modelOrder.state | ctrlCodeFilter:'orderstatetype':'name':'no'}}
+                    li
+                        strong 支付状态:&nbsp
+                        span {{vm.modelOrder.paystate | ctrlCodeFilter:'orderpaystate':'name':'no'}}
+                    li
+                        strong 订单金额:&nbsp
+                        span {{vm.modelOrder.orderamount}}
+                    li
+                        strong 实际金额:&nbsp
+                        span {{vm.modelOrder.factamount}}
+                    li
+                        strong 客户机构:&nbsp
+                        span {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                    li
+                        strong 购买人:&nbsp
+                        span {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                    li
+                        strong 专属顾问:&nbsp
+                        span {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
+                    li
+                        strong 业务员:&nbsp
+                        span {{vm.modelOrder.salesmanid | cacheFilter:'user':'name':'id'}}
+                    li
+                        strong 代理机构:&nbsp
+                        span {{vm.modelOrder.proxyinstid | cacheFilter:'inst':'instname':'instid'}}
+                    li
+                        strong 代理人:&nbsp
+                        span {{vm.modelOrder.proxyman | cacheFilter:'user':'name':'id'}}
+
+
+            // div(npt-form="vm.orderFormOptions",model="vm.modelOrder")
             div.page-header
                 h4 产品列表
             div.page-body
@@ -172,7 +223,7 @@ block content
                     li 实际金额:{{vm.modelOrder.factamount}}
                     li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
                     li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
-                    li.lead 当前专属顾问:{{vm.modelOrder.adviser}}
+                    li.lead 当前专属顾问:{{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
 
 
             div(npt-form="vm.orderAdviserFormOptions",model="vm.model")
