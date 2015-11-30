@@ -2,12 +2,12 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", "workorderApp.workorderForm","wservice.common","ngRoute"])
+angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", "workorderApp.workorderForm","workorderApp.WorkorderAttachmentGrid","workorderApp.WorkorderCommentGrid","wservice.common","ngRoute"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "WorkorderDetailController",
+                controller: "WorkorderDetailController as vm",
                 templateUrl: "detail.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -105,7 +105,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             vm.queryByState("", '全部');
         }
     }).
-    controller("WorkorderDetailController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, QueryWorkorderInfo, QueryWorkorderList, WorkorderForm) {
+    controller("WorkorderDetailController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, QueryWorkorderInfo, QueryWorkorderList, WorkorderForm, WorkorderAttachmentGrid,WorkorderCommentGrid) {
         //$scope.workorderid = $routeParams.id;
         //$scope.org = workorderService.org;
         //
@@ -174,6 +174,8 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         //数据模型
         vm.model = {};
+        vm.modelAttachment = [];
+        vm.modelComment = [];
 
         //配置表单
         vm.workorderFormOptions = {
@@ -181,6 +183,22 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
 
+            }
+        };
+
+        //配置工单资料
+        vm.workorderAttachmentOptions = {
+            store: WorkorderAttachmentGrid,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        //配置工单评价
+        vm.workorderAttachmentOptions = {
+            store: WorkorderCommentGrid,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
             }
         };
 
@@ -193,6 +211,8 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                     workorderid: id
                 }).then(function (response) {
                     vm.model.data = response.data;
+                    vm.modelAttachment = response.data.orderAttachments;
+                    vm.modelComment = response.data.workorderComment;
                 }, function (error) {
                     var de = error;
                 });

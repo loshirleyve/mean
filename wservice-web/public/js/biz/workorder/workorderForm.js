@@ -29,7 +29,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'descr ',
+                    key: 'descr',
                     type: 'input',
                     templateOptions: {
                         label: '工单描述:'
@@ -44,16 +44,23 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                         valueProp: 'no',
                         labelProp: 'name',
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "orderstatetype"},
+                        repositoryParams: {"defno": "workstate"},
                         options: [],
                         allowClear:false
                     }
                 },
                 {
                     key: 'processid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '处理人:'
+                        optionsAttr: "bs-options",
+                        label: '分配人:',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        repository: QueryCtrlCode,
+                        repositoryParams: {"defno": "orderpaystate"},
+                        options: [],
+                        allowClear:false
                     }
                 },
                 {
@@ -64,15 +71,15 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'assigneddate',
-                    type: 'input',
+                    key: 'processdate',
+                    type: 'dateInput',
                     templateOptions: {
                         label: '分配日期:'
                     }
                 },
                 {
-                    key: 'completedate',
-                    type: 'input',
+                    key: 'processdate',
+                    type: 'dateInput',
                     templateOptions: {
                         label: '完成日期:'
                     }

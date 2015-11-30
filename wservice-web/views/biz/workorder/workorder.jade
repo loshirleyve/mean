@@ -7,22 +7,13 @@ block titleContent
 block content
     script(src="/js/biz/workorder/workorderListGrid.js")
     script(src="/js/biz/workorder/workorderForm.js")
+    script(src="/js/biz/workorder/workorderAttachmentGrid.js")
+    script(src="/js/biz/workorder/workorderCommentGrid.js")
     script(src="/js/biz/workorder/workorder.js")
     div(ng-app="workorderApp")
         //通知区域
         //内容区域
         div(ng-view)
-
-        //组织结构树模板
-        //script(type="text/ng-template",id="org_nodes.html")
-        //    div.tree-node.tree-node-content(ui-tree-handle)
-        //        a.btn.btn-success.btn-xs(ng-if="node.nodes && node.nodes.length > 0",ng-click="toggle(this)")
-        //            span.glyphicon(ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}")
-        //        | &nbsp &nbsp
-        //        a.btn-link(ng-click="clickOrg(node)") {{node.title}}
-        //
-        //    ol(ui-tree-nodes="",ng-model="node.nodes",ng-class="{hidden:collapsed}")
-        //        li(ng-repeat="node in node.nodes",ui-tree-node,ng-include="'org_nodes.html'")
 
         //列表模板
         script(type="text/ng-template",id="list.html")
@@ -90,58 +81,21 @@ block content
                             a(href="#/completeWorkorder/{{vm.workorderInfo.data.order.id}}",ng-show="vm.isInservice()") 查看订单
                         li
                             a(href="#/list") 返回
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 基本信息
-            //            div.panel-body
-            //                form.form-horizontal
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 订单编号:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.sn}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 工单名称:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.name}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 工单描述:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.descr}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 工单状态:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.state}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 处理人:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.processid}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 分配人:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.assignedid}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 分配日期:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.assigneddate}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 完成日期:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.workOrder.completedate}}",disabled)
             div.page-header
                 h4 基本信息
             div.page-body
                 div(npt-form="vm.workorderFormOptions",model="vm.model.data.workOrder")
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 工单资料
-            //            npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 工单评价
-            //            npt-datatable(name="workorderComment",data="data.workorderComment",action="workorderCommentAction",is-index="true",on-action="doWorkorderComment(type,item,index)")
+
+            div.page-header
+                h4 工单资料
+            div.page-body
+                div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelAttachment")
+
+            div.page-header
+                h4 工单评价
+            div.page-body
+                div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelComment")
+
         script(type="text/ng-template",id="startWorkorder.html")
             div.row
                 div.col-md-12
