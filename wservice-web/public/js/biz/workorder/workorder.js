@@ -28,7 +28,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 }
             })
             .when("/startWorkorder/:id",{
-                controller: "WorkorderStartController",
+                controller: "WorkorderStartController as vm",
                 templateUrl: "startWorkorder.html",
                 resolve: {
                     sessionData: function (nptSession) {
@@ -67,6 +67,9 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     })
     .factory("QueryWorkorderInfo",function(nptRepository) {
         return nptRepository("queryWorkorderDetail");
+    })
+    .factory("StartWorkorder",function(nptRepository) {
+        return nptRepository("startWorkorder");
     })
     .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid) {
         var vm = this;
@@ -202,6 +205,22 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             }
         };
 
+        //转到下一单
+        vm.next = function (workorder) {
+            var nextWorkorder = vm.workorderList.next(workorder);
+            if (nextWorkorder) {
+                $location.path("/detail/" + nextWorkorder.id);
+            }
+        };
+
+        //转到上一单
+        vm.previous = function (workorder) {
+            var previousWorkorder = vm.workorderList.previous(workorder);
+            if (previousWorkorder) {
+                $location.path("/detail/" + previousWorkorder.id);
+            }
+        };
+
         //查询工单
         vm.query = function () {
             var id = $routeParams.id;
@@ -220,38 +239,93 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         };
 
+        //工单开始标识
+        vm.isUnstart = function() {
+            if (vm.workorderInfo.data && vm.workorderInfo.data.workOrder.state === "unstart") {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         vm.query();
 
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, nptResource, nptSessionManager) {
-        $scope.workorderid = $routeParams.id;
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder) {
+        //$scope.workorderid = $routeParams.id;
+        //
+        ////查询工单信息
+        //workorderService.query.id($scope.workorderid, function (data) {
+        //    $scope.data = data || {order: {}};
+        //}, function (data) {
+        //    //TODO 提示信息
+        //});
+        //
+        ////开始工单
+        //$scope.startWorkorder = function() {
+        //    var params = {};
+        //    var workorderids = [];
+        //
+        //    workorderids.push($scope.workorderid);
+        //
+        //    params.postscript = $scope.postscript;
+        //    params.workorderids = workorderids;
+        //    params.userid = nptSessionManager.getSession().getUser().id;
+        //
+        //    nptResource
+        //        .post("startWorkorder", params, function (data) {
+        //            workorderService.query.data = [];
+        //            $location.path("/detail/"+$scope.workorderid);
+        //        }, function (data) {
+        //            //TODO 弹出提示检索错误通知窗口
+        //            error(data);
+        //        });
+        //};
 
-        //查询工单信息
-        workorderService.query.id($scope.workorderid, function (data) {
-            $scope.data = data || {order: {}};
-        }, function (data) {
-            //TODO 提示信息
-        });
+        var vm = this;
 
-        //开始工单
-        $scope.startWorkorder = function() {
+        //工单信息资源库
+        vm.workorderInfo = QueryWorkorderInfo;
+
+        //数据模型
+        vm.model = {};
+
+        //查询工单
+        vm.query = function () {
+            var id = $routeParams.id;
+
+            if (id) {
+                vm.workorderInfo.post({
+                    workorderid: id
+                }).then(function (response) {
+                    vm.model.data = response.data;
+                }, function (error) {
+                    var de = error;
+                });
+            }
+
+        };
+
+        vm.query();
+
+        vm.startWorkorder = function() {
+            var id = $routeParams.id;
+
             var params = {};
             var workorderids = [];
 
-            workorderids.push($scope.workorderid);
+            workorderids.push(id);
 
             params.postscript = $scope.postscript;
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
-            nptResource
-                .post("startWorkorder", params, function (data) {
-                    workorderService.query.data = [];
-                    $location.path("/detail/"+$scope.workorderid);
-                }, function (data) {
-                    //TODO 弹出提示检索错误通知窗口
-                    error(data);
-                });
+            StartWorkorder.post(params).then(function (response) {
+                $location.path("/detail/" + id);
+            }, function (error) {
+                var de = error;
+            });
+
         };
     }).
     controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager) {

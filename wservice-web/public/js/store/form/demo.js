@@ -4,9 +4,9 @@
  * MIT Licensed
  */
 
-angular.module("wservice.form.store.demo", ["ui.neptune","wservice.common"])
-    .run(function (nptFormStore,OrgListBySelectTree,
-                   UserListBySelectTree,QueryUserInfoById,QueryCtrlCode,QueryImageByUserLevel) {
+angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
+    .run(function (nptFormStore, OrgListBySelectTree,
+                   UserListBySelectTree, QueryUserInfoById, QueryCtrlCode, QueryImageByUserLevel, QueryInsts) {
         nptFormStore.put("demo", {
             options: {},
             fields: [
@@ -69,6 +69,37 @@ angular.module("wservice.form.store.demo", ["ui.neptune","wservice.common"])
                     type: 'textarea',
                     templateOptions: {
                         label: '备注:'
+                    }
+                },
+                {
+                    "key": "choiceInst",
+                    "type": "ui-select",
+                    templateOptions: {
+                        label: '选择机构:',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        placeholder: '请选择机构',
+                        smallLabelProp: "simplename",
+                        required: true,
+                        options: [],
+                        search: ["name"],
+                        repository: QueryInsts,
+                        repositoryParams: {}
+                    }
+                } ,
+                {
+                    "key": "choiceUser2",
+                    "type": "ui-select",
+                    templateOptions: {
+                        label: '选择用户:',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        placeholder: '请选择用户',
+                        required: true,
+                        options: [],
+                        search: ["name"],
+                        repository: UserListBySelectTree,
+                        repositoryParams: {}
                     }
                 },
                 {

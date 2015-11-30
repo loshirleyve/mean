@@ -23,7 +23,15 @@ angular.module("workorderApp.WorkorderListGrid", [])
             action: {
                 view: {
                     label: "查看",
-                    type: "view"
+                    type: "view",
+                    listens: [
+                        function ($location, params) {
+                            if (params.item && params.item.length > 0) {
+                                var id = params.item[0].id;
+                                $location.path("/detail/" + id);
+                            }
+                        }
+                    ]
                 }
             }
         });
