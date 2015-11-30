@@ -11,7 +11,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 templateUrl: "detail.html",
                 resolve:{
                     sessionData:function(nptSession){
-                        return nptSession;
+                        return nptSession();
                     }
                 }
             })
@@ -20,7 +20,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 templateUrl:"addClient.html",
                 resolve:{
                     sessionData:function(nptSession){
-                        return nptSession;
+                        return nptSession();
                     }
                 }
             })
@@ -29,7 +29,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 templateUrl: "list.html",
                 resolve:{
                     sessionData:function(nptSession){
-                        return nptSession;
+                        return nptSession();
                     }
                 }
             })
@@ -38,8 +38,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             });
 
     })
-    .factory("QueryInstClients", function (nptRepository) {
-        return nptRepository("queryInstClients");
+    .factory("QueryInstClients", function (nptRepository,nptSessionManager) {
+        return nptRepository("queryInstClients").params({
+            "userid":nptSessionManager.getSession().getUser().id,
+            "instid":nptSessionManager.getSession().getInst().id
+        });
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
@@ -57,26 +60,15 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
            store:ClientListGrid,
             onRegisterApi:function(nptGridApi){
                 vm.nptGridApi = nptGridApi;
-            },
-            formlyStore:{
-                "ClientForm":ClientForm
-            }
-        };
-
-        vm.clientAction = function(action, item, index){
-            console.info(action);
-            if(item && action.type === "view"){
-                $location.path("/detail/" + item.id);
             }
         };
 
         /**
          * 根据状态查询当前用户的客户列表
          */
-        vm.queryByState = function (state, name) {
-            vm.state = QueryInstClients.post({
-                state:state
-            }).then(function(){
+        vm.query = function (name,params) {
+            var params = params || {};
+            vm.state = QueryInstClients.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
                 //TODO 弹出提示检索错误通知窗口
@@ -85,17 +77,19 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //首先查询全部客户
         if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
-            vm.queryByState("", '全部');
+            vm.query('全部');
         }
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById) {
+    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients) {
         var vm = this;
 
         //客户列表数据库
         vm.clientList = QueryInstClients;
         //客户信息资源库
         vm.clientInfo = QueryInstClientById;
+        //更新客户信息资源库
+        vm.updateClient = AddOrUpdateInstClients;
         //数据模型
         vm.model = {};
 
@@ -123,6 +117,20 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
 
+        //检查客户是否已经初始化机构
+        vm.isInitInst = function(){
+            if (vm.clientInfo.data && !vm.clientInfo.data.clientinstid && !vm.clientInfo.data.clientadminid){
+                return true;
+            }
+        };
+
+        //初始化客户机构
+        vm.initInst = function(clientInfo){
+            //TODO 调用初始化客户服务
+            if (clientInfo){
+            }
+        };
+
         //查询客户
         vm.query = function(){
             var id = $routeParams.id;
@@ -133,6 +141,42 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     vm.model.client = response.data;
                 }, function(error){
                     var de = error;
+                });
+            }
+        };
+
+        vm.reset = function () {
+            vm.nptFormApi.reset();
+        };
+
+
+        //更新客户信息
+        vm.updateClient = function(clientInfo){
+
+            if (clientInfo && !vm.nptFormApi.form.$invalid){
+                var updateParams = {
+                    "instid":clientInfo.instid,
+                    "sn":clientInfo.sn,
+                    "fullname":clientInfo.fullname,
+                    "name":clientInfo.name,
+                    "type":clientInfo.type,
+                    "industry":clientInfo.industry,
+                    "scaleid":clientInfo.scaleid,
+                    "source":clientInfo.source,
+                    "region":clientInfo.region,
+                    "address":clientInfo.address,
+                    "contactman":clientInfo.contactman,
+                    "contactphone":clientInfo.contactphone,
+                    "contactposition":clientInfo.contactposition,
+                    "level":clientInfo.level
+                };
+
+                vm.updateClient.post(updateParams)
+                    .then(function(response){
+                      alert("更新用户信息成功!");
+                }, function(error){
+                    var de = error;
+                    alert("更新用户信息失败!");
                 });
             }
         };

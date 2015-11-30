@@ -19,7 +19,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         label: '订单编号:',
-                        disabled:true
+                        disabled: true
                     }
                 },
                 {
@@ -47,7 +47,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "orderstatetype"},
                         options: [],
-                        allowClear:false
+                        allowClear: false
                     }
                 },
                 {
@@ -61,7 +61,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "orderpaystate"},
                         options: [],
-                        allowClear:false
+                        allowClear: false
                     }
                 },
                 {
@@ -74,7 +74,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         labelProp: 'instname',
                         search: ['instname'],
                         options: [],
-                        allowClear:false
+                        allowClear: false
                     }
                 },
                 {
@@ -133,6 +133,49 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     }, 1000);
 
                     return deferd.promise;
+                }
+            ]
+        });
+    })
+    .factory("OrderConfirmForm", function (nptFormlyStore, OrgListBySelectTree, UserListBySelectTree, QueryUserInfoById) {
+        return nptFormlyStore("OrderForm", {
+            fields: [
+                {
+                    key: 'begindate',
+                    type: 'dateInput',
+                    templateOptions: {
+                        label: '服务开始日期:',
+                        required: true
+                    }
+                }, {
+                    key: 'enddate',
+                    type: 'dateInput',
+                    templateOptions: {
+                        label: '服务结束日期:',
+                        required: true
+                    }
+                }, {
+                    key: 'adviser',
+                    type: 'npt-select-tree-single',
+                    templateOptions: {
+                        label: '专属顾问:',
+                        required: true,
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
+                    }
+                }, {
+                    key: 'salesmanid',
+                    type: 'npt-select-tree-single',
+                    templateOptions: {
+                        label: '业务员:',
+                        required: true,
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
+                    }
                 }
             ]
         });
