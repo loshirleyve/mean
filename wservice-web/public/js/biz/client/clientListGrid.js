@@ -87,6 +87,6 @@ angular.module("clientApp.ClientListGrid", [])
                     ]
                 }
             }
-        })
+        });
     });
 
