@@ -168,6 +168,12 @@ proxy.action("updateInst", {
 proxy.action("QueryPayRegisters", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryPayRegistersByInstidAndCreatebyService"
+}).action("QueryPayRegisterByid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.pay.service.QueryPayRegisterByidService"
+}).action("UpdateByCollect", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.pay.service.UpdateByCollectService"
 });
 
 // 用户

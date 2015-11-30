@@ -43,18 +43,19 @@ block content
 
 
             div(npt-grid="vm.clientListGridOptions",model="vm.clientList.data")
+
         //详情模板
-        script(type="text/ng-template",id="detail.html")
+        script(type="text/ng-template", id="detail.html")
             //功能导航区域
             ul.breadcrumb
                 li
-                    a(href="/home")
+                    a(href="/app/home")
                         span.glyphicon.glyphicon-home
                         span 首页
                 li
                     a(href="#list")
-                        span 订单列表
-                li.active 订单详情
+                        span 客户列表
+                li.active 客户详情
 
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
@@ -69,3 +70,36 @@ block content
                             a(href="",ng-click="vm.next(vm.clientInfo.data.client)",ng-show="vm.clientList.next(vm.clientInfo.data.client)") 下一单
                         li
                             a(href="#/list") 返回
+
+            //数据表单区域
+            div.page-header
+               h4 基本信息
+            div.page-body
+               div(npt-form="vm.clientFormOptions",model="vm.model.client")
+
+        //新增客户模板
+        script(type="text/ng-template", id="addClient.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 客户列表
+                li.active 新增客户
+
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 新增客户
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href="#/list") 返回
+
+            //数据表单区域
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.addClientFormOptions",model="vm.model.client")
