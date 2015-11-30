@@ -49,7 +49,6 @@ block content
                                         a(href="") 条件查询
 
             div(npt-grid="vm.orderListGridOptions",model="vm.orderList.data")
-            div(style="height:300px;")扩展内容
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -106,18 +105,33 @@ block content
                     a(href="#list")
                         span 订单列表
                 li
-                    a(href="#detail/{{orderid}}")
+                    a(href="#detail/{{vm.orderid}}")
                         span 订单详情
                 li.active 确认订单
 
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 确认订单
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#detail/{{orderid}}") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 确认订单
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
+                        li
+                            button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.nptFormApi.reset()") 重置
+                        li
+                            button.btn.btn-warning.navbar-btn(href="#detail/{{orderid}}") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
+            div.well
+                span 请核对以下订单信息,并填写订单服务周期;专属顾问;业务员后确认订单!
+                ul
+                    li 编号:{{vm.modelOrder.ordersn}}
+                    li 说明:{{vm.modelOrder.name}}
+                    li 简介:{{vm.modelOrder.introduce}}
+                    li 订单金额:{{vm.modelOrder.orderamount}}
+                    li 实际金额:{{vm.modelOrder.factamount}}
+                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
 
-
+            div(npt-form="vm.orderConfirmFormOptions",model="vm.model")
 
