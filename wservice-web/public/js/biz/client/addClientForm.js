@@ -1,12 +1,15 @@
+/**
+ * Created by Shirley on 2015/11/30.
+ */
 /*!
  * mars
  * Copyright(c) 2015 huangbinglong
  * MIT Licensed
  */
 
-angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
-        return nptFormlyStore("ClientForm", {
+angular.module("clientApp.addClientForm", ["ui.neptune"])
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+        return nptFormlyStore("AddClientForm", {
             options: {
                 formState: {
                     disabled: true
