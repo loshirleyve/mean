@@ -69,4 +69,7 @@ angular.module("wservice.common.repository.common",
             }
             return response;
         });
+    })
+    .factory("QueryInsts", function (nptRepository) {
+        return nptRepository("queryInsts");
     });

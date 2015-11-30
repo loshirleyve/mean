@@ -68,17 +68,17 @@ block content
                         li(ng-if="vm.workorderInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="!vm.workorderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.workorderInfo.data.order)",ng-show="vm.workorderList.previous(vm.workorderInfo.data.order)") 上一单
+                            a(href="",ng-click="vm.previous(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.previous(vm.workorderInfo.data.workOrder)") 上一单
                         li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.workorderInfo.data.order)",ng-show="vm.workorderList.next(vm.workorder.data.order)") 下一单
+                            a(href="",ng-click="vm.next(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.next(vm.workorderInfo.data.workOrder)") 下一单
                         li
-                            a(href="#/startWorkorder/{{vm.workorderInfo.data.order.id}}",ng-show="vm.isUnstart()") 开始做
+                            a(href="#/startWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isUnstart()") 开始做
                         li
-                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.order.id}}",ng-show="vm.isInservice()") 完成
+                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isInservice()") 完成
                         li
-                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.order.id}}",ng-show="vm.isInservice()") 转交
+                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isInservice()") 转交
                         li
-                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.order.id}}",ng-show="vm.isInservice()") 查看订单
+                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isInservice()") 查看订单
                         li
                             a(href="#/list") 返回
             div.page-header
@@ -97,61 +97,55 @@ block content
                 div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelComment")
 
         script(type="text/ng-template",id="startWorkorder.html")
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#/list")
+                        span 工单列表
+                li
+                    a(href="#/detail/{{vm.model.data.workOrder.id}}")
+                        span 工单详情
+                li.active 开始工单
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 开始工单
+                    ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
+                            a(href="#/detail/{{vm.model.data.workOrder.id}}") 返回
+            //div.row
+            //    div.col-md-12
+            //        div.panel.panel-primary
+            //            div.panel-heading 工单信息
+            //            div.panel-body
+            //                form.form-horizontal
+            //                    div.form-group
+            //                        label.col-md-2.control-label(for="postscript") 附言:
+            //                        div.col-md-10
+            //                            input.form-control(type="text",id="sn",ng-model="postscript")
+            //                            span#helpBlock.help-block 你即将开始编号为{{vm.model.data.workOrder.sn}} 名称为{{vm.model.data.workOrder.name}} 的工单
+            //                    div.form-group
+            //                        div.col-sm-offset-2.col-md-10
+            //                            button.btn.btn-primary(type="button",ng-click="vm.startWorkorder()") 确认开始
+            //                            | &nbsp &nbsp
+            //                            a.btn.btn-default(type="button",href="#/detail/{{vm.model.data.workOrder.id}}") 返回
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 确认订单
+                    ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="#/list")
-                                span 工单列表
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
                         li
-                            a(href="#/detail/{{workorderid}}")
-                                span 工单详情
-                        li.active 开始工单
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 开始工单
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#detail/{{workorderid}}") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
-            div.row
-                div.col-md-12
-                    div.panel.panel-primary
-                        div.panel-heading 工单信息
-                        div.panel-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 订单编号:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.workOrder.sn}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 工单名称:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.workOrder.name}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 工单描述:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.workOrder.descr}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="sn") 工单状态:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",value="{{data.workOrder.state}}",disabled)
-                                div.form-group
-                                    label.col-md-2.control-label(for="postscript") 附言:
-                                    div.col-md-10
-                                        input.form-control(type="text",id="sn",ng-model="postscript")
-
-
-                                div.form-group
-                                    div.col-sm-offset-2.col-md-10
-                                        button.btn.btn-primary(type="button",ng-click="startWorkorder()") 确认开始
-                                        | &nbsp &nbsp
-                                        a.btn.btn-default(type="button",href="#/detail/{{workorderid}}") 返回
+                            button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.nptFormApi.reset()") 重置
+                        li
+                            button.btn.btn-warning.navbar-btn(href="#detail/{{orderid}}") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
         script(type="text/ng-template",id="completeWorkorder.html")
             div.row
                 div.col-md-12
