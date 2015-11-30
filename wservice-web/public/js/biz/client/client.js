@@ -50,6 +50,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("AddOrUpdateInstClients", function(nptRepository){
         return nptRepository("addOrUpdateInstClients");
     })
+    .factory("InstInit", function(nptRepository){
+        return nptRepository("instInit");
+    })
     .controller("BizPageListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientForm) {
         var vm = this;
 
@@ -67,7 +70,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
          * 根据状态查询当前用户的客户列表
          */
         vm.query = function (name,params) {
-            var params = params || {};
+            params = params || {};
             vm.state = QueryInstClients.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
@@ -83,6 +86,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
     .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients) {
         var vm = this;
+        vm.clientid = $routeParams.id;
+
 
         //客户列表数据库
         vm.clientList = QueryInstClients;
@@ -90,6 +95,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.clientInfo = QueryInstClientById;
         //更新客户信息资源库
         vm.updateClient = AddOrUpdateInstClients;
+        //初始化机构信息资源库
+        vm.instInit = InstInit;
         //数据模型
         vm.model = {};
 
@@ -127,16 +134,32 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //初始化客户机构
         vm.initInst = function(clientInfo){
             //TODO 调用初始化客户服务
-            if (clientInfo){
+            if (clientInfo && vm.isInitInst){
+
+                var params = {
+                    "companyName":clientInfo.fullname,
+                    "simpleName":clientInfo.name,
+                    "companyNo":clientInfo.sn,
+                    "companyScale":clientInfo.scaleid,
+                    "userNo":clientInfo.contactphone,
+                    "userName":clientInfo.contactman,
+                    "clientId":clientInfo.id
+                };
+
+                InstInit.post(params)
+                    .then(function(response){
+                        alert("初始化机构成功！");
+                    }, function(err){
+                        alert("初始化机构失败！");
+                    });
             }
         };
 
         //查询客户
         vm.query = function(){
-            var id = $routeParams.id;
-            if(id){
+            if(vm.clientid){
                 vm.clientInfo.post({
-                    instClient:id
+                    instClient:vm.clientid
                 }).then(function(response){
                     vm.model.client = response.data;
                 }, function(error){
@@ -149,12 +172,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             vm.nptFormApi.reset();
         };
 
-
         //更新客户信息
         vm.updateClient = function(clientInfo){
-
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var updateParams = {
+                    "id":clientInfo.id,
                     "instid":clientInfo.instid,
                     "sn":clientInfo.sn,
                     "fullname":clientInfo.fullname,
@@ -171,7 +193,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "level":clientInfo.level
                 };
 
-                vm.updateClient.post(updateParams)
+                AddOrUpdateInstClients.post(updateParams)
                     .then(function(response){
                       alert("更新用户信息成功!");
                 }, function(error){

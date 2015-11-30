@@ -7,21 +7,13 @@
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("ClientForm", {
+            options: {
+            },
             fields: [
-                {
-                    key: 'id',
-                    type: 'input',
-                    disabled:true,
-                    templateOptions: {
-                        required: true,
-                        label: 'ID:'
-                    }
-                },
                 {
                     key: 'fullname',
                     type: 'input',
                     templateOptions: {
-                        disabled:true,
                         required: true,
                         label: '名称:',
                         placeholder: "请输入客户名称"
@@ -49,6 +41,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'industry',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         label:'行业',
                         required: true,
                         valueProp:'no',
@@ -63,6 +56,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'type',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '类型:',
                         valueProp:'no',
@@ -77,6 +71,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'level',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '级别:',
                         valueProp:'no',
@@ -91,6 +86,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'source',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '来源:',
                         valueProp:'no',
@@ -101,28 +97,28 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         repositoryParams: {"defno": "clientsource"}
                     }
                 },
-                {
-                    key: 'scaleid',
-                    type: 'ui-select',
-                    templateOptions: {
-                        required: true,
-                        label: '规模:',
-                        valueProp:'type',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryMdInstScale,
-                        repositoryParams: {"instid":"10000001463017"}
-                    },
-                    expressionProperties:{
-                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-                            }
-                            return scope.to.options;
-                        }
-                    }
-                },
+//                {
+//                    key: 'scaleid',
+//                    type: 'ui-select',
+//                    templateOptions: {
+//                        required: true,
+//                        label: '规模:',
+//                        valueProp:'type',
+//                        labelProp:'name',
+//                        placeholder:'请选择',
+//                        options:[],
+//                        repository: QueryMdInstScale,
+//                        repositoryParams: {"instid":"10000001463017"}
+//                    },
+//                    expressionProperties:{
+//                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+//                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+//                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+//                            }
+//                            return scope.to.options;
+//                        }
+//                    }
+//                },
                 {
                     key: 'contactman',
                     type: 'input',
@@ -143,6 +139,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'contactposition',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '职位:',
                         valueProp:'no',
@@ -173,7 +170,6 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'clientinstid',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '客户机构:'
                     }
                 },
@@ -181,7 +177,6 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'clientadminid',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '客户管理员:'
                     }
                 },
@@ -207,21 +202,6 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         label: '备注:'
                     }
-                }
-            ],
-            buttons: {
-                ok: true,
-                reset: true
-            },
-            onSubmitListens: [
-                function (model, $timeout, $q) {
-                    var deferd = $q.defer();
-
-                    $timeout(function () {
-                        deferd.resolve();
-                    }, 1000);
-
-                    return deferd.promise;
                 }
             ]
         });
