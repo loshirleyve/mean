@@ -156,7 +156,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 vm.orderInfo.post({
                     orderid: id
                 }).then(function (response) {
-                    vm.model.data = response.data;
+                    vm.modelOrder = response.data.order;
                     vm.modelProducts = response.data.orderproducts;
                     vm.modelWorkorders = response.data.workorders;
                 }, function (error) {
