@@ -2,7 +2,7 @@
  * Created by leon on 15/11/26.
  */
 angular.module("orderApp.OrderListGrid", [])
-    .factory("OrderListGrid", function (nptGridStore,OrderForm) {
+    .factory("OrderListGrid", function (nptGridStore) {
         return nptGridStore("OrderListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -54,7 +54,7 @@ angular.module("orderApp.OrderListGrid", [])
                 add: {
                     label: "添加",
                     type: "add",
-                    target: "demo",
+                    target: "OrderForm",
                     listens: [function ($q, $timeout) {
                         var deferd = $q.defer();
                         console.info("添加方法,在Store中配置");
@@ -90,7 +90,7 @@ angular.module("orderApp.OrderListGrid", [])
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target: "order",
+                    target: "OrderForm",
                     listens: [
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
