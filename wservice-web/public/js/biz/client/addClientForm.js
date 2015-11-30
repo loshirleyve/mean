@@ -10,22 +10,7 @@
 angular.module("clientApp.addClientForm", ["ui.neptune"])
     .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("AddClientForm", {
-            options: {
-                formState: {
-                    disabled: true
-                }
-
-            },
             fields: [
-                {
-                    key: 'id',
-                    type: 'input',
-                    templateOptions: {
-                        disabled:true,
-                        required: true,
-                        label: 'ID:'
-                    }
-                },
                 {
                     key: 'fullname',
                     type: 'input',
@@ -50,7 +35,10 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         disabled:true,
                         required: true,
-                        label: '编号:'
+                        label: '编号:',
+                        minlength: 4,
+                        maxlength: 8,
+                        placeholder: "请输入4至8位客户编号"
                     }
                 },
                 {
@@ -141,10 +129,13 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 },
                 {
                     key: 'contactphone',
-                    type: 'input',
+                    type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '电话:'
+                        label: '电话:',
+                        minlength: 11,
+                        maxlength: 11,
+                        "mask":"(9999)9999999"
                     }
                 },
                 {
