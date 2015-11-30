@@ -2,7 +2,7 @@
  * Created by leon on 15/11/26.
  */
 angular.module("orderApp.OrderListGrid", [])
-    .factory("OrderListGrid", function (nptGridStore) {
+    .factory("OrderListGrid", function (nptGridStore,OrderForm) {
         return nptGridStore("OrderListGrid", {
             gridOptions: {
                 columnDefs: [
