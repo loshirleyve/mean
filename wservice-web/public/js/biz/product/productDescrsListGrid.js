@@ -31,6 +31,6 @@ angular.module("productApp.productDescrsListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 

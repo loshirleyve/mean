@@ -16,7 +16,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 }
             })
             .when("/detail/add", {
-                redirectTo: "/detail/add",
+                redirectTo: "/detail/add"
             })
             .when("/list", {
                 controller: "OrderListController as vm",

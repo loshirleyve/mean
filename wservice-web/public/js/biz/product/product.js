@@ -16,6 +16,14 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     }
                 }
             })
+            .when("/product/:id", {
+                controller: "editProductController as vm",
+                templateUrl: "product.html"
+            })
+            .when("/product", {
+                controller: "editProductController as vm",
+                templateUrl: "product.html"
+            })
             .when("/group/:province/:city/:district", {
                 controller: "editGroupController as vm",
                 templateUrl: "editGroup.html",
@@ -29,69 +37,72 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                 controller: "productDetailController as vm",
                 templateUrl: "detail.html"
             })
-
             .otherwise({
                 redirectTo: "/list"
             });
     }).factory("queryCities", function (nptRepository) {
         return nptRepository("queryCities").params({
-        })
+        });
     }).factory("QueryMdProductGroup", function (nptRepository) {
         return nptRepository("QueryMdProductGroupBylocation").params({
-        })
+        });
     }).factory("QueryProductsByGroupId", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryProductsByGroupId").params({
 //            instid: nptSessionManager.getSession().getInst().id,
 //            userid: nptSessionManager.getSession().getUser().id
-        })
+        });
     })
     .factory("QueryProductsNoGroup", function (nptRepository) {
         return nptRepository("QueryProductsNoGroup").params({
-        })
+        });
     })
     .factory("QueryProductInfo", function (nptRepository) {
         return nptRepository("QueryProductInfoById").params({
-        })
+        });
     })
     .factory("QueryProductPhases", function (nptRepository) {
         return nptRepository("QueryProductPhaseByProductid").params({
-        })
+        });
+    })
+    .factory("AddOrUpdateProduct", function (nptRepository) {
+        return nptRepository("AddOrUpdateProduct").params({
+        });
     })
     .factory("AddOrUpdateMdProductGroup", function (nptRepository, nptSessionManager) {
         return nptRepository("AddOrUpdateMdProductGroup").params({
             createby: nptSessionManager.getSession().getUser().id
-        })
+        });
     })
     .factory("AddOrUpdateProductPhase", function (nptRepository) {
         return nptRepository("AddOrUpdateProductPhase").params({
-        })
+        });
     }).factory("AddOrUpdateProductProfile", function (nptRepository) {
         return nptRepository("AddOrUpdateProductProfile").params({
-        })
+        });
     }).factory("AddOrUpdateProductGroup", function (nptRepository) {
         return nptRepository("AddOrUpdateProductGroup").params({
-        })
+        });
     }).factory("AddOrUpdateProductclassify", function (nptRepository) {
         return nptRepository("AddOrUpdateProductclassify").params({
-        })
+        });
     }).factory("AddOrUpdateProductDescr", function (nptRepository) {
         return nptRepository("AddOrUpdateProductDescr").params({
-        })
+        });
     }).factory("RemoveProductPhase", function (nptRepository) {
         return nptRepository("RemoveProductPhase").params({
-        })
+        });
     }).factory("RemoveProductRequirement", function (nptRepository) {
         return nptRepository("RemoveProductRequirement").params({
-        })
+        });
     }).factory("RemoveProductGroup", function (nptRepository) {
         return nptRepository("RemoveProductGroup").params({
-        })
+        });
     }).factory("RemoveProductClassify", function (nptRepository) {
         return nptRepository("RemoveProductClassify").params({
-        })
+        });
     }).factory("RemoveProductDescr", function (nptRepository) {
         return nptRepository("RemoveProductDescr").params({
-        })
+        });
     })
     .controller("productListController", function ($scope, $http, $location, queryCities, QueryMdProductGroup, QueryProductsByGroupId, QueryProductsNoGroup, AddOrUpdateMdProductGroup, productListGrid) {
         var vm = this;
@@ -249,6 +260,51 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             vm.queryByGroupId('all', '全部');
         }
 
+
+    }).controller("editProductController", function ($scope, $location, $routeParams,QueryProductInfo,AddOrUpdateProduct,productForm) {
+        var vm = this;
+
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+
+        vm.model={};
+        //表单配置
+        vm.productFormOptions = {
+            store: productForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+
+            }
+        };
+
+        vm.query = function () {
+            var id = $routeParams.id;
+
+            if (id) {
+                vm.productInfo.post({
+                    productid: id
+                }).then(function (response) {
+                    vm.model = response.data;
+                }, function (error) {
+                    var de = error;
+                });
+            }
+        };
+
+        vm.query();
+
+        vm.editProduct = function () {
+            AddOrUpdateProduct.post({
+                province: vm.currProvince,
+                city: vm.currCity,
+                district: vm.currDistrict,
+                name: vm.groupName
+            }).then(function (response) {
+                vm.queryMdProductGroup();
+            }, function (error) {
+                console.info(error);
+            });
+        };
 
     }).controller("editGroupController", function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid) {
         var vm = this;

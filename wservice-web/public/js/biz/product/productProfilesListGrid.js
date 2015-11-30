@@ -30,6 +30,6 @@ angular.module("productApp.productProfilesListGrid", [])
                     type: "del"
                 }
             }
-        })
+        });
     });
 
