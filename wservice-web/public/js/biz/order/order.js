@@ -109,6 +109,7 @@ angular.module("orderApp", [
                 vm.queryName = name;
                 vm.model = response.data;
             }, function (error) {
+                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
             });
         };
 
@@ -161,7 +162,7 @@ angular.module("orderApp", [
                 }
             }, function (error) {
                 vm.hasNewOrders = false;
-                console.info("检索错误", error);
+                Notification.error({message: '检查新订单出现错误.', delay: 2000});
             });
         }
 
@@ -213,7 +214,7 @@ angular.module("orderApp", [
             vm.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification) {
         var vm = this;
 
         //订单列表资源库
@@ -277,7 +278,7 @@ angular.module("orderApp", [
                     vm.modelProducts = response.data.orderproducts;
                     vm.modelWorkorders = response.data.workorders;
                 }, function (error) {
-                    var de = error;
+                    Notification.error({message: '查询订单出现错误.', delay: 2000});
                 });
             }
 
@@ -297,7 +298,7 @@ angular.module("orderApp", [
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm) {
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
@@ -314,7 +315,7 @@ angular.module("orderApp", [
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
                 }, function (error) {
-
+                    Notification.error({message: '查询订单出现错误.', delay: 2000});
                 });
             }
 
@@ -339,7 +340,7 @@ angular.module("orderApp", [
         //执行查询
         vm.query();
 
-    }).controller("AdviserOrderController", function (QueryOrderInfo, OrderAdviserForm, $routeParams, $location) {
+    }).controller("AdviserOrderController", function (QueryOrderInfo, OrderAdviserForm, $routeParams, $location, Notification) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
@@ -373,6 +374,7 @@ angular.module("orderApp", [
                     vm.modelOrder = response.data.order;
                     vm.model.adviser = vm.modelOrder.adviser;
                 }, function (error) {
+                    Notification.error({message: '查询订单出现错误.', delay: 2000});
                 });
             }
         };
