@@ -138,8 +138,6 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        minlength: 11,
-                        maxlength: 11,
                         "mask":"999 9999 9999"
                     }
                 },

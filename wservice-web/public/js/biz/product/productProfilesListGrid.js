@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productProfilesListGrid", [])
-    .factory("productProfilesListGrid", function (nptGridStore,productProfilesForm) {
+    .factory("productProfilesListGrid", function (nptGridStore,productProfilesForm,productCategoryService) {
         return nptGridStore("productProfilesListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -14,12 +14,25 @@ angular.module("productApp.productProfilesListGrid", [])
                 add: {
                     label: "添加",
                     type: "add",
-                    target:productProfilesForm
+                    target:productProfilesForm,
+                    listens: []
                 },
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:productProfilesForm
+                    target:productProfilesForm,
+                    listens: [
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            $timeout(function () {
+                                productCategoryService.editProductProfile(params,$q);
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
                 },
                 del: {
                     label: "删除",
