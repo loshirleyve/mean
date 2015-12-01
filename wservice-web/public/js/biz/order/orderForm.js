@@ -79,16 +79,18 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                 },
                 {
                     key: 'begindate',
-                    type: 'input',
-                    templateOptions: {
-                        label: '开始日期:'
+                    "type": "dateInput",
+                    "templateOptions": {
+                        label: "开始日期",
+                        "formateType": "short",
                     }
                 },
                 {
                     key: 'enddate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
-                        label: '结束日期:'
+                        label: '结束日期:',
+                        "formateType": "short",
                     }
                 },
                 {
@@ -138,12 +140,13 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
         });
     })
     .factory("OrderConfirmForm", function (nptFormlyStore, OrgListBySelectTree, UserListBySelectTree, QueryUserInfoById) {
-        return nptFormlyStore("OrderForm", {
+        return nptFormlyStore("OrderConfirmForm", {
             fields: [
                 {
                     key: 'begindate',
                     type: 'dateInput',
                     templateOptions: {
+                        "formateType": "short",
                         label: '服务开始日期:',
                         required: true
                     }
@@ -151,6 +154,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     key: 'enddate',
                     type: 'dateInput',
                     templateOptions: {
+                        "formateType": "short",
                         label: '服务结束日期:',
                         required: true
                     }
@@ -177,6 +181,23 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         viewvalueRepository: QueryUserInfoById
                     }
                 }
+            ]
+        });
+    }).factory("OrderAdviserForm", function (nptFormlyStore, OrgListBySelectTree, UserListBySelectTree, QueryUserInfoById) {
+        return nptFormlyStore("OrderAdviserForm", {
+            fields: [
+                {
+                    key: 'adviser',
+                    type: 'npt-select-tree-single',
+                    templateOptions: {
+                        label: '专属顾问:',
+                        required: true,
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
+                    }
+                },
             ]
         });
     });

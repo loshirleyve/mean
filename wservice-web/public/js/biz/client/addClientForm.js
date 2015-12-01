@@ -45,6 +45,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'industry',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         label:'行业',
                         required: true,
                         valueProp:'no',
@@ -59,6 +60,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'type',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '类型:',
                         valueProp:'no',
@@ -73,6 +75,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'level',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '级别:',
                         valueProp:'no',
@@ -87,6 +90,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'source',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '来源:',
                         valueProp:'no',
@@ -97,28 +101,29 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         repositoryParams: {"defno": "clientsource"}
                     }
                 },
-                {
-                    key: 'scaleid',
-                    type: 'ui-select',
-                    templateOptions: {
-                        required: true,
-                        label: '规模:',
-                        valueProp:'type',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryMdInstScale,
-                        repositoryParams: {"instid":"10000001463017"}
-                    },
-                    expressionProperties:{
-                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-                            }
-                            return scope.to.options;
-                        }
-                    }
-                },
+//                {
+//                    key: 'scaleid',
+//                    type: 'ui-select',
+//                    templateOptions: {
+//                        optionsAttr: "bs-options",
+//                        required: true,
+//                        label: '规模:',
+//                        valueProp:'type',
+//                        labelProp:'name',
+//                        placeholder:'请选择',
+//                        options:[],
+//                        repository: QueryMdInstScale,
+//                        repositoryParams: {"instid":"10000001463017"}
+//                    },
+//                    expressionProperties:{
+//                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+//                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+//                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+//                            }
+//                            return scope.to.options;
+//                        }
+//                    }
+//                },
                 {
                     key: 'contactman',
                     type: 'input',
@@ -132,16 +137,17 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '电话:',
+                        label: '手机号:',
                         minlength: 11,
                         maxlength: 11,
-                        "mask":"(9999)9999999"
+                        "mask":"999 9999 9999"
                     }
                 },
                 {
                     key: 'contactposition',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '职位:',
                         valueProp:'no',
@@ -169,58 +175,11 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: 'clientinstid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户机构:'
-                    }
-                },
-                {
-                    key: 'clientadminid',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '客户管理员:'
-                    }
-                },
-                {
-                    key: 'createdate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '创建时间:'
-                    }
-                },
-                {
-                    key: 'updatedate',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '更新时间:'
-                    }
-                },
-                {
                     key: 'remark',
                     type: 'input',
                     templateOptions: {
                         label: '备注:'
                     }
-                }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            },
-            onSubmitListens: [
-                function (model, $timeout, $q) {
-                    var deferd = $q.defer();
-
-                    $timeout(function () {
-                        deferd.resolve();
-                    }, 1000);
-
-                    return deferd.promise;
                 }
             ]
         });

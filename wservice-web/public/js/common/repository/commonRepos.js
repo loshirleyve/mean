@@ -62,6 +62,12 @@ angular.module("wservice.common.repository.common",
     .factory("QueryUserInfoById", function (nptRepository) {
         return nptRepository("QueryUserInfoById");
     })
+    .factory("QueryUserByInst", function (nptRepository,nptSessionManager) {
+        return nptRepository("QueryUserByInst").addRequestInterceptor(function (request) {
+            request.params.instid = nptSessionManager.getSession().getInst().id;
+            return request;
+        });
+    })
     .factory("QueryFileById", function (nptRepository) {
         return nptRepository("QueryFileById").addResponseInterceptor(function (response) {
             if (response.data && response.data.fileUrl) {
@@ -69,4 +75,7 @@ angular.module("wservice.common.repository.common",
             }
             return response;
         });
+    })
+    .factory("QueryInsts", function (nptRepository) {
+        return nptRepository("queryInsts");
     });

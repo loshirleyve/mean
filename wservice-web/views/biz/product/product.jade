@@ -34,59 +34,53 @@ block content
             //功能导航
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
-                    div.navbar-header.col-md-5
+                    div.navbar-header.col-md-3
                         a.navbar-brand(href="#") 产品列表
-                    div.collapse.navbar-collapse.col-md-7
+                    div.collapse.navbar-collapse.col-md-9.navbar-right
                         ul.nav.navbar-nav.navbar-left
                             li(ng-if="vm.productList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.currProvince}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.productCategory.currProvince}}
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-click="vm.selectProvince(province)",ng-repeat="province in vm.provinces track by $index",value="{{province.province}}") {{province.province}}
+                                        a(ng-click="vm.productCategory.selectProvince(province)",ng-repeat="province in vm.productCategory.provinces track by $index",value="{{province.province}}") {{province.province}}
                         ul.nav.navbar-nav.navbar-left
-                            li(ng-if="vm.productList.loading()")
-                                a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.currCity}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.productCategory.currCity}}
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-click="vm.selectCity(city)",ng-repeat="city in vm.citys track by $index",value="{{city.city}}") {{city.city}}
+                                        a(ng-click="vm.productCategory.selectCity(city)",ng-repeat="city in vm.productCategory.citys track by $index",value="{{city.city}}") {{city.city}}
                         ul.nav.navbar-nav.navbar-left
-                            li(ng-if="vm.productList.loading()")
-                                a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.currDistrict}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.productCategory.currDistrict}}
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-click="vm.selectDistrict(district)",ng-repeat="district in vm.districts track by $index" ,value="{{district.district}}") {{district.district}}
+                                        a(ng-click="vm.productCategory.selectDistrict(district)",ng-repeat="district in vm.productCategory.districts track by $index" ,value="{{district.district}}") {{district.district}}
                         ul.nav.navbar-nav.navbar-left
-                            li(ng-if="vm.productList.loading()")
-                                a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 分组 - {{vm.queryName}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 分组 - {{vm.productCategory.queryName}}
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(href="",ng-click="vm.queryByGroupId('all','全部')") 全部
+                                        a(href="",ng-click="vm.productCategory.queryByGroupId('all','全部')") 全部
                                     li
-                                        a(href="",ng-click="vm.queryByGroupId('weifenlei','未分类')") 未分类
-                                    li(ng-repeat="group in vm.productMdGroupList.data")
-                                        a(href="",ng-click="vm.queryByGroupId(group.id,group.name)") {{group.name}}
+                                        a(href="",ng-click="vm.productCategory.queryByGroupId('none','未分类')") 未分类
+                                    li(ng-repeat="group in vm.productCategory.allGroups")
+                                        a(href="",ng-click="vm.productCategory.queryByGroupId(group.id,group.name)") {{group.name}}
                                     li
                                         a(href="") 条件查询
-                        ul.nav.navbar-nav.navbar-right
+                        ul.nav.navbar-nav.navbar-left
                             li
-                                a(href="#/product") 添加产品
+                                a(href="#/product",ng-if='!vm.productList.loading()') 添加产品
                             li
-                                a(data-toggle="modal",data-target="#addGroup") 添加分组
+                                a(data-toggle="modal",data-target="#addGroup",ng-if='!vm.productList.loading()') 添加分组
                             li
-                                a(href="#/group/{{vm.currProvince}}/{{vm.currCity}}/{{vm.currDistrict}}") 编辑分组
-            div(npt-grid="vm.productListGridOptions",model="vm.productList.data",on-action="productAction(action,item,index)")
+                                a(href="#/group/{{vm.currProvince}}/{{vm.currCity}}/{{vm.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
+            div(npt-grid="vm.productListGridOptions",model="vm.productCategory.productList")
             //弹出层，添加分组
             div#addGroup.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")

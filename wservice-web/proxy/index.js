@@ -29,15 +29,12 @@ proxy.action("queryOrderList", {
 
 
 //产品模块
-proxy.action("QueryProductsByGroupId", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductsByGroupIdService"
-}).action("queryCities", {
+proxy.action("queryCities", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryCitiesService"
-}).action("QueryProductsNoGroup", {
+}).action("QueryProductsGroup", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductsNoGroupService"
+    action: "com.yun9.ws.biz.service.QueryProductsGroupService"
 }).action("QueryProductInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductInfoByIdService"
@@ -184,6 +181,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryUserInfoById", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUserInfoByIdService"
+}).action("QueryUserByInst",{
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUsersByInstService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
