@@ -88,14 +88,178 @@ angular.module("orderApp", [
             userid: nptSessionManager.getSession().getUser().id
         });
     })
-    .controller("OrderListController", function ($scope, $http, $location, $interval, QueryOrderList, OrderListGrid, OrderForm, QueryOrdersIsUnread, Notification) {
+    .factory("UpdateOrderByConfirm", function (nptRepository) {
+        return nptRepository("UpdateOrderByConfirm").params({});
+    }).factory("UpdateOrderAdviser", function (nptRepository) {
+        return nptRepository("UpdateOrderAdviser");
+    })
+    .service("OrderListQueryService", function (Notification, QueryOrderList) {
+        var self = this;
+
+        self.orderList = QueryOrderList;
+
+        self.query = function (params) {
+            params = params || {};
+            self.orderList.post(params).then(function (response) {
+            }, function (error) {
+                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+            });
+        };
+
+        //建立待查询列表
+        self.queryList = [{
+            label: "全部",
+            type: "all",
+            callback: function () {
+                self.query();
+            }
+        }, {
+            label: "待确认",
+            type: "waitconfirm",
+            callback: function () {
+                self.query({
+                    state: "waitconfirm"
+                });
+            }
+        }, {
+            label: "待支付",
+            type: "buy",
+            callback: function () {
+                self.query({
+                    state: "buy"
+                });
+            }
+        }, {
+            label: "服务中",
+            type: "inservice",
+            callback: function () {
+                self.query({
+                    state: "inservice"
+                });
+            }
+        }, {
+            label: "未分配专属顾问",
+            type: "unAdviser",
+            callback: function () {
+                self.query({
+                    adviser: "none"
+                });
+            }
+        }, {
+            label: "未分配工单",
+            type: "unWorkorder",
+            callback: function () {
+                self.query({
+                    sourcevalue: "none"
+                });
+            }
+        }];
+
+        //选择查询列表
+        self.selectQuery = function (query) {
+            if (query) {
+                self.currQuery = query;
+                if (query.callback) {
+                    query.callback();
+                }
+            }
+        };
+
+        //选择一个默认查询
+        self.selectQuery(self.queryList[1]);
+    })
+    .service("OrderUnreadService", function (QueryOrdersIsUnread, Notification, $interval) {
+        var self = this;
+        //检查新订单资源
+        self.ordersIsUnread = QueryOrdersIsUnread;
+
+        //周期检查新订单配置
+        self.schedules = [{
+            label: "不检查",
+            millisecond: 0
+        }, {
+            label: "每10秒检查",
+            millisecond: 1000 * 10
+        }, {
+            label: "每30秒检查",
+            millisecond: 1000 * 30
+        }, {
+            label: "每分钟检查",
+            millisecond: 1000 * 60
+        }];
+
+        var stop;
+        self.count = 0;
+
+        //执行检查
+        function checkNewOrders() {
+            self.count++;
+            self.hasNewOrders = false;
+            //执行服务器检查
+            self.ordersIsUnread.post().then(function (response) {
+                if (response.data.orderList && response.data.orderList.length > 0) {
+                    self.hasNewOrders = true;
+
+                    Notification.success({
+                        message: '检查到' + response.data.orderList.length + '张最新的订单,点击显示新订单按钮立即查看!',
+                        title: '检查到新订单',
+                        replaceMessage: true,
+                        delay: 5000
+                    }).then(function () {
+                    });
+                } else {
+                    self.hasNewOrders = false;
+                }
+            }, function (error) {
+                self.hasNewOrders = false;
+                Notification.error({message: '检查新订单出现错误.', delay: 2000});
+            });
+        }
+
+        //开始执行任务
+        self.startCheck = function (millis) {
+            //如果已经存在任务则返回
+            if (angular.isDefined(stop)) return;
+            stop = $interval(checkNewOrders, millis);
+        };
+
+        //停止检查
+        self.stopCheck = function () {
+            if (angular.isDefined(stop)) {
+                $interval.cancel(stop);
+                stop = undefined;
+            }
+        };
+
+        //选择设置
+        self.selectSchedule = function (schedule) {
+            if (angular.isDefined(schedule)) {
+                //先停止之前的任务
+                self.stopCheck();
+                //设置显示选项
+                self.currSchedule = schedule;
+
+                //如果本次配置大于0毫秒则开始执行任务
+                if (schedule.millisecond > 0) {
+                    self.startCheck(schedule.millisecond);
+                }
+            }
+        };
+
+        //获取新订单
+        self.getNewOrder = function () {
+            if (self.ordersIsUnread && self.ordersIsUnread.data.orderList) {
+                return self.ordersIsUnread.data.orderList;
+            }
+        };
+    })
+    .controller("OrderListController", function ($scope, $http, $location, QueryOrderList, OrderListGrid, OrderForm, UpdateOrderReadState, Notification, OrderUnreadService, OrderListQueryService) {
         var vm = this;
 
-        vm.model = [];
-        //订单列表数据资源库
-        vm.orderList = QueryOrderList;
-        vm.ordersIsUnread = QueryOrdersIsUnread;
+        vm.queryService = OrderListQueryService;
+        vm.orderUnreadService = OrderUnreadService;
 
+        //订单列表grid
         vm.orderListGridOptions = {
             store: OrderListGrid,
             onRegisterApi: function (nptGridApi) {
@@ -113,119 +277,30 @@ angular.module("orderApp", [
             }
         };
 
-        /**
-         * 根据状态查询当前用户机构的订单列表
-         */
-        vm.queryByState = function (state, name) {
-            vm.state = QueryOrderList.post({
-                state: state
-            }).then(function (response) {
-                vm.queryName = name;
-                vm.model = response.data;
-            }, function (error) {
-                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
-            });
-        };
-
-        //首先查询全部订单
-        if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
-            vm.queryByState("", '全部');
-        } else {
-            vm.model = QueryOrderList.data;
-        }
-
-        //周期检查新订单配置
-        vm.schedules = [{
-            label: "不检查",
-            millisecond: 0
-        }, {
-            label: "每10秒检查",
-            millisecond: 1000 * 10
-        }, {
-            label: "每30秒检查",
-            millisecond: 1000 * 30
-        }, {
-            label: "每分钟检查",
-            millisecond: 1000 * 60
-        }];
-
-        var stop;
-        vm.count = 0;
-
-        //执行检查
-        function checkNewOrders() {
-            vm.count++;
-            console.info("执行第" + vm.count + "次检查!");
-            vm.hasNewOrders = false;
-            //执行服务器检查
-            QueryOrdersIsUnread.post().then(function (response) {
-                console.info("检索完成", response);
-
-                if (response.data.orderList && response.data.orderList.length > 0) {
-                    vm.hasNewOrders = true;
-
-                    Notification.success({
-                        message: '检查到' + response.data.orderList.length + '张最新的订单,点击显示新订单按钮立即查看!',
-                        title: '检查到新订单',
-                        replaceMessage: true,
-                        delay: 5000
-                    }).then(function () {
-                    });
-                } else {
-                    vm.hasNewOrders = false;
-                }
-            }, function (error) {
-                vm.hasNewOrders = false;
-                Notification.error({message: '检查新订单出现错误.', delay: 2000});
-            });
-        }
-
-        //开始执行任务
-        vm.startCheck = function (millis) {
-            //如果已经存在任务则返回
-            if (angular.isDefined(stop)) return;
-            stop = $interval(checkNewOrders, millis);
-        };
-
-        //停止检查
-        vm.stopCheck = function () {
-            if (angular.isDefined(stop)) {
-                $interval.cancel(stop);
-                stop = undefined;
-            }
-        };
-
-        //选择设置
-        vm.selectSchedule = function (schedule) {
-            if (angular.isDefined(schedule)) {
-
-                //先停止之前的任务
-                vm.stopCheck();
-
-                //设置显示选项
-                vm.scheduleLabel = schedule.label;
-
-                //如果本次配置大于0毫秒则开始执行任务
-                if (schedule.millisecond > 0) {
-                    vm.startCheck(schedule.millisecond);
-                }
-            }
-        };
-
+        //显示新订单,并同时设置为已读
         vm.showNewOrders = function () {
-            if (vm.ordersIsUnread && vm.ordersIsUnread.data.orderList && vm.ordersIsUnread.data.orderList.length > 0) {
-                vm.model = vm.ordersIsUnread.data.orderList;
+            var newOrders = vm.orderUnreadService.getNewOrder();
+            if (newOrders) {
+                //vm.model = vm.ordersIsUnread.data.orderList;
                 //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
-                vm.orderList.data = vm.ordersIsUnread.data.orderList;
+                vm.queryService.orderList.data = newOrders;
+                //将显示后的订单设置为已读状态
+                UpdateOrderReadState.post(newOrders).then(function (response) {
+                }, function (error) {
+                    Notification.error({message: '设置订单为已读状态出现错误.', delay: 2000});
+                });
             }
         };
 
-        //设置默认检查项
-        vm.selectSchedule(vm.schedules[2]);
-
+        //如果存在当前检查项则使用当前项触发检查,否则选择一个特定项触发
+        if (angular.isDefined(vm.orderUnreadService.currSchedule)) {
+            vm.orderUnreadService.selectSchedule(vm.orderUnreadService.currSchedule);
+        } else {
+            vm.orderUnreadService.selectSchedule(vm.orderUnreadService.schedules[2]);
+        }
         //销毁时关闭订单检查任务
         $scope.$on("$destroy", function () {
-            vm.stopCheck();
+            vm.orderUnreadService.stopCheck();
         });
     })
     .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification) {
@@ -321,12 +396,14 @@ angular.module("orderApp", [
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification) {
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification, UpdateOrderByConfirm) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
         //订单信息资源库
         vm.orderInfo = QueryOrderInfo;
+
+        vm.orderByConfirm = UpdateOrderByConfirm;
 
         vm.model = {};
 
@@ -337,6 +414,10 @@ angular.module("orderApp", [
                     "orderid": vm.orderid
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
+                    vm.model.adviser = response.data.order.adviser;
+                    vm.model.salemanid = response.data.order.salesmanid;
+                    vm.model.begindate = response.data.order.begindate;
+                    vm.model.enddate = response.data.order.enddate;
                 }, function (error) {
                     Notification.error({message: '查询订单出现错误.', delay: 2000});
                 });
@@ -345,7 +426,25 @@ angular.module("orderApp", [
         };
 
         vm.confirm = function () {
-            console.info(vm.model);
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请输入正确的确认订单信息.', delay: 2000});
+            } else {
+                vm.model.orderid = vm.orderid;
+                vm.orderByConfirm.post(vm.model).then(function (response) {
+                    Notification.success({
+                        message: "确认订单成功.",
+                        delay: 2000
+                    });
+                    vm.toDetail();
+
+                }, function (error) {
+                    Notification.success({
+                        message: "确认订单出现错误,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
+            }
+
         };
 
         vm.toDetail = function () {
@@ -363,17 +462,29 @@ angular.module("orderApp", [
         //执行查询
         vm.query();
 
-    }).controller("AdviserOrderController", function (QueryOrderInfo, OrderAdviserForm, $routeParams, $location, Notification) {
+    }).controller("AdviserOrderController", function (QueryOrderInfo, OrderAdviserForm, $routeParams, $location, Notification, UpdateOrderAdviser) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
         //订单信息资源库
         vm.orderInfo = QueryOrderInfo;
-
+        vm.orderAdviser = UpdateOrderAdviser;
         vm.model = {};
 
         vm.adviser = function () {
-
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请正确输入专属顾问信息.', delay: 2000});
+            } else {
+                vm.orderAdviser.post({
+                    orderid: vm.orderid,
+                    adviserid: vm.model.adviser
+                }).then(function (response) {
+                    Notification.success({message: '分配专属顾问成功!', delay: 2000});
+                    vm.toDetail();
+                }, function (error) {
+                    Notification.error({message: '分配专属顾问失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                });
+            }
         };
 
         //表单配置
