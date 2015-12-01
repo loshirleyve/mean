@@ -197,7 +197,30 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         listRepository: UserListBySelectTree,
                         viewvalueRepository: QueryUserInfoById
                     }
+                }
+            ]
+        });
+    }).factory("OrderChangePriceForm", function (nptFormlyStore) {
+        return nptFormlyStore("OrderAdviserForm", {
+            fields: [
+                {
+                    key: 'newprice',
+                    type: 'numberInput',
+                    templateOptions: {
+                        label: '新价格:',
+                        required: true,
+                        "min": 0.00,
+                        "max": 10000
+                    }
                 },
+                {
+                    key: 'reason',
+                    type: 'textarea',
+                    templateOptions: {
+                        label: '原因:',
+                        required: true
+                    }
+                }
             ]
         });
     });

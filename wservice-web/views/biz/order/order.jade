@@ -47,8 +47,17 @@ block content
                                         a(href="",ng-click="vm.queryByState('inservice','服务中')") 服务中
                                     li
                                         a(href="") 条件查询
+                            li.dropdown(ng-if='!vm.orderList.loading()')
+                                a(href="",ng-if="vm.ordersIsUnread.loading()") 正在检查...
+                                a.dropdown-toggle(href="",ng-if="!vm.ordersIsUnread.loading()",data-toggle="dropdown") 检查新订单[已检查{{vm.count}}次] - {{vm.scheduleLabel}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li(ng-repeat="schedule in vm.schedules")
+                                        a(href="",ng-click="vm.selectSchedule(schedule)") {{schedule.label}}
+                            li(ng-if="vm.hasNewOrders")
+                                button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
 
-            div(npt-grid="vm.orderListGridOptions",model="vm.orderList.data")
+            div(npt-grid="vm.orderListGridOptions",model="vm.model")
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -72,7 +81,9 @@ block content
                         li
                             a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
                         li
-                            a(href="#/adviser/{{vm.orderInfo.data.order.id}}",ng-click="vm.adviser()") 分配顾问
+                            a(href="#/changeprice/{{vm.orderInfo.data.order.id}}",ng-show="vm.isChangePrice()") 改价
+                        li
+                            a(href="#/adviser/{{vm.orderInfo.data.order.id}}") 分配顾问
                         li(ng-if="!vm.orderInfo.loading()")
                             a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
                         li(ng-if="!vm.orderInfo.loading()")
@@ -227,3 +238,43 @@ block content
 
 
             div(npt-form="vm.orderAdviserFormOptions",model="vm.model")
+
+        script(type="text/ng-template",id="changePrice.html")
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list")
+                        span 订单列表
+                li
+                    a(href="#detail/{{vm.orderid}}")
+                        span 订单详情
+                li.active 改价
+
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 改价
+                    ul.nav.navbar-nav.navbar-right
+                        li(ng-if="vm.updateOrderPrice.loading()")
+                            a(href="") 正在处理请稍后...
+                        li(ng-if="!vm.updateOrderPrice.loading()")
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.changePrice()",ng-disabled="vm.nptFormApi.form.$invalid") 确认改价
+                        li(ng-if="!vm.updateOrderPrice.loading()")
+                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
+            div.well
+                span 请输入一个新的价格.并点击确认改价.
+                ul
+                    li 编号:{{vm.modelOrder.ordersn}}
+                    li 说明:{{vm.modelOrder.name}}
+                    li 简介:{{vm.modelOrder.introduce}}
+                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                    li 订单原始金额:{{vm.modelOrder.orderamount}}
+                    li.lead 订单当前实际金额:{{vm.modelOrder.factamount}}
+
+            div(npt-form="vm.orderChangePriceFormOptions",model="vm.model")

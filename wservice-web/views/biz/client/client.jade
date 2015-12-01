@@ -72,9 +72,9 @@ block content
                         li(ng-if="vm.clientInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上个客户
+                            a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下个客户
+                            a(href="",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
                         li
                             a(href="#/list") 返回
 
@@ -103,9 +103,9 @@ block content
                         a.navbar-brand(href="") 新增客户
                     ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClient(vm.clientInfo.data)") 保存
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClient(vm.model)") 保存
                         li
-                            a(href="#") 重置
+                            a(href="#",ng-click="vm.reset()") 重置
                         li
                             a(href="#/list") 返回
 
@@ -113,4 +113,4 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.addClientFormOptions",model="vm.model.client")
+                div(npt-form="vm.addClientFormOptions",model="vm.model")

@@ -14,12 +14,6 @@ angular.module("receivableApp.receivableCollectionListGrid", [])
                     {field: 'createdate', displayName: "付款日期", width: 160, cellFilter: "timestampFilter"},
                     {field: 'ptdescr', displayName: "说明", width: 160}
                 ]
-            },
-            action: {
-                view: {
-                    label: "查看",
-                    type: "view"
-                }
             }
         });
     });

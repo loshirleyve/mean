@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productGroupListGrid", [])
-    .factory("productGroupListGrid", function (nptGridStore,productForm) {
+    .factory("productGroupListGrid", function (nptGridStore,productGroupForm) {
         return nptGridStore("productGroupListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -19,12 +19,12 @@ angular.module("productApp.productGroupListGrid", [])
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productGroup"
+                    target:productGroupForm
                 },
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productGroup"
+                    target:productGroupForm
                 },
                 del: {
                     label: "删除",

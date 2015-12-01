@@ -13,18 +13,30 @@ proxy.use("Y9", service.ProxyY9({
 }));
 
 //注册动作
+proxy.action("queryWorkorderList", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
+}).action("queryWorkorderDetail", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
+});
+
+//订单模块
 proxy.action("queryOrderList", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrdersByStateService"
 }).action("queryOrderInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"
-}).action("queryWorkorderList", {
+}).action("QueryOrdersIsUnread", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
-}).action("queryWorkorderDetail", {
+    action: "com.yun9.ws.biz.service.QueryOrdersIsUnreadService"
+}).action("UpdateOrderReadState", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
+    action: "com.yun9.ws.biz.service.UpdateOrderReadStateService"
+}).action("UpdateOrderPrice", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateOrderPriceService"
 });
 
 
@@ -181,7 +193,7 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryUserInfoById", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUserInfoByIdService"
-}).action("QueryUserByInst",{
+}).action("QueryUserByInst", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUsersByInstService"
 });

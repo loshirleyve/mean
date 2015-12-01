@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/3.
  */
 angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "productApp.productMdGroupListGrid", "productApp.productPhaseListGrid",
-    "productApp.productProfilesListGrid", "productApp.productGroupListGrid", "productApp.productClassifiesListGrid",
+    "productApp.productRequirementListGrid","productApp.productProfilesListGrid", "productApp.productGroupListGrid", "productApp.productClassifiesListGrid",
     "productApp.productDescrsListGrid", "productApp.productForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
@@ -228,48 +228,16 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         };
         vm.productCategory = productCategoryService;
         vm.allCitys = [];
-//
-//
-//
-//        /**
-//         * 根据分组id查询产品列表
-//         */
-//        vm.queryByGroupId = function (groupid, name) {
-//            if (groupid != 'weifenlei') {
-//                if (groupid != 'all') {
-//                    vm.groupid = QueryProductsByGroupId.post({
-//                        groupid: groupid
-//                    }).then(function () {
-//                        vm.queryName = name;
-//                    }, function (error) {
-//                    });
-//                }
-//                else {
-//                    vm.groupid = QueryProductsByGroupId.post({
-//                    }).then(function () {
-//                        vm.queryName = name;
-//                    }, function (error) {
-//                    });
-//                }
-//
-//            }
-//            if (groupid == 'weifenlei') {
-//                vm.groupid = QueryProductsNoGroup.post({
-//                }).then(function () {
-//                    vm.queryName = name;
-//                }, function (error) {
-//                });
-//            }
-//        };
 
         vm.addGroup = function () {
             AddOrUpdateMdProductGroup.post({
-                province: vm.currProvince,
-                city: vm.currCity,
-                district: vm.currDistrict,
+                province: vm.productCategory.currProvince,
+                city: vm.productCategory.currCity,
+                district: vm.productCategory.currDistrict,
                 name: vm.groupName
             }).then(function (response) {
-                vm.queryMdProductGroup();
+                vm.groupName="";
+                vm.productCategory.queryMdProductGroup();
             }, function (error) {
                 console.info(error);
             });
@@ -374,7 +342,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
 
 
     })
-    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductsNoGroup, QueryProductInfo, productForm, productPhaseListGrid, productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid) {
+    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, productForm, productPhaseListGrid, productRequirementListGrid,productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid) {
         var vm = this;
 
         //产品列表资源库
@@ -384,6 +352,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         //数据模型
         vm.model = {};
         vm.modelPhases = [];
+        vm.modelRequirements = [];
         vm.modelProfiles = [];
         vm.modelGroups = [];
         vm.modelClassifies = [];
@@ -402,6 +371,13 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productPhaseListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productPhaseListGridApi = nptGridApi;
+            }
+        };
+
+        vm.productRequirementListGridOptions = {
+            store: productRequirementListGrid,
+            onRegisterApi: function (nptGridApi) {
+                vm.productRequirementListGridApi = nptGridApi;
             }
         };
 
@@ -442,6 +418,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                 }).then(function (response) {
                     vm.model = response.data;
                     vm.modelPhases = response.data.productPhases;
+                    vm.modelRequirements=response.data.productRequirements;
                     vm.modelProfiles = response.data.bizProductProfiles;
                     vm.modelGroups = response.data.productGroups;
                     vm.modelClassifies = response.data.bizProductClassifies;
