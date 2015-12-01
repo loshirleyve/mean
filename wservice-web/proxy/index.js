@@ -184,6 +184,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryUserInfoById", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUserInfoByIdService"
+}).action("QueryUserByInst",{
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.QueryUserByInstService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
