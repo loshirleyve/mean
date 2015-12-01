@@ -103,6 +103,10 @@ block content
                         a.navbar-brand(href="") 新增客户
                     ul.nav.navbar-nav.navbar-right
                         li
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClient(vm.clientInfo.data)") 保存
+                        li
+                            a(href="#") 重置
+                        li
                             a(href="#/list") 返回
 
             //数据表单区域

@@ -12,10 +12,6 @@ angular.module("productApp.productDescrsListGrid", [])
                 ]
             },
             action: {
-                view: {
-                    label: "查看",
-                    type: "view"
-                },
                 add: {
                     label: "添加",
                     type: "add",
