@@ -4,7 +4,6 @@ extends ../../layout/layout-bizpage
 block content
     script(src="/js/biz/receivable/receivableListGrid.js")
     script(src="/js/biz/receivable/receivableCollectionListGrid.js")
-    script(src="/js/biz/receivable/receivableForm.js")
     script(src="/js/biz/receivable/receivable.js")
     div(ng-app="receivableApp")
         //通知区域
@@ -13,16 +12,14 @@ block content
         //列表模板
         script(type="text/ng-template",id="list.html")
             //功能导航区
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li.active 收款列表
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li.active 收款列表
             //功能导航
-            nav.navbar.navbar-default
+            nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 收款列表
@@ -68,7 +65,7 @@ block content
                         li(ng-if="!vm.receivableInfo.loading()")
                             a(href="",ng-click="vm.next(vm.receivableInfo.data)",ng-show="vm.receivableList.next(vm.receivableInfo.data)") 下一单
                         li
-                            a(href="#/confirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isConfirm()") 确认收款
+                            a(href="#/confirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isComplete()") 收款
                         li
                             a(href="#/list") 返回
 
@@ -76,7 +73,28 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.receivableFormOptions",model="vm.model")
+                ul
+                    li
+                        strong 业务内容:&nbsp
+                        span {{vm.model.businessKey}}
+                    li
+                        strong 应收金额:&nbsp
+                        span {{vm.model.amount}}
+                    li
+                        strong 已收金额:&nbsp
+                        span {{vm.model.payamount}}
+                    li
+                        strong 收款状态:&nbsp
+                        span {{vm.model.complete}}
+                    li
+                        strong 支付方式:&nbsp
+                        span {{vm.model.paymodeName}}
+                    li
+                        strong 创建日期:&nbsp
+                        span {{vm.model.createdate |  timestampFilter}}
+                    li
+                        strong 确定日期:&nbsp
+                        span {{vm.model.expirydate | timestampFilter}}
             div.page-header
                 h4 付款明细
             div.page-body

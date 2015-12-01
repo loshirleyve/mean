@@ -101,6 +101,31 @@ angular.module("productApp.productForm", ["ui.neptune"])
                 reset: false
             }
         });
+    })
+    .factory("addGroupForm", function (nptFormlyStore) {
+        return nptFormlyStore("addGroupForm", {
+            options: {
+                formState: {
+                    disabled: true
+                }
+
+            },
+            fields: [
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '分组名称:',
+                        placeholder: "请输入分组名称"
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            }
+        });
     }).factory("productPhaseForm", function (nptFormlyStore, QueryCtrlCode) {
         return nptFormlyStore("productPhaseForm", {
             options: {
