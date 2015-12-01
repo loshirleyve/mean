@@ -53,6 +53,15 @@ angular.module("orderApp", [
                     }
                 }
             })
+            .when("/changeprice/:id", {
+                controller: "ChangePriceController as vm",
+                templateUrl: "changePrice.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
             .otherwise({
                 redirectTo: "/list"
             });
@@ -73,6 +82,11 @@ angular.module("orderApp", [
     })
     .factory("UpdateOrderReadState", function (nptRepository) {
         return nptRepository("UpdateOrderReadState");
+    })
+    .factory("UpdateOrderPrice", function (nptRepository, nptSessionManager) {
+        return nptRepository("UpdateOrderPrice").params({
+            userid: nptSessionManager.getSession().getUser().id
+        });
     })
     .controller("OrderListController", function ($scope, $http, $location, $interval, QueryOrderList, OrderListGrid, OrderForm, QueryOrdersIsUnread, Notification) {
         var vm = this;
@@ -293,6 +307,15 @@ angular.module("orderApp", [
             }
         };
 
+        //当前单据是否能够进行改价操作
+        vm.isChangePrice = function () {
+            if (vm.orderInfo.data && vm.orderInfo.data.order.paystate === "waitingpay") {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         //初始化查询(由于可能在点击确认订单后返回,需要重新刷新界面,所以每次都刷新订单)
         vm.query();
 
@@ -373,6 +396,60 @@ angular.module("orderApp", [
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
                     vm.model.adviser = vm.modelOrder.adviser;
+                }, function (error) {
+                    Notification.error({message: '查询订单出现错误.', delay: 2000});
+                });
+            }
+        };
+
+        //执行查询
+        vm.query();
+    }).controller("ChangePriceController", function ($scope, $routeParams, QueryOrderInfo, Notification, $location, OrderChangePriceForm, UpdateOrderPrice) {
+        var vm = this;
+        vm.orderid = $routeParams.id;
+        vm.model = {};
+
+        //订单信息资源库
+        vm.orderInfo = QueryOrderInfo;
+        vm.updateOrderPrice = UpdateOrderPrice;
+
+        vm.toDetail = function () {
+            $location.path("/detail/" + vm.orderid);
+        };
+
+        vm.changePrice = function () {
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请输入正确的新订单价格..', delay: 2000});
+            } else {
+                vm.updateOrderPrice.post({
+                    orderid: vm.orderid,
+                    factamount: vm.model.newprice,
+                    reason: vm.model.reason
+                }).then(function (response) {
+                    Notification.success({message: '改价成功!', delay: 2000});
+                    vm.toDetail();
+                }, function (error) {
+                    Notification.error({message: '改价失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                });
+
+            }
+        };
+
+        //表单配置
+        vm.orderChangePriceFormOptions = {
+            store: OrderChangePriceForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        //查询订单
+        vm.query = function () {
+            if (vm.orderid) {
+                vm.orderInfo.post({
+                    "orderid": vm.orderid
+                }).then(function (response) {
+                    vm.modelOrder = response.data.order;
                 }, function (error) {
                     Notification.error({message: '查询订单出现错误.', delay: 2000});
                 });

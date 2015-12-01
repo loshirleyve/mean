@@ -34,6 +34,9 @@ proxy.action("queryOrderList", {
 }).action("UpdateOrderReadState", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateOrderReadStateService"
+}).action("UpdateOrderPrice", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateOrderPriceService"
 });
 
 
