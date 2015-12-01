@@ -2,12 +2,12 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp.clientForm", "clientApp.addClientForm", "wservice.common", "ngRoute"])
+angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp.clientForm", "clientApp.clientSearchForm", "clientApp.addClientForm", "wservice.common", "ngRoute", "ui-notification"])
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "BizPageDetailController as vm",
+                controller: "ClientDetailController as vm",
                 templateUrl: "detail.html",
                 resolve:{
                     sessionData:function(nptSession){
@@ -25,7 +25,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 }
             })
             .when("/list", {
-                controller: "BizPageListController as vm",
+                controller: "ClientListController as vm",
                 templateUrl: "list.html",
                 resolve:{
                     sessionData:function(nptSession){
@@ -55,9 +55,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("InstInit", function(nptRepository){
         return nptRepository("instInit");
     })
-    .controller("BizPageListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientForm) {
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
         var vm = this;
-
+        vm.searchModel = {};
         //客户列表数据库资源
         vm.clientList = QueryInstClients;
 
@@ -68,11 +68,36 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
 
+        //客户条件查询表单配置
+        vm.clientSearchFormOptions = {
+            store:ClientSearchForm,
+            onRegisterApi: function(nptFormApi){
+                vm.nptClientFormApi = nptFormApi;
+            }
+        };
         /**
-         * 根据状态查询当前用户的客户列表
+         * 查询当前用户的客户列表
          */
         vm.query = function (name,params) {
             params = params || {};
+            vm.state = QueryInstClients.post(params).then(function(){
+                vm.queryName = name;
+            }, function(error){
+                //TODO 弹出提示检索错误通知窗口
+            });
+        };
+
+        /**
+         * 根据条件查询当前用户的客户列表
+         */
+        vm.clientSearchConfirm = function (name, params) {
+            params = params || {};
+            if(!params.contactman){
+                delete params.contactman;
+            }
+            if(!params.fullname){
+                delete params.fullname;
+            }
             vm.state = QueryInstClients.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
@@ -86,7 +111,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -150,10 +175,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
                 InstInit.post(params)
                     .then(function(response){
-                        alert("初始化机构成功！");
+                        Notification.success({message: '初始化机构成功!', delay: 2000});
                         vm.query();
                     }, function(err){
-                        alert("初始化机构失败！");
+                        Notification.error({message: '初始化机构失败.', delay: 2000});
                     });
             }
         };
@@ -197,10 +222,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
                 AddOrUpdateInstClients.post(updateParams)
                     .then(function(response){
-                      alert("更新用户信息成功!");
+                    Notification.success({message: '更新用户信息成功!', delay: 2000});
                 }, function(error){
-                    var de = error;
-                    alert("更新用户信息失败!");
+                    Notification.error({message: '更新用户信息失败.', delay: 2000});
                 });
             }
         };
@@ -209,7 +233,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.query();
     })
 
-    .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager){
+    .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
         vm.model = {};
@@ -224,7 +248,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.nptFormApi.form.reset();
+            vm.nptFormApi.reset();
         };
 
         //新增客户
@@ -252,10 +276,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     .then(function(response){
                         clientid = response.data.id;
                         $location.path("/detail/" + clientid);
-                        alert("新增客户成功!");
+                        Notification.success({message: '新增客户成功!', delay: 2000});
                     }, function(error){
                         var de = error;
-                        alert("新增客户失败!");
+                        Notification.error({message: '新增客户失败.', delay: 2000});
                     });
             }
         };

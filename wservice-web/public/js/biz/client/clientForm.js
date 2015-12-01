@@ -5,10 +5,8 @@
  */
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, QueryInstClientById) {
         return nptFormlyStore("ClientForm", {
-            options: {
-            },
             fields: [
                 {
                     key: 'fullname',
@@ -174,6 +172,20 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         label: '客户机构:'
                     }
                 },
+               /* {
+                    key: 'clientadminid',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        required: true,
+                        label: '客户管理员:',
+                        valueProp:'no',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryInstClientById
+                    }
+                },*/
                 {
                     key: 'clientadminid',
                     type: 'input',

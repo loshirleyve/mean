@@ -1,0 +1,65 @@
+extends ../../layout/layout-bizpage
+block titleContent
+    title 用户文件
+
+block content
+    script(src="/js/biz/file/user.js")
+    div(ng-app="userFileApp")
+        //内容区域
+        div(ng-view)
+
+        //列表模板
+        script(type="text/ng-template",id="list.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li.active 列表
+
+
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 用户文件
+                    div.collapse.navbar-collapse
+                        ul.nav.navbar-nav
+                            li(ng-class="{'active':vm.fileType === 'image'}")
+                                a(href="",ng-click="vm.switch('image')") 图片
+                            li(ng-class="{'active':vm.fileType === 'doc'}")
+                                a(href="",ng-click="vm.switch('doc')") 文件
+
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="",ng-click="vm.setEdit()")
+                                    span(ng-if="!vm.edit") 编辑
+                                    span(ng-if="vm.edit") 取消
+                            li
+                                a(href="") 上传文件
+
+            div.row(ng-if="vm.fileType === 'image'")
+                div.col-xs-6.col-md-3(ng-repeat="image in vm.queryFile.data")
+                    div.thumbnail(href="")
+                        div(npt-image="image.id")
+                        div.caption
+                            h4 {{image.name}}
+                            p {{image.remark}}
+                            p(ng-if="vm.edit")
+                                a.btn.btn-danger(href="",ng-click="vm.delete(image)") 删除
+
+            div.row(ng-if="vm.fileType === 'doc'")
+                div.col-xs-12.col-md-12(ng-repeat="file in vm.queryFile.data")
+                    div.list-group
+                        div.list-group-item(href="")
+                            div.list-group-item-heading
+                                h4 {{file.name}}
+                            p {{file.createdate | timestampFilter}}
+                            p.list-group-item-text {{file.remark}}
+                            a.btn.btn-danger.list-group-item-text(href="",ng-if="vm.edit") 删除
+
+
+
+
+

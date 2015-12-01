@@ -103,7 +103,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
         });
     })
     .factory("StartWorkorderForm", function(nptFormlyStore) {
-        return nptFormlyStore("StartWorkorder", {
+        return nptFormlyStore("StartWorkorderForm", {
             fields: [
                 {
                     key: 'postscript',
@@ -115,4 +115,42 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                 }
             ]
         })
+    }).factory("CompleteWorkorderForm", function(nptFormlyStore) {
+        return nptFormlyStore("CompleteWorkorderForm", {
+            fields: [
+                {
+                    key: 'postscript',
+                    type: 'input',
+                    templateOptions: {
+                        label: '附言:',
+                        required: false
+                    }
+                }
+            ]
+        })
+    }).factory("deliverWorkorderForm", function (nptFormlyStore, OrgListBySelectTree, UserListBySelectTree, QueryUserInfoById) {
+        return nptFormlyStore("deliverWorkorderForm", {
+            fields: [
+                {
+                    key: 'assignedid',
+                    type: 'npt-select-tree-single',
+                    templateOptions: {
+                        label: '专属顾问:',
+                        required: true,
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
+                    }
+                },
+                {
+                    key: 'postscript',
+                    type: 'input',
+                    templateOptions: {
+                        label: '附言:',
+                        required: false
+                    }
+                }
+            ]
+        });
     });
