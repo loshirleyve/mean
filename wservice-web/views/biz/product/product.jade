@@ -9,6 +9,7 @@ block content
     script(src="/js/biz/product/productListGrid.js")
     script(src="/js/biz/product/productMdGroupListGrid.js")
     script(src="/js/biz/product/productPhaseListGrid.js")
+    script(src="/js/biz/product/productRequirementListGrid.js")
     script(src="/js/biz/product/productProfilesListGrid.js")
     script(src="/js/biz/product/productGroupListGrid.js")
     script(src="/js/biz/product/productClassifiesListGrid.js")
@@ -79,7 +80,7 @@ block content
                             li
                                 a(data-toggle="modal",data-target="#addGroup",ng-if='!vm.productList.loading()') 添加分组
                             li
-                                a(href="#/group/{{vm.currProvince}}/{{vm.currCity}}/{{vm.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
+                                a(href="#/group/{{vm.productCategory.currProvince}}/{{vm.productCategory.currCity}}/{{vm.productCategory.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
             div(npt-grid="vm.productListGridOptions",model="vm.productCategory.productList")
             //弹出层，添加分组
             div#addGroup.modal.fade(tabindex="-1",role="dialog")
@@ -128,7 +129,7 @@ block content
                     div.page-header
                         h4 分组信息
                     div.page-body
-                            div(npt-grid="vm.productMdGroupListGridOptions",model="vm.productMdGroupList.data",on-edit-listens="[vm.editGroup]")
+                            div(npt-grid="vm.productMdGroupListGridOptions",model="vm.productMdGroupList.data")
 
 
         //编辑分组
@@ -197,7 +198,11 @@ block content
             div.page-header
                 h4 服务阶段
             div.page-body
-                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases",on-add-listens="[editProductPhase]",on-edit-listens="[editProductPhase]")
+                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases")
+            div.page-header
+                h4 服务资料
+            div.page-body
+                div(npt-grid="vm.productRequirementListGridOptions",model="vm.modelRequirements")
             div.page-header
                 h4 服务内容
             div.page-body
