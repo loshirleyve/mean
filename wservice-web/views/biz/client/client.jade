@@ -8,6 +8,7 @@ block content
     script(src="/js/biz/client/clientListGrid.js")
     script(src="/js/biz/client/clientForm.js")
     script(src="/js/biz/client/addClientForm.js")
+    script(src="/js/biz/client/clientSearchForm.js")
     script(src="/js/biz/client/client.js")
     div(ng-app="clientApp")
         //内容区域
@@ -42,8 +43,22 @@ block content
                                     li
                                         a(href="",ng-click="vm.query('全部')") 全部
                                     li
-                                        a(href="") 条件查询
-
+                                        a(href="", data-toggle="modal", data-target="#clientSearch") 条件查询
+            //弹出层，客户条件查询表单
+            div#clientSearch.modal.fade(tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture")&times;
+                            h4.modal-title 客户查询
+                        div.modal-body
+                            div.row
+                                div.col-md-12
+                                    div(npt-form="vm.clientSearchFormOptions",model="vm.searchModel")
+                        div.modal-footer
+                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.clientSearchConfirm('条件查询', vm.searchModel)") 确认
 
             div(npt-grid="vm.clientListGridOptions",model="vm.clientList.data")
 
@@ -105,7 +120,7 @@ block content
                         li
                             a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClient(vm.model)") 保存
                         li
-                            a(href="#",ng-click="vm.reset()") 重置
+                            a(href="",ng-click="vm.reset()") 重置
                         li
                             a(href="#/list") 返回
 
