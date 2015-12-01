@@ -7,8 +7,6 @@
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("ClientForm", {
-            options: {
-            },
             fields: [
                 {
                     key: 'fullname',
