@@ -197,7 +197,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         listRepository: UserListBySelectTree,
                         viewvalueRepository: QueryUserInfoById
                     }
-                },
+                }
             ]
         });
     });

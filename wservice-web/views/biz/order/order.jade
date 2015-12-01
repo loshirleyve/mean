@@ -48,6 +48,13 @@ block content
                                     li
                                         a(href="") 条件查询
 
+                            li.dropdown(ng-if='!vm.orderList.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 检查新订单[已检查{{vm.count}}次] - {{vm.scheduleLabel}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li(ng-repeat="schedule in vm.schedules")
+                                        a(href="",ng-click="vm.selectSchedule(schedule)") {{schedule.label}}
+
             div(npt-grid="vm.orderListGridOptions",model="vm.orderList.data")
         //详情模板
         script(type="text/ng-template",id="detail.html")
