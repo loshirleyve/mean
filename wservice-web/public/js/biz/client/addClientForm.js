@@ -101,29 +101,29 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         repositoryParams: {"defno": "clientsource"}
                     }
                 },
-//                {
-//                    key: 'scaleid',
-//                    type: 'ui-select',
-//                    templateOptions: {
-//                        optionsAttr: "bs-options",
-//                        required: true,
-//                        label: '规模:',
-//                        valueProp:'type',
-//                        labelProp:'name',
-//                        placeholder:'请选择',
-//                        options:[],
-//                        repository: QueryMdInstScale,
-//                        repositoryParams: {"instid":"10000001463017"}
-//                    },
-//                    expressionProperties:{
-//                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-//                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-//                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-//                            }
-//                            return scope.to.options;
-//                        }
-//                    }
-//                },
+                {
+                    key: 'scaleid',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        required: true,
+                        label: '规模:',
+                        valueProp:'type',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryMdInstScale,
+                        repositoryParams: {"instid":"10000001463017"}
+                    },
+                    expressionProperties:{
+                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+                            }
+                            return scope.to.options;
+                        }
+                    }
+                },
                 {
                     key: 'contactman',
                     type: 'input',

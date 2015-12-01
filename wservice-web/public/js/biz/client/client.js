@@ -47,8 +47,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
     })
-    .factory("AddOrUpdateInstClients", function(nptRepository){
-        return nptRepository("addOrUpdateInstClients");
+    .factory("AddOrUpdateInstClients", function(nptRepository,nptSessionManager){
+        return nptRepository("addOrUpdateInstClients").params({
+            "instid":nptSessionManager.getSession().getInst().id
+        });
     })
     .factory("InstInit", function(nptRepository){
         return nptRepository("instInit");
@@ -178,7 +180,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var updateParams = {
                     "id":clientInfo.id,
-                    "instid":clientInfo.instid,
                     "sn":clientInfo.sn,
                     "fullname":clientInfo.fullname,
                     "name":clientInfo.name,
@@ -208,8 +209,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.query();
     })
 
-    .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients){
+    .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager){
         var vm = this;
+        vm.clientid = {};
+        vm.model = {};
         vm.newClientInfo = AddOrUpdateInstClients;
 
         //新增客户表单配置
@@ -221,13 +224,14 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.nptFormApi.reset();
+            vm.nptFormApi.form.reset();
         };
 
         //新增客户
         vm.addClient = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
-                var Params = {
+                var params = {
+                    "createby":nptSessionManager.getSession().getUser().id,
                     "sn":clientInfo.sn,
                     "fullname":clientInfo.fullname,
                     "name":clientInfo.name,
@@ -240,11 +244,14 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "contactman":clientInfo.contactman,
                     "contactphone":clientInfo.contactphone,
                     "contactposition":clientInfo.contactposition,
-                    "level":clientInfo.level
+                    "level":clientInfo.level,
+                    "remark":clientInfo.remark
                 };
 
-                AddOrUpdateInstClients.post(Params)
+                AddOrUpdateInstClients.post(params)
                     .then(function(response){
+                        clientid = response.data.id;
+                        $location.path("/detail/" + clientid);
                         alert("新增客户成功!");
                     }, function(error){
                         var de = error;
@@ -252,6 +259,4 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     });
             }
         };
-        //初始化新增客户
-        vm.addClient();
     });
