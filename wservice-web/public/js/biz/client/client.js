@@ -228,7 +228,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.addClient = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var Params = {
-                    "instid":clientInfo.instid,
                     "sn":clientInfo.sn,
                     "fullname":clientInfo.fullname,
                     "name":clientInfo.name,

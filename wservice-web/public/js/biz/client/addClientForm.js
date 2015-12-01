@@ -45,6 +45,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'industry',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         label:'行业',
                         required: true,
                         valueProp:'no',
@@ -59,6 +60,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'type',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '类型:',
                         valueProp:'no',
@@ -73,6 +75,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'level',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '级别:',
                         valueProp:'no',
@@ -87,6 +90,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     key: 'source',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '来源:',
                         valueProp:'no',
@@ -101,6 +105,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
 //                    key: 'scaleid',
 //                    type: 'ui-select',
 //                    templateOptions: {
+//                        optionsAttr: "bs-options",
 //                        required: true,
 //                        label: '规模:',
 //                        valueProp:'type',
@@ -132,16 +137,17 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '电话:',
+                        label: '手机号:',
                         minlength: 11,
                         maxlength: 11,
-                        "mask":"(9999)9999999"
+                        "mask":"999 9999 9999"
                     }
                 },
                 {
                     key: 'contactposition',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '职位:',
                         valueProp:'no',

@@ -129,10 +129,13 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 },
                 {
                     key: 'contactphone',
-                    type: 'input',
+                    type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '电话:'
+                        label: '手机号:',
+                        minlength: 11,
+                        maxlength: 11,
+                        "mask":"999 9999 9999"
                     }
                 },
                 {
