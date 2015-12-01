@@ -6,7 +6,8 @@
 
 angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
     .run(function (nptFormStore, OrgListBySelectTree,
-                   UserListBySelectTree, QueryUserInfoById, QueryCtrlCode, QueryImageByUserLevel, QueryInsts) {
+                   UserListBySelectTree, QueryUserInfoById,
+                   QueryCtrlCode, QueryImageByUserLevel, QueryInsts,QueryUserByInst) {
         nptFormStore.put("demo", {
             options: {},
             fields: [
@@ -52,7 +53,7 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                         required: true,
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "cycle"},
+                        repositoryParams: {"defno": "cycle"}
                     }
                 },
                 {
@@ -98,7 +99,7 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                         required: true,
                         options: [],
                         search: ["name"],
-                        repository: UserListBySelectTree,
+                        repository: QueryUserByInst,
                         repositoryParams: {}
                     }
                 },

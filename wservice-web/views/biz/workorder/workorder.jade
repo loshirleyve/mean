@@ -117,35 +117,28 @@ block content
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href="#/detail/{{vm.model.data.workOrder.id}}") 返回
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-primary
-            //            div.panel-heading 工单信息
-            //            div.panel-body
-            //                form.form-horizontal
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="postscript") 附言:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",ng-model="postscript")
-            //                            span#helpBlock.help-block 你即将开始编号为{{vm.model.data.workOrder.sn}} 名称为{{vm.model.data.workOrder.name}} 的工单
-            //                    div.form-group
-            //                        div.col-sm-offset-2.col-md-10
-            //                            button.btn.btn-primary(type="button",ng-click="vm.startWorkorder()") 确认开始
-            //                            | &nbsp &nbsp
-            //                            a.btn.btn-default(type="button",href="#/detail/{{vm.model.data.workOrder.id}}") 返回
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 确认订单
+                        a.navbar-brand(href="") 开始工单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.startWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 立即开始
                         li
                             button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.nptFormApi.reset()") 重置
                         li
-                            button.btn.btn-warning.navbar-btn(href="#detail/{{orderid}}") 返回
+                            button.btn.btn-warning.navbar-btn(href="#detail/{{workorderid}}") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
+            div.well
+                span 请核对以下工单信息!
+                ul
+                    li 工单编号:{{vm.modelWorkorder.sn}}
+                    li 工单名称:{{vm.modelWorkorder.name}}
+                    li 工单描述:{{vm.modelWorkorder.descr}}
+                    li 工单状态:{{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+
+            div(npt-form="vm.startWorkorderOptions",model="vm.model")
         script(type="text/ng-template",id="completeWorkorder.html")
             div.row
                 div.col-md-12
@@ -176,7 +169,7 @@ block content
                         div.panel-body
                             form.form-horizontal
                                 div.form-group
-                                    label.col-md-2.control-label(for="sn") 订单编号:
+                                    label.col-md-2.control-label(for="sn") 工单编号:
                                     div.col-md-10
                                         input.form-control(type="text",id="sn",value="{{data.workOrder.sn}}",disabled)
                                 div.form-group

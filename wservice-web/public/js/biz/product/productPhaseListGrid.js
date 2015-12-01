@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productPhaseListGrid", [])
-    .factory("productPhaseListGrid", function (nptGridStore,productForm) {
+    .factory("productPhaseListGrid", function (nptGridStore,productPhaseForm) {
         return nptGridStore("productPhaseListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -17,13 +17,13 @@ angular.module("productApp.productPhaseListGrid", [])
                 add: {
                     label: "添加",
                     type: "add",
-                    target:"productPhase"
+                    target:productPhaseForm
 
                 },
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:"productPhase"
+                    target:productPhaseForm
                 },
                 del: {
                     label: "删除",

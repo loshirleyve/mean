@@ -251,7 +251,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.query();
 
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder, StartWorkorderForm) {
         //$scope.workorderid = $routeParams.id;
         //
         ////查询工单信息
@@ -283,12 +283,21 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         //};
 
         var vm = this;
+        $scope.workorderid = $routeParams.id;
 
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
 
         //数据模型
         vm.model = {};
+
+        //表单配置
+        vm.startWorkorderOptions = {
+            store: StartWorkorderForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        }
 
         //查询工单
         vm.query = function () {
@@ -298,7 +307,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 vm.workorderInfo.post({
                     workorderid: id
                 }).then(function (response) {
-                    vm.model.data = response.data;
+                    vm.modelWorkorder = response.data.workOrder;
                 }, function (error) {
                     var de = error;
                 });
@@ -316,14 +325,16 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
             workorderids.push(id);
 
-            params.postscript = $scope.postscript;
+            console.info(vm.model);
+
+            params.postscript = vm.model.postscript;
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
             StartWorkorder.post(params).then(function (response) {
                 $location.path("/detail/" + id);
-            }, function (error) {
-                var de = error;
+            }, function (err) {
+                var de = err;
             });
 
         };
