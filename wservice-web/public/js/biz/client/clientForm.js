@@ -16,7 +16,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '名称:',
-                        placeholder: "请输入客户名称"
+                        disabled:true
                     }
                 },
                 {
@@ -97,28 +97,28 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         repositoryParams: {"defno": "clientsource"}
                     }
                 },
-//                {
-//                    key: 'scaleid',
-//                    type: 'ui-select',
-//                    templateOptions: {
-//                        required: true,
-//                        label: '规模:',
-//                        valueProp:'type',
-//                        labelProp:'name',
-//                        placeholder:'请选择',
-//                        options:[],
-//                        repository: QueryMdInstScale,
-//                        repositoryParams: {"instid":"10000001463017"}
-//                    },
-//                    expressionProperties:{
-//                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-//                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-//                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-//                            }
-//                            return scope.to.options;
-//                        }
-//                    }
-//                },
+                {
+                    key: 'scaleid',
+                    type: 'ui-select',
+                    templateOptions: {
+                        required: true,
+                        label: '规模:',
+                        valueProp:'type',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryMdInstScale,
+                        repositoryParams: {"instid":"10000001463017"}
+                    },
+                    expressionProperties:{
+                        "templateOptions.options":function($viewValue,$modelValue,scope) {
+                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
+                                scope.to.options =  scope.to.options[0].bizMdInstScales;
+                            }
+                            return scope.to.options;
+                        }
+                    }
+                },
                 {
                     key: 'contactman',
                     type: 'input',
@@ -183,18 +183,20 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 },
                 {
                     key: 'createdate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         required: true,
-                        label: '创建时间:'
+                        label: '创建时间:',
+                        "formateType": "short"
                     }
                 },
                 {
                     key: 'updatedate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         required: true,
-                        label: '更新时间:'
+                        label: '更新时间:',
+                        "formateType": "short"
                     }
                 },
                 {

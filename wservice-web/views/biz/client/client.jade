@@ -72,9 +72,9 @@ block content
                         li(ng-if="vm.clientInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上个客户
+                            a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                         li(ng-if="!vm.clientInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下个客户
+                            a(href="",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
                         li
                             a(href="#/list") 返回
 
