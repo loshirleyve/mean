@@ -101,4 +101,18 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                 }
             ]
         });
+    })
+    .factory("StartWorkorderForm", function(nptFormlyStore) {
+        return nptFormlyStore("StartWorkorder", {
+            fields: [
+                {
+                    key: 'postscript',
+                    type: 'input',
+                    templateOptions: {
+                        label: '附言:',
+                        required: false
+                    }
+                }
+            ]
+        })
     });

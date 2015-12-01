@@ -58,7 +58,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
     .factory("QueryOrderInfo", function (nptRepository) {
         return nptRepository("queryOrderInfo");
     })
-    .controller("OrderListController", function ($scope, $http, $location, QueryOrderList, OrderListGrid, OrderForm) {
+    .controller("OrderListController", function ($scope, $http, $location, $interval, QueryOrderList, OrderListGrid, OrderForm) {
         var vm = this;
 
         //订单列表数据资源库
@@ -97,6 +97,70 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
             vm.queryByState("", '全部');
         }
+
+        //周期检查新订单配置
+        vm.schedules = [{
+            label: "不检查",
+            millisecond: 0
+        }, {
+            label: "每10秒检查",
+            millisecond: 1000 * 10
+        }, {
+            label: "每30秒检查",
+            millisecond: 1000 * 30
+        }, {
+            label: "每分钟检查",
+            millisecond: 1000 * 60
+        }];
+
+        var stop;
+        vm.count = 0;
+
+        //执行检查
+        function checkNewOrders() {
+            vm.count++;
+            console.info("执行第" + vm.count + "次检查!");
+        }
+
+        //开始执行任务
+        vm.startCheck = function (millis) {
+            //如果已经存在任务则返回
+            if (angular.isDefined(stop)) return;
+            stop = $interval(checkNewOrders, millis);
+        };
+
+        //停止检查
+        vm.stopCheck = function () {
+            if (angular.isDefined(stop)) {
+                $interval.cancel(stop);
+                stop = undefined;
+            }
+        };
+
+        //选择设置
+        vm.selectSchedule = function (schedule) {
+            if (angular.isDefined(schedule)) {
+
+                //先停止之前的任务
+                vm.stopCheck();
+
+                //设置显示选项
+                vm.scheduleLabel = schedule.label;
+
+                //如果本次配置大于0毫秒则开始执行任务
+                if (schedule.millisecond > 0) {
+                    vm.startCheck(schedule.millisecond);
+                }
+            }
+        };
+
+        //设置默认检查项
+        vm.selectSchedule(vm.schedules[2]);
+
+        //销毁时关闭订单检查任务
+        $scope.$on("$destroy", function () {
+            vm.stopCheck();
+        });
     })
     .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid) {
         var vm = this;
@@ -115,7 +179,6 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
             store: OrderForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
-
             }
         };
 
@@ -183,7 +246,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
 
 
     }).
-    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, $location) {
+    controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm) {
         var vm = this;
         vm.orderid = $routeParams.id;
 
@@ -257,6 +320,7 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                     "orderid": vm.orderid
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
+                    vm.model.adviser = vm.modelOrder.adviser;
                 }, function (error) {
                 });
             }

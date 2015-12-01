@@ -84,7 +84,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients) {
+    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -149,6 +149,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 InstInit.post(params)
                     .then(function(response){
                         alert("初始化机构成功！");
+                        vm.query();
                     }, function(err){
                         alert("初始化机构失败！");
                     });
@@ -211,7 +212,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         var vm = this;
         vm.newClientInfo = AddOrUpdateInstClients;
 
-        //客户详情表单配置
+        //新增客户表单配置
         vm.addClientFormOptions = {
             store:AddClientForm,
             onRegisterApi: function(nptFormApi){
@@ -219,17 +220,38 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
 
-        //新增客户
-        vm.addClient = function(){
-            vm.newClientInfo.post({
-
-            }).then(function(response){
-
-            }, function(error){
-                var de = error;
-            });
+        vm.reset = function () {
+            vm.nptFormApi.reset();
         };
 
+        //新增客户
+        vm.addClient = function(clientInfo){
+            if (clientInfo && !vm.nptFormApi.form.$invalid){
+                var Params = {
+                    "sn":clientInfo.sn,
+                    "fullname":clientInfo.fullname,
+                    "name":clientInfo.name,
+                    "type":clientInfo.type,
+                    "industry":clientInfo.industry,
+                    "scaleid":clientInfo.scaleid,
+                    "source":clientInfo.source,
+                    "region":clientInfo.region,
+                    "address":clientInfo.address,
+                    "contactman":clientInfo.contactman,
+                    "contactphone":clientInfo.contactphone,
+                    "contactposition":clientInfo.contactposition,
+                    "level":clientInfo.level
+                };
+
+                AddOrUpdateInstClients.post(Params)
+                    .then(function(response){
+                        alert("新增客户成功!");
+                    }, function(error){
+                        var de = error;
+                        alert("新增客户失败!");
+                    });
+            }
+        };
         //初始化新增客户
         vm.addClient();
     });
