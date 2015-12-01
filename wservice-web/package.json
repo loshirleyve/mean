@@ -29,6 +29,7 @@
     "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-grid": "^3.0.7",
     "angular-ui-mask": "1.6.0",
+    "angular-ui-notification": "^0.1.0",
     "angular-ui-select": "^0.12.100",
     "angular-ui-tree": "^2.10.0",
     "api-check": "^7.5.5",

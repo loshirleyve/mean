@@ -2,7 +2,15 @@
  * Created by leon on 15/10/22.
  */
 
-angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.OrderProductGrid", "orderApp.OrderWorkorderGrid", "orderApp.orderForm", "wservice.common", "ngRoute"])
+angular.module("orderApp", [
+    "ui.neptune",
+    "orderApp.OrderListGrid",
+    "orderApp.OrderProductGrid",
+    "orderApp.OrderWorkorderGrid",
+    "orderApp.orderForm",
+    "wservice.common",
+    "ngRoute",
+    "ui-notification"])
     .config(function ($routeProvider) {
         //注册订单路由
         $routeProvider
@@ -58,11 +66,21 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
     .factory("QueryOrderInfo", function (nptRepository) {
         return nptRepository("queryOrderInfo");
     })
-    .controller("OrderListController", function ($scope, $http, $location, $interval, QueryOrderList, OrderListGrid, OrderForm) {
+    .factory("QueryOrdersIsUnread", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryOrdersIsUnread").params({
+            instid: nptSessionManager.getSession().getInst().id
+        });
+    })
+    .factory("UpdateOrderReadState", function (nptRepository) {
+        return nptRepository("UpdateOrderReadState");
+    })
+    .controller("OrderListController", function ($scope, $http, $location, $interval, QueryOrderList, OrderListGrid, OrderForm, QueryOrdersIsUnread, Notification) {
         var vm = this;
 
+        vm.model = [];
         //订单列表数据资源库
         vm.orderList = QueryOrderList;
+        vm.ordersIsUnread = QueryOrdersIsUnread;
 
         vm.orderListGridOptions = {
             store: OrderListGrid,
@@ -87,8 +105,9 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         vm.queryByState = function (state, name) {
             vm.state = QueryOrderList.post({
                 state: state
-            }).then(function () {
+            }).then(function (response) {
                 vm.queryName = name;
+                vm.model = response.data;
             }, function (error) {
             });
         };
@@ -96,6 +115,8 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         //首先查询全部订单
         if (!QueryOrderList.data || QueryOrderList.data.length <= 0) {
             vm.queryByState("", '全部');
+        } else {
+            vm.model = QueryOrderList.data;
         }
 
         //周期检查新订单配置
@@ -120,6 +141,28 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
         function checkNewOrders() {
             vm.count++;
             console.info("执行第" + vm.count + "次检查!");
+            vm.hasNewOrders = false;
+            //执行服务器检查
+            QueryOrdersIsUnread.post().then(function (response) {
+                console.info("检索完成", response);
+
+                if (response.data.orderList && response.data.orderList.length > 0) {
+                    vm.hasNewOrders = true;
+
+                    Notification.success({
+                        message: '检查到' + response.data.orderList.length + '张最新的订单,点击显示新订单按钮立即查看!',
+                        title: '检查到新订单',
+                        replaceMessage: true,
+                        delay: 5000
+                    }).then(function () {
+                    });
+                } else {
+                    vm.hasNewOrders = false;
+                }
+            }, function (error) {
+                vm.hasNewOrders = false;
+                console.info("检索错误", error);
+            });
         }
 
         //开始执行任务
@@ -151,6 +194,14 @@ angular.module("orderApp", ["ui.neptune", "orderApp.OrderListGrid", "orderApp.Or
                 if (schedule.millisecond > 0) {
                     vm.startCheck(schedule.millisecond);
                 }
+            }
+        };
+
+        vm.showNewOrders = function () {
+            if (vm.ordersIsUnread && vm.ordersIsUnread.data.orderList && vm.ordersIsUnread.data.orderList.length > 0) {
+                vm.model = vm.ordersIsUnread.data.orderList;
+                //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
+                vm.orderList.data = vm.ordersIsUnread.data.orderList;
             }
         };
 
