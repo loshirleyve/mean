@@ -65,7 +65,12 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
-}).action("AddOrUpdateProductProfile", {
+})
+.action("AddProductRequirement", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddProductRequirementService"
+})
+.action("AddOrUpdateProductProfile", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
 }).action("AddOrUpdateProductGroup", {
@@ -98,6 +103,9 @@ proxy.action("queryCities", {
 }).action("QueryProductPhaseByProductid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
+}).action("QueryRequirementsByInstid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
 });
 
 //工单

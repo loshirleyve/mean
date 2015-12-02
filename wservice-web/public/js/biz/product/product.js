@@ -69,6 +69,11 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         return nptRepository("QueryProductPhaseByProductid").params({
         });
     })
+    .factory("QueryRequirementsByInstid", function (nptRepository) {
+        return nptRepository("QueryRequirementsByInstid").params({
+        });
+    })
+
     .factory("AddOrUpdateProduct", function (nptRepository) {
         return nptRepository("AddOrUpdateProduct").params({
         });
@@ -81,7 +86,12 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
     .factory("AddOrUpdateProductPhase", function (nptRepository) {
         return nptRepository("AddOrUpdateProductPhase").params({
         });
-    }).factory("AddOrUpdateProductProfile", function (nptRepository) {
+    })
+    .factory("AddProductRequirement", function (nptRepository) {
+        return nptRepository("AddProductRequirement").params({
+        });
+    })
+    .factory("AddOrUpdateProductProfile", function (nptRepository) {
         return nptRepository("AddOrUpdateProductProfile").params({
         });
     }).factory("AddOrUpdateProductGroup", function (nptRepository) {
@@ -430,9 +440,9 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
 
 
     })
-    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, AddOrUpdateProductPhase, productForm, productPhaseListGrid, productRequirementListGrid, productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid,productCategoryService,nptSessionManager) {
+    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, AddOrUpdateProductPhase, productForm, productPhaseListGrid, productRequirementListGrid, productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid, productCategoryService, nptSessionManager) {
         var vm = this;
-        var userid= nptSessionManager.getSession().getUser().id
+        var userid = nptSessionManager.getSession().getUser().id
         //产品列表资源库
         vm.productList = QueryProductsGroup;
         //产品信息资源库
@@ -487,7 +497,8 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -506,7 +517,8 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -525,7 +537,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
                         params.data.createby = userid;
                         productCategoryService.editProductProfile(params, $q).then(function () {
                             deferd.resolve();
@@ -545,7 +557,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
                         productCategoryService.editProductGroup(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -564,7 +576,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
                         productCategoryService.editProductClassify(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -583,7 +595,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.productid= $routeParams.id;
+                        params.data.productid = $routeParams.id;
                         params.data.createby = userid;
                         productCategoryService.editProductDescr(params, $q).then(function () {
                             deferd.resolve();

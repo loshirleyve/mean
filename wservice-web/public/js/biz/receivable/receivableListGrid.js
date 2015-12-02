@@ -6,7 +6,6 @@ angular.module("receivableApp.receivableListGrid", [])
         return nptGridStore("receivableListGrid", {
             gridOptions: {
                 columnDefs: [
-                    {field: 'id', displayName: "id", width: 100},
                     {field: 'businessKey', displayName: "业务内容", width: 300},
                     {field: 'amount', displayName: "应收金额", width: 100,cellFilter: "number"},
                     {field: 'payamount', displayName: "已收金额", width: 100,cellFilter: "number"},

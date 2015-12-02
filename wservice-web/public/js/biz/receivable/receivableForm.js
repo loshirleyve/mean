@@ -6,9 +6,9 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
     .factory("receivableForm", function (nptFormlyStore) {
         return nptFormlyStore("receivableForm", {
             options: {
-                formState: {
-                    disabled: true
-                }
+//                formState: {
+//                    disabled: true
+//                }
 
             },
             fields: [
@@ -45,15 +45,23 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     }
                 },
                 {
-                    key: '',
-                    type: 'input',
+                    key: 'amount',
+                    type: 'label',
+                    templateOptions: {
+                        required: true,
+                        label: '本次收款金额:'
+                    }
+                },
+                {
+                    key: 'remark',
+                    type: 'textarea',
                     templateOptions: {
                         required: true,
                         label: '本次收款方式:'
                     }
                 },
                 {
-                    key: '',
+                    key: 'collectuserid',
                     type: 'input',
                     templateOptions: {
                         required: true,
