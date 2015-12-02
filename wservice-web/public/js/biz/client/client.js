@@ -83,7 +83,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             vm.state = QueryInstClients.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
-                //TODO 弹出提示检索错误通知窗口
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
             });
         };
 
@@ -101,7 +101,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             vm.state = QueryInstClients.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
-                //TODO 弹出提示检索错误通知窗口
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
             });
         };
 
@@ -159,8 +159,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //初始化客户机构
-        vm.initInst = function(clientInfo){
-            //TODO 调用初始化客户服务
+        vm.initClientInst = function(clientInfo){
+            //调用初始化客户服务
             if (clientInfo && vm.isInitInst){
 
                 var params = {
@@ -173,12 +173,12 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "clientId":clientInfo.id
                 };
 
-                InstInit.post(params)
+                vm.instInit.post(params)
                     .then(function(response){
                         Notification.success({message: '初始化机构成功!', delay: 2000});
                         vm.query();
                     }, function(err){
-                        Notification.error({message: '初始化机构失败.', delay: 2000});
+                        Notification.error({message: '初始化机构失败.' + err.data.cause, delay: 2000});
                     });
             }
         };
@@ -191,7 +191,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 }).then(function(response){
                     vm.model.client = response.data;
                 }, function(error){
-                    var de = error;
+                    Notification.error({message: '查询客户信息失败.', delay: 2000});
                 });
             }
         };
@@ -201,7 +201,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //更新客户信息
-        vm.updateClient = function(clientInfo){
+        vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var updateParams = {
                     "id":clientInfo.id,
@@ -217,14 +217,15 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "contactman":clientInfo.contactman,
                     "contactphone":clientInfo.contactphone,
                     "contactposition":clientInfo.contactposition,
-                    "level":clientInfo.level
+                    "level":clientInfo.level,
+                    "remark":clientInfo.remark
                 };
 
-                AddOrUpdateInstClients.post(updateParams)
+                vm.updateClient.post(updateParams)
                     .then(function(response){
-                    Notification.success({message: '更新用户信息成功!', delay: 2000});
+                    Notification.success({message: '更新客户信息成功!', delay: 2000});
                 }, function(error){
-                    Notification.error({message: '更新用户信息失败.', delay: 2000});
+                    Notification.error({message: '更新客户信息失败.', delay: 2000});
                 });
             }
         };
@@ -237,7 +238,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         var vm = this;
         vm.clientid = {};
         vm.model = {};
-        vm.newClientInfo = AddOrUpdateInstClients;
+        vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
         vm.addClientFormOptions = {
@@ -252,7 +253,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //新增客户
-        vm.addClient = function(clientInfo){
+        vm.addClientSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var params = {
                     "createby":nptSessionManager.getSession().getUser().id,
@@ -272,7 +273,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "remark":clientInfo.remark
                 };
 
-                AddOrUpdateInstClients.post(params)
+                vm.addClient.post(params)
                     .then(function(response){
                         clientid = response.data.id;
                         $location.path("/detail/" + clientid);
