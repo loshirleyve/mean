@@ -81,15 +81,15 @@ block content
                         a.navbar-brand(href="") 客户详情
                     ul.nav.navbar-nav.navbar-right
                         li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
-                            a(href="",ng-click="vm.initInst(vm.clientInfo.data)") 初始化机构
+                            a(href="",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                         li
                                 a(href="#/addClient") 新增客户
                         li(ng-if="vm.clientInfo.loading()")
                             a(href="") 正在查询,请稍后...
                         li(ng-if="vm.updateClient.loading()")
-                            a(href="") 正在上传,请稍后...
+                            a(href="") 正在保存,请稍后...
                         li(ng-if="!vm.updateClient.loading()")
-                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateClient(vm.clientInfo.data)") 保存
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
                         li(ng-if="!vm.clientInfo.loading()")
                             a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                         li(ng-if="!vm.clientInfo.loading()")
@@ -121,8 +121,10 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="") 新增客户
                     ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClient(vm.model)") 保存
+                        li(ng-if="vm.addClient.loading()")
+                            a(href="") 正在保存,请稍后...
+                        li(ng-if="!vm.addClient.loading()")
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
                         li
                             a(href="",ng-click="vm.reset()") 重置
                         li
