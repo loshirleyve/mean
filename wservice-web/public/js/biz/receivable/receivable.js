@@ -148,7 +148,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 delete params.enddate;
             }
             vm.queryService.query(params);
-        }
+        };
 
     }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
 
