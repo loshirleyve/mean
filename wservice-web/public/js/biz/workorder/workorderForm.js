@@ -114,7 +114,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                     }
                 }
             ]
-        })
+        });
     }).factory("CompleteWorkorderForm", function(nptFormlyStore) {
         return nptFormlyStore("CompleteWorkorderForm", {
             fields: [
@@ -127,7 +127,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                     }
                 }
             ]
-        })
+        });
     }).factory("deliverWorkorderForm", function (nptFormlyStore, OrgListBySelectTree, UserListBySelectTree, QueryUserInfoById) {
         return nptFormlyStore("deliverWorkorderForm", {
             fields: [
