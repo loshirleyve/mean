@@ -16,6 +16,10 @@ angular.module("productApp.productRequirementListGrid", [])
                 add: {
                     label: "添加",
                     type: "add"
+                },
+                del: {
+                    label: "删除",
+                    type: "del"
                 }
             }
         });

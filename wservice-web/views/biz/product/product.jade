@@ -78,27 +78,8 @@ block content
                             li
                                 a(href="#/product",ng-if='!vm.productList.loading()') 添加产品
                             li
-                                a(data-toggle="modal",data-target="#addGroup",ng-if='!vm.productList.loading()') 添加分组
-                            li
                                 a(href="#/group/{{vm.productCategory.currProvince}}/{{vm.productCategory.currCity}}/{{vm.productCategory.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
             div(npt-grid="vm.productListGridOptions",model="vm.productCategory.productList")
-            //弹出层，添加分组
-            div#addGroup.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
-                            h4.modal-title 添加分组
-                        div.modal-body
-                            form.form-horizontal
-                                div.form-group
-                                    label.col-md-3.control-label 分组名称:
-                                    div.col-md-9
-                                        input.form-control(type="text",ng-model="vm.groupName")
-                            div.modal-footer
-                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="vm.addGroup()") 确认
 
         //编辑产品
         script(type="text/ng-template",id="editGroup.html")
@@ -127,7 +108,10 @@ block content
             div.row
                 div.col-md-12
                     div.page-header
-                        h4 分组信息
+                        div.row
+                            h4.col-md-6 分组信息
+                            div.col-md-6.text-right
+                                button.btn.btn-default.btn-sm(ng-click="vm.addGroupDialog();") 添加
                     div.page-body
                             div(npt-grid="vm.productMdGroupListGridOptions",model="vm.productMdGroupList.data")
 
@@ -196,27 +180,45 @@ block content
             div.page-body
                 div(npt-form="vm.productFormOptions",model="vm.model.product")
             div.page-header
-                h4 服务阶段
+                div.row
+                    h4.col-md-6 服务阶段
+                    div.col-md-6.text-right
+                        button.btn.btn-default(ng-click="vm.addProductPhaseDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases")
             div.page-header
-                h4 服务资料
+                div.row
+                    h4.col-md-6 服务资料
+                    div.col-md-6.text-right
+                        button.btn.btn-default.btn-sm(ng-click="vm.addProductRequirementDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productRequirementListGridOptions",model="vm.modelRequirements")
             div.page-header
-                h4 服务内容
+                div.row
+                    h4.col-md-6 服务内容
+                    div.col-md-6.text-right
+                        button.btn.btn-default.btn-sm(ng-click="vm.addProductProfilesDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productProfilesListGridOptions",model="vm.modelProfiles")
             div.page-header
-                h4 服务分组
+                div.row
+                    h4.col-md-6 服务分组
+                    div.col-md-6.text-right
+                        button.btn.btn-default.btn-sm(ng-click="vm.addProductGroupDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productGroupListGridOptions",model="vm.modelGroups")
             div.page-header
-                h4 服务分类
+                div.row
+                    h4.col-md-6 服务分类
+                    div.col-md-6.text-right
+                        button.btn.btn-default.btn-sm(ng-click="vm.addProductClassifiesDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productClassifiesListGridOptions",model="vm.modelClassifies")
             div.page-header
-                h4 服务说明
+                div.row
+                    h4.col-md-6 服务说明
+                    div.col-md-6.text-right
+                        button.btn.btn-default.btn-sm(ng-click="vm.addProductDescrsDialog();") 添加
             div.page-body
                 div(npt-grid="vm.productDescrsListGridOptions",model="vm.modelDescrs")
 

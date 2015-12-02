@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableCollectionListGrid","receivableApp.receivableForm", "wservice.common", "ngRoute"])
+angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableCollectionListGrid", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -75,7 +75,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         if (!QueryReceivableList.data || QueryReceivableList.data.length <= 0) {
             vm.queryByState("all", '全部');
         }
-    }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableForm,receivableCollectionListGrid) {
+    }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
 
         var vm=this;
 
@@ -84,15 +84,6 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         //数据模型
         vm.model = {};
         vm.modelCollections = [];
-
-        //表单配置
-        vm.receivableFormOptions = {
-            store: receivableForm,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-
-            }
-        };
 
         vm.receivableCollectionListGridOptions = {
             store: receivableCollectionListGrid,
@@ -116,4 +107,29 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             }
         };
         vm.query();
+
+
+        //当前单据是否能够确认
+        vm.isComplete = function () {
+            if (vm.receivableInfo.data && vm.receivableInfo.data.complete == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+        //转到下一单
+        vm.next = function (receivable) {
+            var nextReceivable = vm.receivableList.next(receivable);
+            if (nextReceivable) {
+                $location.path("/detail/" + nextReceivable.id);
+            }
+        };
+
+        //转到上一单
+        vm.previous = function (receivable) {
+            var previousReceivable = vm.receivableList.previous(receivable);
+            if (previousReceivable) {
+                $location.path("/detail/" + previousReceivable.id);
+            }
+        };
     });

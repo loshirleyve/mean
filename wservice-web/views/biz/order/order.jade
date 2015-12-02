@@ -31,33 +31,25 @@ block content
                         a.navbar-brand(href="#") 订单列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.orderList.loading()")
+                            li(ng-if="vm.queryService.orderList.loading() || vm.orderUnreadService.ordersIsUnread.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.orderList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryName}}
+                            li.dropdown(ng-if='!vm.queryService.orderList.loading() && !vm.orderUnreadService.ordersIsUnread.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.queryByState('','全部')") 全部
-                                    li
-                                        a(href="",ng-click="vm.queryByState('waitconfirm','待确认')") 待确认
-                                    li
-                                        a(href="",ng-click="vm.queryByState('buy','待支付')") 待支付
-                                    li
-                                        a(href="",ng-click="vm.queryByState('inservice','服务中')") 服务中
-                                    li
-                                        a(href="") 条件查询
-                            li.dropdown(ng-if='!vm.orderList.loading()')
-                                a(href="",ng-if="vm.ordersIsUnread.loading()") 正在检查...
-                                a.dropdown-toggle(href="",ng-if="!vm.ordersIsUnread.loading()",data-toggle="dropdown") 检查新订单[已检查{{vm.count}}次] - {{vm.scheduleLabel}}
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
+                            li.dropdown(ng-if='!vm.queryService.orderList.loading() && !vm.orderUnreadService.ordersIsUnread.loading()')
+                                a(href="",ng-if="vm.orderUnreadService.ordersIsUnread.loading()") 正在检查...
+                                a.dropdown-toggle(href="",ng-if="!vm.ordersIsUnread.loading()",data-toggle="dropdown") 检查新订单[已检查{{vm.orderUnreadService.count}}次] - {{vm.orderUnreadService.currSchedule.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li(ng-repeat="schedule in vm.schedules")
-                                        a(href="",ng-click="vm.selectSchedule(schedule)") {{schedule.label}}
-                            li(ng-if="vm.hasNewOrders")
+                                    li(ng-repeat="schedule in vm.orderUnreadService.schedules")
+                                        a(href="",ng-click="vm.orderUnreadService.selectSchedule(schedule)") {{schedule.label}}
+                            li(ng-if="vm.orderUnreadService.hasNewOrders && !vm.queryService.orderList.loading()")
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
 
-            div(npt-grid="vm.orderListGridOptions",model="vm.model")
+            div(npt-grid="vm.orderListGridOptions",model="vm.queryService.orderList.data")
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
@@ -95,55 +87,39 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                ul
-                    li
-                        strong 订单编号:&nbsp
-                        span {{vm.modelOrder.ordersn}}
-                    li
-                        strong 订单说明:&nbsp
-                        span {{vm.modelOrder.name}}
-                    li
-                        strong 订单简介:&nbsp
-                        span {{vm.modelOrder.introduce}}
-                    li
-                        strong 服务机构:&nbsp
-                        span {{vm.modelOrder.instid | cacheFilter:'inst':'instname':'instid'}}
-                    li
-                        strong 开始服务日期:&nbsp
-                        span {{vm.modelOrder.begindate | timestampFilter}}
-                    li
-                        strong 结束服务日期:&nbsp
-                        span {{vm.modelOrder.enddate | timestampFilter}}
-                    li
-                        strong 订单状态:&nbsp
-                        span {{vm.modelOrder.state | ctrlCodeFilter:'orderstatetype':'name':'no'}}
-                    li
-                        strong 支付状态:&nbsp
-                        span {{vm.modelOrder.paystate | ctrlCodeFilter:'orderpaystate':'name':'no'}}
-                    li
-                        strong 订单金额:&nbsp
-                        span {{vm.modelOrder.orderamount}}
-                    li
-                        strong 实际金额:&nbsp
-                        span {{vm.modelOrder.factamount}}
-                    li
-                        strong 客户机构:&nbsp
-                        span {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
-                    li
-                        strong 购买人:&nbsp
-                        span {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
-                    li
-                        strong 专属顾问:&nbsp
-                        span {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
-                    li
-                        strong 业务员:&nbsp
-                        span {{vm.modelOrder.salesmanid | cacheFilter:'user':'name':'id'}}
-                    li
-                        strong 代理机构:&nbsp
-                        span {{vm.modelOrder.proxyinstid | cacheFilter:'inst':'instname':'instid'}}
-                    li
-                        strong 代理人:&nbsp
-                        span {{vm.modelOrder.proxyman | cacheFilter:'user':'name':'id'}}
+                dl.dl-horizontal
+                    dt 订单编号:
+                    dd {{vm.modelOrder.ordersn}}
+                    dt 订单说明:
+                    dd {{vm.modelOrder.name}}
+                    dt 订单简介:
+                    dd {{vm.modelOrder.introduce}}
+                    dt 服务机构:
+                    dd {{vm.modelOrder.instid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 开始服务日期:
+                    dd {{vm.modelOrder.begindate | timestampFilter}}
+                    dt 结束服务日期:
+                    dd {{vm.modelOrder.enddate | timestampFilter}}
+                    dt 订单状态:
+                    dd {{vm.modelOrder.state | ctrlCodeFilter:'orderstatetype':'name':'no'}}
+                    dt 支付状态:
+                    dd {{vm.modelOrder.paystate | ctrlCodeFilter:'orderpaystate':'name':'no'}}
+                    dt 订单金额:
+                    dd {{vm.modelOrder.orderamount}}
+                    dt 实际金额:
+                    dd {{vm.modelOrder.factamount}}
+                    dt 客户机构:
+                    dd {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 购买人:
+                    dd {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                    dt 专属顾问:
+                    dd {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
+                    dt 业务员:
+                    dd {{vm.modelOrder.salesmanid | cacheFilter:'user':'name':'id'}}
+                    dt 代理机构:
+                    dd {{vm.modelOrder.proxyinstid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 代理人:
+                    dd {{vm.modelOrder.proxyman | cacheFilter:'user':'name':'id'}}
 
 
             // div(npt-form="vm.orderFormOptions",model="vm.modelOrder")
@@ -179,23 +155,43 @@ block content
                         li
                             button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
                         li
-                            button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.nptFormApi.reset()") 重置
-                        li
                             button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
-            div.well
-                span 请核对以下订单信息,并填写订单服务周期;专属顾问;业务员后确认订单!
-                ul
-                    li 编号:{{vm.modelOrder.ordersn}}
-                    li 说明:{{vm.modelOrder.name}}
-                    li 简介:{{vm.modelOrder.introduce}}
-                    li 订单金额:{{vm.modelOrder.orderamount}}
-                    li 实际金额:{{vm.modelOrder.factamount}}
-                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
-                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请核对以下订单信息,并填写订单服务周期;专属顾问;业务员后确认订单!
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 编号:
+                        dd {{vm.modelOrder.ordersn}}
 
-            div(npt-form="vm.orderConfirmFormOptions",model="vm.model")
+                        dt 说明:
+                        dd {{vm.modelOrder.name}}
+
+                        dt 简介:
+                        dd {{vm.modelOrder.introduce}}
+
+                        dt 订单金额:
+                        dd {{vm.modelOrder.orderamount}}
+
+                        dt 实际金额:
+                        dd {{vm.modelOrder.factamount}}
+
+                        dt 客户机构:
+                        dd {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+
+                        dt 购买人:
+                        dd {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+
+                        dt 业务员:
+                        dd {{vm.modelOrder.salesmanid | cacheFilter:'user':'name':'id'}}
+
+                        dt 专属顾问:
+                        dd {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
+
+
+                    div(npt-form="vm.orderConfirmFormOptions",model="vm.model")
 
         //确认订单模板
         script(type="text/ng-template",id="adviser.html")
@@ -224,20 +220,30 @@ block content
                         li
                             | &nbsp &nbsp &nbsp &nbsp
 
-            div.well
-                span 请为当前订单选择一个新的专属顾问.
-                ul
-                    li 编号:{{vm.modelOrder.ordersn}}
-                    li 说明:{{vm.modelOrder.name}}
-                    li 简介:{{vm.modelOrder.introduce}}
-                    li 订单金额:{{vm.modelOrder.orderamount}}
-                    li 实际金额:{{vm.modelOrder.factamount}}
-                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
-                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
-                    li.lead 当前专属顾问:{{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请为当前订单选择一个新的专属顾问.
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 编号:
+                        dd {{vm.modelOrder.ordersn}}
+                        dt 说明:
+                        dd {{vm.modelOrder.name}}
+                        dt 简介:
+                        dd {{vm.modelOrder.introduce}}
+                        dt 订单金额:
+                        dd {{vm.modelOrder.orderamount}}
+                        dt 实际金额:
+                        dd {{vm.modelOrder.factamount}}
+                        dt 客户机构:
+                        dd {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                        dt 购买人:
+                        dd {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                        dt.lead 当前专属顾问:
+                        dd.lead {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
 
 
-            div(npt-form="vm.orderAdviserFormOptions",model="vm.model")
+                    div(npt-form="vm.orderAdviserFormOptions",model="vm.model")
 
         script(type="text/ng-template",id="changePrice.html")
             ul.breadcrumb
@@ -266,15 +272,28 @@ block content
                             button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
-            div.well
-                span 请输入一个新的价格.并点击确认改价.
-                ul
-                    li 编号:{{vm.modelOrder.ordersn}}
-                    li 说明:{{vm.modelOrder.name}}
-                    li 简介:{{vm.modelOrder.introduce}}
-                    li 客户机构:{{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
-                    li 购买人:{{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
-                    li 订单原始金额:{{vm.modelOrder.orderamount}}
-                    li.lead 订单当前实际金额:{{vm.modelOrder.factamount}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请输入一个新的价格.并点击确认改价.
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 编号:
+                        dd {{vm.modelOrder.ordersn}}
+                        dt 说明:
+                        dd {{vm.modelOrder.name}}
+                        dt 简介:
+                        dd {{vm.modelOrder.introduce}}
+                        dt 客户机构:
+                        dd {{vm.modelOrder.buyerinstid | cacheFilter:'inst':'instname':'instid'}}
+                        dt 购买人:
+                        dd {{vm.modelOrder.purchase | cacheFilter:'user':'name':'id'}}
+                        dt 业务员:
+                        dd {{vm.modelOrder.salesmanid | cacheFilter:'user':'name':'id'}}
+                        dt 专属顾问:
+                        dd {{vm.modelOrder.adviser | cacheFilter:'user':'name':'id'}}
+                        dt 订单原始金额:
+                        dd {{vm.modelOrder.orderamount}}
+                        dt.lead 订单当前金额:
+                        dd.lead {{vm.modelOrder.factamount}}
 
-            div(npt-form="vm.orderChangePriceFormOptions",model="vm.model")
+                    div(npt-form="vm.orderChangePriceFormOptions",model="vm.model")

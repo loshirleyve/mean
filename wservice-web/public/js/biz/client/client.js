@@ -7,7 +7,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //注册客户路由
         $routeProvider
             .when("/detail/:id", {
-                controller: "BizPageDetailController as vm",
+                controller: "ClientDetailController as vm",
                 templateUrl: "detail.html",
                 resolve:{
                     sessionData:function(nptSession){
@@ -25,7 +25,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 }
             })
             .when("/list", {
-                controller: "BizPageListController as vm",
+                controller: "ClientListController as vm",
                 templateUrl: "list.html",
                 resolve:{
                     sessionData:function(nptSession){
@@ -55,7 +55,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("InstInit", function(nptRepository){
         return nptRepository("instInit");
     })
-    .controller("BizPageListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
         var vm = this;
         vm.searchModel = {};
         //客户列表数据库资源
@@ -111,7 +111,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("BizPageDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
         var vm = this;
         vm.clientid = $routeParams.id;
 

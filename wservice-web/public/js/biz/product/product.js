@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/3.
  */
 angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "productApp.productMdGroupListGrid", "productApp.productPhaseListGrid",
-    "productApp.productRequirementListGrid","productApp.productProfilesListGrid", "productApp.productGroupListGrid", "productApp.productClassifiesListGrid",
+    "productApp.productRequirementListGrid", "productApp.productProfilesListGrid", "productApp.productGroupListGrid", "productApp.productClassifiesListGrid",
     "productApp.productDescrsListGrid", "productApp.productForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         //注册产品路由
@@ -58,8 +58,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         });
     }).factory("QueryProductsGroup", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryProductsGroup").params({
-            instid: nptSessionManager.getSession().getInst().id
-//            userid: nptSessionManager.getSession().getUser().id
+            //instid: nptSessionManager.getSession().getInst().id
         });
     })
     .factory("QueryProductInfo", function (nptRepository) {
@@ -70,6 +69,11 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         return nptRepository("QueryProductPhaseByProductid").params({
         });
     })
+    .factory("QueryRequirementsByInstid", function (nptRepository) {
+        return nptRepository("QueryRequirementsByInstid").params({
+        });
+    })
+
     .factory("AddOrUpdateProduct", function (nptRepository) {
         return nptRepository("AddOrUpdateProduct").params({
         });
@@ -82,7 +86,12 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
     .factory("AddOrUpdateProductPhase", function (nptRepository) {
         return nptRepository("AddOrUpdateProductPhase").params({
         });
-    }).factory("AddOrUpdateProductProfile", function (nptRepository) {
+    })
+    .factory("AddProductRequirement", function (nptRepository) {
+        return nptRepository("AddProductRequirement").params({
+        });
+    })
+    .factory("AddOrUpdateProductProfile", function (nptRepository) {
         return nptRepository("AddOrUpdateProductProfile").params({
         });
     }).factory("AddOrUpdateProductGroup", function (nptRepository) {
@@ -110,7 +119,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         return nptRepository("RemoveProductDescr").params({
         });
     })
-    .service("productCategoryService", function ($http, $location, nptResource, queryCities, QueryMdProductGroup, QueryProductsGroup) {
+    .service("productCategoryService", function ($http, $location, nptResource, queryCities, QueryMdProductGroup, QueryProductsGroup, AddOrUpdateMdProductGroup, AddOrUpdateProductPhase, AddOrUpdateProductProfile, AddOrUpdateProductGroup, AddOrUpdateProductclassify, AddOrUpdateProductDescr) {
         var self = this;
         //查找所有省
         self.findProvince = function () {
@@ -205,18 +214,112 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             }
             else {
                 self.groupid = QueryProductsGroup.post({
-                    groupid:groupid
+                    groupid: groupid
                 }).then(function (response) {
                     self.queryName = name;
                     self.productList = response.data;
                 }, function (error) {
                 });
             }
-
-
         };
+
+        self.editGroup = function (params, $q) {
+            var deferd = $q.defer();
+            AddOrUpdateMdProductGroup.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject(error);
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+        /**
+         * 编辑产品阶段
+         */
+        self.editProductPhase = function (params, $q) {
+            var deferd = $q.defer();
+            AddOrUpdateProductPhase.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject("不能在第一行上添加.");
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+        /**
+         * 编辑产品说明
+         */
+        self.editProductProfile = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            AddOrUpdateProductProfile.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject("不能在第一行上添加.");
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+        /**
+         * 编辑产品分组
+         */
+        self.editProductGroup = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            AddOrUpdateProductGroup.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject("不能在第一行上添加.");
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+
+        /**
+         * 编辑产品内容
+         */
+        self.editProductClassify = function (params, $q, nptResource) {
+            var deferd = $q.defer();
+            AddOrUpdateProductclassify.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject("不能在第一行上添加.");
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+        /**
+         * 编辑产品说明
+         */
+        self.editProductDescr = function (params, $q) {
+            var deferd = $q.defer();
+            AddOrUpdateProductDescr.post(
+                params.data
+            ).then(function (response) {
+                    deferd.resolve("编辑成功");
+                }, function (error) {
+                    deferd.reject("不能在第一行上添加.");
+                    console.info(error);
+                });
+            return deferd.promise;
+        };
+
+
     })
-    .controller("productListController", function ($scope, $http, $location, queryCities, QueryMdProductGroup,QueryProductsGroup, AddOrUpdateMdProductGroup, productListGrid, productCategoryService) {
+    .controller("productListController", function ($scope, $http, $location, queryCities, QueryMdProductGroup, QueryProductsGroup, AddOrUpdateMdProductGroup, productListGrid, productCategoryService) {
         var vm = this;
         vm.productList = QueryProductsGroup;
 
@@ -228,20 +331,6 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         };
         vm.productCategory = productCategoryService;
         vm.allCitys = [];
-
-        vm.addGroup = function () {
-            AddOrUpdateMdProductGroup.post({
-                province: vm.productCategory.currProvince,
-                city: vm.productCategory.currCity,
-                district: vm.productCategory.currDistrict,
-                name: vm.groupName
-            }).then(function (response) {
-                vm.groupName="";
-                vm.productCategory.queryMdProductGroup();
-            }, function (error) {
-                console.info(error);
-            });
-        };
 
 
         //首先查询全部产品
@@ -301,7 +390,8 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             });
         };
 
-    }).controller("editGroupController", function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid) {
+    }).controller("editGroupController",
+    function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid, productCategoryService) {
         var vm = this;
         vm.productMdGroupList = QueryMdProductGroup;
 
@@ -309,7 +399,25 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productMdGroupListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productMdGroupListGridApi = nptGridApi;
+                vm.productMdGroupListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.province = $routeParams.province,
+                            params.data.city = $routeParams.city,
+                            params.data.district = $routeParams.district
+                        productCategoryService.editGroup(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
+        };
+
+        vm.addGroupDialog = function () {
+            vm.productMdGroupListGridApi.action.add();
         };
 
         vm.queryMdProductGroup = function () {
@@ -324,16 +432,6 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             });
         };
 
-        vm.editGroup = function (params, $q, nptResource) {
-            var deferd = $q.defer();
-            nptResource
-                .post("AddOrUpdateMdProductGroup", params.data, function (data) {
-                    console.info("后台调用更成功.controller");
-                    deferd.resolve("添加成功");
-                }, function (data) {
-                    deferd.reject("不能在第一行上添加.");
-                });
-        };
 
         //首先查询全部产品
         if (!QueryMdProductGroup.data || QueryMdProductGroup.data.length <= 0) {
@@ -342,9 +440,9 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
 
 
     })
-    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, productForm, productPhaseListGrid, productRequirementListGrid,productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid) {
+    .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, AddOrUpdateProductPhase, productForm, productPhaseListGrid, productRequirementListGrid, productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid, productCategoryService, nptSessionManager) {
         var vm = this;
-
+        var userid = nptSessionManager.getSession().getUser().id
         //产品列表资源库
         vm.productList = QueryProductsGroup;
         //产品信息资源库
@@ -367,10 +465,47 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             }
         };
 
+        vm.addProductPhaseDialog = function () {
+            vm.productPhaseListGridApi.action.add();
+        };
+
+        vm.addProductRequirementDialog = function () {
+            vm.productRequirementListGridApi.action.add();
+        };
+
+        vm.addProductProfilesDialog = function () {
+            vm.productProfilesListGridApi.action.add();
+        };
+
+        vm.addProductGroupDialog = function () {
+            vm.productGroupListGridApi.action.add();
+        };
+
+        vm.addProductClassifiesDialog = function () {
+            vm.productClassifiesListGridApi.action.add();
+        };
+
+        vm.addProductDescrsDialog = function () {
+            vm.productDescrsListGridApi.action.add();
+        };
+
         vm.productPhaseListGridOptions = {
             store: productPhaseListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productPhaseListGridApi = nptGridApi;
+                vm.productPhaseListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
+                        productCategoryService.editProductPhase(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -378,6 +513,19 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productRequirementListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productRequirementListGridApi = nptGridApi;
+                vm.productRequirementListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
+                        productCategoryService.editProductPhase(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -385,6 +533,19 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productProfilesListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productProfilesListGridApi = nptGridApi;
+                vm.productProfilesListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
+                        productCategoryService.editProductProfile(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -392,6 +553,18 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productGroupListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productGroupListGridApi = nptGridApi;
+                vm.productGroupListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        productCategoryService.editProductGroup(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -399,6 +572,18 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productClassifiesListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productClassifiesListGridApi = nptGridApi;
+                vm.productClassifiesListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        productCategoryService.editProductClassify(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -406,6 +591,19 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             store: productDescrsListGrid,
             onRegisterApi: function (nptGridApi) {
                 vm.productDescrsListGridApi = nptGridApi;
+                vm.productDescrsListGridApi.action.add.addListener(
+                    function (params, $timeout, $q) {
+                        var deferd = $q.defer();
+                        console.info("开始执行后台更新服务.");
+                        params.data.productid = $routeParams.id;
+                        params.data.createby = userid;
+                        productCategoryService.editProductDescr(params, $q).then(function () {
+                            deferd.resolve();
+                        }, function () {
+                            deferd.reject();
+                        });
+                        return deferd.promise;
+                    });
             }
         };
 
@@ -418,7 +616,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                 }).then(function (response) {
                     vm.model = response.data;
                     vm.modelPhases = response.data.productPhases;
-                    vm.modelRequirements=response.data.productRequirements;
+                    vm.modelRequirements = response.data.productRequirements;
                     vm.modelProfiles = response.data.bizProductProfiles;
                     vm.modelGroups = response.data.productGroups;
                     vm.modelClassifies = response.data.bizProductClassifies;
@@ -430,22 +628,20 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         };
         vm.query();
 
-        /**
-         * 编辑产品阶段
-         */
-        $scope.editProductPhase = function (params, $q, nptResource) {
-            params.data.createby = "10000001498059";
-            params.data.productid = $scope.productid;
-            delete params.data.phasedescr;
-            var deferd = $q.defer();
-            nptResource
-                .post("AddOrUpdateProductPhase", params.data, function (data) {
-                    console.info("后台调用更成功.controller");
-                    deferd.resolve("添加成功");
-                }, function (data) {
-                    deferd.reject("不能在第一行上添加.");
-                });
-            return deferd.promise;
+        //转到下一单
+        vm.next = function (product) {
+            var nextProduct = vm.productList.next(product);
+            if (nextProduct) {
+                $location.path("/detail/" + nextProduct.id);
+            }
+        };
+
+        //转到上一单
+        vm.previous = function (product) {
+            var previousProduct = vm.productList.previous(product);
+            if (previousProduct) {
+                $location.path("/detail/" + previousProduct.id);
+            }
         };
 
     });
