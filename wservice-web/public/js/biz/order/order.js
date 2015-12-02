@@ -118,7 +118,7 @@ angular.module("orderApp", [
             type: "waitconfirm",
             callback: function () {
                 self.query({
-                    state: "waitconfirm"
+                    states: ["waitconfirm"]
                 });
             }
         }, {
@@ -126,7 +126,7 @@ angular.module("orderApp", [
             type: "buy",
             callback: function () {
                 self.query({
-                    state: "buy"
+                    states: ["buy"]
                 });
             }
         }, {
@@ -134,7 +134,7 @@ angular.module("orderApp", [
             type: "inservice",
             callback: function () {
                 self.query({
-                    state: "inservice"
+                    states: ["inservice"]
                 });
             }
         }, {
@@ -284,8 +284,15 @@ angular.module("orderApp", [
                 //vm.model = vm.ordersIsUnread.data.orderList;
                 //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
                 vm.queryService.orderList.data = newOrders;
+
+                var params = {orderids: []};
+
+                angular.forEach(newOrders, function (order) {
+                    params.orderids.push(order.id);
+                });
+
                 //将显示后的订单设置为已读状态
-                UpdateOrderReadState.post(newOrders).then(function (response) {
+                UpdateOrderReadState.post(params).then(function (response) {
                 }, function (error) {
                     Notification.error({message: '设置订单为已读状态出现错误.', delay: 2000});
                 });

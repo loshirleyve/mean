@@ -40,7 +40,7 @@ block content
                                     li
                                         a(href="",ng-click="vm.queryByState('','全部')") 全部
                                     li
-                                        a(href="",ng-click="vm.queryByState('unstart','未处理')") 未处理
+                                        a(href="",ng-click="vm.queryByState('unstart','未开始')") 未开始
                                     li
                                         a(href="",ng-click="vm.queryByState('inservice','处理中')") 处理中
                                     li
@@ -56,7 +56,7 @@ block content
                                         a(href="",ng-click="vm.selectSchedule(schedule)") {{schedule.label}}
                             li(ng-if="vm.hasNewOrders")
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
-            div(npt-grid="vm.workorderListGridOptions",model="vm.workorderList.data")
+            div(npt-grid="vm.workorderListGridOptions",model="vm.queryService.workorderList.data")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域

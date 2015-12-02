@@ -24,7 +24,7 @@ proxy.action("queryWorkorderList", {
 //订单模块
 proxy.action("queryOrderList", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryOrdersByStateService"
+    action: "com.yun9.ws.biz.service.QueryOrdersService"
 }).action("queryOrderInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryOrderInfoService"

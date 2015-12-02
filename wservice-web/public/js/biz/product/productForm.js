@@ -3,35 +3,40 @@
  */
 
 angular.module("productApp.productForm", ["ui.neptune"])
-    .factory("productForm", function (nptFormlyStore, QueryCtrlCode) {
+    .factory("productForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByMaterialLevel) {
         return nptFormlyStore("productForm", {
             options: {
                 formState: {
-                    disabled: true
+                    disabled: false
                 }
-
             },
             fields: [
                 {
                     key: 'imgid',
-                    type: 'input',
+                    type: 'npt-select-image',
                     templateOptions: {
                         label: '产品logo:',
-                        disabled: true
+                        required: true,
+                        single: true,
+                        imageRepository: QueryImageByMaterialLevel
                     }
                 },
                 {
                     key: 'name',
                     type: 'input',
                     templateOptions: {
-                        label: '产品名称:'
+                        label: '产品名称:',
+                        required: true
                     }
                 },
                 {
                     key: 'saleprice',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '产品价格:'
+                        label: '产品价格:',
+                        required: true,
+                        max: 9999,
+                        min: 0
                     }
                 },
                 {
@@ -40,19 +45,21 @@ angular.module("productApp.productForm", ["ui.neptune"])
                     templateOptions: {
                         optionsAttr: "bs-options",
                         label: '产品类型:',
-                        valueProp: 'no',
+                        required: true,
+                        valueProp: 'id',
                         labelProp: 'name',
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "producttypecode"},
+                        repositoryParams: {"defno": "producttype"},
                         options: [],
-                        allowClear: false
+                        allowClear: true
                     }
                 },
                 {
                     key: 'introduce',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
-                        label: '服务详情:'
+                        label: '服务详情:',
+                        required: true
                     }
                 },
                 {
@@ -62,11 +69,7 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         label: '详情链接:'
                     }
                 }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            }
+            ]
         });
     }).factory("groupForm", function (nptFormlyStore) {
         return nptFormlyStore("groupForm", {
@@ -74,7 +77,6 @@ angular.module("productApp.productForm", ["ui.neptune"])
                 formState: {
                     disabled: true
                 }
-
             },
             fields: [
                 {

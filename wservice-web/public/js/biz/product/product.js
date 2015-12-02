@@ -1,15 +1,34 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "productApp.productMdGroupListGrid", "productApp.productPhaseListGrid",
-    "productApp.productRequirementListGrid", "productApp.productProfilesListGrid", "productApp.productGroupListGrid", "productApp.productClassifiesListGrid",
-    "productApp.productDescrsListGrid", "productApp.productForm", "wservice.common", "ngRoute"])
+angular.module("productApp", ["ui.neptune",
+    "productApp.productListGrid",
+    "productApp.productMdGroupListGrid",
+    "productApp.productPhaseListGrid",
+    "productApp.productRequirementListGrid",
+    "productApp.productProfilesListGrid",
+    "productApp.productGroupListGrid",
+    "productApp.productClassifiesListGrid",
+    "productApp.productDescrsListGrid",
+    "productApp.productForm",
+    "wservice.common",
+    "ngRoute",
+    "ui-notification"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
             .when("/list", {
                 controller: "productListController as vm",
                 templateUrl: "list.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/add", {
+                controller: "addProductController as vm",
+                templateUrl: "add.html",
                 resolve: {
                     sessionData: function (nptSession) {
                         return nptSession();
@@ -50,33 +69,27 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
             .otherwise({
                 redirectTo: "/list"
             });
-    }).factory("queryCities", function (nptRepository) {
-        return nptRepository("queryCities").params({
-        });
+    }).factory("QueryCities", function (nptRepository) {
+        return nptRepository("queryCities").params({});
     }).factory("QueryMdProductGroup", function (nptRepository) {
-        return nptRepository("QueryMdProductGroupBylocation").params({
-        });
+        return nptRepository("QueryMdProductGroupBylocation").params({});
     }).factory("QueryProductsGroup", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryProductsGroup").params({
-            //instid: nptSessionManager.getSession().getInst().id
+            instid: nptSessionManager.getSession().getInst().id
         });
     })
     .factory("QueryProductInfo", function (nptRepository) {
-        return nptRepository("QueryProductInfoById").params({
-        });
+        return nptRepository("QueryProductInfoById").params({});
     })
     .factory("QueryProductPhases", function (nptRepository) {
-        return nptRepository("QueryProductPhaseByProductid").params({
-        });
+        return nptRepository("QueryProductPhaseByProductid").params({});
     })
     .factory("QueryRequirementsByInstid", function (nptRepository) {
-        return nptRepository("QueryRequirementsByInstid").params({
-        });
+        return nptRepository("QueryRequirementsByInstid").params({});
     })
 
     .factory("AddOrUpdateProduct", function (nptRepository) {
-        return nptRepository("AddOrUpdateProduct").params({
-        });
+        return nptRepository("AddOrUpdateProduct").params({});
     })
     .factory("AddOrUpdateMdProductGroup", function (nptRepository, nptSessionManager) {
         return nptRepository("AddOrUpdateMdProductGroup").params({
@@ -84,244 +97,195 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         });
     })
     .factory("AddOrUpdateProductPhase", function (nptRepository) {
-        return nptRepository("AddOrUpdateProductPhase").params({
-        });
+        return nptRepository("AddOrUpdateProductPhase").params({});
     })
     .factory("AddProductRequirement", function (nptRepository) {
-        return nptRepository("AddProductRequirement").params({
-        });
+        return nptRepository("AddProductRequirement").params({});
     })
     .factory("AddOrUpdateProductProfile", function (nptRepository) {
-        return nptRepository("AddOrUpdateProductProfile").params({
-        });
+        return nptRepository("AddOrUpdateProductProfile").params({});
     }).factory("AddOrUpdateProductGroup", function (nptRepository) {
-        return nptRepository("AddOrUpdateProductGroup").params({
-        });
+        return nptRepository("AddOrUpdateProductGroup").params({});
     }).factory("AddOrUpdateProductclassify", function (nptRepository) {
-        return nptRepository("AddOrUpdateProductclassify").params({
-        });
+        return nptRepository("AddOrUpdateProductclassify").params({});
     }).factory("AddOrUpdateProductDescr", function (nptRepository) {
-        return nptRepository("AddOrUpdateProductDescr").params({
-        });
+        return nptRepository("AddOrUpdateProductDescr").params({});
     }).factory("RemoveProductPhase", function (nptRepository) {
-        return nptRepository("RemoveProductPhase").params({
-        });
+        return nptRepository("RemoveProductPhase").params({});
     }).factory("RemoveProductRequirement", function (nptRepository) {
-        return nptRepository("RemoveProductRequirement").params({
-        });
+        return nptRepository("RemoveProductRequirement").params({});
     }).factory("RemoveProductGroup", function (nptRepository) {
-        return nptRepository("RemoveProductGroup").params({
-        });
+        return nptRepository("RemoveProductGroup").params({});
     }).factory("RemoveProductClassify", function (nptRepository) {
-        return nptRepository("RemoveProductClassify").params({
-        });
+        return nptRepository("RemoveProductClassify").params({});
     }).factory("RemoveProductDescr", function (nptRepository) {
-        return nptRepository("RemoveProductDescr").params({
-        });
+        return nptRepository("RemoveProductDescr").params({});
     })
-    .service("productCategoryService", function ($http, $location, nptResource, queryCities, QueryMdProductGroup, QueryProductsGroup, AddOrUpdateMdProductGroup, AddOrUpdateProductPhase, AddOrUpdateProductProfile, AddOrUpdateProductGroup, AddOrUpdateProductclassify, AddOrUpdateProductDescr) {
+    .service("ProductQueryService", function (Notification, QueryMdProductGroup, QueryCities, QueryProductsGroup) {
         var self = this;
-        //查找所有省
-        self.findProvince = function () {
-            if (self.allCitys) {
+        self.reposCities = QueryCities;
+        self.reposProductGroup = QueryMdProductGroup;
+        self.reposProducts = QueryProductsGroup;
+
+        //建立省份列表
+        self.buildProvince = function () {
+            if (self.reposCities.data) {
                 self.provinces = {};
-                self.allCitys.forEach(function (value) {
+                angular.forEach(self.reposCities.data, function (value) {
                     if (!self.provinces[value.province]) {
+                        self.buildCityByProvince(value);
                         self.provinces[value.province] = value;
                     }
                 });
-                self.selectProvince(self.allCitys[0]);
             }
         };
 
-        //根据省份查询城市
-        self.findCitys = function (province) {
-            if (self.allCitys) {
-                self.citys = {};
-                self.allCitys.forEach(function (value) {
-                    if (value.province === province.province && !self.citys[value.city]) {
-                        self.citys[value.city] = value;
+        //建立城市列表
+        self.buildCityByProvince = function (province) {
+            if (self.reposCities.data) {
+                //初始化当前省份的城市列表
+                province.citys = {};
+                angular.forEach(self.reposCities.data, function (value) {
+                    if (value.province === province.province && !province.citys[value.city]) {
+                        self.buildDistrict(province, value);
+                        province.citys[value.city] = value;
                     }
                 });
             }
         };
 
-        //根据省份、城市查询区域
-        self.findDistrict = function (province, city) {
-            if (self.allCitys) {
-                self.districts = {};
-                self.allCitys.forEach(function (value) {
-                    if (value.province === province && value.city === city.city) {
-                        self.districts[value.district] = value;
+        //建立区列表
+        self.buildDistrict = function (province, city) {
+            if (self.reposCities.data) {
+                city.districts = {};
+                angular.forEach(self.reposCities.data, function (value) {
+                    if (value.province === province.province && value.city === city.city) {
+                        city.districts[value.district] = value;
                     }
                 });
             }
         };
 
+        //建立查询分类
+        self.buildQueryType = function (productGroups) {
+            self.queryTypes = [
+                {
+                    label: "全部",
+                    callBack: function () {
+                        self.queryProducts();
+                    }
+                }, {
+                    label: "未分类",
+                    callBack: function () {
+                        self.queryProducts({
+                            groupType: "none"
+                        });
+                    }
+                }
+            ];
+
+            function groupQueryCallback(queryType) {
+                self.queryProducts({
+                    groupid: queryType.target.id
+                });
+            }
+
+            //根据产品分组建立查询
+            angular.forEach(productGroups, function (value) {
+                self.queryTypes.push({
+                    label: value.name,
+                    target: value,
+                    callBack: groupQueryCallback
+                })
+            });
+
+        };
+
+        //选择查询type
+        self.selectQueryType = function (queryType) {
+            self.currQueryType = queryType;
+
+            if (queryType.callBack) {
+                queryType.callBack(queryType);
+            }
+        };
+
+        //选择省
         self.selectProvince = function (province) {
-            self.currProvince = province.province;
-            self.findCitys(province);
-            self.currCity = undefined;
-            self.currDistrict = undefined;
+            self.currProvince = province;
             self.selectCity(province);
         };
 
+        //选择城市
         self.selectCity = function (city) {
-            self.currCity = city.city;
-            self.findDistrict(self.currProvince, city);
-            self.currDistrict = undefined;
+            self.currCity = city;
             self.selectDistrict(city);
         };
 
+        //选择区
         self.selectDistrict = function (district) {
-            self.currDistrict = district.district;
-            self.queryMdProductGroup();
+            self.currDistrict = district;
+            //查询对应的产品分组
+            self.queryProductGroup(self.currProvince, self.currCity, self.currDistrict);
         };
 
-        self.queryCities = function () {
-            queryCities.post().then(function (response) {
-                //初始化列表
-                self.allCitys = response.data;
-                self.findProvince();
-            }, function (error) {
-                console.info(error);
-            });
-        };
-
-        self.queryMdProductGroup = function () {
-            QueryMdProductGroup.post({
-                province: self.currProvince,
-                city: self.currCity,
-                district: self.currDistrict
+        //从服务器检索产品分组
+        self.queryProductGroup = function (province, city, district) {
+            self.reposProductGroup.post({
+                province: province.province,
+                city: city.city,
+                district: district.district
             }).then(function (response) {
-                self.allGroups = response.data;
+                //查询出分组,根据分组建立查询类型
+                self.buildQueryType(response.data);
+
+                //选择一项
+                self.selectQueryType(self.queryTypes[0]);
+
             }, function (error) {
-                console.info(error);
+                Notification.error({
+                    message: "查询产品分组出现错误!",
+                    delay: 2000
+                });
             });
         };
 
-        /**
-         * 根据分组id查询产品列表
-         */
-        self.queryByGroupId = function (groupid, name) {
-            if (groupid == 'all') {
-                self.groupid = QueryProductsGroup.post({
-                }).then(function (response) {
-                    self.queryName = name;
-                    self.productList = response.data;
-                }, function (error) {
+        //从服务器检索省信息
+        self.queryCities = function () {
+            self.reposCities.post().then(function (response) {
+                //初始化列表
+                self.buildProvince();
+                //默认选中结果集第一行
+                self.selectProvince(response.data[0]);
+            }, function () {
+                Notification.error({
+                    message: "查询城市信息出现错误!",
+                    delay: 2000
                 });
-            }
-            else {
-                self.groupid = QueryProductsGroup.post({
-                    groupid: groupid
-                }).then(function (response) {
-                    self.queryName = name;
-                    self.productList = response.data;
-                }, function (error) {
-                });
-            }
+            });
         };
 
-        self.editGroup = function (params, $q) {
-            var deferd = $q.defer();
-            AddOrUpdateMdProductGroup.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject(error);
-                    console.info(error);
+        //查询产品列表
+        self.queryProducts = function (params) {
+            params = params || {};
+            self.reposProducts.post(params).then(function (response) {
+
+            }, function () {
+                Notification.error({
+                    message: "查询产品信息出现错误,请稍后重新尝试!",
+                    delay: 2000
                 });
-            return deferd.promise;
+            });
         };
 
-        /**
-         * 编辑产品阶段
-         */
-        self.editProductPhase = function (params, $q) {
-            var deferd = $q.defer();
-            AddOrUpdateProductPhase.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject("不能在第一行上添加.");
-                    console.info(error);
-                });
-            return deferd.promise;
-        };
-
-        /**
-         * 编辑产品说明
-         */
-        self.editProductProfile = function (params, $q, nptResource) {
-            var deferd = $q.defer();
-            AddOrUpdateProductProfile.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject("不能在第一行上添加.");
-                    console.info(error);
-                });
-            return deferd.promise;
-        };
-
-        /**
-         * 编辑产品分组
-         */
-        self.editProductGroup = function (params, $q, nptResource) {
-            var deferd = $q.defer();
-            AddOrUpdateProductGroup.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject("不能在第一行上添加.");
-                    console.info(error);
-                });
-            return deferd.promise;
-        };
-
-
-        /**
-         * 编辑产品内容
-         */
-        self.editProductClassify = function (params, $q, nptResource) {
-            var deferd = $q.defer();
-            AddOrUpdateProductclassify.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject("不能在第一行上添加.");
-                    console.info(error);
-                });
-            return deferd.promise;
-        };
-
-        /**
-         * 编辑产品说明
-         */
-        self.editProductDescr = function (params, $q) {
-            var deferd = $q.defer();
-            AddOrUpdateProductDescr.post(
-                params.data
-            ).then(function (response) {
-                    deferd.resolve("编辑成功");
-                }, function (error) {
-                    deferd.reject("不能在第一行上添加.");
-                    console.info(error);
-                });
-            return deferd.promise;
-        };
-
+        //执行查询
+        self.queryCities();
 
     })
-    .controller("productListController", function ($scope, $http, $location, queryCities, QueryMdProductGroup, QueryProductsGroup, AddOrUpdateMdProductGroup, productListGrid, productCategoryService) {
+    .controller("productListController", function (ProductQueryService, productListGrid) {
         var vm = this;
-        vm.productList = QueryProductsGroup;
+        //产品查询服务
+        vm.queryService = ProductQueryService;
 
         vm.productListGridOptions = {
             store: productListGrid,
@@ -329,23 +293,19 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                 vm.nptGridApi = nptGridApi;
             }
         };
-        vm.productCategory = productCategoryService;
-        vm.allCitys = [];
-
-
-        //首先查询全部产品
-        if (!vm.productCategory.allCitys || vm.productCategory.allCitys.length <= 0) {
-            vm.productCategory.queryCities();
-        }
-
-
-        //首先查询全部产品
-        if (!vm.productCategory.productList || vm.productCategory.productList.length <= 0) {
-            vm.productCategory.queryByGroupId('all', '全部');
-        }
-
-
-    }).controller("editProductController", function ($scope, $location, $routeParams, QueryProductInfo, AddOrUpdateProduct, productForm) {
+    })
+    .controller("addProductController", function (productForm) {
+        var vm = this;
+        vm.model = {};
+        //表单配置
+        vm.productFormOptions = {
+            store: productForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+    })
+    .controller("editProductController", function ($scope, $location, $routeParams, QueryProductInfo, AddOrUpdateProduct, productForm) {
         var vm = this;
 
         //产品信息资源库
@@ -391,7 +351,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
         };
 
     }).controller("editGroupController",
-    function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid, productCategoryService) {
+    function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid) {
         var vm = this;
         vm.productMdGroupList = QueryMdProductGroup;
 
@@ -426,7 +386,6 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                 city: $routeParams.city,
                 district: $routeParams.district
             }).then(function (response) {
-
             }, function (error) {
                 console.info(error);
             });
