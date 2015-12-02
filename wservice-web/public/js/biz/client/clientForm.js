@@ -5,7 +5,7 @@
  */
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, RegExpValidatorFactory) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -13,7 +13,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '名称:',
+                        label: '客户公司名称:',
                         disabled:true
                     }
                 },
@@ -22,21 +22,25 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '客户简称:',
-                        placeholder: "请输入客户简称"
-                    }
+                        label: '客户公司简称:',
+                        placeholder: "请输入客户公司简称"
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
+                            message: '$viewValue + " 中含有非法字符"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'sn',
                     type: 'input',
                     templateOptions: {
-                        label: '编号:',
-                        disabled:true,
                         required: true,
-                        minlength:4,
-                        maxlength:8
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                        label: '编号:',
+                        disabled:true
+                    }
                 },
                 {
                     key: 'industry',
@@ -126,18 +130,26 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '联系人:'
+                        label: '联系人:',
+                        placeholder:'请输入联系人'
                     }
                 },
                 {
                     key: 'contactphone',
-                    type: 'maskedInput',
+                    type: 'input',
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        "mask":"999 9999 9999",
-                        maskPlaceholderChar:"-"
-                    }
+                        placeholder:'请输入手机号'
+                    },
+                    validators: {
+                        phoneForm: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
+                            message: '$viewValue + " 是无效的电话号码"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
+
                 },
                 {
                     key: 'contactposition',
@@ -159,7 +171,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地区:'
+                        label: '地区:',
+                        placeholder:'请输入地区'
                     }
                 },
                 {
@@ -167,7 +180,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地址:'
+                        label: '地址:',
+                        placeholder:'请输入地址'
                     }
                 },
 //                {
@@ -188,7 +202,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'clientinstid',
                     type: 'input',
                     templateOptions: {
-                        label: '客户机构:'
+                        label: '客户机构:',
+                        disabled:true
                     }
                 },
                /* {
@@ -209,7 +224,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'clientadminid',
                     type: 'input',
                     templateOptions: {
-                        label: '客户管理员:'
+                        label: '客户管理员:',
+                        disabled:true
                     }
                 },
                 {
@@ -218,7 +234,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '创建时间:',
-                        "formateType": "short"
+                        "formateType": "long"
                     }
                 },
                 {
@@ -227,7 +243,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '更新时间:',
-                        "formateType": "short"
+                        "formateType": "long"
                     }
                 },
                 {
