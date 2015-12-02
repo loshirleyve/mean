@@ -3,76 +3,51 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("receivableApp.receivableForm", ["ui.neptune"])
-    .factory("receivableForm", function (nptFormlyStore) {
+    .factory("receivableForm", function (nptFormlyStore,OrgListBySelectTree,UserListBySelectTree,QueryUserInfoById,QueryPayModeType) {
         return nptFormlyStore("receivableForm", {
             options: {
-//                formState: {
-//                    disabled: true
-//                }
 
             },
             fields: [
                 {
-                    key: 'businessKey',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '购买内容:'
-                    }
-                },
-                {
-                    key: 'paymodeName',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '付款方式:'
-                    }
-                },
-                {
                     key: 'amount',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '应收金额:'
-                    }
-                },
-                {
-                    key: 'payamount',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '已收金额:'
-                    }
-                },
-                {
-                    key: 'amount',
-                    type: 'label',
+                    type: 'input',
                     templateOptions: {
                         required: true,
                         label: '本次收款金额:'
                     }
                 },
                 {
-                    key: 'remark',
-                    type: 'textarea',
+                    key: 'payTypeCode',
+                    type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: 'bs-options',
+                        label: '本次收款方式:',
                         required: true,
-                        label: '本次收款方式:'
+                        valueProp: 'code',
+                        labelProp: 'name',
+                        placeholder: '请选择',
+                        options: [],
+                        repository: QueryPayModeType,
+                        search:['name']
                     }
                 },
                 {
                     key: 'collectuserid',
-                    type: 'input',
+                    type: 'npt-select-tree-single',
                     templateOptions: {
+                        label: '收款人:',
                         required: true,
-                        label: '收款人:'
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
                     }
                 },
                 {
-                    key: '',
+                    key: 'remark',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '说明:'
                     }
                 }
@@ -80,6 +55,70 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
             buttons: {
                 ok: false,
                 reset: false
-            }
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
+        });
+    }).factory("receivableSearchForm", function (nptFormlyStore) {
+        return nptFormlyStore("receivableSearchForm", {
+            options: {
+
+            },
+            fields: [
+                {
+                    key: 'businessKey',
+                    type: 'input',
+                    templateOptions: {
+                        label: '购买内容:'
+                    }
+                },
+                {
+                    key: 'begindate',
+                    type: 'input',
+                    templateOptions: {
+                        label: '开始日期:',
+                        placeholder: '日期格式为:20150101'
+                    }
+                },
+                {
+                    key: 'enddate',
+                    type: 'input',
+                    templateOptions: {
+                        label: '结束日期:',
+                        placeholder: '日期格式为:20150101'
+                    }
+                },
+                {
+                    key: 'complete',
+                    type: 'input',
+                    templateOptions: {
+                        label: '是否完成:'
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
         });
     });

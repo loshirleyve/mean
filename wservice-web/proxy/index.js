@@ -197,6 +197,9 @@ proxy.action("QueryPayRegisters", {
 }).action("UpdateByCollect", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.pay.service.UpdateByCollectService"
+}).action("QueryPayModeType", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.pay.service.QueryPayModeTypeService"
 });
 
 // 用户
