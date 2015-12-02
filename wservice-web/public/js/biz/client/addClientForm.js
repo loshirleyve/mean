@@ -8,7 +8,7 @@
  */
 
 angular.module("clientApp.addClientForm", ["ui.neptune"])
-    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, RegExpValidatorFactory) {
         return nptFormlyStore("AddClientForm", {
             fields: [
                 {
@@ -16,30 +16,48 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '名称:',
-                        placeholder: "请输入客户名称"
-                    }
+                        label: '客户公司名称:',
+                        placeholder: "请输入客户公司名称"
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
+                            message: '$viewValue + " 已被占用或含有非法字符"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'name',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '客户简称:',
-                        placeholder: "请输入客户简称"
-                    }
+                        label: '客户公司简称:',
+                        placeholder: "请输入客户公司简称"
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
+                            message: '$viewValue + " 中含有非法字符"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'sn',
                     type: 'input',
                     templateOptions: {
-                        disabled:true,
                         required: true,
                         label: '编号:',
-                        minlength: 4,
-                        maxlength: 8,
-                        placeholder: "请输入4至8位客户编号"
-                    }
+                        placeholder: "请输入4至8位由字母或数字组成的客户编号"
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[a-z0-9A-Z]{4,8}$/i),
+                            message: '$viewValue + " 是无效的编号"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'industry',
@@ -129,17 +147,26 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '联系人:'
+                        label: '联系人:',
+                        placeholder:'请输入联系人'
                     }
                 },
                 {
                     key: 'contactphone',
-                    type: 'maskedInput',
+                    type: 'input',
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        "mask":"999 9999 9999"
-                    }
+                        placeholder:'请输入手机号'
+                    },
+                    validators: {
+                        phoneForm: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
+                            message: '$viewValue + " 是无效的电话号码"'
+                        }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
+
                 },
                 {
                     key: 'contactposition',
@@ -161,7 +188,8 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地区:'
+                        label: '地区:',
+                        placeholder:'请输入地区'
                     }
                 },
                 {
@@ -169,7 +197,8 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地址:'
+                        label: '地址:',
+                        placeholder:'请输入地址'
                     }
                 },
                 {

@@ -77,11 +77,71 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     .factory("DeliverWorkorder", function(nptRepository) {
         return nptRepository("deliverWorkorder");
     })
-    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid) {
+    .service("WorkorderListQueryService", function (Notification, QueryWorkorderList) {
+        var self = this;
+
+        self.workorderList = QueryWorkorderList;
+
+        self.query = function (params) {
+            params = params || {};
+            self.workorderList.post(params).then(function (response) {
+            }, function (error) {
+                Notification.error({message: '查询工单数据出现错误,请稍后再试.', delay: 2000});
+            });
+        };
+
+        //建立待查询列表
+        self.queryList = [{
+            label: "全部",
+            type: "all",
+            callback: function () {
+                self.query();
+            }
+        }, {
+            label: "未开始",
+            type: "unstart",
+            callback: function () {
+                self.query({
+                    state: "unstart"
+                });
+            }
+        }, {
+            label: "处理中",
+            type: "inservice",
+            callback: function () {
+                self.query({
+                    state: "inservice"
+                });
+            }
+        }, {
+            label: "已完成",
+            type: "complete",
+            callback: function () {
+                self.query({
+                    state: "complete"
+                });
+            }
+        }];
+
+        //选择查询列表
+        self.selectQuery = function (query) {
+            if (query) {
+                self.currQuery = query;
+                if (query.callback) {
+                    query.callback();
+                }
+            }
+        };
+
+        //选择一个默认查询
+        self.selectQuery(self.queryList[1]);
+    })
+    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid, WorkorderListQueryService) {
         var vm = this;
 
         //订单列表数据资源库
-        vm.workorderList = QueryWorkorderList;
+        //vm.workorderList = QueryWorkorderList;
+        vm.queryService = WorkorderListQueryService;
 
         vm.workorderListGridOptions = {
             store: WorkorderListGrid,
@@ -97,22 +157,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             }
         };
 
-        /**
-         * 根据状态查询当前用户机构的订单列表
-         */
-        vm.queryByState = function (state, name) {
-            vm.state = QueryWorkorderList.post({
-                state: state
-            }).then(function () {
-                vm.queryName = name;
-            }, function (error) {
-            });
-        };
 
-        //首先查询全部订单
-        if (!QueryWorkorderList.data || QueryWorkorderList.data.length <= 0) {
-            vm.queryByState("", '全部');
-        }
     }).
     controller("WorkorderDetailController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, QueryWorkorderInfo, QueryWorkorderList, WorkorderForm, WorkorderAttachmentGrid,WorkorderCommentGrid) {
         var vm = this;
@@ -234,7 +279,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
-        }
+        };
 
         //查询工单
         vm.query = function () {
@@ -295,7 +340,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
-        }
+        };
 
         //查询工单
         vm.query = function () {
@@ -357,7 +402,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
-        }
+        };
 
         //查询工单
         vm.query = function () {
