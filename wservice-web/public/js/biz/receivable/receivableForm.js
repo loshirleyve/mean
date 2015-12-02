@@ -14,8 +14,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '本次收款金额:',
-                        value:"0"
+                        label: '本次收款金额:'
                     }
                 },
                 {
@@ -30,7 +29,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryPayModeType,
-                        search:["name"]
+                        search:['name']
                     }
                 },
                 {
@@ -49,8 +48,60 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     key: 'remark',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '说明:'
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
+        });
+    }).factory("receivableSearchForm", function (nptFormlyStore) {
+        return nptFormlyStore("receivableSearchForm", {
+            options: {
+
+            },
+            fields: [
+                {
+                    key: 'businessKey',
+                    type: 'input',
+                    templateOptions: {
+                        label: '购买内容:'
+                    }
+                },
+                {
+                    key: 'begindate',
+                    type: 'input',
+                    templateOptions: {
+                        label: '开始日期:',
+                        placeholder: '日期格式为:20150101'
+                    }
+                },
+                {
+                    key: 'enddate',
+                    type: 'input',
+                    templateOptions: {
+                        label: '结束日期:',
+                        placeholder: '日期格式为:20150101'
+                    }
+                },
+                {
+                    key: 'complete',
+                    type: 'input',
+                    templateOptions: {
+                        label: '是否完成:'
                     }
                 }
             ],

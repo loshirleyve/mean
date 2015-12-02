@@ -106,7 +106,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         //选择一个默认查询
         self.selectQuery(self.queryList[0]);
     })
-    .controller("receivableListController", function ($scope, $http, $location, receivableListGrid,receivableListQueryService) {
+    .controller("receivableListController", function ($scope, $http, $location, receivableListGrid,receivableListQueryService,receivableSearchForm) {
         var vm = this;
 
         vm.queryService = receivableListQueryService;
@@ -117,7 +117,12 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 vm.nptGridApi = nptGridApi;
             }
         };
-
+        vm.receivableSearchFormOptions = {
+            store: receivableSearchForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
 
         vm.receivableAction = function (action, item, index) {
             console.info(action);
@@ -125,6 +130,25 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 $location.path("/detail/" + item.id);
             }
         };
+
+        vm.search=function()
+        {
+            var params=[];
+            params.businessKey=vm.search.businessKey;
+            params.begindate=vm.search.begindate;
+            params.enddate=vm.search.enddate;
+            //params.complete=vm.search.complete;
+            if(!params.businessKey){
+                delete params.businessKey;
+            }
+            if(!params.begindate){
+                delete params.begindate;
+            }
+            if(!params.enddate){
+                delete params.enddate;
+            }
+            vm.queryService.query(params);
+        }
 
     }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
 
