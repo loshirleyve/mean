@@ -57,4 +57,5 @@ module.exports = function (grunt) {
     grunt.registerTask("clean", ["clean"]);
     grunt.registerTask("test", ["jshint"]);
     grunt.registerTask("default", ["jshint", "concat", "uglify"]);
+    grunt.registerTask("common", ["concat", "uglify"]);
 }
