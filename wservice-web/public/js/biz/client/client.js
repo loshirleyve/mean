@@ -80,7 +80,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
          */
         vm.query = function (name,params) {
             params = params || {};
-            vm.state = QueryInstClients.post(params).then(function(){
+            vm.clientList.post(params).then(function(){
+                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
                 vm.queryName = name;
             }, function(error){
                 Notification.error({message: '查询客户列表失败.', delay: 2000});
@@ -98,7 +99,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             if(!params.fullname){
                 delete params.fullname;
             }
-            vm.state = QueryInstClients.post(params).then(function(){
+            vm.clientList.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
                 Notification.error({message: '查询客户列表失败.', delay: 2000});
@@ -114,7 +115,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
         var vm = this;
         vm.clientid = $routeParams.id;
-
 
         //客户列表数据库
         vm.clientList = QueryInstClients;
@@ -237,7 +237,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
-        vm.model = {};
+        vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small"};
         vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
