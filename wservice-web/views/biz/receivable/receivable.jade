@@ -4,6 +4,7 @@ extends ../../layout/layout-bizpage
 block content
     script(src="/js/biz/receivable/receivableListGrid.js")
     script(src="/js/biz/receivable/receivableCollectionListGrid.js")
+    script(src="/js/biz/receivable/receivableForm.js")
     script(src="/js/biz/receivable/receivable.js")
     div(ng-app="receivableApp")
         //通知区域
@@ -25,21 +26,16 @@ block content
                         a.navbar-brand(href="#") 收款列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.receivableList.loading()")
+                            li(ng-if="vm.queryService.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.receivableList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 收款查询 - {{vm.queryName}}
+                            li.dropdown(ng-if='!vm.queryService.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 收款查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.queryByState('all','全部')") 全部
-                                    li
-                                        a(href="",ng-click="vm.queryByState(0,'已收款')") 已收款
-                                    li
-                                        a(href="",ng-click="vm.queryByState(1,'未收款')") 未收款
-                                    li
-                                        a(href="") 条件查询
-            div(npt-grid="vm.receivableListGridOptions",model="vm.receivableList.data")
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
+
+            div(npt-grid="vm.receivableListGridOptions",model="vm.queryService.receivableList.data")
 
         script(type="text/ng-template",id="detail.html")
             //功能导航区
@@ -47,10 +43,11 @@ block content
                 div.col-md-12
                     ul.breadcrumb
                         li
-                            a(href="home")
+                            a(href="/app/home")
                                 span.glyphicon.glyphicon-home
                                 span 首页
-                        li.active 收款列表
+                        li
+                            a(href="#/list").active 收款列表
                         li.active 收款详情
 
             nav.navbar.navbar-default.navbar-fixed-top
@@ -65,38 +62,83 @@ block content
                         li(ng-if="!vm.receivableInfo.loading()")
                             a(href="",ng-click="vm.next(vm.receivableInfo.data)",ng-show="vm.receivableList.next(vm.receivableInfo.data)") 下一单
                         li
-                            a(href="#/confirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isComplete()") 收款
+                            a(href="#/receivableConfirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isComplete()") 收款
                         li
-                            a(href="#/list") 返回
+                            a(ng-click="vm.toList()") 返回
 
             //数据表格区域
             div.page-header
                 h4 基本信息
             div.page-body
-                ul
-                    li
-                        strong 业务内容:&nbsp
-                        span {{vm.model.businessKey}}
-                    li
-                        strong 应收金额:&nbsp
-                        span {{vm.model.amount}}
-                    li
-                        strong 已收金额:&nbsp
-                        span {{vm.model.payamount}}
-                    li
-                        strong 收款状态:&nbsp
-                        span {{vm.model.complete}}
-                    li
-                        strong 支付方式:&nbsp
-                        span {{vm.model.paymodeName}}
-                    li
-                        strong 创建日期:&nbsp
-                        span {{vm.model.createdate |  timestampFilter}}
-                    li
-                        strong 确定日期:&nbsp
-                        span {{vm.model.expirydate | timestampFilter}}
+                dl.dl-horizontal
+                    dt 收款单id:
+                    dd {{vm.model.id}}
+
+                    dt 购买内容:
+                    dd {{vm.model.businessKey}}
+
+                    dt 应收金额:
+                    dd {{vm.model.amount}}
+
+                    dt 已收金额:
+                    dd {{vm.model.payamount}}
+
+                    dt 收款状态:
+                    dd {{vm.model.complete}}
+
+                    dt 支付方式:
+                    dd {{vm.model.paymodeName}}
+
+                    dt 创建日期:
+                    dd {{vm.model.createdate |  timestampFilter}}
+
+                    dt 确定日期:
+                    dd {{vm.model.expirydate | timestampFilter}}
             div.page-header
                 h4 付款明细
             div.page-body
                 div(npt-grid="vm.receivableCollectionListGridOptions",model="vm.modelCollections")
+
+        script(type="text/ng-template",id="receivableConfirm.html")
+            //功能导航区
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#/list").active 收款列表
+                li
+                    a(href="#/detail").active 收款详情
+                li.active 收款确认
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 收款确认
+                    ul.nav.navbar-nav.navbar-right
+                        li(ng-if="vm.receivableInfo.loading()")
+                            a(href="") 正在查询,请稍后...
+                        li
+                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.receivableConfirm()",ng-disabled="vm.nptFormApi.form.$invalid")  确认收款
+                        li
+                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
+            div.page-header
+                h4 付款确认
+            div.page-body
+                dl.dl-horizontal
+                    dt 购买内容:
+                    dd {{vm.modelReceivable.businessKey}}
+
+                    dt 应收金额:
+                    dd {{vm.modelReceivable.amount}}
+
+                    dt 已收金额:
+                    dd {{vm.modelReceivable.payamount}}
+
+                    dt 支付方式:
+                    dd {{vm.modelReceivable.paymodeName}}
+
+            div(npt-form="vm.receivableConfirmFormOptions",model="vm.model")
 

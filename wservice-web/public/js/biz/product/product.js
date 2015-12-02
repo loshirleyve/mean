@@ -403,9 +403,9 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.province = $routeParams.province,
-                            params.data.city = $routeParams.city,
-                            params.data.district = $routeParams.district
+                        params.data.province = $routeParams.province;
+                        params.data.city = $routeParams.city;
+                        params.data.district = $routeParams.district;
                         productCategoryService.editGroup(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -442,7 +442,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
     })
     .controller("productDetailController", function ($scope, $location, $routeParams, QueryProductsGroup, QueryProductInfo, AddOrUpdateProductPhase, productForm, productPhaseListGrid, productRequirementListGrid, productProfilesListGrid, productGroupListGrid, productClassifiesListGrid, productDescrsListGrid, productCategoryService, nptSessionManager) {
         var vm = this;
-        var userid = nptSessionManager.getSession().getUser().id
+        vm.userid = nptSessionManager.getSession().getUser().id;
         //产品列表资源库
         vm.productList = QueryProductsGroup;
         //产品信息资源库
@@ -498,7 +498,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = userid;
+                        params.data.createby = vm.userid ;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -518,7 +518,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = userid;
+                        params.data.createby = vm.userid ;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -538,7 +538,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = userid;
+                        params.data.createby = vm.userid ;
                         productCategoryService.editProductProfile(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -596,7 +596,7 @@ angular.module("productApp", ["ui.neptune", "productApp.productListGrid", "produ
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = userid;
+                        params.data.createby = vm.userid ;
                         productCategoryService.editProductDescr(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {

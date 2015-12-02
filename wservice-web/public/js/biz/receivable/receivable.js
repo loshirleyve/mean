@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableCollectionListGrid", "wservice.common", "ngRoute"])
+angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableCollectionListGrid","receivableApp.receivableForm", "wservice.common", "ngRoute","ui-notification"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -18,6 +18,11 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 controller: "receivableDetailController as vm",
                 templateUrl: "detail.html"
             })
+            .when("/receivableConfirm/:id", {
+                controller: "receivableConfirmController as vm",
+                templateUrl: "receivableConfirm.html"
+            })
+
             .otherwise({
                 redirectTo: "/list"
             });
@@ -29,11 +34,70 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
     }).factory("QueryPayRegisterInfo", function (nptRepository) {
         return nptRepository("QueryPayRegisterByid").params({
         });
+    }).factory("UpdateByCollect", function (nptRepository) {
+        return nptRepository("UpdateByCollect").params({
+        });
     })
-    .controller("receivableListController", function ($scope, $http, $location, QueryReceivableList, receivableListGrid) {
+    .factory("QueryPayModeType", function (nptRepository) {
+        return nptRepository("QueryPayModeType").params({
+        });
+    })
+    .service("receivableListQueryService", function (Notification, QueryReceivableList) {
+        var self = this;
+
+        self.receivableList = QueryReceivableList;
+
+        self.query = function (params) {
+            params = params || {};
+            self.receivableList.post(params).then(function (response) {
+                console.info(response.data);
+            }, function (error) {
+                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+            });
+        };
+
+        //建立待查询列表
+        self.queryList = [{
+            label: "全部",
+            type: "all",
+            callback: function () {
+                self.query();
+            }
+        }, {
+            label: "未收款",
+            type: "0",
+            callback: function () {
+                self.query({
+                    complete: "0"
+                });
+            }
+        }, {
+            label: "已收款",
+            type: "1",
+            callback: function () {
+                self.query({
+                    complete: "1"
+                });
+            }
+        }];
+
+        //选择查询列表
+        self.selectQuery = function (query) {
+            if (query) {
+                self.currQuery = query;
+                if (query.callback) {
+                    query.callback();
+                }
+            }
+        };
+
+        //选择一个默认查询
+        self.selectQuery(self.queryList[0]);
+    })
+    .controller("receivableListController", function ($scope, $http, $location, receivableListGrid,receivableListQueryService) {
         var vm = this;
 
-        vm.receivableList = QueryReceivableList;
+        vm.queryService = receivableListQueryService;
 
         vm.receivableListGridOptions = {
             store: receivableListGrid,
@@ -50,31 +114,6 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             }
         };
 
-        /**
-         * 根据状态查询当前用户机构的订单列表
-         */
-        vm.queryByState = function (complete, name) {
-            if (complete == "all") {
-                vm.complete = QueryReceivableList.post({
-                }).then(function () {
-                    vm.queryName = name;
-                }, function (error) {
-                });
-            }
-            else {
-                vm.complete = QueryReceivableList.post({
-                    complete: complete
-                }).then(function () {
-                    vm.queryName = name;
-                }, function (error) {
-                });
-            }
-        };
-
-        //首先查询全部订单
-        if (!QueryReceivableList.data || QueryReceivableList.data.length <= 0) {
-            vm.queryByState("all", '全部');
-        }
     }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
 
         var vm=this;
@@ -108,10 +147,12 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         };
         vm.query();
 
-
+        vm.toList= function () {
+            $location.path("/list");
+        };
         //当前单据是否能够确认
         vm.isComplete = function () {
-            if (vm.receivableInfo.data && vm.receivableInfo.data.complete == 0) {
+            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0) {
                 return true;
             } else {
                 return false;
@@ -130,6 +171,57 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             var previousReceivable = vm.receivableList.previous(receivable);
             if (previousReceivable) {
                 $location.path("/detail/" + previousReceivable.id);
+            }
+        };
+    })
+    .controller("receivableConfirmController", function ($scope, $location, $routeParams,QueryPayRegisterInfo,UpdateByCollect,Notification,receivableForm,nptSessionManager) {
+
+        var vm=this;
+        vm.receivableId = $routeParams.id;
+        //数据模型
+        vm.model={};
+        vm.modelReceivable = {};
+        vm.receivableInfo = QueryPayRegisterInfo;
+        vm.updateByCollect=UpdateByCollect;
+        vm.userid = nptSessionManager.getSession().getUser().id;
+        vm.receivableConfirmFormOptions = {
+            store: receivableForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+
+            }
+        };
+
+        vm.query = function () {
+            if (vm.receivableId) {
+                vm.receivableInfo.post({
+                    payRegisterId: vm.receivableId
+                }).then(function (response) {
+                    vm.modelReceivable = response.data;
+                }, function (error) {
+                    var de = error;
+                });
+            }
+        };
+        vm.query();
+
+        vm.toDetail = function () {
+            $location.path("/detail/" + vm.receivableId);
+        };
+
+        vm.receivableConfirm = function () {
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请正确输入收款信息.', delay: 2000});
+            } else {
+                vm.model.payRegisterId=vm.receivableId;
+                vm.model.createby=vm.userid;
+                vm.model.payregisterid=vm.userid;
+                vm.updateByCollect.post(vm.model).then(function (response) {
+                    Notification.success({message: '确认收款成功!', delay: 2000});
+                    vm.toDetail();
+                }, function (error) {
+                    Notification.error({message: '确认收款失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                });
             }
         };
     });

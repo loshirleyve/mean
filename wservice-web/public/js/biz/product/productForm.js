@@ -160,7 +160,8 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "cycle"}
+                        repositoryParams: {"defno": "cycle"},
+                        search:['name']
                     }
                 },
                 {
@@ -363,7 +364,8 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryProductPhases,
-                        repositoryParams: {"productid": "10000001519207"}
+                        repositoryParams: {"productid": "10000001519207"},
+                        search:['name']
                     }
                 }
             ],
@@ -399,7 +401,8 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "productdescrtype"}
+                        repositoryParams: {"defno": "productdescrtype"},
+                        search:['name']
                     }
                 },
                 {

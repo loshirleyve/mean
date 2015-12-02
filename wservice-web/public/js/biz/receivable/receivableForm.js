@@ -3,73 +3,50 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("receivableApp.receivableForm", ["ui.neptune"])
-    .factory("receivableForm", function (nptFormlyStore) {
+    .factory("receivableForm", function (nptFormlyStore,OrgListBySelectTree,UserListBySelectTree,QueryUserInfoById,QueryPayModeType) {
         return nptFormlyStore("receivableForm", {
             options: {
-//                formState: {
-//                    disabled: true
-//                }
 
             },
             fields: [
                 {
-                    key: 'businessKey',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '购买内容:'
-                    }
-                },
-                {
-                    key: 'paymodeName',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '付款方式:'
-                    }
-                },
-                {
                     key: 'amount',
-                    type: 'label',
+                    type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '应收金额:'
+                        label: '本次收款金额:',
+                        value:"0"
                     }
                 },
                 {
-                    key: 'payamount',
-                    type: 'label',
+                    key: 'payTypeCode',
+                    type: 'ui-select',
                     templateOptions: {
+                        label: '本次收款方式:',
                         required: true,
-                        label: '已收金额:'
-                    }
-                },
-                {
-                    key: 'amount',
-                    type: 'label',
-                    templateOptions: {
-                        required: true,
-                        label: '本次收款金额:'
-                    }
-                },
-                {
-                    key: 'remark',
-                    type: 'textarea',
-                    templateOptions: {
-                        required: true,
-                        label: '本次收款方式:'
+                        valueProp: 'code',
+                        labelProp: 'name',
+                        placeholder: '请选择',
+                        options: [],
+                        repository: QueryPayModeType,
+                        repositoryParams: {"instid": "10000001468002"},
+                        search:["name"]
                     }
                 },
                 {
                     key: 'collectuserid',
-                    type: 'input',
+                    type: 'npt-select-tree-single',
                     templateOptions: {
+                        label: '收款人:',
                         required: true,
-                        label: '收款人:'
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
                     }
                 },
                 {
-                    key: '',
+                    key: 'remark',
                     type: 'input',
                     templateOptions: {
                         required: true,
@@ -80,6 +57,17 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
             buttons: {
                 ok: false,
                 reset: false
-            }
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
         });
     });
