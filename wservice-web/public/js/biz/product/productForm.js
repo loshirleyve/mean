@@ -160,7 +160,21 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "producttype"}
+                        repositoryParams: {"defno": "cycle"}
+                    }
+                },
+                {
+                    key: 'processdays',
+                    type: 'input',
+                    templateOptions: {
+                        label: '自购买日几天起:'
+                    }
+                },
+                {
+                    key: 'cyclevalue',
+                    type: 'input',
+                    templateOptions: {
+                        label: '服务次数:'
                     }
                 },
                 {
@@ -172,6 +186,43 @@ angular.module("productApp.productForm", ["ui.neptune"])
                 },
                 {
                     key: 'sortno',
+                    type: 'input',
+                    templateOptions: {
+                        label: '排序:'
+                    }
+                },
+                {
+                    key: 'remark',
+                    type: 'input',
+                    templateOptions: {
+                        label: '阶段说明:'
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            }
+        });
+    })
+    .factory("productRequirementForm", function (nptFormlyStore) {
+        return nptFormlyStore("productRequirementForm", {
+            options: {
+                formState: {
+                    disabled: true
+                }
+
+            },
+            fields: [
+                {
+                    key: 'synopsis',
+                    type: 'textarea',
+                    templateOptions: {
+                        label: '内容描述:'
+                    }
+                },
+                {
+                    key: 'sort',
                     type: 'input',
                     templateOptions: {
                         label: '排序:'
