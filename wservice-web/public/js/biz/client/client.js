@@ -159,7 +159,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //初始化客户机构
-        vm.initInst = function(clientInfo){
+        vm.initClientInst = function(clientInfo){
             //调用初始化客户服务
             if (clientInfo && vm.isInitInst){
 
@@ -173,7 +173,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "clientId":clientInfo.id
                 };
 
-                InstInit.post(params)
+                vm.instInit.post(params)
                     .then(function(response){
                         Notification.success({message: '初始化机构成功!', delay: 2000});
                         vm.query();
@@ -201,7 +201,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //更新客户信息
-        vm.updateClient = function(clientInfo){
+        vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var updateParams = {
                     "id":clientInfo.id,
@@ -221,7 +221,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "remark":clientInfo.remark
                 };
 
-                AddOrUpdateInstClients.post(updateParams)
+                vm.updateClient.post(updateParams)
                     .then(function(response){
                     Notification.success({message: '更新客户信息成功!', delay: 2000});
                 }, function(error){
@@ -238,7 +238,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         var vm = this;
         vm.clientid = {};
         vm.model = {};
-        vm.addOrUpdateInstClients = AddOrUpdateInstClients;
+        vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
         vm.addClientFormOptions = {
@@ -253,7 +253,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         //新增客户
-        vm.addClient = function(clientInfo){
+        vm.addClientSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
                 var params = {
                     "createby":nptSessionManager.getSession().getUser().id,
@@ -273,7 +273,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "remark":clientInfo.remark
                 };
 
-                vm.addOrUpdateInstClients.post(params)
+                vm.addClient.post(params)
                     .then(function(response){
                         clientid = response.data.id;
                         $location.path("/detail/" + clientid);
