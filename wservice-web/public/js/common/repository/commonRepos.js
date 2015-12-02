@@ -20,6 +20,20 @@ angular.module("wservice.common.repository.common",
             .addRequestInterceptor(function (request) {
                 return request;
             });
+    })
+    .factory("QueryImageByMaterialLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "material",
+            "instid": nptSessionManager.getSession().getInst().id,
+            "filetype": "image"
+        });
+    })
+    .factory("QueryImageBySystemLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "system",
+            "instid": nptSessionManager.getSession().getInst().id,
+            "filetype": "image"
+        });
     }).factory("OrgListBySelectTree", function (nptRepository, nptSessionManager) {
         function builderOrgTreeNode(nodes, data) {
             if (data) {
@@ -62,7 +76,7 @@ angular.module("wservice.common.repository.common",
     .factory("QueryUserInfoById", function (nptRepository) {
         return nptRepository("QueryUserInfoById");
     })
-    .factory("QueryUserByInst", function (nptRepository,nptSessionManager) {
+    .factory("QueryUserByInst", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryUserByInst").addRequestInterceptor(function (request) {
             request.params.instid = nptSessionManager.getSession().getInst().id;
             return request;
