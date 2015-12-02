@@ -83,9 +83,13 @@ block content
                         li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
                             a(href="",ng-click="vm.initInst(vm.clientInfo.data)") 初始化机构
                         li
-                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateClient(vm.clientInfo.data)") 保存
+                                a(href="#/addClient") 新增客户
                         li(ng-if="vm.clientInfo.loading()")
                             a(href="") 正在查询,请稍后...
+                        li(ng-if="vm.updateClient.loading()")
+                            a(href="") 正在上传,请稍后...
+                        li(ng-if="!vm.updateClient.loading()")
+                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateClient(vm.clientInfo.data)") 保存
                         li(ng-if="!vm.clientInfo.loading()")
                             a(href="",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                         li(ng-if="!vm.clientInfo.loading()")
