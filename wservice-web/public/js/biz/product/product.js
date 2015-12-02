@@ -294,9 +294,12 @@ angular.module("productApp", ["ui.neptune",
             }
         };
     })
-    .controller("addProductController", function (productForm) {
+    .controller("addProductController", function ($location, productForm, AddOrUpdateProduct, Notification, nptSessionManager) {
         var vm = this;
         vm.model = {};
+
+        vm.addOrUpdateProduct = AddOrUpdateProduct;
+
         //表单配置
         vm.productFormOptions = {
             store: productForm,
@@ -304,6 +307,36 @@ angular.module("productApp", ["ui.neptune",
                 vm.nptFormApi = nptFormApi;
             }
         };
+
+        //保存产品
+        vm.save = function () {
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请输入正确的产品信息.', delay: 2000});
+            } else {
+                //设置补充保存信息
+                vm.model.instid = nptSessionManager.getSession().getInst().id;
+                vm.model.createby = nptSessionManager.getSession().getUser().id;
+
+                vm.addOrUpdateProduct.post(vm.model).then(function (response) {
+                    Notification.success({
+                        message: "保存产品成功.",
+                        delay: 2000
+                    });
+                    vm.toEdit();
+
+                }, function (error) {
+                    Notification.error({
+                        message: "保存产品出现错误,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
+            }
+        };
+
+        //转到edit
+        vm.toEdit = function (productId) {
+            $location.path("/detail/" + productId);
+        }
     })
     .controller("editProductController", function ($scope, $location, $routeParams, QueryProductInfo, AddOrUpdateProduct, productForm) {
         var vm = this;

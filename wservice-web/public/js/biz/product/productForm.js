@@ -46,7 +46,7 @@ angular.module("productApp.productForm", ["ui.neptune"])
                         optionsAttr: "bs-options",
                         label: '产品类型:',
                         required: true,
-                        valueProp: 'id',
+                        valueProp: 'no',
                         labelProp: 'name',
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "producttype"},
