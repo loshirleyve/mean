@@ -237,7 +237,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         var vm = this;
         vm.clientid = {};
         vm.model = {};
-        vm.newClientInfo = AddOrUpdateInstClients;
+        vm.addOrUpdateInstClients = AddOrUpdateInstClients;
 
         //新增客户表单配置
         vm.addClientFormOptions = {
@@ -272,7 +272,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "remark":clientInfo.remark
                 };
 
-                AddOrUpdateInstClients.post(params)
+                vm.addOrUpdateInstClients.post(params)
                     .then(function(response){
                         clientid = response.data.id;
                         $location.path("/detail/" + clientid);

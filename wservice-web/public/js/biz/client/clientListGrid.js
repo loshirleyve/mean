@@ -11,7 +11,7 @@ angular.module("clientApp.ClientListGrid", [])
                     {field: 'fullname', displayName: "公司全称", width: 100},
                     {field: 'type', displayName: "类型", width: 85, cellFilter: "ctrlCodeFilter:'clienttype':'name':'no'"},
                     {field: 'industry', displayName: "行业", width: 80, cellFilter: "ctrlCodeFilter:'clientindustry':'name':'no'"},
-                    {field: 'scaleid', displayName: "公司规模", width: 85},
+                    //{field: 'scaleid', displayName: "公司规模", width: 85},
                     {field: 'source', displayName: "来源", width: 80, cellFilter: "ctrlCodeFilter:'clientsource':'name':'no'"},
                     {field: 'region', displayName: "区域", width: 60},
                     {field: 'address', displayName: "客户地址", width: 85},

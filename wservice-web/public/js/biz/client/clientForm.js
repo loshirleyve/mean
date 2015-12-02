@@ -5,7 +5,7 @@
  */
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, QueryInstClientById) {
+    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -30,10 +30,13 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'sn',
                     type: 'input',
                     templateOptions: {
+                        label: '编号:',
                         disabled:true,
                         required: true,
-                        label: '编号:'
-                    }
+                        minlength:4,
+                        maxlength:8
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'industry',
@@ -99,6 +102,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'scaleid',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         required: true,
                         label: '规模:',
                         valueProp:'type',
@@ -131,7 +135,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        "mask":"999 9999 9999"
+                        "mask":"999 9999 9999",
+                        maskPlaceholderChar:"-"
                     }
                 },
                 {
@@ -165,6 +170,20 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         label: '地址:'
                     }
                 },
+//                {
+//                    key: 'clientinstid',
+//                    type: 'ui-select',
+//                    templateOptions: {
+//                        optionsAttr: "bs-options",
+//                        required: true,
+//                        label: '客户机构:',
+//                        valueProp:'instid',
+//                        labelProp:'instname',
+//                        options:[],
+//                        repository: QueryInstClientById,
+//                        repositoryParams: {"instClient":"1"}
+//                    }
+//                },
                 {
                     key: 'clientinstid',
                     type: 'input',
@@ -222,5 +241,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
         });
     })
     .factory("QueryMdInstScale",function(nptRepository){
-        return nptRepository("queryMdInstScale");
+        return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
+            return response;
+        });
     });
