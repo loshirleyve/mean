@@ -137,7 +137,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             params.businessKey=vm.search.businessKey;
             params.begindate=vm.search.begindate;
             params.enddate=vm.search.enddate;
-            //params.complete=vm.search.complete;
+            params.complete=vm.search.complete;
             if(!params.businessKey){
                 delete params.businessKey;
             }

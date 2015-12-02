@@ -99,10 +99,25 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                 },
                 {
                     key: 'complete',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '是否完成:'
-                    }
+                        optionsAttr: 'bs-options',
+                        valueProp:"id",
+                        labelProp:"name",
+                        label: '是否完成:',
+                        options:[
+                            {
+                                name:"是",
+                                id:'1'
+                            },
+                            {
+                                name:"否",
+                                id:'0'
+                            }
+                        ],
+                        allowClear:false
+                    },
+                    defaultValue:0
                 }
             ],
             buttons: {
