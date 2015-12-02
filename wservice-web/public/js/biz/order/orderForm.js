@@ -170,7 +170,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                         viewvalueRepository: QueryUserInfoById
                     }
                 }, {
-                    key: 'salesmanid',
+                    key: 'salemanid',
                     type: 'npt-select-tree-single',
                     templateOptions: {
                         label: '业务员:',
