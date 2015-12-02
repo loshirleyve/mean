@@ -104,6 +104,33 @@ block content
             div.page-body
                 div(npt-form="vm.productFormOptions",model="vm.model")
 
+        //新增产品
+        script(type="text/ng-template",id="edit.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li.active 编辑产品
+
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 编辑产品
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    button.btn.btn-primary.navbar-btn(ng-click="vm.save()",ng-disabled="vm.nptFormApi.form.$invalid") 保存
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.productFormOptions",model="vm.modelProduct")
+
         //编辑产品
         script(type="text/ng-template",id="editGroup.html")
             //功能导航区域

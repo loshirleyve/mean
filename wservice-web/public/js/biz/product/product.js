@@ -35,31 +35,18 @@ angular.module("productApp", ["ui.neptune",
                     }
                 }
             })
-            .when("/product/:id", {
+            .when("/edit/:id", {
                 controller: "editProductController as vm",
-                templateUrl: "product.html",
+                templateUrl: "edit.html",
                 resolve: {
                     sessionData: function (nptSession) {
                         return nptSession();
                     }
                 }
-            })
-            .when("/product", {
-                controller: "editProductController as vm",
-                templateUrl: "product.html"
             })
             .when("/group/:province/:city/:district", {
                 controller: "editGroupController as vm",
                 templateUrl: "editGroup.html",
-                resolve: {
-                    sessionData: function (nptSession) {
-                        return nptSession();
-                    }
-                }
-            })
-            .when("/detail/:id", {
-                controller: "productDetailController as vm",
-                templateUrl: "detail.html",
                 resolve: {
                     sessionData: function (nptSession) {
                         return nptSession();
@@ -335,53 +322,63 @@ angular.module("productApp", ["ui.neptune",
 
         //转到edit
         vm.toEdit = function (productId) {
-            $location.path("/detail/" + productId);
+            $location.path("/edit/" + productId);
         }
     })
-    .controller("editProductController", function ($scope, $location, $routeParams, QueryProductInfo, AddOrUpdateProduct, productForm) {
+    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryProductInfo, AddOrUpdateProduct, productForm) {
         var vm = this;
+
+        //记录当前编辑的产品id
+        vm.productid = $routeParams.id;
 
         //产品信息资源库
         vm.productInfo = QueryProductInfo;
 
-        vm.model = {};
+        //产品更新资源库
+        vm.addOrUpdateProduct = AddOrUpdateProduct;
+
         //表单配置
         vm.productFormOptions = {
             store: productForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
-
             }
         };
 
-        vm.query = function () {
-            var id = $routeParams.id;
+        //保存产品
+        vm.save = function () {
+            vm.addOrUpdateProduct.post(vm.productInfo.data).then(function (response) {
+                Notification.success({
+                    message: "保存成功!",
+                    delay: 2000
+                });
+            }, function () {
+                Notification.error({
+                    message: "查找产品信息出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        };
 
-            if (id) {
+        //查询
+        vm.query = function () {
+            if (vm.productid) {
                 vm.productInfo.post({
-                    productid: id
+                    productid: vm.productid
                 }).then(function (response) {
-                    vm.model = response.data;
-                }, function (error) {
-                    var de = error;
+                    vm.modelProduct = response.data.product;
+                }, function () {
+                    Notification.error({
+                        message: "查找产品信息出错,请稍后尝试.",
+                        delay: 2000
+                    });
                 });
             }
         };
 
+        //查询
         vm.query();
 
-        vm.editProduct = function () {
-            AddOrUpdateProduct.post({
-                province: vm.currProvince,
-                city: vm.currCity,
-                district: vm.currDistrict,
-                name: vm.groupName
-            }).then(function (response) {
-                vm.queryMdProductGroup();
-            }, function (error) {
-                console.info(error);
-            });
-        };
 
     }).controller("editGroupController",
     function ($scope, $location, $routeParams, QueryMdProductGroup, AddOrUpdateMdProductGroup, productMdGroupListGrid) {
@@ -397,13 +394,13 @@ angular.module("productApp", ["ui.neptune",
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.province = $routeParams.province,
-                        params.data.city = $routeParams.city,
-                        params.data.district = $routeParams.district,
-                        productCategoryService.editGroup(params, $q).then(function () {
-                            deferd.resolve();
-                        }, function () {
-                            deferd.reject();
-                        });
+                            params.data.city = $routeParams.city,
+                            params.data.district = $routeParams.district,
+                            productCategoryService.editGroup(params, $q).then(function () {
+                                deferd.resolve();
+                            }, function () {
+                                deferd.reject();
+                            });
                         return deferd.promise;
                     });
             }
@@ -490,7 +487,7 @@ angular.module("productApp", ["ui.neptune",
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = vm.userid ;
+                        params.data.createby = vm.userid;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -510,7 +507,7 @@ angular.module("productApp", ["ui.neptune",
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = vm.userid ;
+                        params.data.createby = vm.userid;
                         productCategoryService.editProductPhase(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -530,7 +527,7 @@ angular.module("productApp", ["ui.neptune",
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = vm.userid ;
+                        params.data.createby = vm.userid;
                         productCategoryService.editProductProfile(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
@@ -588,7 +585,7 @@ angular.module("productApp", ["ui.neptune",
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
                         params.data.productid = $routeParams.id;
-                        params.data.createby = vm.userid ;
+                        params.data.createby = vm.userid;
                         productCategoryService.editProductDescr(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {
