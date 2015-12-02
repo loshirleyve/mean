@@ -13,57 +13,59 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
             },
             fields: [
                 {
-                    key: 'id',
-                    type: 'input',
-                    templateOptions: {
-                        required: true,
-                        label: '收款id:',
-                        placeholder: "请输入分组名称"
-                    }
-                },
-                {
                     key: 'businessKey',
-                    type: 'input',
+                    type: 'label',
                     templateOptions: {
                         required: true,
-                        label: '业务内容:',
-                        placeholder: "请输入排序"
+                        label: '购买内容:'
                     }
                 },
                 {
                     key: 'paymodeName',
-                    type: 'input',
+                    type: 'label',
                     templateOptions: {
                         required: true,
-                        label: '付款方式:',
-                        placeholder: "请输入排序"
+                        label: '付款方式:'
                     }
                 },
                 {
                     key: 'amount',
-                    type: 'input',
+                    type: 'label',
                     templateOptions: {
                         required: true,
-                        label: '应收金额:',
-                        placeholder: "请输入排序"
+                        label: '应收金额:'
                     }
                 },
                 {
                     key: 'payamount',
-                    type: 'input',
+                    type: 'label',
                     templateOptions: {
                         required: true,
-                        label: '已收金额:',
-                        placeholder: "请输入排序"
+                        label: '已收金额:'
                     }
                 },
                 {
-                    key: 'unPayamount',
+                    key: '',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '代收金额:',
-                        placeholder: "请输入排序"
+                        label: '本次收款方式:'
+                    }
+                },
+                {
+                    key: '',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '收款人:'
+                    }
+                },
+                {
+                    key: '',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '说明:'
                     }
                 }
             ],
