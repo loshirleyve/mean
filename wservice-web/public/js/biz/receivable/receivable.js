@@ -16,11 +16,21 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             })
             .when("/detail/:id", {
                 controller: "receivableDetailController as vm",
-                templateUrl: "detail.html"
+                templateUrl: "detail.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .when("/receivableConfirm/:id", {
                 controller: "receivableConfirmController as vm",
-                templateUrl: "receivableConfirm.html"
+                templateUrl: "receivableConfirm.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
 
             .otherwise({
@@ -28,8 +38,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             });
     }).factory("QueryReceivableList", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryPayRegisters").params({
-            instid: "10000001468002",//nptSessionManager.getSession().getInst().id,
-            createby: "10000001519061"//nptSessionManager.getSession().getUser().id
+            instid: nptSessionManager.getSession().getInst().id,
+            createby:nptSessionManager.getSession().getUser().id
         });
     }).factory("QueryPayRegisterInfo", function (nptRepository) {
         return nptRepository("QueryPayRegisterByid").params({
@@ -38,8 +48,10 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         return nptRepository("UpdateByCollect").params({
         });
     })
-    .factory("QueryPayModeType", function (nptRepository) {
-        return nptRepository("QueryPayModeType").params({
+    .factory("QueryPayModeType", function (nptRepository,nptSessionManager) {
+        return nptRepository("QueryPayModeType").addRequestInterceptor(function (request) {
+            request.params.instid = nptSessionManager.getSession().getInst().id;
+            return request;
         });
     })
     .service("receivableListQueryService", function (Notification, QueryReceivableList) {
@@ -117,7 +129,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
     }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
 
         var vm=this;
-
+        vm.receivableId = $routeParams.id;
         vm.receivableList = QueryReceivableList;
         vm.receivableInfo = QueryPayRegisterInfo;
         //数据模型
@@ -132,11 +144,9 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         };
 
         vm.query = function () {
-            var id = $routeParams.id;
-
-            if (id) {
+            if (vm.receivableId ) {
                 vm.receivableInfo.post({
-                    payRegisterId: id
+                    payRegisterId:  vm.receivableId
                 }).then(function (response) {
                     vm.model = response.data;
                     vm.modelCollections=response.data.payRegisterCollects;
@@ -145,11 +155,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 });
             }
         };
-        vm.query();
 
-        vm.toList= function () {
-            $location.path("/list");
-        };
+
         //当前单据是否能够确认
         vm.isComplete = function () {
             if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0) {
@@ -173,6 +180,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 $location.path("/detail/" + previousReceivable.id);
             }
         };
+
+        vm.query();
     })
     .controller("receivableConfirmController", function ($scope, $location, $routeParams,QueryPayRegisterInfo,UpdateByCollect,Notification,receivableForm,nptSessionManager) {
 

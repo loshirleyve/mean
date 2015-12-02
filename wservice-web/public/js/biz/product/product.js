@@ -196,7 +196,7 @@ angular.module("productApp", ["ui.neptune",
                     label: value.name,
                     target: value,
                     callBack: groupQueryCallback
-                })
+                });
             });
 
         };
@@ -396,9 +396,9 @@ angular.module("productApp", ["ui.neptune",
                     function (params, $timeout, $q) {
                         var deferd = $q.defer();
                         console.info("开始执行后台更新服务.");
-                        params.data.province = $routeParams.province;
-                        params.data.city = $routeParams.city;
-                        params.data.district = $routeParams.district;
+                        params.data.province = $routeParams.province,
+                        params.data.city = $routeParams.city,
+                        params.data.district = $routeParams.district,
                         productCategoryService.editGroup(params, $q).then(function () {
                             deferd.resolve();
                         }, function () {

@@ -22,6 +22,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     key: 'payTypeCode',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '本次收款方式:',
                         required: true,
                         valueProp: 'code',
@@ -29,7 +30,6 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryPayModeType,
-                        repositoryParams: {"instid": "10000001468002"},
                         search:["name"]
                     }
                 },
