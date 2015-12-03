@@ -78,9 +78,9 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         return nptRepository("deliverWorkorder");
     })
     .factory("QueryWorkordersIsUnread", function (nptRepository, nptSessionManager) {
-        return nptRepository("queryWorkorderList").params({
+        return nptRepository("queryWorkordersUnread").params({
             instid: nptSessionManager.getSession().getInst().id,
-            readstate: "0"
+            processid: nptSessionManager.getSession().getUser().id
         });
     })
     .service("WorkorderUnreadService", function (QueryWorkordersIsUnread, Notification, $interval) {
