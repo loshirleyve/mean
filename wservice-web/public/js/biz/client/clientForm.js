@@ -6,7 +6,7 @@
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode,
-                                     QueryMdInstScale, nptCache, QueryInstClients, RegExpValidatorFactory) {
+                                     QueryMdInstScale, nptCache, RegExpValidatorFactory) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -130,14 +130,10 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 {
                     key: 'contactphone',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        placeholder:'请输入手机号',
-                        reversal: true,
-                        searchProp:"contactphone",
-                        repository: QueryInstClients
+                        placeholder:'请输入手机号'
                     },
                     validators: {
                         phoneForm: {
