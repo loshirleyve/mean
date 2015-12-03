@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableCollectionListGrid","receivableApp.receivableForm", "wservice.common", "ngRoute","ui-notification"])
+angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableForm", "wservice.common", "ngRoute","ui-notification"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -64,7 +64,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             self.receivableList.post(params).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({message: '查询收款数据出现错误,请稍后再试.', delay: 2000});
             });
         };
 
@@ -143,7 +143,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             vm.queryService.query(params);
         };
 
-    }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo,receivableCollectionListGrid) {
+    }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo) {
 
         var vm=this;
         vm.receivableId = $routeParams.id;
@@ -153,12 +153,6 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         vm.model = {};
         vm.modelCollections = [];
 
-        vm.receivableCollectionListGridOptions = {
-            store: receivableCollectionListGrid,
-            onRegisterApi: function (nptGridApi) {
-                vm.receivableCollectionListGridApi = nptGridApi;
-            }
-        };
 
         vm.query = function () {
             if (vm.receivableId ) {

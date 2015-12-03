@@ -46,7 +46,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             self.instList.post(name).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({message: '查询机构数据出现错误,请稍后再试.', delay: 2000});
             });
         };
         //选择一个默认查询
