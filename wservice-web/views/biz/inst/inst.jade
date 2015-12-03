@@ -5,74 +5,85 @@ extends ../../layout/layout-bizpage
 
 block content
     script(src="/js/biz/inst/inst.js")
-    script(src="/js/store/datatable/inst.js")
-    script(src="/js/store/form/inst.js")
+    script(src="/js/biz/inst/instListGrid.js")
+    script(src="/js/biz/inst/instForm.js")
     div(ng-app="instApp")
         //通知区域
         //内容区域
         div(ng-view)
-
         //列表模板
         script(type="text/ng-template",id="list.html")
-            //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li.active 机构列表
-            //数据表格区域
-            div.row
-                div.col-md-12
-                    npt-datatable(is-pagination="true",items-per-page="10",name="inst",data="data",action="action",is-index="true",on-action="instAction(type,item,index)")
-        //详情模版
+            //功能导航区
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li.active 机构列表
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 机构列表
+                    div.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right
+                            li(ng-if="vm.queryService.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li
+                                a(data-toggle="modal", data-target="#instSearch") 机构查询
+
+            div(npt-grid="vm.instListGridOptions",model="vm.queryService.instList.data")
+            //弹出层，客户条件查询表单
+            div#instSearch.modal.fade(tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture")&times;
+                            h4.modal-title 机构查询
+                        div.modal-body
+                            div.row
+                                div.col-md-12
+                                    div(npt-form="vm.instSearchFormOptions" model="vm.name")
+                        div.modal-footer
+                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="vm.search();") 确认
+
         script(type="text/ng-template",id="detail.html")
-            //功能导航区域
+            //功能导航区
             div.row
                 div.col-md-12
                     ul.breadcrumb
                         li
-                            a(href="/home")
+                            a(href="/app/home")
                                 span.glyphicon.glyphicon-home
                                 span 首页
                         li
-                            a(href="#/list")
-                                span 机构列表
+                            a(href="#/list").active 机构列表
                         li.active 机构详情
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 机构详情
-            //div.row
-            //    div.col-md-12
-            //        div.panel.panel-default
-            //            div.panel-heading 基本信息
-            //            div.panel-body
-            //                form.form-horizontal
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 机构全称:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.name}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 机构简称:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.simplename}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 机构网址:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.hostname}}",disabled)
-            //                    div.form-group
-            //                        label.col-md-2.control-label(for="sn") 机构电话:
-            //                        div.col-md-10
-            //                            input.form-control(type="text",id="sn",value="{{data.tel}}",disabled)
-            div.row
-                div.col-md-12
-                    div
-                        div.panel-heading 基本信息
-                        npt-datatable(name="instDetail",data="data",is-index="true",action="action",is-pagination="true")
-            div.row
-                div.col-md-12
-                    div
-                        div.panel-heading 资料交接方式
-                        //npt-datatable(name="orderAttachment",data="data.orderAttachments",action="orderAttachmentAction",is-index="true",on-action="doOrderAttachments(type,item,index)")
+
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="") 机构详情
+                    ul.nav.navbar-nav.navbar-right
+                        li(ng-if="vm.instInfo.loading()")
+                            a(href="") 正在查询,请稍后...
+                        li(ng-if="!vm.instInfo.loading()")
+                            a(href="",ng-click="vm.previous(vm.instInfo.data)",ng-show="vm.instList.previous(vm.instInfo.data)") 上一单
+                        li(ng-if="!vm.instInfo.loading()")
+                            a(href="",ng-click="vm.next(vm.instInfo.data)",ng-show="vm.instList.next(vm.instInfo.data)") 下一单
+                        li(ng-if="!vm.instInfo.loading()")
+                            a(href="",ng-click="vm.updateInstInfo();" ng-show="false") 保存
+                        li(ng-if="!vm.instInfo.loading()")
+                            a(href="",ng-click="vm.editClick();" ) 编辑
+                        li
+                            a(href="#/list") 返回
+
+            //数据表格区域
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.editInstFormOptions",model="vm.model")
+
+

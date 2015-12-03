@@ -1,5 +1,5 @@
 /**
- * Created by leon on 15/11/26.
+ * Created by rxy on 15/11/17.
  */
 angular.module("receivableApp.receivableListGrid", [])
     .factory("receivableListGrid", function (nptGridStore) {
