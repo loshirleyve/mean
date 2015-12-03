@@ -139,6 +139,9 @@ proxy.action("queryWorkorderList", {
 }).action("deliverWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
+}).action("queryWorkordersUnread", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkordersUnreadService"
 });
 
 

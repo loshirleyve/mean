@@ -124,13 +124,6 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             }
         };
 
-        vm.receivableAction = function (action, item, index) {
-            console.info(action);
-            if (item && action.type === "view") {
-                $location.path("/detail/" + item.id);
-            }
-        };
-
         vm.search=function()
         {
             var params=[];
