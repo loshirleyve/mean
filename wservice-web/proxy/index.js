@@ -227,6 +227,9 @@ proxy.action("QueryFile", {
 }).action("QueryFileById", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryFileByIdService"
+}).action("AddOrUpdateFile", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.AddOrUpdateFileService"
 });
 
 module.exports = proxy;
