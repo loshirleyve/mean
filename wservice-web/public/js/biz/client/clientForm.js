@@ -6,7 +6,7 @@
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode,
-                                     QueryMdInstScale, nptCache, QueryInstClients, RegExpValidatorFactory) {
+                                     QueryMdInstScale, nptCache, RegExpValidatorFactory) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -130,22 +130,11 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 {
                     key: 'contactphone',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
-                        required: true,
+                        disabled:true,
                         label: '手机号:',
-                        placeholder:'请输入手机号',
-                        reversal: true,
-                        searchProp:"contactphone",
-                        repository: QueryInstClients
-                    },
-                    validators: {
-                        phoneForm: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
-                            message: '$viewValue + " 是无效的电话号码"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                        placeholder:'请输入手机号'
+                    }
                 },
                 {
                     key: 'contactposition',
@@ -234,7 +223,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '创建时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
@@ -243,12 +233,13 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '更新时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
                     }

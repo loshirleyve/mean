@@ -38,7 +38,7 @@ angular.module("productApp.productListGrid", [])
                         function ($location, params) {
                             if (params.item && params.item.length > 0) {
                                 var id = params.item[0].id;
-                                $location.path("/detail/" + id);
+                                $location.path("/edit/" + id);
                             }
                         }
                     ]
