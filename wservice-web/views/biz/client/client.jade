@@ -98,6 +98,8 @@ block content
                             button.btn.btn-default.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
                         li
                             button.btn.btn-default.navbar-btn(type="button",ng-click="vm.goToList()") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
 
             //数据表单区域
             div.page-header
@@ -126,11 +128,13 @@ block content
                         li(ng-if="vm.addClient.loading()")
                             a(href="") 正在保存,请稍后...
                         li(ng-if="!vm.addClient.loading()")
-                            a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
+                            button.btn.btn-default.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
                         li
-                            a(href="",ng-click="vm.reset()") 重置
+                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.reset()") 重置
                         li
-                            a(href="#/list") 返回
+                            button.btn.btn-default.navbar-btn(type="button", ng-click="vm.goToList()") 返回
+                        li
+                            | &nbsp &nbsp &nbsp &nbsp
 
             //数据表单区域
             div.page-header

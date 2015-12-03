@@ -112,7 +112,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -130,7 +130,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //客户详情表单配置
         vm.clientFormOptions = {
-            store:ClientForm,
+            store:angular.copy(ClientForm),
             onRegisterApi: function(nptFormApi){
                 vm.nptFormApi = nptFormApi;
             }
@@ -187,7 +187,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 vm.instInit.post(params)
                     .then(function(response){
                         Notification.success({message: '初始化机构成功!', delay: 2000});
-                        vm.query();
+                        $route.reload();
                     }, function(err){
                         Notification.error({message: '初始化机构失败.' + err.data.cause, delay: 2000});
                     });
@@ -248,7 +248,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
-        vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small"};
+        vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small","contactposition":"legal"};
         vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
@@ -261,6 +261,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         vm.reset = function () {
             vm.nptFormApi.reset();
+        };
+
+        //跳转到客户列表界面
+        vm.goToList = function(){
+          $location.path("/list/");
         };
 
         //新增客户

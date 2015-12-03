@@ -223,7 +223,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '创建时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
@@ -232,7 +233,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '更新时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
