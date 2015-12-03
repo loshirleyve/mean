@@ -239,7 +239,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
                     }

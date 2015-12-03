@@ -208,7 +208,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.model.client = vm.model.clientBackup;
+            $route.reload();
         };
 
         //更新客户信息
