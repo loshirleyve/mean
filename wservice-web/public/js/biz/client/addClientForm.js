@@ -206,7 +206,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
                     }
