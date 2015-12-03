@@ -131,17 +131,10 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'contactphone',
                     type: 'input',
                     templateOptions: {
-                        required: true,
+                        disabled:true,
                         label: '手机号:',
                         placeholder:'请输入手机号'
-                    },
-                    validators: {
-                        phoneForm: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
-                            message: '$viewValue + " 是无效的电话号码"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'contactposition',

@@ -126,6 +126,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
+        vm.model.clientBackup = {};
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -133,6 +134,16 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             onRegisterApi: function(nptFormApi){
                 vm.nptFormApi = nptFormApi;
             }
+        };
+
+        //跳转到新增客户界面
+        vm.goToAddClient = function(){
+            $location.path("/addClient/");
+        };
+
+        //跳转到客户列表界面
+        vm.goToList = function(){
+            $location.path("/list/");
         };
 
         //转到下一个客户
@@ -197,7 +208,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.nptFormApi.reset();
+            vm.model.client = vm.model.clientBackup;
         };
 
         //更新客户信息
