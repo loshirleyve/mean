@@ -115,7 +115,6 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             params.homepath=vm.model.homepath;
             params.tel=vm.model.tel;
             vm.updateInst.post(params).then(function(response){
-
             },function(error)
             {
                 var de = error;
@@ -124,23 +123,20 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
 
         vm.show=function()
         {
-            vm.roles = nptSessionManager.getSession().getUser().roles;
+            vm.roles = nptSessionManager.getSession().getInst().roles;
             angular.forEach(vm.roles, function (value) {
                 if (vm.roles.equals("admin")) {
-                   return true;
+                    angular.forEach(vm.nptFormApi.fields(),function(field,$index) {
+                        if ($index !== 0) {
+                            field.templateOptions.disabled = false;
+                        }
+                    });
                 }
+                return true;
             });
             return false;
         }
 
-        vm.editClick=function()
-        {
-            angular.forEach(vm.nptFormApi.fields(),function(field,$index) {
-                if ($index !== 0) {
-                    field.templateOptions.disabled = false;
-                }
-            });
-        }
 
         //转到下一单
         vm.next = function (inst) {
