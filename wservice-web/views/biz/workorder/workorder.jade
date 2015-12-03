@@ -31,31 +31,23 @@ block content
                         a.navbar-brand(href="#") 工单列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.workorderList.loading()")
+                            li(ng-if="vm.queryService.workorderList.loading() || vm.workorderUnreadService.workordersIsUnread.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.workorderList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryName}}
+                            li.dropdown(ng-if='!vm.queryService.workorderList.loading() && !vm.workorderUnreadService.workordersIsUnread.loading()')
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 工单查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.queryByState('','全部')") 全部
-                                    li
-                                        a(href="",ng-click="vm.queryByState('unstart','未开始')") 未开始
-                                    li
-                                        a(href="",ng-click="vm.queryByState('inservice','处理中')") 处理中
-                                    li
-                                        a(href="",ng-click="vm.queryByState('complete','已完成')") 已完成
-                                    li
-                                        a(href="") 条件查询
-                            li.dropdown(ng-if='!vm.workorderList.loading()')
-                                a(href="",ng-if="vm.workorderList.loading()") 正在检查...
-                                a.dropdown-toggle(href="",ng-if="!vm.workorderList.loading()",data-toggle="dropdown") 检查新工单[已检查{{vm.count}}次] - {{vm.scheduleLabel}}
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
+                            li.dropdown(ng-if='!vm.queryService.workorderList.loading()')
+                                a(href="",ng-if="vm.queryService.workorderList.loading()") 正在检查...
+                                a.dropdown-toggle(href="",ng-if="!vm.queryService.workorderList.loading()",data-toggle="dropdown") 检查新工单[已检查{{vm.workorderUnreadService.count}}次] - {{vm.workorderUnreadService.currSchedule.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li(ng-repeat="schedule in vm.schedules")
-                                        a(href="",ng-click="vm.selectSchedule(schedule)") {{schedule.label}}
-                            li(ng-if="vm.hasNewOrders")
-                                button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
+                                    li(ng-repeat="schedule in vm.workorderUnreadService.schedules")
+                                        a(href="",ng-click="vm.workorderUnreadService.selectSchedule(schedule)") {{schedule.label}}
+                            li(ng-if="vm.workorderUnreadService.hasNewWorkorders && !vm.queryService.workorderList.loading()")
+                                button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewWorkorders()") 显示新工单
             div(npt-grid="vm.workorderListGridOptions",model="vm.queryService.workorderList.data")
         //详情模版
         script(type="text/ng-template",id="detail.html")

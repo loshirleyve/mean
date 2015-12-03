@@ -28,6 +28,8 @@ block content
                         ul.nav.navbar-nav.navbar-right
                             li(ng-if="vm.queryService.loading()")
                                 a(href="") 正在查询,请稍后...
+                            li
+                                    a(data-toggle="modal", data-target="#receivableSearch") 收款查询
                             li.dropdown(ng-if='!vm.queryService.loading()')
                                 a.dropdown-toggle(href="",data-toggle="dropdown") 收款查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
@@ -36,6 +38,22 @@ block content
                                         a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
 
             div(npt-grid="vm.receivableListGridOptions",model="vm.queryService.receivableList.data")
+
+            //弹出层，客户条件查询表单
+            div#receivableSearch.modal.fade(tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="ture")&times;
+                            h4.modal-title 收款查询
+                        div.modal-body
+                            div.row
+                                div.col-md-12
+                                    div(npt-form="vm.receivableSearchFormOptions" model="vm.search")
+                        div.modal-footer
+                                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                                button.btn.btn-primary(type="button",data-dismiss="modal",ng-click="vm.search();") 确认
 
         script(type="text/ng-template",id="detail.html")
             //功能导航区
@@ -84,7 +102,7 @@ block content
                     dd {{vm.model.payamount}}
 
                     dt 收款状态:
-                    dd {{vm.model.complete}}
+                    dd {{vm.model.complete |  yesOrNo}}
 
                     dt 支付方式:
                     dd {{vm.model.paymodeName}}
