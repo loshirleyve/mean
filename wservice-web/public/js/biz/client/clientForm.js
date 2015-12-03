@@ -5,7 +5,8 @@
  */
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
-    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, RegExpValidatorFactory) {
+    .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode,
+                                     QueryMdInstScale, nptCache, RegExpValidatorFactory) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -115,14 +116,6 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         options:[],
                         repository: QueryMdInstScale,
                         repositoryParams: {"instid":"10000001463017"}
-                    },
-                    expressionProperties:{
-                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-                            }
-                            return scope.to.options;
-                        }
                     }
                 },
                 {
@@ -138,18 +131,10 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'contactphone',
                     type: 'input',
                     templateOptions: {
-                        required: true,
+                        disabled:true,
                         label: '手机号:',
                         placeholder:'请输入手机号'
-                    },
-                    validators: {
-                        phoneForm: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
-                            message: '$viewValue + " 是无效的电话号码"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-
+                    }
                 },
                 {
                     key: 'contactposition',
@@ -184,48 +169,52 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         placeholder:'请输入地址'
                     }
                 },
-//                {
-//                    key: 'clientinstid',
-//                    type: 'ui-select',
-//                    templateOptions: {
-//                        optionsAttr: "bs-options",
-//                        required: true,
-//                        label: '客户机构:',
-//                        valueProp:'instid',
-//                        labelProp:'instname',
-//                        options:[],
-//                        repository: QueryInstClientById,
-//                        repositoryParams: {"instClient":"1"}
-//                    }
-//                },
                 {
                     key: 'clientinstid',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: "bs-options",
                         label: '客户机构:',
+                        valueProp:'instid',
+                        labelProp:'instname',
+                        options:[],
+                        allowClear:false,
                         disabled:true
+                    },
+                    expressionProperties:{
+                    "templateOptions.options":function($viewValue,$modelValue,scope) {
+                        if (scope.to.options && scope.to.options.length > 0) {
+                            return scope.to.options;
+                        }
+                        var data = nptCache.get("inst",$modelValue);
+                        if (data) {
+                            return [data];
+                        }
                     }
+                }
                 },
-               /* {
+                {
                     key: 'clientadminid',
                     type: 'ui-select',
                     templateOptions: {
                         optionsAttr: "bs-options",
-                        required: true,
                         label: '客户管理员:',
-                        valueProp:'no',
+                        valueProp:'id',
                         labelProp:'name',
-                        placeholder:'请选择',
                         options:[],
-                        repository: QueryInstClientById
-                    }
-                },*/
-                {
-                    key: 'clientadminid',
-                    type: 'input',
-                    templateOptions: {
-                        label: '客户管理员:',
+                        allowClear:false,
                         disabled:true
+                    },
+                    expressionProperties: {
+                        "templateOptions.options": function ($viewValue, $modelValue, scope) {
+                            if (scope.to.options && scope.to.options.length > 0) {
+                                return scope.to.options;
+                            }
+                            var data = nptCache.get("user", $modelValue);
+                            if (data) {
+                                return [data];
+                            }
+                        }
                     }
                 },
                 {
@@ -234,7 +223,8 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '创建时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
@@ -243,12 +233,13 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '更新时间:',
-                        "formateType": "long"
+                        "formateType": "long",
+                        disabled:true
                     }
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
                     }
@@ -258,6 +249,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
     })
     .factory("QueryMdInstScale",function(nptRepository){
         return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
+            response.data = response.data.bizMdInstScales;
             return response;
         });
     });

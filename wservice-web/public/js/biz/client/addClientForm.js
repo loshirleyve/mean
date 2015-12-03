@@ -8,21 +8,25 @@
  */
 
 angular.module("clientApp.addClientForm", ["ui.neptune"])
-    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, RegExpValidatorFactory) {
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, QueryInstClients, RegExpValidatorFactory) {
         return nptFormlyStore("AddClientForm", {
             fields: [
                 {
                     key: 'fullname',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '客户公司名称:',
-                        placeholder: "请输入客户公司名称"
+                        placeholder: "请输入客户公司名称",
+                        reversal: true,
+                        searchProp:"fullname",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 已被占用或含有非法字符"'
+                            message: '$viewValue + " 含有非法字符"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
@@ -46,10 +50,14 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 {
                     key: 'sn',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '编号:',
-                        placeholder: "请输入4至8位由字母或数字组成的客户编号"
+                        placeholder: "请输入4至8位由字母或数字组成的客户编号",
+                        reversal: true,
+                        searchProp:"sn",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
@@ -132,14 +140,6 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         options:[],
                         repository: QueryMdInstScale,
                         repositoryParams: {"instid":"10000001463017"}
-                    },
-                    expressionProperties:{
-                        "templateOptions.options":function($viewValue,$modelValue,scope) {
-                            if (scope.to.options && scope.to.options.length > 0 && angular.isArray(scope.to.options[0].bizMdInstScales)) {
-                                scope.to.options =  scope.to.options[0].bizMdInstScales;
-                            }
-                            return scope.to.options;
-                        }
                     }
                 },
                 {
@@ -154,10 +154,14 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 {
                     key: 'contactphone',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '手机号:',
-                        placeholder:'请输入手机号'
+                        placeholder:'请输入手机号',
+                        reversal: true,
+                        searchProp:"contactphone",
+                        repository: QueryInstClients
                     },
                     validators: {
                         phoneForm: {
@@ -166,7 +170,6 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
-
                 },
                 {
                     key: 'contactposition',
@@ -203,7 +206,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '备注:'
                     }
@@ -212,5 +215,8 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
         });
     })
     .factory("QueryMdInstScale",function(nptRepository){
-        return nptRepository("queryMdInstScale");
+        return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
+            response.data = response.data.bizMdInstScales;
+            return response;
+        });
     });

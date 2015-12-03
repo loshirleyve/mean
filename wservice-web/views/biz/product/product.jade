@@ -35,190 +35,410 @@ block content
             //功能导航
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
-                    div.navbar-header.col-md-3
+                    div.navbar-header
                         a.navbar-brand(href="#") 产品列表
                     div.collapse.navbar-collapse.col-md-9.navbar-right
-                        ul.nav.navbar-nav.navbar-left
-                            li(ng-if="vm.productList.loading()")
+                        ul.nav.navbar-nav.navbar-left(ng-if='vm.queryService.reposProducts.loading()')
+                            li
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.productCategory.currProvince}}
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ng-click="vm.productCategory.selectProvince(province)",ng-repeat="province in vm.productCategory.provinces track by $index",value="{{province.province}}") {{province.province}}
-                        ul.nav.navbar-nav.navbar-left
-                            li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.productCategory.currCity}}
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ng-click="vm.productCategory.selectCity(city)",ng-repeat="city in vm.productCategory.citys track by $index",value="{{city.city}}") {{city.city}}
-                        ul.nav.navbar-nav.navbar-left
-                            li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.productCategory.currDistrict}}
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ng-click="vm.productCategory.selectDistrict(district)",ng-repeat="district in vm.productCategory.districts track by $index" ,value="{{district.district}}") {{district.district}}
-                        ul.nav.navbar-nav.navbar-left
-                            li.dropdown(ng-if='!vm.productList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 分组 - {{vm.productCategory.queryName}}
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.productCategory.queryByGroupId('all','全部')") 全部
-                                    li
-                                        a(href="",ng-click="vm.productCategory.queryByGroupId('none','未分类')") 未分类
-                                    li(ng-repeat="group in vm.productCategory.allGroups")
-                                        a(href="",ng-click="vm.productCategory.queryByGroupId(group.id,group.name)") {{group.name}}
-                                    li
-                                        a(href="") 条件查询
-                        ul.nav.navbar-nav.navbar-left
-                            li
-                                a(href="#/product",ng-if='!vm.productList.loading()') 添加产品
-                            li
-                                a(href="#/group/{{vm.productCategory.currProvince}}/{{vm.productCategory.currCity}}/{{vm.productCategory.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
-            div(npt-grid="vm.productListGridOptions",model="vm.productCategory.productList")
+                        div(ng-if='!vm.queryService.reposProducts.loading()')
+                            ul.nav.navbar-nav.navbar-left
+                                li.dropdown
+                                    a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.queryService.currProvince.province}}
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li(ng-repeat="province in vm.queryService.provinces track by $index")
+                                            a(ng-click="vm.queryService.selectProvince(province)") {{province.province}}
 
-        //编辑产品
-        script(type="text/ng-template",id="editGroup.html")
-            //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li
-                            a(href="#list")
-                                span 产品列表
-                        li.active 分组信息
+                                li.dropdown
+                                    a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.queryService.currCity.city}}
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li(ng-repeat="city in vm.queryService.currProvince.citys track by $index")
+                                            a(ng-click="vm.queryService.selectCity(city)") {{city.city}}
 
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 分组信息
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
+                                li.dropdown
+                                    a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.queryService.currDistrict.district}}
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li(ng-repeat="district in vm.queryService.currCity.districts track by $index")
+                                            a(ng-click="vm.queryService.selectDistrict(district)") {{district.district}}
 
-            div.row
-                div.col-md-12
-                    div.page-header
-                        div.row
-                            h4.col-md-6 分组信息
-                            div.col-md-6.text-right
-                                button.btn.btn-default.btn-sm(ng-click="vm.addGroupDialog();") 添加
-                    div.page-body
-                            div(npt-grid="vm.productMdGroupListGridOptions",model="vm.productMdGroupList.data")
+                                li.dropdown
+                                    a.dropdown-toggle(href="",data-toggle="dropdown") 查询 - {{vm.queryService.currQueryType.label}}
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li(ng-repeat="queryType in vm.queryService.queryTypes")
+                                            a(href="",ng-click="vm.queryService.selectQueryType(queryType)") {{queryType.label}}
 
+                                li
+                                    a(href="#/add") 添加产品
+                                li
+                                    a(href="#/group/{{vm.productCategory.currProvince}}/{{vm.productCategory.currCity}}/{{vm.productCategory.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
 
-        //编辑分组
-        script(type="text/ng-template",id="product.html")
-            //功能导航区域
-            div.row
-                div.col-md-12
-                    ul.breadcrumb
-                        li
-                            a(href="/home")
-                                span.glyphicon.glyphicon-home
-                                span 首页
-                        li
-                            a(href="#list")
-                                span 产品列表
-                        li.active 产品信息
+            div(npt-grid="vm.productListGridOptions",model="vm.queryService.reposProducts.data")
 
-            nav.navbar.navbar-default
-                div.navbar-header
-                    a.navbar-brand(href="") 产品信息
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href="#/list") 返回
-                    li
-                        | &nbsp &nbsp &nbsp &nbsp
-
-            div.row
-                div.col-md-12
-                    div.page-header
-                        h4 服务内容
-                    div.page-body
-                        div(npt-form="vm.productFormOptions",model="vm.model.product")
-
-        //详情模板
-        script(type="text/ng-template",id="detail.html")
+        //新增产品
+        script(type="text/ng-template",id="add.html")
             //功能导航区域
             ul.breadcrumb
                 li
-                    a(href="/home")
+                    a(href="/app/home")
                         span.glyphicon.glyphicon-home
                         span 首页
                 li
-                    a(href="#list")
-                        span 产品列表
-                li.active 产品详情
-
+                    a(href="#list") 产品列表
+                li.active 新增产品
+            //功能导航
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 产品详情
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.productInfo.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.productInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.productInfo.data.product)",ng-show="vm.productList.previous(vm.productInfo.data.product)") 上一单
-                        li(ng-if="!vm.productInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.productInfo.data.product)",ng-show="vm.productList.next(vm.productInfo.data.product)") 下一单
-                        li
-                            a(href="#/list") 返回
-
-            //数据表格区域
+                        a.navbar-brand(href="#") 新增产品
+                    //div.collapse.navbar-collapse.navbar-right
+                    //    div
+                    //        ul.nav.navbar-nav.navbar-left
+                    //            li
+                    //                button.btn.btn-primary.navbar-btn(ng-click="vm.save()",ng-disabled="vm.nptFormApi.form.$invalid") 保存
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.productFormOptions",model="vm.model.product")
+                div(npt-form="vm.productFormOptions",model="vm.model")
+
+
+        //新增产品
+        script(type="text/ng-template",id="edit.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li.active 编辑产品
+
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 编辑产品
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一单
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一单
+                                li
+                                    a(href="#/list") 返回
+            div.page-header
+                h4 基本信息
+            div.page-body
+                div(npt-form="vm.productFormOptions",model="vm.modelProduct")
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务阶段
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductPhaseDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 产品内容
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/profile/{{vm.productid}}") 添加产品内容
             div.page-body
-                div(npt-grid="vm.productPhaseListGridOptions",model="vm.modelPhases")
+                div.list-group
+                    div.list-group-item(ng-repeat="profile in vm.modelProductProfiles")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{profile.synopsis}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/profile/{{vm.productid}}/{{profile.id}}") 编辑
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务资料
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductRequirementDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 产品详情
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/descr/{{vm.productid}}") 添加产品详情
             div.page-body
-                div(npt-grid="vm.productRequirementListGridOptions",model="vm.modelRequirements")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProductDescrs")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.descr}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/descr/{{vm.productid}}/{{item.id}}") 编辑
+                        div.list-group-item-text
+                            spam {{item.descrvalue}}
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务内容
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductProfilesDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 所属分组
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/group/{{vm.productid}}") 添加所属分类
             div.page-body
-                div(npt-grid="vm.productProfilesListGridOptions",model="vm.modelProfiles")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProductGroups")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    div(style="width:50px;height:50px;",npt-image="item.backgorundimgid")
+                                    span &nbsp &nbsp
+                                    span {{item.groupname}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/group/{{vm.productid}}/{{item.id}}") 编辑
+                        div.list-group-item-text
+                            span 所属地区:{{item.province}} - {{item.city}} - {{item.district}}; 置顶显示:{{item.top}}
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务分组
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductGroupDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 产品分类
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}") 添加产品分类
             div.page-body
-                div(npt-grid="vm.productGroupListGridOptions",model="vm.modelGroups")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProductClassifies")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.classifyname}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{item.id}}") 编辑
+                        div.list-group-item-text
+                            span 价格:{{item.price | number}} 排序:{{item.sort}}
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务分类
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductClassifiesDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 办理资料
+                    div.col-xs-6.col-md-6
+                        button.btn.btn-default.pull-right(type="button") 添加办理资料
             div.page-body
-                div(npt-grid="vm.productClassifiesListGridOptions",model="vm.modelClassifies")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProductRequirements")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.attachname}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                        div.list-group-item-text
+                            span 识别Key:{{item.attachkey}}; 填写方式:{{item.inputtype}}; 填写说明:{{item.inputdesc}}; 填写样板:{{item.demovalue}}; 交接方式:{{item.doc}};
+
             div.page-header
                 div.row
-                    h4.col-md-6 服务说明
-                    div.col-md-6.text-right
-                        button.btn.btn-default.btn-sm(ng-click="vm.addProductDescrsDialog();") 添加
+                    div.col-xs-6.col-md-6
+                        h4 服务阶段
+                    div.col-xs-6.col-md-6
+                        button.btn.btn-default.pull-right(type="button") 添加服务阶段
             div.page-body
-                div(npt-grid="vm.productDescrsListGridOptions",model="vm.modelDescrs")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProductPhases")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.sortno}} {{item.name}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    span.pull-right &nbsp &nbsp
+                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                        div.list-group-item-text
+                            dl.dl-horizontal
+                                dt 服务周期及时间:
+                                dd {{item.cyclevalue}}{{item.cycle | ctrlCodeFilter:'cycle':'name':'no'}}; 办理时间:{{item.processdays}}个工作日;
+                                dt 服务职责:
+                                dd {{item.duty}}
+                                dt 服务说明:
+                                dd {{item.phasedescr}}
+                                dt 备注:
+                                dd {{item.remark}}
+
+        //编辑产品内容
+        script(type="text/ng-template",id="editProductProfile.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品内容
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品内容
+
+            div(npt-form="vm.productProfilesFormOptions",model="vm.model")
+
+        //编辑产品详情
+        script(type="text/ng-template",id="editProductDescr.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品详情
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品详情
+
+            div(npt-form="vm.productDescrFormOptions",model="vm.model")
+
+        //编辑产品类
+        script(type="text/ng-template",id="editProductClassifies.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品类
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品分类
+
+            div(npt-form="vm.productClassifiesFormOptions",model="vm.model")
+
+        //编辑产品分组
+        script(type="text/ng-template",id="editProductGroup.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品所属分组
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品所属分组
+
+            div(npt-form="vm.productGroupFormOptions",model="vm.model")
+
+        //用于选择产品所属分组的模板
+        script(type="text/ng-template",id="selectProductGroup.html")
+            div
+                div.input-group
+                    //input.form-control(placeholder="{{to.placeholder}}",type="text",ng-model="to.viewvalue",disabled)
+                    input.form-control(placeholder="{{to.placeholder}}",type="text",ng-model="model[to.labelProp]",disabled)
+                    span.input-group-btn
+                        button.btn.btn-primary(type="button",ng-click="open()") 选择所属分组
+
+        //用于选择产品所属分组的Modal
+        script(type="text/ng-template",id="selectProductGroupModal.html")
+            div
+                div.modal-header
+                    button.close(type='button',ng-click="vm.cancel()",aria-label="关闭")
+                        span &times
+                    h4.modal-title 选择产品所属分组
+                    p(ng-show="vm.refresh.$$state.status === 0") 正在加载数据,请稍后...
+                div.modal-body
+                    nav.navbar.navbar-default
+                        div.container-fluid
+                            div.collapse.navbar-collapse.navbar-left
+                                ul.nav.navbar-nav.navbar-left
+                                    li.dropdown
+                                        a.dropdown-toggle(href="",data-toggle="dropdown") 省 - {{vm.queryService.currProvince.province}}
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li(ng-repeat="province in vm.queryService.provinces track by $index")
+                                                a(ng-click="vm.queryService.selectProvince(province)") {{province.province}}
+
+                                    li.dropdown
+                                        a.dropdown-toggle(href="",data-toggle="dropdown") 市 - {{vm.queryService.currCity.city}}
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li(ng-repeat="city in vm.queryService.currProvince.citys track by $index")
+                                                a(ng-click="vm.queryService.selectCity(city)") {{city.city}}
+
+                                    li.dropdown
+                                        a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.queryService.currDistrict.district}}
+                                            span.caret
+                                        ul.dropdown-menu
+                                            li(ng-repeat="district in vm.queryService.currCity.districts track by $index")
+                                                a(ng-click="vm.queryService.selectDistrict(district)") {{district.district}}
+                    div.list-group
+                        div.list-group-item(ng-repeat="item in vm.queryService.reposProductGroup.data")
+                            div.list-group-item-heading
+                                div.row
+                                    div.col-md-6.col-xs-6
+                                        p {{item.name}}
+                                    div.col-md-6.col-xs-6
+                                        button.btn.btn-primary.pull-right(type="button",ng-click="vm.ok(item)") 选择
+
+                div.modal-footer
+                    button.btn.btn-warning(type="button",ng-click="vm.cancel()") 取消
 

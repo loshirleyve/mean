@@ -80,7 +80,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
          */
         vm.query = function (name,params) {
             params = params || {};
-            vm.state = QueryInstClients.post(params).then(function(){
+            vm.clientList.post(params).then(function(){
+                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
                 vm.queryName = name;
             }, function(error){
                 Notification.error({message: '查询客户列表失败.', delay: 2000});
@@ -98,7 +99,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             if(!params.fullname){
                 delete params.fullname;
             }
-            vm.state = QueryInstClients.post(params).then(function(){
+            vm.clientList.post(params).then(function(){
                 vm.queryName = name;
             }, function(error){
                 Notification.error({message: '查询客户列表失败.', delay: 2000});
@@ -111,10 +112,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route) {
         var vm = this;
         vm.clientid = $routeParams.id;
-
 
         //客户列表数据库
         vm.clientList = QueryInstClients;
@@ -126,13 +126,24 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
+        vm.model.clientBackup = {};
 
         //客户详情表单配置
         vm.clientFormOptions = {
-            store:ClientForm,
+            store:angular.copy(ClientForm),
             onRegisterApi: function(nptFormApi){
                 vm.nptFormApi = nptFormApi;
             }
+        };
+
+        //跳转到新增客户界面
+        vm.goToAddClient = function(){
+            $location.path("/addClient/");
+        };
+
+        //跳转到客户列表界面
+        vm.goToList = function(){
+            $location.path("/list/");
         };
 
         //转到下一个客户
@@ -176,7 +187,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 vm.instInit.post(params)
                     .then(function(response){
                         Notification.success({message: '初始化机构成功!', delay: 2000});
-                        vm.query();
+                        $route.reload();
                     }, function(err){
                         Notification.error({message: '初始化机构失败.' + err.data.cause, delay: 2000});
                     });
@@ -197,7 +208,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.nptFormApi.reset();
+            $route.reload();
         };
 
         //更新客户信息
@@ -237,7 +248,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
-        vm.model = {};
+        vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small","contactposition":"legal"};
         vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
@@ -250,6 +261,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         vm.reset = function () {
             vm.nptFormApi.reset();
+        };
+
+        //跳转到客户列表界面
+        vm.goToList = function(){
+          $location.path("/list/");
         };
 
         //新增客户
