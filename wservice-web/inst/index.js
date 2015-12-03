@@ -9,13 +9,27 @@ var router = express.Router();
 
 module.exports = function (app) {
 
-    instPassport.deserializeUser(function (inst, done) {
+    function loadInstRole(instData,done,req) {
+        proxy.post("queryInstRolesByUseridAndInstid")
+            .params({
+                instid:instData.id,
+                userid:req.user.id
+            }).launch(function (response) {
+                instData.roles = response.body.data;
+                done(null, instData);
+            }, function (error) {
+                done(new Error("无法获取机构角色" + error));
+            });
+    }
+
+    instPassport.deserializeUser(function (inst, done,req) {
         //读取机构信息
         proxy.post("queryInstDetail").params({
             "instid": inst
         }).launch(function (response) {
-            if (response.body.data) {
-                done(null, response.body.data);
+            var instData = response.body.data;
+            if (instData) {
+                loadInstRole(instData,done,req);
             } else {
                 done(new Error("不存在的机构:" + inst));
             }
