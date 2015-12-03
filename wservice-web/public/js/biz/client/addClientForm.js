@@ -26,7 +26,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 含有非法字符"'
+                            message: '$viewValue + " 必须输入汉字！"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
@@ -42,7 +42,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 中含有非法字符"'
+                            message: '$viewValue + " 必须输入汉字！"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
@@ -148,26 +148,21 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '联系人:',
-                        placeholder:'请输入联系人'
+                        placeholder:'请输入联系人，联系人保存后不可更改'
                     }
                 },
                 {
                     key: 'contactphone',
-                    type: 'input',
+                    type: 'maskedInput',
                     optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '手机号:',
                         placeholder:'请输入手机号',
+                        "mask":"999 9999 9999",
                         reversal: true,
                         searchProp:"contactphone",
                         repository: QueryInstClients
-                    },
-                    validators: {
-                        phoneForm: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i),
-                            message: '$viewValue + " 是无效的电话号码"'
-                        }
                     },
                     modelOptions:{ updateOn: 'blur' }
                 },

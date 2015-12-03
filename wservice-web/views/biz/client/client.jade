@@ -79,27 +79,28 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="") 客户详情
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
-                        li
-                            button.btn.btn-default.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
-                        li(ng-if="vm.clientInfo.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li(ng-if="vm.updateClient.loading()")
-                            a(href="") 正在保存,请稍后...
-                        li(ng-if="!vm.updateClient.loading()")
-                            button.btn.btn-default.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
-                        li
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.reset()") 重置
-                        li(ng-if="!vm.clientInfo.loading()")
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
-                        li(ng-if="!vm.clientInfo.loading()")
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
-                        li
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.goToList()") 返回
-                        li
-                            | &nbsp &nbsp &nbsp &nbsp
+                    div(ng-if="vm.clientInfo.loading() || vm.updateClient.loading()")
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="") 正在查询,请稍后...
+                    div(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
+                        ul.nav.navbar-nav.navbar-right
+                            li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
+                            li
+                                button.btn.btn-info.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
+                            li
+                                button.btn.btn-primary.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
+                            li
+                                button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.reset()") 重置
+                            li
+                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
+                            li
+                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
+                            li
+                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.goToList()") 返回
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
 
             //数据表单区域
             div.page-header
@@ -124,17 +125,20 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="") 新增客户
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.addClient.loading()")
-                            a(href="") 正在保存,请稍后...
-                        li(ng-if="!vm.addClient.loading()")
-                            button.btn.btn-default.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
-                        li
-                            button.btn.btn-default.navbar-btn(type="button",ng-click="vm.reset()") 重置
-                        li
-                            button.btn.btn-default.navbar-btn(type="button", ng-click="vm.goToList()") 返回
-                        li
-                            | &nbsp &nbsp &nbsp &nbsp
+                    div(ng-if="vm.addClient.loading()")
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="") 正在保存,请稍后...
+                    div(ng-if="!vm.addClient.loading()")
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                button.btn.btn-primary.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
+                            li
+                                button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.reset()") 重置
+                            li
+                                button.btn.btn-info.navbar-btn(type="button", ng-click="vm.goToList()") 返回
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
 
             //数据表单区域
             div.page-header

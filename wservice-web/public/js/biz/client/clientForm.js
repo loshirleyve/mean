@@ -122,9 +122,9 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     key: 'contactman',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '联系人:',
-                        placeholder:'请输入联系人'
+                        placeholder:'请输入联系人',
+                        disabled:true
                     }
                 },
                 {
