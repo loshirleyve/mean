@@ -72,47 +72,47 @@ proxy.action("queryCities", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
 })
-.action("AddProductRequirement", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddProductRequirementService"
-})
-.action("AddOrUpdateProductProfile", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
-}).action("AddOrUpdateProductGroup", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateProductGroupService"
-}).action("AddOrUpdateProductclassify", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateProductclassifyService"
-}).action("AddOrUpdateProductDescr", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddOrUpdateProductDescrService"
-}).action("RemoveProductPhase", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductPhaseService"
-}).action("RemoveProductRequirement", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
-}).action("RemoveProductProfile", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductProfileService"
-}).action("RemoveProductGroup", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductGroupService"
-}).action("RemoveProductClassify", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductClassifyService"
-}).action("RemoveProductDescr", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.RemoveProductDescrService"
-}).action("QueryProductPhaseByProductid", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
-}).action("QueryRequirementsByInstid", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
-});
+    .action("AddProductRequirement", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.AddProductRequirementService"
+    })
+    .action("AddOrUpdateProductProfile", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
+    }).action("AddOrUpdateProductGroup", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.AddOrUpdateProductGroupService"
+    }).action("AddOrUpdateProductclassify", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.AddOrUpdateProductclassifyService"
+    }).action("AddOrUpdateProductDescr", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.AddOrUpdateProductDescrService"
+    }).action("RemoveProductPhase", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductPhaseService"
+    }).action("RemoveProductRequirement", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
+    }).action("RemoveProductProfile", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductProfileService"
+    }).action("RemoveProductGroup", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductGroupService"
+    }).action("RemoveProductClassify", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductClassifyService"
+    }).action("RemoveProductDescr", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.RemoveProductDescrService"
+    }).action("QueryProductPhaseByProductid", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
+    }).action("QueryRequirementsByInstid", {
+        proxy: "Y9",
+        action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
+    });
 
 //工单
 proxy.action("queryWorkorderList", {
@@ -139,9 +139,18 @@ proxy.action("queryWorkorderList", {
 }).action("deliverWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
-}).action("queryWorkordersUnread", {
+}).action("queryWorkordersUnreadIds", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkordersUnreadService"
+}).action("UpdateWorkOrderProcess", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderProcessService"
+}).action("queryWorkordersUnread", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
+}).action("updateWorkordersToRead", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
 });
 
 

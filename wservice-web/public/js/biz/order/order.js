@@ -68,8 +68,8 @@ angular.module("orderApp", [
     })
     .factory("QueryOrderList", function (nptRepository, nptSessionManager) {
         return nptRepository("queryOrderList").params({
-            instid: nptSessionManager.getSession().getInst().id,
-            userid: nptSessionManager.getSession().getUser().id
+            instid: nptSessionManager.getSession().getInst().id
+            //userid: nptSessionManager.getSession().getUser().id
         });
     })
     .factory("QueryOrderInfo", function (nptRepository) {
@@ -93,6 +93,11 @@ angular.module("orderApp", [
     }).factory("UpdateOrderAdviser", function (nptRepository) {
         return nptRepository("UpdateOrderAdviser");
     })
+    .factory("UpdateWorkOrderProcess", function (nptRepository, nptSessionManager) {
+        return nptRepository("UpdateWorkOrderProcess").params({
+            assignedid: nptSessionManager.getSession().getUser().id
+        });
+    })
     .service("OrderListQueryService", function (Notification, QueryOrderList) {
         var self = this;
 
@@ -101,8 +106,12 @@ angular.module("orderApp", [
         self.query = function (params) {
             params = params || {};
             self.orderList.post(params).then(function (response) {
+                console.info("查询订单成功.", response);
             }, function (error) {
-                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({
+                    title: "查询订单错误.",
+                    message: error.data.cause, delay: 2000
+                });
             });
         };
 
@@ -197,11 +206,11 @@ angular.module("orderApp", [
             self.hasNewOrders = false;
             //执行服务器检查
             self.ordersIsUnread.post().then(function (response) {
-                if (response.data.orderList && response.data.orderList.length > 0) {
+                if (response.data && response.data.length > 0) {
                     self.hasNewOrders = true;
 
                     Notification.success({
-                        message: '检查到' + response.data.orderList.length + '张最新的订单,点击显示新订单按钮立即查看!',
+                        message: '检查到' + response.data.length + '张最新的订单,点击显示新订单按钮立即查看!',
                         title: '检查到新订单',
                         replaceMessage: true,
                         delay: 5000
@@ -248,8 +257,8 @@ angular.module("orderApp", [
 
         //获取新订单
         self.getNewOrder = function () {
-            if (self.ordersIsUnread && self.ordersIsUnread.data.orderList) {
-                return self.ordersIsUnread.data.orderList;
+            if (self.ordersIsUnread && self.ordersIsUnread.data) {
+                return self.ordersIsUnread.data;
             }
         };
     })
@@ -283,18 +292,19 @@ angular.module("orderApp", [
             if (newOrders) {
                 //vm.model = vm.ordersIsUnread.data.orderList;
                 //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
-                vm.queryService.orderList.data = newOrders;
+                //TODO 使用返回的订单ID集合重新检索
+                var params = {orderids: newOrders};
 
-                var params = {orderids: []};
-
-                angular.forEach(newOrders, function (order) {
-                    params.orderids.push(order.id);
-                });
+                vm.queryService.query(params);
 
                 //将显示后的订单设置为已读状态
                 UpdateOrderReadState.post(params).then(function (response) {
+                    console.log("设置已读成功.", response);
                 }, function (error) {
-                    Notification.error({message: '设置订单为已读状态出现错误.', delay: 2000});
+                    Notification.error({
+                        title: "设置状态出错.",
+                        message: error.data.cause, delay: 2000
+                    });
                 });
             }
         };
@@ -310,13 +320,15 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UpdateWorkOrderProcess, UserListBySelectTree, OrgListBySelectTree) {
         var vm = this;
-
+        vm.orderid = $routeParams.id;
         //订单列表资源库
         vm.orderList = QueryOrderList;
         //订单信息资源库
         vm.orderInfo = QueryOrderInfo;
+        //分配工单员
+        vm.updateWorkOrderProcess = UpdateWorkOrderProcess;
         //数据模型
         vm.model = {};
         vm.modelProducts = [];
@@ -362,19 +374,80 @@ angular.module("orderApp", [
             }
         };
 
+        //选择工单
+        vm.selectWorkorder = function (workorder) {
+            if (workorder) {
+                workorder.selected = !workorder.selected || false;
+            }
+        };
+
+        //选择全部
+        vm.selectWorkorderAll = function (state) {
+            angular.forEach(vm.modelWorkorders, function (value) {
+                value.selected = state;
+            })
+        };
+
+        vm.selectTreeSetting = {
+            onRegisterApi: function (selectTreeApi) {
+                vm.selectTreeApi = selectTreeApi;
+            },
+            treeRepository: OrgListBySelectTree,
+            listRepository: UserListBySelectTree
+        };
+
+        //执行分配工单员
+        vm.adviser = function () {
+            //获取待分配工单选择
+            var workordernos = [];
+            angular.forEach(vm.modelWorkorders, function (value) {
+                if (value && value.selected) {
+                    workordernos.push(value.no);
+                }
+            });
+
+            if (workordernos.length > 0) {
+                //弹出用户选择窗口
+                vm.selectTreeApi.open().then(function (response) {
+                    if (response && response.length > 0) {
+                        vm.updateWorkOrderProcess.post({
+                            workordernos: workordernos,
+                            processid: response[0].id
+                        }).then(function () {
+                            Notification.error({message: '分配工单员成功.', delay: 2000});
+
+                            //分配完成后需要刷新单据
+                            vm.query();
+                        }, function (error) {
+                            Notification.error({
+                                title: "分配工单员错误",
+                                message: error.data.cause, delay: 2000
+                            });
+                        })
+                    }
+                }, function () {
+                });
+
+
+            } else {
+                Notification.info({message: '请先选择需要分配的工单.', delay: 2000});
+            }
+        };
+
         //查询订单
         vm.query = function () {
-            var id = $routeParams.id;
-
-            if (id) {
+            if (vm.orderid) {
                 vm.orderInfo.post({
-                    orderid: id
+                    orderid: vm.orderid
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
                     vm.modelProducts = response.data.orderproducts;
                     vm.modelWorkorders = response.data.workorders;
                 }, function (error) {
-                    Notification.error({message: '查询订单出现错误.', delay: 2000});
+                    Notification.error({
+                        title: "查询订单错误",
+                        message: error.data.cause, delay: 2000
+                    });
                 });
             }
 
@@ -382,7 +455,7 @@ angular.module("orderApp", [
 
         //当前单据是否能够确认
         vm.isConfirm = function () {
-            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "waitconfirm") {
+            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "waitconfirm" && vm.orderInfo.data.order.paystate === "complete") {
                 return true;
             } else {
                 return false;
@@ -392,6 +465,15 @@ angular.module("orderApp", [
         //当前单据是否能够进行改价操作
         vm.isChangePrice = function () {
             if (vm.orderInfo.data && vm.orderInfo.data.order.paystate === "waitingpay") {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        //检查单据是否能够进行分配顾问
+        vm.isAdviser = function () {
+            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "inservice") {
                 return true;
             } else {
                 return false;
@@ -445,9 +527,9 @@ angular.module("orderApp", [
                     vm.toDetail();
 
                 }, function (error) {
-                    Notification.success({
-                        message: "确认订单出现错误,请稍后尝试.",
-                        delay: 2000
+                    Notification.error({
+                        title: "确认订单错误.",
+                        message: error.data.cause, delay: 2000
                     });
                 });
             }
@@ -489,7 +571,10 @@ angular.module("orderApp", [
                     Notification.success({message: '分配专属顾问成功!', delay: 2000});
                     vm.toDetail();
                 }, function (error) {
-                    Notification.error({message: '分配专属顾问失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                    Notification.error({
+                        title: "分配专属顾问错误.",
+                        message: error.data.cause, delay: 2000
+                    });
                 });
             }
         };
@@ -515,7 +600,11 @@ angular.module("orderApp", [
                     vm.modelOrder = response.data.order;
                     vm.model.adviser = vm.modelOrder.adviser;
                 }, function (error) {
-                    Notification.error({message: '查询订单出现错误.', delay: 2000});
+
+                    Notification.error({
+                        title: "查询订单错误",
+                        message: error.data.cause, delay: 2000
+                    });
                 });
             }
         };
@@ -547,7 +636,11 @@ angular.module("orderApp", [
                     Notification.success({message: '改价成功!', delay: 2000});
                     vm.toDetail();
                 }, function (error) {
-                    Notification.error({message: '改价失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                    Notification.error({
+                        title: "改价错误.",
+                        message: error.data.cause,
+                        delay: 2000
+                    });
                 });
 
             }
@@ -569,7 +662,10 @@ angular.module("orderApp", [
                 }).then(function (response) {
                     vm.modelOrder = response.data.order;
                 }, function (error) {
-                    Notification.error({message: '查询订单出现错误.', delay: 2000});
+                    Notification.error({
+                        title: "查询订单错误",
+                        message: error.data.cause, delay: 2000
+                    });
                 });
             }
         };

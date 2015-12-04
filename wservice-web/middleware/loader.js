@@ -1,7 +1,7 @@
 var express = require("express");
 var fs = require('fs');
 var path = require('path');
-var debug = require("debug")("wservice-web-middleware-loader");
+var debug = require("debug")("y9-wservice-web-middleware-loader");
 
 module.exports = function (currDir) {
 
