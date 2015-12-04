@@ -133,6 +133,28 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
+                    key: 'top',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: 'bs-options',
+                        valueProp:"id",
+                        labelProp:"name",
+                        label: '是否置顶:',
+                        options:[
+                            {
+                                name:"是",
+                                id:'1'
+                            },
+                            {
+                                name:"否",
+                                id:'0'
+                            }
+                        ],
+                        allowClear:false
+                    },
+                    defaultValue:0
+                },
+                {
                     key: 'sort',
                     type: 'numberInput',
                     templateOptions: {
@@ -221,43 +243,55 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'cycle',
                     type: 'ui-select',
                     templateOptions: {
-                        optionsAttr: 'bs-options',
+                        "optionsAttr": "bs-options",
                         label: '服务类型:',
+                        required: true,
                         valueProp: 'no',
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "cycle"},
-                        search: ['name']
+                        repositoryParams: {"defno": "cycle"}
                     }
                 },
                 {
                     key: 'processdays',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '自购买日几天起:'
+                        label: '自购买日几天起:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 },
                 {
                     key: 'cyclevalue',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '服务次数:'
+                        label: '服务次数:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 },
                 {
                     key: 'times',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '办理天数:'
+                        label: '办理天数:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 },
                 {
                     key: 'sortno',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '排序:'
+                        label: '排序:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 },
                 {
@@ -284,7 +318,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
             ]
         });
     })
-    .factory("ProductRequirementForm", function (nptFormlyStore,QueryUserInfoById) {
+    .factory("ProductRequirementForm", function (nptFormlyStore) {
         return nptFormlyStore("productRequirementForm", {
             buttons: {
                 ok: true,
@@ -311,9 +345,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 },
                 {
                     key: 'sort',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
-                        label: '排序:'
+                        label: '排序:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 }
             ]
@@ -347,7 +384,10 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'sort',
                     type: 'numberInput',
                     templateOptions: {
-                        label: '排序:'
+                        label: '排序:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
                     }
                 },
                 {
@@ -364,85 +404,6 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         repository: QueryUserInfoById
                     }
                 }
-            ]
-        });
-    }).factory("ProductGroupForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByUserLevel,QueryUserInfoById) {
-        return nptFormlyStore("productGroupForm", {
-            buttons: {
-                ok: true,
-                reset: false
-            },
-            actions: [
-                {
-                    label: "重置",
-                    type: "reset"
-                }
-            ],
-            options: {
-                formState: {
-                    disabled: false
-                }
-            },
-            fields: [
-                {
-                    key: 'backgorundimgid',
-                    type: 'npt-select-image',
-                    templateOptions: {
-                        label: "选择logo",
-                        imageRepository: QueryImageByUserLevel
-                    }
-                },
-                {
-                    key: 'groupid',
-                    type: 'input',
-                    templateOptions: {
-                        label: '分组名称:'
-                    }
-                },
-                {
-                    key: 'top',
-                    type: 'ui-select',
-                    templateOptions: {
-                        optionsAttr: 'bs-options',
-                        valueProp:"id",
-                        labelProp:"name",
-                        label: '是否置顶:',
-                        options:[
-                            {
-                                name:"是",
-                                id:'1'
-                            },
-                            {
-                                name:"否",
-                                id:'0'
-                            }
-                        ],
-                        allowClear:false
-                    },
-                    defaultValue:0
-                },
-                {
-                    key: 'sort',
-                    type: 'input',
-                    templateOptions: {
-                        label: '排序:'
-                    }
-                },
-                {
-                    key: 'createby',
-                    type: 'ui-select',
-                    templateOptions: {
-                        "optionsAttr": "bs-options",
-                        label: '创建人:',
-                        disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
-                        search: ["userid"],
-                        repository: QueryUserInfoById
-                    }
-                }
-
             ]
         });
     }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode,QueryUserInfoById) {
@@ -494,8 +455,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "packagetype"},
-                        search: ['name']
+                        repositoryParams: {"defno": "packagetype"}
                     }
                 },
                 {

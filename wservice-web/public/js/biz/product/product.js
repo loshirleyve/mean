@@ -864,7 +864,7 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductGroupController", function ($routeParams,AddOrUpdateProductGroup, QueryProductGroupInfo,QueryProductInfo, Notification, nptSessionManager) {
+    }).controller("editProductGroupController", function ($routeParams,ProductGroupForm,AddOrUpdateProductGroup, QueryProductGroupInfo,QueryProductInfo, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -906,6 +906,19 @@ angular.module("productApp", ["ui.neptune",
         function reset() {
             vm.model = angular.copy(vm.originModel);
         }
+
+        //配置表单
+        vm.productGroupFormOptions = {
+            store: ProductGroupForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+                //注册提交事件
+                vm.nptFormApi.addOnSubmitListen(save);
+                //设置重置事件
+                vm.nptFormApi.setOnActionListen(reset);
+            }
+        };
+
         //通过产品内容ID查询
         vm.queryById = function (id) {
             if (id) {
