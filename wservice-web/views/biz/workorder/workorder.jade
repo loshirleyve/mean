@@ -79,7 +79,7 @@ block content
                         li
                             a(href="#/deliverWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isNotComplete()") 转交
                         li
-                            a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}") 查看订单
+                            a(href="" ng-click="vm.jumpToOrder()") 查看订单
                         li
                             a(href="#/list") 返回
             div.page-header
@@ -182,10 +182,18 @@ block content
             div.well
                 span 请核对以下工单信息!
                 ul
-                    li 工单编号:{{vm.modelWorkorder.sn}}
-                    li 工单名称:{{vm.modelWorkorder.name}}
-                    li 工单描述:{{vm.modelWorkorder.descr}}
-                    li 工单状态:{{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    li
+                        strong 工单编号:&nbsp
+                        span {{vm.modelWorkorder.sn}}
+                    li
+                        strong 工单名称:&nbsp
+                        span {{vm.modelWorkorder.name}}
+                    li
+                        strong 工单描述:&nbsp
+                        span {{vm.modelWorkorder.descr}}
+                    li
+                        strong 工单状态:&nbsp
+                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
 
             div(npt-form="vm.startWorkorderOptions",model="vm.model")
         script(type="text/ng-template",id="completeWorkorder.html")
@@ -225,10 +233,18 @@ block content
             div.well
                 span 请核对以下工单信息!
                 ul
-                    li 工单编号:{{vm.modelWorkorder.sn}}
-                    li 工单名称:{{vm.modelWorkorder.name}}
-                    li 工单描述:{{vm.modelWorkorder.descr}}
-                    li 工单状态:{{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    li
+                        strong 工单编号:&nbsp
+                        span {{vm.modelWorkorder.sn}}
+                    li
+                        strong 工单名称:&nbsp
+                        span {{vm.modelWorkorder.name}}
+                    li
+                        strong 工单描述:&nbsp
+                        span {{vm.modelWorkorder.descr}}
+                    li
+                        strong 工单状态:&nbsp
+                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
 
             div(npt-form="vm.completeWorkorderOptions",model="vm.model")
 
@@ -264,9 +280,17 @@ block content
             div.well
                 span 请核对以下工单信息!
                 ul
-                    li 工单编号:{{vm.modelWorkorder.sn}}
-                    li 工单名称:{{vm.modelWorkorder.name}}
-                    li 工单描述:{{vm.modelWorkorder.descr}}
-                    li 工单状态:{{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    li
+                        strong 工单编号:&nbsp
+                        span {{vm.modelWorkorder.sn}}
+                    li
+                        strong 工单名称:&nbsp
+                        span {{vm.modelWorkorder.name}}
+                    li
+                        strong 工单描述:&nbsp
+                        span {{vm.modelWorkorder.descr}}
+                    li
+                        strong 工单状态:&nbsp
+                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
 
             div(npt-form="vm.deliverWorkorderOptions",model="vm.model")
