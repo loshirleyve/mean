@@ -4,12 +4,7 @@
 angular.module("productApp", ["ui.neptune",
     "productApp.productListGrid",
     "productApp.productMdGroupListGrid",
-    "productApp.productPhaseListGrid",
-    "productApp.productRequirementListGrid",
-    "productApp.productProfilesListGrid",
-    "productApp.productGroupListGrid",
-    "productApp.productClassifiesListGrid",
-    "productApp.productDescrsListGrid",
+    "productApp.requirementListGrid",
     "productApp.productForm",
     "wservice.common",
     "ngRoute",
@@ -38,6 +33,14 @@ angular.module("productApp", ["ui.neptune",
             .when("/edit/:id", {
                 controller: "editProductController as vm",
                 templateUrl: "edit.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            }).when("/group/:province/:city/:district", {
+                controller: "groupListController as vm",
+                templateUrl: "group.html",
                 resolve: {
                     sessionData: function (nptSession) {
                         return nptSession();
@@ -115,15 +118,6 @@ angular.module("productApp", ["ui.neptune",
                 }
             })
             .when("/edit/requirement/:productid", {
-                controller: "editProductRequirementController as vm",
-                templateUrl: "editProductRequirement.html",
-                resolve: {
-                    sessionData: function (nptSession) {
-                        return nptSession();
-                    }
-                }
-            })
-            .when("/edit/requirement/:productid/:requirementid", {
                 controller: "editProductRequirementController as vm",
                 templateUrl: "editProductRequirement.html",
                 resolve: {
@@ -236,6 +230,8 @@ angular.module("productApp", ["ui.neptune",
         return nptRepository("QueryProductClassifyInfo").params({});
     }).factory("QueryProductDescrInfo", function (nptRepository) {
         return nptRepository("QueryProductDescrInfo").params({});
+    }).factory("RemoveProductProfile", function (nptRepository) {
+        return nptRepository("RemoveProductProfile").params({});
     }).factory("RemoveProductPhase", function (nptRepository) {
         return nptRepository("RemoveProductPhase").params({});
     }).factory("RemoveProductRequirement", function (nptRepository) {
@@ -247,12 +243,12 @@ angular.module("productApp", ["ui.neptune",
     }).factory("RemoveProductDescr", function (nptRepository) {
         return nptRepository("RemoveProductDescr").params({});
     })
-    .service("ProductQueryService", function (Notification, QueryMdProductGroup, QueryCities, QueryProductsGroup) {
+    .service("ProductQueryService", function (Notification, QueryMdProductGroup, QueryCities, QueryProductsGroup,AddOrUpdateMdProductGroup) {
         var self = this;
         self.reposCities = QueryCities;
         self.reposProductGroup = QueryMdProductGroup;
         self.reposProducts = QueryProductsGroup;
-
+        self.addMdProductGroup=AddOrUpdateMdProductGroup;
         //建立省份列表
         self.buildProvince = function () {
             if (self.reposCities.data) {
@@ -408,6 +404,18 @@ angular.module("productApp", ["ui.neptune",
         //执行查询
         self.queryCities();
 
+        self.addGroup=function(params,$q)
+        {
+            var deferd = $q.defer();
+            self.addMdProductGroup.post(params.data)
+                .then(function () {
+                    deferd.resolve();
+                }, function () {
+                    deferd.reject();
+                });
+            return deferd;
+        }
+
     })
     .controller("productListController", function (ProductQueryService, productListGrid) {
         var vm = this;
@@ -476,7 +484,7 @@ angular.module("productApp", ["ui.neptune",
             $location.path("/edit/" + productId);
         };
     })
-    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, productForm) {
+    .controller("editProductController", function ($scope, $location, $routeParams, Notification,QueryRequirementsByInstid, QueryProductInfo, AddOrUpdateProduct, ProductQueryService,RemoveProductProfile,RemoveProductPhase,RemoveProductRequirement,RemoveProductGroup,RemoveProductClassify,RemoveProductDescr, productForm,requirementListGrid,nptSessionManager) {
         var vm = this;
 
         //记录当前编辑的产品id
@@ -489,6 +497,8 @@ angular.module("productApp", ["ui.neptune",
 
         //产品更新资源库
         vm.addOrUpdateProduct = AddOrUpdateProduct;
+
+        vm.queryRequirements=QueryRequirementsByInstid;
 
         //保存产品
         function saveProduct() {
@@ -579,6 +589,183 @@ angular.module("productApp", ["ui.neptune",
 
         //查询
         vm.query();
+
+        vm.instid=nptSessionManager.getSession().getInst().id
+        vm.requirementListGridOptions = {
+            store: requirementListGrid,
+            onRegisterApi: function (nptGridApi) {
+                vm.nptGridApi = nptGridApi;
+            }
+        };
+
+        vm.queryRequirement=function()
+        {
+            vm.queryRequirements.post({
+                instid:vm.instid
+            }).then(function (response) {
+                vm.requirement=response.data;
+                $scope('#addRequirement').model('show');
+            }, function (error) {
+                Notification.error({
+                    message: "查询资料出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+
+        };
+
+        vm.delProductProfile=RemoveProductProfile;
+        vm.delProductPhase=RemoveProductPhase;
+        vm.delProductRequirement=RemoveProductRequirement;
+        vm.delProductGroup=RemoveProductGroup;
+        vm.delProductClassify=RemoveProductClassify;
+        vm.delProductDescr=RemoveProductDescr;
+
+        vm.deleteProfileById=function(profileid)
+        {
+            vm.temp=[];
+            vm.delProductProfile.post({profileid:profileid}).then(function (response) {
+                 angular.forEach(vm.modelProductProfiles, function (value) {
+                     if(value.id!=profileid){
+                         vm.temp.push(value);
+                     }
+                 });
+                vm.modelProductProfiles = angular.copy(vm.temp);
+            }, function () {
+                Notification.error({
+                    message: "删除产品内容出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+        vm.deletePhaseById=function(phaseid)
+        {
+            vm.temp1=[];
+            vm.delProductPhase.post({phaseid:phaseid}).then(function (response) {
+                angular.forEach(vm.modelProductPhases, function (value) {
+                    if(value.id!=phaseid){
+                        vm.temp1.push(value);
+                    }
+                });
+                vm.modelProductProfiles = angular.copy(vm.temp1);
+            }, function () {
+                Notification.error({
+                    message: "删除产品阶段出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+        vm.deleteRequirementById=function(requirementid)
+        {
+            vm.temp2=[];
+            vm.delProductRequirement.post({requirementid:requirementid}).then(function (response) {
+                angular.forEach(vm.modelProductRequirements, function (value) {
+                    if(value.id!=requirementid){
+                        vm.temp2.push(value);
+                    }
+                });
+                vm.modelProductRequirements = angular.copy(vm.temp2);
+            }, function () {
+                Notification.error({
+                    message: "删除产品资料出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+        vm.deleteGroupById=function(groupid)
+        {
+            vm.temp3=[];
+            vm.delProductGroup.post({groupid:groupid}).then(function (response) {
+                angular.forEach(vm.modelProductGroups, function (value) {
+                    if(value.id!=groupid){
+                        vm.temp3.push(value);
+                    }
+                });
+                vm.modelProductGroups = angular.copy(vm.temp3);
+            }, function () {
+                Notification.error({
+                    message: "删除产品分组出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+        vm.deleteClassifyById=function(classifyid)
+        {
+            vm.temp4=[];
+            vm.delProductClassify.post({classifyid:classifyid}).then(function (response) {
+                angular.forEach(vm.modelProductClassifies, function (value) {
+                    if(value.id!=classifyid){
+                        vm.temp4.push(value);
+                    }
+                });
+                vm.modelProductClassifies = angular.copy(vm.temp4);
+            }, function () {
+                Notification.error({
+                    message: "删除产品分类出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+        vm.deleteDescrById=function(descrid)
+        {
+            vm.temp5=[];
+            vm.delProductDescr.post({productDescrid:descrid}).then(function (response) {
+                angular.forEach(vm.modelProductDescrs, function (value) {
+                    if(value.id!=descrid){
+                        vm.temp5.push(value);
+                    }
+                });
+                vm.modelProductDescrs = angular.copy(vm.temp5);
+            }, function () {
+                Notification.error({
+                    message: "删除产品详情出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+        }
+
+    }).controller("groupListController", function ($scope, $location, $routeParams, Notification, QueryMdProductGroup,AddOrUpdateMdProductGroup, productMdGroupListGrid) {
+        var vm = this;
+
+        //记录当前编辑的产品id
+        vm.groupid = $routeParams.groupid;
+        vm.province = $routeParams.province;
+        vm.city = $routeParams.city;
+        vm.district = $routeParams.district;
+        vm.queryMdProductGroup=QueryMdProductGroup;
+        vm.addMdProductGroup=AddOrUpdateMdProductGroup;
+
+        vm.groupListGridOptions = {
+            store: productMdGroupListGrid,
+            onRegisterApi: function (nptGridApi) {
+                vm.nptGridApi = nptGridApi;
+            }
+        };
+
+        vm.queryGroupList = function () {
+            //如果查询到数据则记录model以及originModel
+            vm.queryMdProductGroup.post({
+                province : vm.province,
+                city:vm.city,
+                district:vm.district
+            }).then(function (response) {
+                vm.model=response.data;
+            }, function () {
+                Notification.error({
+                    message: "查询产品内容出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
+
+        };
+
+        vm.queryGroupList();
+
     })
     .controller("editProductProfileController", function ($routeParams, ProductProfilesForm, AddOrUpdateProductProfile,QueryProductProfileInfo,QueryProductInfo, Notification,nptSessionManager) {
         var vm = this;
@@ -882,7 +1069,8 @@ angular.module("productApp", ["ui.neptune",
         //数据模型
         vm.model = {
             productid: vm.productid,
-            createby: nptSessionManager.getSession().getUser().id
+            createby: nptSessionManager.getSession().getUser().id,
+            instid: nptSessionManager.getSession().getInst().id
         };
 
         //记录原始数据

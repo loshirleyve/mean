@@ -83,19 +83,19 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
                     }
                 }
             ]
         });
-    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel,QueryUserInfoById) {
+    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel,QueryUserInfoById,QueryProductGroupInfo) {
         return nptFormlyStore("productGroupForm", {
             buttons: {
                 ok: true,
@@ -170,12 +170,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
                     }
@@ -185,6 +185,16 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
     })
     .factory("addGroupForm", function (nptFormlyStore) {
         return nptFormlyStore("addGroupForm", {
+            buttons: {
+                ok: true,
+                reset: false
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
                     disabled: false
@@ -201,11 +211,48 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         placeholder: "请输入分组名称"
                     }
                 }
-            ],
+            ]
+        });
+    })
+    .factory("editGroupForm", function (nptFormlyStore) {
+        return nptFormlyStore("editGroupForm", {
             buttons: {
-                ok: false,
+                ok: true,
                 reset: false
-            }
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
+            options: {
+                formState: {
+                    disabled: false
+                }
+
+            },
+            fields: [
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '分组名称:',
+                        placeholder: "请输入分组名称"
+                    }
+                },
+                {
+                    key: 'sort',
+                    type: 'numberInput',
+                    templateOptions: {
+                        label: '排序:',
+                        numberMask: 0,
+                        max: 99999,
+                        min: 0
+                    }
+                }
+            ]
         });
     }).factory("ProductPhaseForm", function (nptFormlyStore, QueryCtrlCode,QueryUserInfoById) {
         return nptFormlyStore("productPhaseForm", {
@@ -243,7 +290,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'cycle',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '服务类型:',
                         required: true,
                         valueProp: 'no',
@@ -305,52 +352,14 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
-                    }
-                }
-            ]
-        });
-    })
-    .factory("ProductRequirementForm", function (nptFormlyStore) {
-        return nptFormlyStore("productRequirementForm", {
-            buttons: {
-                ok: true,
-                reset: false
-            },
-            actions: [
-                {
-                    label: "重置",
-                    type: "reset"
-                }
-            ],
-            options: {
-                formState: {
-                    disabled: false
-                }
-            },
-            fields: [
-                {
-                    key: 'synopsis',
-                    type: 'textarea',
-                    templateOptions: {
-                        label: '内容描述:'
-                    }
-                },
-                {
-                    key: 'sort',
-                    type: 'numberInput',
-                    templateOptions: {
-                        label: '排序:',
-                        numberMask: 0,
-                        max: 99999,
-                        min: 0
                     }
                 }
             ]
@@ -394,12 +403,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
                     }
@@ -479,12 +488,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
                     }
@@ -521,7 +530,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'type',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '类型:',
                         required: true,
                         valueProp: 'no',
@@ -544,12 +553,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
-                        "optionsAttr": "bs-options",
+                        optionsAttr: "bs-options",
                         label: '创建人:',
                         disabled: true,
-                        "valueProp": "id",
-                        "labelProp": "name",
-                        "options": [],
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById
                     }
