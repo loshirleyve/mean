@@ -3,7 +3,7 @@
  */
 
 angular.module("instApp.instForm", ["ui.neptune"])
-    .factory("editInstForm", function (nptFormlyStore,RegExpValidatorFactory) {
+    .factory("editInstForm", function (nptFormlyStore,QueryImageByMaterialLevel,RegExpValidatorFactory) {
         return nptFormlyStore("editInstForm", {
             options: {
                 formState:{
@@ -11,16 +11,6 @@ angular.module("instApp.instForm", ["ui.neptune"])
                 }
             },
             fields: [
-//                {
-//                    key: 'logo',
-//                    type: 'npt-select-image',
-//                    templateOptions: {
-//                        label: '机构logo:',
-//                        required: true,
-//                        single: true,
-//                        imageRepository: QueryImageByMaterialLevel
-//                    }
-//                },
                 {
                     key: 'name',
                     type: 'input',
@@ -35,6 +25,16 @@ angular.module("instApp.instForm", ["ui.neptune"])
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
+                },
+                {
+                    key: 'logo',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        label: '机构logo:',
+                        required: true,
+                        single: true,
+                        imageRepository: QueryImageByMaterialLevel
+                    }
                 },
                 {
                     key: 'simplename',

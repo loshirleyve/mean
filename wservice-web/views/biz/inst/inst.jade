@@ -74,9 +74,7 @@ block content
                         li(ng-if="!vm.instInfo.loading()")
                             a(href="",ng-click="vm.next(vm.instInfo.data)",ng-show="vm.instList.next(vm.instInfo.data)") 下一单
                         li(ng-if="!vm.instInfo.loading()")
-                            a(href="",ng-click="vm.updateInstInfo();" ng-show="false") 保存
-                        li(ng-if="!vm.instInfo.loading()")
-                            a(href="",ng-click="vm.editClick();" ) 编辑
+                            a(href="",ng-click="vm.updateInstInfo();" ng-show="vm.showSave") 保存
                         li
                             a(href="#/list") 返回
 

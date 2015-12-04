@@ -135,14 +135,14 @@ angular.module("productApp", ["ui.neptune",
                                 $scope.model.groupid = response.id;
                                 $scope.model.groupname =response.name;
                             });
-                    }
+                    };
                 },
                 templateOptions: {
                     label: "请选择:",
                     placeholder: "请选择."
                 }
             }
-        })
+        });
     }).factory("QueryCities", function (nptRepository) {
         return nptRepository("queryCities").params({});
     }).factory("QueryMdProductGroup", function (nptRepository) {
@@ -387,7 +387,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(saveProduct);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(resetProduct)
+                vm.nptFormApi.setOnActionListen(resetProduct);
             }
         };
 
@@ -421,7 +421,7 @@ angular.module("productApp", ["ui.neptune",
         //转到edit
         vm.toEdit = function (productId) {
             $location.path("/edit/" + productId);
-        }
+        };
     })
     .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, productForm) {
         var vm = this;
@@ -466,7 +466,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(saveProduct);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(resetProduct)
+                vm.nptFormApi.setOnActionListen(resetProduct);
             }
         };
 
@@ -498,6 +498,8 @@ angular.module("productApp", ["ui.neptune",
 
                     //由于表单的数据是异步设置的,表单插件无法记录初始值.暂时外部手动记录
                     vm.orginModelProduct = angular.copy(vm.modelProduct);
+
+                    vm.nptFormApi.fields[2].templateOptions.disabled = true;
                 }, function () {
                     Notification.error({
                         message: "查找产品信息出错,请稍后尝试.",
@@ -565,7 +567,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(save);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(reset)
+                vm.nptFormApi.setOnActionListen(reset);
             }
         };
 
@@ -624,7 +626,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(save);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(reset)
+                vm.nptFormApi.setOnActionListen(reset);
             }
         };
 
@@ -684,7 +686,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(save);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(reset)
+                vm.nptFormApi.setOnActionListen(reset);
             }
         };
 
@@ -729,7 +731,7 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
-            console.info(vm.model)
+            console.info(vm.model);
         }
 
         function reset() {
@@ -744,7 +746,7 @@ angular.module("productApp", ["ui.neptune",
                 //注册提交事件
                 vm.nptFormApi.addOnSubmitListen(save);
                 //设置重置事件
-                vm.nptFormApi.setOnActionListen(reset)
+                vm.nptFormApi.setOnActionListen(reset);
             }
         };
 

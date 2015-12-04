@@ -46,7 +46,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             self.instList.post(name).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({message: '查询订单数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({message: '查询机构数据出现错误,请稍后再试.', delay: 2000});
             });
         };
         //选择一个默认查询
@@ -77,11 +77,13 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             vm.queryService.query(vm.name);
         };
 
-    }).controller("instDetailController", function ($scope, $routeParams, $location,queryInstList,queryInstInfo,updateInst,editInstForm,nptSessionManager) {
+    }).controller("instDetailController", function ($scope, $routeParams, $location,instListQueryService,queryInstInfo,updateInst,editInstForm,nptSessionManager,Notification) {
         var vm = this;
 
+        vm.userid=nptSessionManager.getSession().getUser().id;
+        vm.showSave=false;
         vm.instId = $routeParams.id;
-        vm.instList = queryInstList;
+        vm.instListQuery = instListQueryService;
         vm.instInfo = queryInstInfo;
         vm.updateInst=updateInst;
         //数据模型
@@ -101,6 +103,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
                     instid:  vm.instId
                 }).then(function (response) {
                     vm.model = response.data;
+                    vm.show();
                 }, function (error) {
                     var de = error;
                 });
@@ -114,33 +117,31 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             params.simplename=vm.model.simplename;
             params.homepath=vm.model.homepath;
             params.tel=vm.model.tel;
+            params.updateby=vm.userid;
             vm.updateInst.post(params).then(function(response){
-
+                $location.path("/list");
+                vm.instListQuery.query("");
             },function(error)
             {
-                var de = error;
+                Notification.error({message: '修改失败,请稍后再试.', delay: 2000});
             });
         };
 
         vm.show=function()
         {
-            vm.roles = nptSessionManager.getSession().getUser().roles;
+            vm.roles = nptSessionManager.getSession().getInst().roles;
             angular.forEach(vm.roles, function (value) {
-                if (vm.roles.equals("admin")) {
-                   return true;
+                if (value.no=="ADMIN") {
+                    vm.showSave=true;
+                    angular.forEach(vm.nptFormApi.fields(),function(field,$index) {
+                        if ($index !== 0) {
+                            field.templateOptions.disabled = false;
+                        }
+                    });
                 }
             });
-            return false;
-        }
+        };
 
-        vm.editClick=function()
-        {
-            angular.forEach(vm.nptFormApi.fields(),function(field,$index) {
-                if ($index !== 0) {
-                    field.templateOptions.disabled = false;
-                }
-            });
-        }
 
         //转到下一单
         vm.next = function (inst) {
@@ -159,6 +160,5 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
         };
 
         vm.query();
-
 
     });

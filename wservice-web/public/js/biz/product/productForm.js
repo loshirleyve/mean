@@ -45,7 +45,6 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '产品价格:',
                         required: true,
-                        disabled: true,
                         max: 9999,
                         min: 0
                     }

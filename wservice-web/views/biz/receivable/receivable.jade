@@ -3,7 +3,6 @@
 extends ../../layout/layout-bizpage
 block content
     script(src="/js/biz/receivable/receivableListGrid.js")
-    script(src="/js/biz/receivable/receivableCollectionListGrid.js")
     script(src="/js/biz/receivable/receivableForm.js")
     script(src="/js/biz/receivable/receivable.js")
     div(ng-app="receivableApp")
@@ -112,10 +111,31 @@ block content
 
                     dt 确定日期:
                     dd {{vm.model.expirydate | timestampFilter}}
+
             div.page-header
-                h4 付款明细
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 付款明细
             div.page-body
-                div(npt-grid="vm.receivableCollectionListGridOptions",model="vm.modelCollections")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelCollections")
+                        div.list-group-item-text
+                            dl.dl-horizontal
+                                dt 付款金额:
+                                dd {{item.amount | number}}
+                                dt 付款方式:
+                                dd {{item.ptdescr}}
+                                dt 收款人:
+                                dd {{item.collectuserid}}
+                                dt 收款出纳:
+                                dd {{item.createby |  cacheFilter:'user':'name':'id'}}
+                                dt 收款状态:
+                                dd {{item.state |  ctrlCodeFilter:'payregistercollectstate':'name':'no'}}
+                                dt 付款日期:
+                                dd {{item.createdate |  timestampFilter}}
+                                dt 说明:
+                                dd{{item.remark}}
+
 
         script(type="text/ng-template",id="receivableConfirm.html")
             //功能导航区
