@@ -498,6 +498,8 @@ angular.module("productApp", ["ui.neptune",
 
                     //由于表单的数据是异步设置的,表单插件无法记录初始值.暂时外部手动记录
                     vm.orginModelProduct = angular.copy(vm.modelProduct);
+
+                    vm.nptFormApi.fields[2].templateOptions.disabled = true;
                 }, function () {
                     Notification.error({
                         message: "查找产品信息出错,请稍后尝试.",
