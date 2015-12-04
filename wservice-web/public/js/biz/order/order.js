@@ -381,6 +381,13 @@ angular.module("orderApp", [
             }
         };
 
+        //选择全部
+        vm.selectWorkorderAll = function (state) {
+            angular.forEach(vm.modelWorkorders, function (value) {
+                value.selected = state;
+            })
+        };
+
         vm.selectTreeSetting = {
             onRegisterApi: function (selectTreeApi) {
                 vm.selectTreeApi = selectTreeApi;
@@ -448,7 +455,7 @@ angular.module("orderApp", [
 
         //当前单据是否能够确认
         vm.isConfirm = function () {
-            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "waitconfirm"  && vm.orderInfo.data.order.paystate ==="complete") {
+            if (vm.orderInfo.data && vm.orderInfo.data.order.state === "waitconfirm" && vm.orderInfo.data.order.paystate === "complete") {
                 return true;
             } else {
                 return false;

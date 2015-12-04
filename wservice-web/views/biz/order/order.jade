@@ -143,6 +143,9 @@ block content
                     div.col-xs-6.col-md-6
                         h4 工单列表
                     div.col-xs-6.col-md-6
+                        a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.selectWorkorderAll(false)") 取消全选
+                        a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.selectWorkorderAll(true)") 全选
+
                         a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.adviser()") 分配工单员
             div.page-body
                 div(npt-select-tree="vm.selectTreeSetting")
@@ -151,12 +154,12 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    h5 {{item.inserviceName}}
+                                    h5 {{item.descr}} - {{item.completeNum}}/{{item.allNum}}
                                 div.col-xs-6.col-md-6
                                     span(ng-if="!item.selected").pull-right.glyphicon.glyphicon-unchecked
                                     span(ng-if="item.selected").pull-right.glyphicon.glyphicon-ok
                         div.list-group-item-text
-                            p {{item.descr}}
+                            p {{item.inserviceName}}
                             p 分配信息:{{item.assignedInfo}}
 
         //确认订单模板
