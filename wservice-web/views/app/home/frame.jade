@@ -250,7 +250,7 @@ html(ng-app='wservice.web.home')
                                         // Menu Footer
                                         li.user-footer
                                             .pull-left
-                                                a.btn.btn-default.btn-flat(href="javascript:void(0);") 个人信息
+                                                a.btn.btn-default.btn-flat(ng-click='vm.navigateMenu.navigateToUrl("/app/profile")') 个人信息
                                             .pull-right
                                                 a.btn.btn-default.btn-flat(href="javascript:void(0);") 退出
                                 // Control Sidebar Toggle Button
