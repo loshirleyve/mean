@@ -161,6 +161,9 @@ proxy.action("queryInstClients", {
 }).action("instInit", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.InstInitService"
+}).action("queryInstClientInfoById",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryInstClientInfoByIdService"
 });
 
 

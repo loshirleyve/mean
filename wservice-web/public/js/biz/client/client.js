@@ -55,6 +55,9 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("InstInit", function(nptRepository){
         return nptRepository("instInit");
     })
+    .factory("QueryInstClientInfoById", function(nptRepository){
+        return nptRepository("queryInstClientInfoById");
+    })
     .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
         var vm = this;
         vm.searchModel = {};
@@ -112,7 +115,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -127,6 +130,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //数据模型
         vm.model = {};
         vm.model.clientBackup = {};
+        vm.clientDeUser = QueryInstClientInfoById;
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -211,6 +215,15 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             $route.reload();
         };
 
+        vm.viewAdviser = function(clientId){
+            var param = {"instClient":clientId} || {};
+            vm.clientDeUser.post(param)
+                .then(function(response){
+
+                },function(){
+
+                })
+        };
         //更新客户信息
         vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
