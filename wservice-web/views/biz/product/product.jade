@@ -221,7 +221,7 @@ block content
                     div.col-xs-6.col-md-6
                         h4 办理资料
                     div.col-xs-6.col-md-6
-                        button.btn.btn-default.pull-right(type="button") 添加办理资料
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/requirement/{{vm.productid}}") 添加办理资料
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductRequirements")
@@ -232,7 +232,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
                                     span.pull-right &nbsp &nbsp
-                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/requirement/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
                             span 识别Key:{{item.attachkey}}; 填写方式:{{item.inputtype}}; 填写说明:{{item.inputdesc}}; 填写样板:{{item.demovalue}}; 交接方式:{{item.doc}};
 
@@ -241,7 +241,7 @@ block content
                     div.col-xs-6.col-md-6
                         h4 服务阶段
                     div.col-xs-6.col-md-6
-                        button.btn.btn-default.pull-right(type="button") 添加服务阶段
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/phase/{{vm.productid}}") 添加服务阶段
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductPhases")
@@ -252,7 +252,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
                                     span.pull-right &nbsp &nbsp
-                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/phase/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
                             dl.dl-horizontal
                                 dt 服务周期及时间:
@@ -275,9 +275,9 @@ block content
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productProfileInfo.next(vm.model)") 上一个
                                 li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productProfileInfo.next(vm.model)") 下一个
                                 li
                                     a(href="#edit/{{vm.productid}}") 返回
 
@@ -387,6 +387,67 @@ block content
                 li.active 添加/编辑产品所属分组
 
             div(npt-form="vm.productGroupFormOptions",model="vm.model")
+        //编辑产品资料
+        script(type="text/ng-template",id="editProductRequirement.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品资料
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品资料
+
+            div(npt-form="vm.productRequirementFormOptions",model="vm.model")
+
+        //编辑产品阶段
+        script(type="text/ng-template",id="editProductPhase.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品阶段
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
+                                li
+                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
+                                li
+                                    a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品阶段
+
+            div(npt-form="vm.productPhaseFormOptions",model="vm.model")
 
         //用于选择产品所属分组的模板
         script(type="text/ng-template",id="selectProductGroup.html")

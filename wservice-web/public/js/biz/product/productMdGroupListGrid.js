@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productMdGroupListGrid", [])
-    .factory("productMdGroupListGrid", function (nptGridStore,groupForm,addGroupForm,productCategoryService) {
+    .factory("productMdGroupListGrid", function (nptGridStore,groupForm,addGroupForm) {
         return nptGridStore("productMdGroupListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -25,7 +25,6 @@ angular.module("productApp.productMdGroupListGrid", [])
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
                             $timeout(function () {
-                                productCategoryService.editGroup(params,$q);
                             }, 500);
                             return deferd.promise;
                         },

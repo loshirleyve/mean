@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productRequirementListGrid", [])
-    .factory("productRequirementListGrid", function (nptGridStore) {
+    .factory("productRequirementListGrid", function (nptGridStore,productRequirementForm) {
         return nptGridStore("productRequirementListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -15,7 +15,25 @@ angular.module("productApp.productRequirementListGrid", [])
             action: {
                 add: {
                     label: "添加",
-                    type: "add"
+                    type: "add",
+                    target:productRequirementForm,
+                    listens:[]
+                },
+                edit: {
+                    label: "编辑",
+                    type: "edit",
+                    target:productRequirementForm,
+                    listens: [
+                        function (params, $timeout, $q) {
+                            var deferd = $q.defer();
+                            $timeout(function () {
+                            }, 500);
+                            return deferd.promise;
+                        },
+                        function () {
+                            return "我是第二个方法";
+                        }
+                    ]
                 },
                 del: {
                     label: "删除",

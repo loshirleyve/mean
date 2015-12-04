@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productPhaseListGrid", [])
-    .factory("productPhaseListGrid", function (nptGridStore,productPhaseForm,productCategoryService) {
+    .factory("productPhaseListGrid", function (nptGridStore,productPhaseForm) {
         return nptGridStore("productPhaseListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -29,7 +29,6 @@ angular.module("productApp.productPhaseListGrid", [])
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
                             $timeout(function () {
-                                productCategoryService.editProductPhase(params,$q);
                             }, 500);
                             return deferd.promise;
                         },

@@ -114,6 +114,42 @@ angular.module("productApp", ["ui.neptune",
                     }
                 }
             })
+            .when("/edit/requirement/:productid", {
+                controller: "editProductRequirementController as vm",
+                templateUrl: "editProductRequirement.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/edit/requirement/:productid/:requirementid", {
+                controller: "editProductRequirementController as vm",
+                templateUrl: "editProductRequirement.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/edit/phase/:productid", {
+                controller: "editProductPhaseController as vm",
+                templateUrl: "editProductPhase.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/edit/phase/:productid/:phaseid", {
+                controller: "editProductPhaseController as vm",
+                templateUrl: "editProductPhase.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
+            })
             .otherwise({
                 redirectTo: "/list"
             });
@@ -133,7 +169,7 @@ angular.module("productApp", ["ui.neptune",
                             controllerAs: 'vm'
                         }).result.then(function (response) {
                                 $scope.model.groupid = response.id;
-                                $scope.model.groupname =response.name;
+                                $scope.model.groupname = response.name;
                             });
                     };
                 },
@@ -180,10 +216,26 @@ angular.module("productApp", ["ui.neptune",
         return nptRepository("AddOrUpdateProductProfile").params({});
     }).factory("AddOrUpdateProductGroup", function (nptRepository) {
         return nptRepository("AddOrUpdateProductGroup").params({});
-    }).factory("AddOrUpdateProductclassify", function (nptRepository) {
+    }).factory("AddOrUpdateProductClassify", function (nptRepository) {
         return nptRepository("AddOrUpdateProductclassify").params({});
     }).factory("AddOrUpdateProductDescr", function (nptRepository) {
         return nptRepository("AddOrUpdateProductDescr").params({});
+    }).factory("QueryProductPhaseInfo", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryProductPhaseInfo").params({
+        });
+    })
+    .factory("QueryProductRequirementInfo", function (nptRepository) {
+        return nptRepository("QueryProductRequirementInfo").params({});
+    })
+    .factory("QueryProductProfileInfo", function (nptRepository) {
+        return nptRepository("QueryProductProfileInfo").params({});
+    })
+    .factory("QueryProductGroupInfo", function (nptRepository) {
+        return nptRepository("QueryProductGroupInfo").params({});
+    }).factory("QueryProductClassifyInfo", function (nptRepository) {
+        return nptRepository("QueryProductClassifyInfo").params({});
+    }).factory("QueryProductDescrInfo", function (nptRepository) {
+        return nptRepository("QueryProductDescrInfo").params({});
     }).factory("RemoveProductPhase", function (nptRepository) {
         return nptRepository("RemoveProductPhase").params({});
     }).factory("RemoveProductRequirement", function (nptRepository) {
@@ -248,7 +300,8 @@ angular.module("productApp", ["ui.neptune",
                     callBack: function () {
                         self.queryProducts();
                     }
-                }, {
+                },
+                {
                     label: "未分类",
                     callBack: function () {
                         self.queryProducts({
@@ -441,7 +494,7 @@ angular.module("productApp", ["ui.neptune",
         function saveProduct() {
             vm.addOrUpdateProduct.post(vm.modelProduct).then(function (response) {
                 Notification.success({
-                    message: "保存成功!",
+                    message: "保存产品成功.",
                     delay: 2000
                 });
             }, function (error) {
@@ -498,8 +551,6 @@ angular.module("productApp", ["ui.neptune",
 
                     //由于表单的数据是异步设置的,表单插件无法记录初始值.暂时外部手动记录
                     vm.orginModelProduct = angular.copy(vm.modelProduct);
-
-                    vm.nptFormApi.fields[2].templateOptions.disabled = true;
                 }, function () {
                     Notification.error({
                         message: "查找产品信息出错,请稍后尝试.",
@@ -529,12 +580,16 @@ angular.module("productApp", ["ui.neptune",
         //查询
         vm.query();
     })
-    .controller("editProductProfileController", function ($routeParams, ProductProfilesForm, nptSessionManager) {
+    .controller("editProductProfileController", function ($routeParams, ProductProfilesForm, AddOrUpdateProductProfile,QueryProductProfileInfo,QueryProductInfo, Notification,nptSessionManager) {
         var vm = this;
 
         //记录产品id
         vm.productid = $routeParams.productid;
-
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductProfile=AddOrUpdateProductProfile;
+        vm.productProfileInfo=QueryProductProfileInfo;
+        vm.QueryProductProfileInfo=[];
         //检查当前操作模式,如果存在profileid则编辑否则add
         if ($routeParams.profileid) {
             vm.profileid = $routeParams.profileid;
@@ -552,7 +607,18 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
-
+            vm.addProductProfile.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品内容成功!",
+                        delay: 2000
+                    });
+            }, function () {
+                Notification.error({
+                    message: "添加产品内容出错,请稍后尝试.",
+                    delay: 2000
+                });
+            });
         }
 
         function reset() {
@@ -575,13 +641,50 @@ angular.module("productApp", ["ui.neptune",
         vm.queryById = function (id) {
             if (id) {
                 //如果查询到数据则记录model以及originModel
+                vm.productProfileInfo.post(
+                    {profileid:id}
+                ).then(function (response) {
+                   vm.originModel=response.data;
+                   vm.model=response.data;
+                }, function () {
+                    Notification.error({
+                        message: "查询产品内容出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
             }
         };
 
         //通过产品ID查询
         vm.queryByProductId = function (productid) {
             if (productid) {
+                vm.productInfo.post({
+                    productid: vm.productid
+                }).then(function (response) {
+                    //产品内容
+                    vm.modelProductProfiles = response.data.bizProductProfiles;
+                }, function () {
+                    Notification.error({
+                        message: "查找产品信息出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
+            }
+        };
 
+        //转到下一单
+        vm.next = function (profile) {
+            var nextProfile = vm.modelProductProfiles.next(profile);
+            if (nextProfile) {
+                $location.path("/detail/" + nextProfile.id);
+            }
+        };
+
+        //转到上一单
+        vm.previous = function (profile) {
+            var previousProfile = vm.modelProductProfiles.previous(profile);
+            if (previousProfile) {
+                $location.path("/detail/" + previousProfile.id);
             }
         };
 
@@ -590,12 +693,15 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductDescrController", function ($routeParams, ProductDescrsForm, nptSessionManager) {
+    }).controller("editProductDescrController", function ($routeParams, ProductDescrsForm,AddOrUpdateProductDescr, QueryProductDescrInfo,QueryProductInfo, Notification,nptSessionManager) {
         var vm = this;
 
         //记录产品id
         vm.productid = $routeParams.productid;
-
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductDescr=AddOrUpdateProductDescr;
+        vm.productDescrInfo=QueryProductDescrInfo;
         if ($routeParams.descrid) {
             vm.descrid = $routeParams.descrid;
         } else {
@@ -612,6 +718,18 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
+            vm.addProductDescr.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品详情成功!",
+                        delay: 2000
+                    });
+                }, function () {
+                    Notification.error({
+                        message: "添加产品详情出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
         }
 
         function reset() {
@@ -634,6 +752,17 @@ angular.module("productApp", ["ui.neptune",
         vm.queryById = function (id) {
             if (id) {
                 //如果查询到数据则记录model以及originModel
+                vm.productDescrInfo.post(
+                    {descrid:id}
+                ).then(function (response) {
+                        vm.originModel=response.data;
+                        vm.model=response.data;
+                    }, function () {
+                        Notification.error({
+                            message: "查询产品详情出错,请稍后尝试.",
+                            delay: 2000
+                        });
+                    });
             }
         };
 
@@ -649,12 +778,15 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductClassifiesController", function ($routeParams, ProductClassifiesForm, nptSessionManager) {
+    }).controller("editProductClassifiesController", function ($routeParams, ProductClassifiesForm,AddOrUpdateProductClassify, QueryProductClassifyInfo,QueryProductInfo, Notification,nptSessionManager) {
         var vm = this;
 
         //记录产品id
         vm.productid = $routeParams.productid;
-
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductClassify=AddOrUpdateProductClassify;
+        vm.productClassifyInfo=QueryProductClassifyInfo;
         if ($routeParams.classifiesid) {
             vm.classifiesid = $routeParams.classifiesid;
         } else {
@@ -672,6 +804,18 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
+            vm.addProductClassify.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品分类成功!",
+                        delay: 2000
+                    });
+                }, function () {
+                    Notification.error({
+                        message: "添加产品分类出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
         }
 
         function reset() {
@@ -694,6 +838,17 @@ angular.module("productApp", ["ui.neptune",
         vm.queryById = function (id) {
             if (id) {
                 //如果查询到数据则记录model以及originModel
+                vm.productClassifyInfo.post(
+                    {classifyid:id}
+                ).then(function (response) {
+                        vm.originModel=response.data;
+                        vm.model=response.data;
+                    }, function () {
+                        Notification.error({
+                            message: "查询产品详情出错,请稍后尝试.",
+                            delay: 2000
+                        });
+                    });
             }
         };
 
@@ -709,12 +864,15 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductGroupController", function ($routeParams, ProductGroupForm, nptSessionManager) {
+    }).controller("editProductGroupController", function ($routeParams, ProductGroupForm,AddOrUpdateProductGroup, QueryProductGroupInfo,QueryProductInfo, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
         vm.productid = $routeParams.productid;
-
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductGroup=AddOrUpdateProductGroup;
+        vm.productGroupInfo=QueryProductGroupInfo;
         if ($routeParams.groupid) {
             vm.groupid = $routeParams.groupid;
         } else {
@@ -731,7 +889,18 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
-            console.info(vm.model);
+            vm.addProductGroup.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品分组成功!",
+                        delay: 2000
+                    });
+                }, function () {
+                    Notification.error({
+                        message: "添加产品分组出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
         }
 
         function reset() {
@@ -754,6 +923,17 @@ angular.module("productApp", ["ui.neptune",
         vm.queryById = function (id) {
             if (id) {
                 //如果查询到数据则记录model以及originModel
+                vm.productGroupInfo.post(
+                    {groupid:id}
+                ).then(function (response) {
+                        vm.originModel=response.data;
+                        vm.model=response.data;
+                    }, function () {
+                        Notification.error({
+                            message: "查询产品详情出错,请稍后尝试.",
+                            delay: 2000
+                        });
+                    });
             }
         };
 
@@ -766,6 +946,178 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品内容
         vm.queryById(vm.groupid);
+
+        //查询产品下得所有内容集合
+        vm.queryByProductId(vm.productid);
+    })
+    .controller("editProductRequirementController", function ($routeParams, ProductRequirementForm,AddProductRequirement, QueryProductRequirementInfo,QueryProductInfo, Notification, nptSessionManager) {
+        var vm = this;
+
+        //记录产品id
+        vm.productid = $routeParams.productid;
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductRequirement=AddProductRequirement;
+        vm.productRequirementInfo=QueryProductRequirementInfo;
+        if ($routeParams.groupid) {
+            vm.groupid = $routeParams.groupid;
+        } else {
+            vm.groupid = undefined;
+        }
+
+        //数据模型
+        vm.model = {
+            productid: vm.productid,
+            createby: nptSessionManager.getSession().getUser().id
+        };
+
+        //记录原始数据
+        vm.originModel = angular.copy(vm.model);
+
+        function save() {
+            vm.addProductRequirement.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品分组成功!",
+                        delay: 2000
+                    });
+                }, function () {
+                    Notification.error({
+                        message: "添加产品分组出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
+        }
+
+        function reset() {
+            vm.model = angular.copy(vm.originModel);
+        }
+
+        //配置表单
+        vm.productRequirementFormOptions = {
+            store: ProductRequirementForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+                //注册提交事件
+                vm.nptFormApi.addOnSubmitListen(save);
+                //设置重置事件
+                vm.nptFormApi.setOnActionListen(reset);
+            }
+        };
+
+        //通过产品内容ID查询
+        vm.queryById = function (id) {
+            if (id) {
+                //如果查询到数据则记录model以及originModel
+                vm.productRequirementInfo.post(
+                    {requirementid:id}
+                ).then(function (response) {
+                        vm.originModel=response.data;
+                        vm.model=response.data;
+                    }, function () {
+                        Notification.error({
+                            message: "查询产品详情出错,请稍后尝试.",
+                            delay: 2000
+                        });
+                    });
+            }
+        };
+
+        //通过产品ID查询
+        vm.queryByProductId = function (productid) {
+            if (productid) {
+
+            }
+        };
+
+        //查询产品内容
+        vm.queryById(vm.requirementid);
+
+        //查询产品下得所有内容集合
+        vm.queryByProductId(vm.productid);
+    })
+    .controller("editProductPhaseController", function ($routeParams, ProductPhaseForm,AddOrUpdateProductPhase, QueryProductPhaseInfo,QueryProductInfo, Notification, nptSessionManager) {
+        var vm = this;
+
+        //记录产品id
+        vm.productid = $routeParams.productid;
+        //产品信息资源库
+        vm.productInfo = QueryProductInfo;
+        vm.addProductPhase=AddOrUpdateProductPhase;
+        vm.productPhaseInfo=QueryProductPhaseInfo;
+        if ($routeParams.phaseid) {
+            vm.phaseid = $routeParams.phaseid;
+        } else {
+            vm.phaseid = undefined;
+        }
+
+        //数据模型
+        vm.model = {
+            productid: vm.productid,
+            createby: nptSessionManager.getSession().getUser().id
+        };
+
+        //记录原始数据
+        vm.originModel = angular.copy(vm.model);
+
+        function save() {
+            vm.addProductPhase.post(vm.model)
+                .then(function (response) {
+                    Notification.success({
+                        message: "保存产品阶段成功!",
+                        delay: 2000
+                    });
+                }, function () {
+                    Notification.error({
+                        message: "添加产品阶段出错,请稍后尝试.",
+                        delay: 2000
+                    });
+                });
+        }
+
+        function reset() {
+            vm.model = angular.copy(vm.originModel);
+        }
+
+        //配置表单
+        vm.productPhaseFormOptions = {
+            store: ProductPhaseForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+                //注册提交事件
+                vm.nptFormApi.addOnSubmitListen(save);
+                //设置重置事件
+                vm.nptFormApi.setOnActionListen(reset);
+            }
+        };
+
+        //通过产品内容ID查询
+        vm.queryById = function (id) {
+            if (id) {
+                //如果查询到数据则记录model以及originModel
+                vm.productPhaseInfo.post(
+                    {phaseid:id}
+                ).then(function (response) {
+                        vm.originModel=response.data;
+                        vm.model=response.data;
+                    }, function () {
+                        Notification.error({
+                            message: "查询产品详情出错,请稍后尝试.",
+                            delay: 2000
+                        });
+                    });
+            }
+        };
+
+        //通过产品ID查询
+        vm.queryByProductId = function (productid) {
+            if (productid) {
+
+            }
+        };
+
+        //查询产品内容
+        vm.queryById(vm.phaseid);
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);

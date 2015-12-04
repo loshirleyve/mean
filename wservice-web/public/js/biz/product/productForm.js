@@ -95,8 +95,18 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel) {
+    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel,QueryUserInfoById) {
         return nptFormlyStore("productGroupForm", {
+            buttons: {
+                ok: true,
+                reset: false
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
                     disabled: false
@@ -133,16 +143,20 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         max: 9999,
                         numberMask: 0
                     }
-                }
-            ],
-            buttons: {
-                ok: true,
-                reset: false
-            },
-            actions: [
+                },
                 {
-                    label: "重置",
-                    type: "reset"
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        "optionsAttr": "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        "valueProp": "id",
+                        "labelProp": "name",
+                        "options": [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById
+                    }
                 }
             ]
         });
@@ -151,7 +165,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
         return nptFormlyStore("addGroupForm", {
             options: {
                 formState: {
-                    disabled: true
+                    disabled: false
                 }
 
             },
@@ -171,13 +185,22 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 reset: false
             }
         });
-    }).factory("productPhaseForm", function (nptFormlyStore, QueryCtrlCode) {
+    }).factory("ProductPhaseForm", function (nptFormlyStore, QueryCtrlCode,QueryUserInfoById) {
         return nptFormlyStore("productPhaseForm", {
+            buttons: {
+                ok: true,
+                reset: false
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
-                    disabled: true
+                    disabled: false
                 }
-
             },
             fields: [
                 {
@@ -198,8 +221,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'cycle',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '服务类型:',
-                        required: true,
                         valueProp: 'no',
                         labelProp: 'name',
                         placeholder: '请选择',
@@ -243,21 +266,40 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '阶段说明:'
                     }
+                },
+                {
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        "optionsAttr": "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        "valueProp": "id",
+                        "labelProp": "name",
+                        "options": [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById
+                    }
                 }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            }
+            ]
         });
     })
-    .factory("productRequirementForm", function (nptFormlyStore) {
+    .factory("ProductRequirementForm", function (nptFormlyStore,QueryUserInfoById) {
         return nptFormlyStore("productRequirementForm", {
+            buttons: {
+                ok: true,
+                reset: false
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
-                    disabled: true
+                    disabled: false
                 }
-
             },
             fields: [
                 {
@@ -274,16 +316,13 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         label: '排序:'
                     }
                 }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            }
+            ]
         });
     }).factory("ProductProfilesForm", function (nptFormlyStore, QueryUserInfoById) {
         return nptFormlyStore("productProfilesForm", {
             buttons: {
-                ok: true
+                ok: true,
+                reset: false
             },
             actions: [
                 {
@@ -295,7 +334,6 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 formState: {
                     disabled: false
                 }
-
             },
             fields: [
                 {
@@ -328,13 +366,22 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("productGroupForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByUserLevel) {
+    }).factory("ProductGroupForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByUserLevel,QueryUserInfoById) {
         return nptFormlyStore("productGroupForm", {
+            buttons: {
+                ok: true,
+                reset: false
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
-                    disabled: true
+                    disabled: false
                 }
-
             },
             fields: [
                 {
@@ -354,10 +401,25 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 },
                 {
                     key: 'top',
-                    type: 'input',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '是否置顶:'
-                    }
+                        optionsAttr: 'bs-options',
+                        valueProp:"id",
+                        labelProp:"name",
+                        label: '是否置顶:',
+                        options:[
+                            {
+                                name:"是",
+                                id:'1'
+                            },
+                            {
+                                name:"否",
+                                id:'0'
+                            }
+                        ],
+                        allowClear:false
+                    },
+                    defaultValue:0
                 },
                 {
                     key: 'sort',
@@ -365,21 +427,29 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '排序:'
                     }
+                },
+                {
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        "optionsAttr": "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        "valueProp": "id",
+                        "labelProp": "name",
+                        "options": [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById
+                    }
                 }
 
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            }
+            ]
         });
-    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode) {
+    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode,QueryUserInfoById) {
         return nptFormlyStore("productClassifiesForm", {
-            options: {
-                formState: {
-                    disabled: false
-                }
-
+            buttons: {
+                ok: true,
+                reset: false
             },
             actions: [
                 {
@@ -387,6 +457,11 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     type: "reset"
                 }
             ],
+            options: {
+                formState: {
+                    disabled: false
+                }
+            },
             fields: [
                 {
                     key: 'classifyname',
@@ -411,6 +486,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'packagetype',
                     type: 'ui-select',
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '套餐类型:',
                         required: true,
                         valueProp: 'no',
@@ -438,20 +514,39 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '备注:'
                     }
+                },
+                {
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        "optionsAttr": "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        "valueProp": "id",
+                        "labelProp": "name",
+                        "options": [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById
+                    }
                 }
-            ],
+            ]
+        });
+    }).factory("ProductDescrsForm", function (nptFormlyStore, QueryCtrlCode,QueryUserInfoById) {
+        return nptFormlyStore("productDescrsForm", {
             buttons: {
                 ok: true,
                 reset: false
-            }
-        });
-    }).factory("ProductDescrsForm", function (nptFormlyStore, QueryCtrlCode) {
-        return nptFormlyStore("productDescrsForm", {
+            },
+            actions: [
+                {
+                    label: "重置",
+                    type: "reset"
+                }
+            ],
             options: {
                 formState: {
                     disabled: false
                 }
-
             },
             fields: [
                 {
@@ -474,7 +569,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         placeholder: '请选择',
                         options: [],
                         repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "productdescrtype"},
+                        repositoryParams: {"defno": "productdescrtype"}
                     }
                 },
                 {
@@ -484,18 +579,22 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         label: '内容:',
                         required: true
                     }
-                }
-            ],
-            buttons: {
-                ok: true,
-                reset: false
-            },
-            actions: [
+                },
                 {
-                    label: "重置",
-                    type: "reset"
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        "optionsAttr": "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        "valueProp": "id",
+                        "labelProp": "name",
+                        "options": [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById
+                    }
                 }
-            ],
+            ]
         });
     });
 

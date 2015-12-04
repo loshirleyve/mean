@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productProfilesListGrid", [])
-    .factory("productProfilesListGrid", function (nptGridStore,productProfilesForm,productCategoryService) {
+    .factory("productProfilesListGrid", function (nptGridStore,productProfilesForm) {
         return nptGridStore("productProfilesListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -25,7 +25,6 @@ angular.module("productApp.productProfilesListGrid", [])
                         function (params, $timeout, $q) {
                             var deferd = $q.defer();
                             $timeout(function () {
-                                productCategoryService.editProductProfile(params,$q);
                             }, 500);
                             return deferd.promise;
                         },
