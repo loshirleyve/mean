@@ -29,24 +29,24 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 订单列表
-                    div.collapse.navbar-collapse
-                        ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.queryService.orderList.loading() || vm.orderUnreadService.ordersIsUnread.loading()")
+                    div.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.queryService.orderList.loading() || vm.orderUnreadService.ordersIsUnread.loading()")
+                            li
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.queryService.orderList.loading() && !vm.orderUnreadService.ordersIsUnread.loading()')
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryService.orderList.loading() && !vm.orderUnreadService.ordersIsUnread.loading()")
+                            li.dropdown
                                 a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
                                     li(ng-repeat="queryItem in vm.queryService.queryList")
                                         a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
-                            li.dropdown(ng-if='!vm.queryService.orderList.loading() && !vm.orderUnreadService.ordersIsUnread.loading()')
-                                a(href="",ng-if="vm.orderUnreadService.ordersIsUnread.loading()") 正在检查...
-                                a.dropdown-toggle(href="",ng-if="!vm.ordersIsUnread.loading()",data-toggle="dropdown") 检查新订单[已检查{{vm.orderUnreadService.count}}次] - {{vm.orderUnreadService.currSchedule.label}}
+                            li.dropdown
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 检查新订单[已检查{{vm.orderUnreadService.count}}次] - {{vm.orderUnreadService.currSchedule.label}}
                                     span.caret
                                 ul.dropdown-menu
                                     li(ng-repeat="schedule in vm.orderUnreadService.schedules")
                                         a(href="",ng-click="vm.orderUnreadService.selectSchedule(schedule)") {{schedule.label}}
-                            li(ng-if="vm.orderUnreadService.hasNewOrders && !vm.queryService.orderList.loading()")
+                            li(ng-if="vm.orderUnreadService.hasNewOrders")
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
 
             div(npt-grid="vm.orderListGridOptions",model="vm.queryService.orderList.data")
@@ -67,21 +67,23 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="") 订单详情
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.orderInfo.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li
-                            a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
-                        li
-                            a(href="#/changeprice/{{vm.orderInfo.data.order.id}}",ng-show="vm.isChangePrice()") 改价
-                        li
-                            a(href="#/adviser/{{vm.orderInfo.data.order.id}}") 分配顾问
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
-                        li
-                            a(href="#/list") 返回
+                    div.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.orderInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.orderInfo.loading()")
+                            li
+                                a(href="#/confirm/{{vm.orderInfo.data.order.id}}",ng-show="vm.isConfirm()") 确认订单
+                            li
+                                a(href="#/changeprice/{{vm.orderInfo.data.order.id}}",ng-show="vm.isChangePrice()") 改价
+                            li
+                                a(href="#/adviser/{{vm.orderInfo.data.order.id}}",ng-show="vm.isAdviser()") 分配顾问
+                            li
+                                a(href="",ng-click="vm.previous(vm.orderInfo.data.order)",ng-show="vm.orderList.previous(vm.orderInfo.data.order)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.orderInfo.data.order)",ng-show="vm.orderList.next(vm.orderInfo.data.order)") 下一单
+                            li
+                                a(href="#/list") 返回
 
             //数据表格区域
             div.page-header
@@ -126,11 +128,39 @@ block content
             div.page-header
                 h4 产品列表
             div.page-body
-                div(npt-grid="vm.orderProductGridOptions",model="vm.modelProducts")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelProducts")
+
+                        div.list-group-item-heading
+                            div(style="width:50px;height:50px;",npt-image="item.productimgid")
+                            span &nbsp &nbsp
+                            span {{item.productname}}
+                        div.list-group-item-text
+                            p {{item.productIntroduce}}
+                            p 订单金额:{{item.goodsamount}}  已选产品分类:{{item.productclassifyname}}
             div.page-header
-                h4 工单列表
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 工单列表
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.selectWorkorderAll(false)") 取消全选
+                        a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.selectWorkorderAll(true)") 全选
+
+                        a.btn.btn-primary.btn-sm.pull-right(type="button",href="",ng-click="vm.adviser()") 分配工单员
             div.page-body
-                div(npt-grid="vm.orderWorkorderOptions",model="vm.modelWorkorders")
+                div(npt-select-tree="vm.selectTreeSetting")
+                div.list-group
+                    a.list-group-item(href="",ng-click="vm.selectWorkorder(item)",ng-repeat="item in vm.modelWorkorders")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.descr}} - {{item.completeNum}}/{{item.allNum}}
+                                div.col-xs-6.col-md-6
+                                    span(ng-if="!item.selected").pull-right.glyphicon.glyphicon-unchecked
+                                    span(ng-if="item.selected").pull-right.glyphicon.glyphicon-ok
+                        div.list-group-item-text
+                            p {{item.inserviceName}}
+                            p 分配信息:{{item.assignedInfo}}
 
         //确认订单模板
         script(type="text/ng-template",id="confirm.html")

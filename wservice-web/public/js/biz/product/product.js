@@ -414,7 +414,7 @@ angular.module("productApp", ["ui.neptune",
                     deferd.reject();
                 });
             return deferd;
-        }
+        };
 
     })
     .controller("productListController", function (ProductQueryService, productListGrid) {
@@ -590,7 +590,7 @@ angular.module("productApp", ["ui.neptune",
         //查询
         vm.query();
 
-        vm.instid=nptSessionManager.getSession().getInst().id
+        vm.instid=nptSessionManager.getSession().getInst().id;
         vm.requirementListGridOptions = {
             store: requirementListGrid,
             onRegisterApi: function (nptGridApi) {
@@ -637,7 +637,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         vm.deletePhaseById=function(phaseid)
         {
@@ -655,7 +655,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         vm.deleteRequirementById=function(requirementid)
         {
@@ -673,7 +673,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         vm.deleteGroupById=function(groupid)
         {
@@ -691,7 +691,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         vm.deleteClassifyById=function(classifyid)
         {
@@ -709,7 +709,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         vm.deleteDescrById=function(descrid)
         {
@@ -727,7 +727,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
     }).controller("groupListController", function ($scope, $location, $routeParams, Notification, QueryMdProductGroup,AddOrUpdateMdProductGroup, productMdGroupListGrid) {
         var vm = this;

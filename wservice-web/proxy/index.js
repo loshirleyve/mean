@@ -157,9 +157,18 @@ proxy.action("queryWorkorderList", {
 }).action("deliverWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
-}).action("queryWorkordersUnread", {
+}).action("queryWorkordersUnreadIds", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkordersUnreadService"
+}).action("UpdateWorkOrderProcess", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderProcessService"
+}).action("queryWorkordersUnread", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
+}).action("updateWorkordersToRead", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
 });
 
 
@@ -179,6 +188,9 @@ proxy.action("queryInstClients", {
 }).action("instInit", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.InstInitService"
+}).action("queryInstClientInfoById",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryInstClientInfoByIdService"
 });
 
 
