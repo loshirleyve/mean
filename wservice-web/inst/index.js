@@ -9,11 +9,11 @@ var router = express.Router();
 
 module.exports = function (app) {
 
-    function loadInstRole(instData,done,req) {
+    function loadInstRole(instData, user, done) {
         proxy.post("queryInstRolesByUseridAndInstid")
             .params({
-                instid:instData.id,
-                userid:req.user.id
+                instid: instData.id,
+                userid: user.id
             }).launch(function (response) {
                 instData.roles = response.body.data;
                 done(null, instData);
@@ -22,14 +22,14 @@ module.exports = function (app) {
             });
     }
 
-    instPassport.deserializeUser(function (inst, done,req) {
+    instPassport.deserializeUser(function (inst, user, done) {
         //读取机构信息
         proxy.post("queryInstDetail").params({
             "instid": inst
         }).launch(function (response) {
             var instData = response.body.data;
             if (instData) {
-                loadInstRole(instData,done,req);
+                loadInstRole(instData, user, done);
             } else {
                 done(new Error("不存在的机构:" + inst));
             }

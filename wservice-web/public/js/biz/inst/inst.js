@@ -140,7 +140,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
                     });
                 }
             });
-        }
+        };
 
 
         //转到下一单

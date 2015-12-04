@@ -14,7 +14,7 @@ angular.module("instApp.instListGrid", [])
             },
             action: {
                 view: {
-                    label: "查看",
+                    label: "编辑",
                     type: "view",
                     listens: [
                         function ($location, params) {
