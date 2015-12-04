@@ -115,7 +115,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById, nptCache) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -131,6 +131,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.model = {};
         vm.model.clientBackup = {};
         vm.clientDeUser = QueryInstClientInfoById;
+        vm.clientUsersModel = {};
+        vm.clientUsersCacheModel = {};
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -212,18 +214,25 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            $route.reload();
+            vm.query();
         };
 
-        vm.viewAdviser = function(clientId){
-            var param = {"instClient":clientId} || {};
+        $('#clientAdviserModal').on('show.bs.modal', function($modelValue){
+            var param = {"instClient":vm.clientid} || {};
             vm.clientDeUser.post(param)
                 .then(function(response){
-
+                    vm.clientUsersModel = response;
+                    /*var data = nptCache.get("user", $modelValue);
+                    //var data = response.cache.user;
+                    for(var i = 0; i<data.length; i++){
+                        var val = {"id":data[i].id,"name":data[i].name};
+                        vm.clientUsersCacheModel.push(val);
+                    }*/
+                    //vm.clientUsersCacheModel = response.cache.user;
                 },function(){
 
-                })
-        };
+                });
+        });
         //更新客户信息
         vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){

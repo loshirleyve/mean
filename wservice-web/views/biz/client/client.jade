@@ -86,7 +86,7 @@ block content
                     div(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
                         ul.nav.navbar-nav.navbar-right
                             li
-                                button.btn.btn-info.navbar-btn(ng-click="vm.viewAdviser(vm.clientInfo.data.id)",role="button", data-toggle="modal", data-target="#clientAdviserModal") 专属顾问和业务员
+                                button.btn.btn-info.navbar-btn(role="button", data-toggle="modal", data-target="#clientAdviserModal") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
                                 button.btn.btn-info.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                             li
@@ -119,15 +119,17 @@ block content
                             h4.modal-title 客户机构和业务员
                         div.modal-body
                             div.list-group
-                                a.list-group-item(href="#")
+                                a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersModel.data.clientUsers")
+                                    p.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属机构"}}
+                                    p.list-grout-item-text {{clientUser.userid}}
+                                a.list-group-item(href="")
                                     p.list-group-item-heading 业务员模拟数据
                                     p.list-grout-item-text 业务员名字模拟
-                                a.list-group-item(href="#")
+                                a.list-group-item(href="")
                                     p.list-group-item-heading 业务员模拟数据
                                     p.list-grout-item-text 业务员名字模拟
                         div.modal-footer
-                            button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-                            button.btn.btn-primary(type="button") 确定
+                            button.btn.btn-primary(type="button", data-dismiss="modal") 确定
 
         //新增客户模板
         script(type="text/ng-template", id="addClient.html")

@@ -6,7 +6,7 @@
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode,
-                                     QueryMdInstScale, nptCache, RegExpValidatorFactory) {
+                                     QueryMdInstScale, nptCache, RegExpValidatorFactory, QueryInstClients) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -21,15 +21,19 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 {
                     key: 'name',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '客户公司简称:',
-                        placeholder: "请输入客户公司简称"
+                        placeholder: "请输入客户公司简称",
+                        reversal: true,
+                        searchProp:"name",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 中含有非法字符"'
+                            message: '"客户公司简称必须是汉字！"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
