@@ -62,7 +62,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     .factory("QueryWorkorderList",function(nptRepository, nptSessionManager) {
         return nptRepository("queryWorkorderList").params({
             instid: nptSessionManager.getSession().getInst().id,
-            userid: nptSessionManager.getSession().getUser().id
+            processid: nptSessionManager.getSession().getUser().id
         });
     })
     .factory("QueryWorkorderInfo",function(nptRepository) {
@@ -77,16 +77,27 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     .factory("DeliverWorkorder", function(nptRepository) {
         return nptRepository("deliverWorkorder");
     })
+    .factory("QueryWorkordersIsUnreadIds", function (nptRepository, nptSessionManager) {
+        return nptRepository("queryWorkordersUnreadIds").params({
+            instid: nptSessionManager.getSession().getInst().id,
+            processid: nptSessionManager.getSession().getUser().id
+        });
+    })
     .factory("QueryWorkordersIsUnread", function (nptRepository, nptSessionManager) {
         return nptRepository("queryWorkordersUnread").params({
             instid: nptSessionManager.getSession().getInst().id,
             processid: nptSessionManager.getSession().getUser().id
         });
     })
-    .service("WorkorderUnreadService", function (QueryWorkordersIsUnread, Notification, $interval) {
+    .factory("UpdateWorkordersToRead", function (nptRepository, nptSessionManager) {
+        return nptRepository("updateWorkordersToRead").params({
+        });
+    })
+    .service("WorkorderUnreadService", function (QueryWorkordersIsUnreadIds, QueryWorkordersIsUnread, Notification, $interval) {
         var self = this;
         //检查新订单资源
-        self.workordersIsUnread = QueryWorkordersIsUnread;
+        self.workordersIsUnreadIds = QueryWorkordersIsUnreadIds;
+        self.workordersIsUnread= QueryWorkordersIsUnread;
 
         //周期检查新订单配置
         self.schedules = [{
@@ -111,12 +122,12 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             self.count++;
             self.hasNewWorkorders = false;
             //执行服务器检查
-            self.workordersIsUnread.post().then(function (response) {
+            self.workordersIsUnreadIds.post().then(function (response) {
                 if (response.data && response.data.length > 0) {
                     self.hasNewWorkorders = true;
 
                     Notification.success({
-                        message: '检查到' + response.data.length + '张最新的工单,点击显示新订单按钮立即查看!',
+                        message: '检查到' + response.data.length + '张最新的工单,点击显示新工单按钮立即查看!',
                         title: '检查到新工单',
                         replaceMessage: true,
                         delay: 5000
@@ -163,7 +174,14 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         //获取新订单
         self.getNewWorkorder = function () {
-            if (self.workordersIsUnread && self.workordersIsUnread.data) {
+            self.workordersIsUnread.params({
+                workids: self.workordersIsUnreadIds.data
+            }).post().then(function (response) {
+            }, function (error) {
+                Notification.error({message: '检查新工单出现错误.', delay: 2000});
+            });
+
+            if(self.workordersIsUnread && self.workordersIsUnread.data) {
                 return self.workordersIsUnread.data;
             }
         };
@@ -227,7 +245,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         //选择一个默认查询
         self.selectQuery(self.queryList[1]);
     })
-    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid, WorkorderListQueryService, WorkorderUnreadService) {
+    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid, WorkorderListQueryService, WorkorderUnreadService, UpdateWorkordersToRead) {
         var vm = this;
 
         //订单列表数据资源库
@@ -256,12 +274,16 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 //vm.model = vm.ordersIsUnread.data.orderList;
                 //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
                 vm.queryService.workorderList.data = newWorkorders;
-                //将显示后的订单设置为已读状态
-                //UpdateOrderReadState.post(newOrders).then(function (response) {
-                //}, function (error) {
-                //    Notification.error({message: '设置订单为已读状态出现错误.', delay: 2000});
-                //});
+                //将显示后的工单设置为已读状态
+                UpdateWorkordersToRead.params({
+                    workorderids: vm.workorderUnreadService.workordersIsUnreadIds.data
+                }).post().then(function (response) {
+
+                }, function (err) {
+                    Notification.error({message: '设置工单为已读状态出现错误.', delay: 2000});
+                });
             }
+            vm.workorderUnreadService.hasNewWorkorders = false;
         };
 
         //如果存在当前检查项则使用当前项触发检查,否则选择一个特定项触发
@@ -308,7 +330,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         };
 
         //配置工单评价
-        vm.workorderAttachmentOptions = {
+        vm.workorderCommentOptions = {
             store: WorkorderCommentGrid,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
