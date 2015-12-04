@@ -385,7 +385,7 @@ angular.module("orderApp", [
         vm.selectWorkorderAll = function (state) {
             angular.forEach(vm.modelWorkorders, function (value) {
                 value.selected = state;
-            })
+            });
         };
 
         vm.selectTreeSetting = {
@@ -423,7 +423,7 @@ angular.module("orderApp", [
                                 title: "分配工单员错误",
                                 message: error.data.cause, delay: 2000
                             });
-                        })
+                        });
                     }
                 }, function () {
                 });

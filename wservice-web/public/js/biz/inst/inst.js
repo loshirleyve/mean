@@ -119,8 +119,10 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             params.tel=vm.model.tel;
             params.updateby=vm.userid;
             vm.updateInst.post(params).then(function(response){
-                $location.path("/list");
-                vm.instListQuery.query("");
+                Notification.success({
+                    message: "保存机构成功.",
+                    delay: 2000
+                });
             },function(error)
             {
                 Notification.error({message: '修改失败,请稍后再试.', delay: 2000});

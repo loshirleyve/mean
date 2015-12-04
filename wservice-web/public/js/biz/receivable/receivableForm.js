@@ -28,8 +28,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
-                        repository: QueryPayModeType,
-                        search:['name']
+                        repository: QueryPayModeType
                     }
                 },
                 {
