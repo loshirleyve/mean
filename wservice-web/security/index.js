@@ -5,7 +5,7 @@
 var security = require("y9-mars-security");
 var filter = security.Filter();
 var filterStore = require("./filter-store");
-var debug = require("debug")("wservice-web-security")
+var debug = require("debug")("y9-wservice-web-security")
 
 module.exports = function (app) {
 
