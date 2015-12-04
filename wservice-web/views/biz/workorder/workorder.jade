@@ -108,15 +108,42 @@ block content
                     li
                         strong 分配日期:&nbsp
                         span {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
+            //div.page-header
+            //    h4 工单资料
+            //div.page-body
+            //    div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelAttachment")
             div.page-header
-                h4 工单资料
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 工单资料
             div.page-body
-                div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelAttachment")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelAttachment")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.attachname}}
+                        div.list-group-item-text
+                            span 资料交接类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}} 资料类型:{{item.inputtype | timestampFilter}}
 
             div.page-header
-                h4 工单评价
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 工单评论
             div.page-body
-                div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelComment")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.modelComment")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.displayName}}
+                        div.list-group-item-text
+                            span 评价内容:{{item.commenttext}} 评论时间:{{item.createdate | ctrlCodeFilter:'inputtype':'name':'no'}}
+
+            //div.page-header
+            //    h4 工单评价
+            //div.page-body
+            //    div(npt-grid="vm.workorderCommentOptions",model="vm.modelComment")
 
         script(type="text/ng-template",id="startWorkorder.html")
             //功能导航区域
