@@ -96,7 +96,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             self.query('全部');
         }
     })
-    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm, InstClientsQueryService, nptCache) {
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm, InstClientsQueryService) {
         var vm = this;
         vm.queryService = InstClientsQueryService;
 
@@ -114,9 +114,14 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 vm.nptClientFormApi = nptFormApi;
             }
         };
+
+        //首先查询全部客户
+        if (!vm.queryService.clientList.data || vm.queryService.clientList.data.length <= 0) {
+            vm.queryService.query('全部');
+        }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById, nptCache) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -130,10 +135,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
-        vm.model.clientBackup = {};
         vm.clientDeUser = QueryInstClientInfoById;
-        vm.clientUsersModel = {};
-        vm.clientUsersCacheModel = {};
 
         //客户详情表单配置
         vm.clientFormOptions = {

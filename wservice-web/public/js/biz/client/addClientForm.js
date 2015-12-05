@@ -34,10 +34,14 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 {
                     key: 'name',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '客户公司简称:',
-                        placeholder: "请输入客户公司简称"
+                        placeholder: "请输入客户公司简称",
+                        reversal: true,
+                        searchProp:"name",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
