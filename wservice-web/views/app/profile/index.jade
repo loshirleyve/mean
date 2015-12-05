@@ -2,8 +2,40 @@
    Created by leon on 15/12/4.
 
 extends ../../layout/layout-bizpage
-block title
-    p 个人中心
+block titleContent
+    title 个人中心
 
 block content
-    H1 你好,这里是个人中心!
+    script(src="/js/biz/user/user.js")
+    div(ng-app="userApp", id="userInfo.html")
+        div(ng-view)
+            script(type="text/ng-template", id="userInfo.html")
+                //功能导航
+                ul.breadcrumb
+                    li
+                        a(href="/app/home")
+                            span.glyphicon.glyphicon-home
+                            | 首页
+                    li.active 个人中心
+
+                nav.navbar.navbar-default.navbar-fixed-top
+                    div.container-fluid.row
+                        div.navbar-header.col-md-9
+                            a.navbar-brand(href="#") 个人中心
+                        div.collapse.navbar-collapse.col-md-3
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    button.btn.btn-primary.navbar-btn(type="button", onclick="") 更改密码
+
+                div.page-header
+                    h4 用户个人信息
+                div.page-body
+                    div.col-md-4
+                        button.btn.btn-primary(type="button", ng-click="vm.selectImg()") 选择图片
+
+                    div.col-md-8
+                        dl.dl-horizontal
+                            dt 用户名:
+                            dd {{vm.userInfo.data.name}}
+                            dt 注册时间:
+                            dd {{vm.userInfo.data.createdate}}
