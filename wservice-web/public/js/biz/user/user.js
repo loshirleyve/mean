@@ -32,7 +32,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             },function(error){
                 Notification.error({
                     message:error.data.cause, delay:2000
-                })
+                });
             });
         };
         vm.queryUserInfo();
