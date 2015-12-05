@@ -119,9 +119,9 @@ block content
                             h4.modal-title 客户机构和业务员
                         div.modal-body
                             div.list-group
-                                a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersModel.data.clientUsers")
+                                a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersIRN")
                                     h6.glyphicon.glyphicon-triangle-right.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属机构"}}
-                                    h5.list-group-item-text &nbsp;&nbsp;&nbsp;{{clientUser.userid}}
+                                    h5.list-group-item-text &nbsp;&nbsp;&nbsp; {{clientUser.username}}
                         div.modal-footer
                             button.btn.btn-primary(type="button", data-dismiss="modal") 确定
 
