@@ -37,11 +37,11 @@ block content
                             li(ng-if="vm.clientList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.clientList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryName}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryService.queryName}}
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(href="",ng-click="vm.query('全部')") 全部
+                                        a(href="",ng-click="vm.queryService.query('全部')") 全部
                                     li
                                         a(href="", data-toggle="modal", data-target="#clientSearch") 条件查询
             //弹出层，客户条件查询表单
@@ -55,12 +55,12 @@ block content
                         div.modal-body
                             div.row
                                 div.col-md-12
-                                    div(npt-form="vm.clientSearchFormOptions",model="vm.searchModel")
+                                    div(npt-form="vm.clientSearchFormOptions",model="vm.queryService.searchModel")
                         div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.clientSearchConfirm('条件查询', vm.searchModel)") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.queryService.clientSearchConfirm('条件查询', vm.queryService.searchModel)") 确认
 
-            div(npt-grid="vm.clientListGridOptions",model="vm.clientList.data")
+            div(npt-grid="vm.clientListGridOptions",model="vm.queryService.clientList.data")
 
         //详情模板
         script(type="text/ng-template", id="detail.html")
@@ -120,14 +120,8 @@ block content
                         div.modal-body
                             div.list-group
                                 a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersModel.data.clientUsers")
-                                    p.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属机构"}}
-                                    p.list-grout-item-text {{clientUser.userid}}
-                                a.list-group-item(href="")
-                                    p.list-group-item-heading 业务员模拟数据
-                                    p.list-grout-item-text 业务员名字模拟
-                                a.list-group-item(href="")
-                                    p.list-group-item-heading 业务员模拟数据
-                                    p.list-grout-item-text 业务员名字模拟
+                                    h6.glyphicon.glyphicon-triangle-right.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属机构"}}
+                                    h5.list-group-item-text &nbsp;&nbsp;&nbsp;{{clientUser.userid}}
                         div.modal-footer
                             button.btn.btn-primary(type="button", data-dismiss="modal") 确定
 

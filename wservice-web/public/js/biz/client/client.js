@@ -58,11 +58,50 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("QueryInstClientInfoById", function(nptRepository){
         return nptRepository("queryInstClientInfoById");
     })
-    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
-        var vm = this;
-        vm.searchModel = {};
+    .service("InstClientsQueryService", function(Notification, QueryInstClients){
+        var self = this;
+        self.searchModel = {};
         //客户列表数据库资源
-        vm.clientList = QueryInstClients;
+        self.clientList = QueryInstClients;
+
+        //查询当前用户的客户列表
+        self.query = function (name,params) {
+            params = params || {};
+            self.clientList.post(params).then(function(){
+                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
+                self.queryName = name;
+            }, function(error){
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
+            });
+        };
+
+        //根据条件查询当前用户的客户列表
+        self.clientSearchConfirm = function (name, params) {
+            params = params || {};
+            if(!params.contactman){
+                delete params.contactman;
+            }
+            if(!params.fullname){
+                delete params.fullname;
+            }
+            self.clientList.post(params).then(function(){
+                self.queryName = name;
+            }, function(error){
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
+            });
+        };
+
+        //首先查询全部客户
+        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
+            self.query('全部');
+        }
+    })
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm, InstClientsQueryService) {
+        var vm = this;
+        vm.queryService = InstClientsQueryService;
+//        vm.searchModel = {};
+//        //客户列表数据库资源
+//        vm.clientList = QueryInstClients;
 
         vm.clientListGridOptions = {
            store:ClientListGrid,
@@ -81,38 +120,38 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         /**
          * 查询当前用户的客户列表
          */
-        vm.query = function (name,params) {
-            params = params || {};
-            vm.clientList.post(params).then(function(){
-                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
-        };
-
-        /**
-         * 根据条件查询当前用户的客户列表
-         */
-        vm.clientSearchConfirm = function (name, params) {
-            params = params || {};
-            if(!params.contactman){
-                delete params.contactman;
-            }
-            if(!params.fullname){
-                delete params.fullname;
-            }
-            vm.clientList.post(params).then(function(){
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
-        };
-
-        //首先查询全部客户
-        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
-            vm.query('全部');
-        }
+//        vm.query = function (name,params) {
+//            params = params || {};
+//            vm.clientList.post(params).then(function(){
+//                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
+//                vm.queryName = name;
+//            }, function(error){
+//                Notification.error({message: '查询客户列表失败.', delay: 2000});
+//            });
+//        };
+//
+//        /**
+//         * 根据条件查询当前用户的客户列表
+//         */
+//        vm.clientSearchConfirm = function (name, params) {
+//            params = params || {};
+//            if(!params.contactman){
+//                delete params.contactman;
+//            }
+//            if(!params.fullname){
+//                delete params.fullname;
+//            }
+//            vm.clientList.post(params).then(function(){
+//                vm.queryName = name;
+//            }, function(error){
+//                Notification.error({message: '查询客户列表失败.', delay: 2000});
+//            });
+//        };
+//
+//        //首先查询全部客户
+//        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
+//            vm.query('全部');
+//        }
     })
 
     .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById, nptCache) {
