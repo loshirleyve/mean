@@ -196,7 +196,6 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'name',
                     type: 'input',
                     templateOptions: {
-                        required: true,
                         label: '产品名称:',
                         placeholder: "请输入产品名称"
                     }
@@ -267,6 +266,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'sort',
                     type: 'numberInput',
                     templateOptions: {
+                        required: true,
                         label: '排序:',
                         numberMask: 0,
                         max: 99999,
@@ -297,6 +297,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'name',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '阶段名称:'
                     }
                 },
@@ -304,6 +305,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'duty',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '阶段职责:'
                     }
                 },
@@ -326,6 +328,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'processdays',
                     type: 'numberInput',
                     templateOptions: {
+                        required: true,
                         label: '自购买日几天起:',
                         numberMask: 0,
                         max: 99999,
@@ -336,6 +339,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'cyclevalue',
                     type: 'numberInput',
                     templateOptions: {
+                        required: true,
                         label: '服务次数:',
                         numberMask: 0,
                         max: 99999,
@@ -346,6 +350,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'times',
                     type: 'numberInput',
                     templateOptions: {
+                        required: true,
                         label: '办理天数:',
                         numberMask: 0,
                         max: 99999,
@@ -356,6 +361,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'sortno',
                     type: 'numberInput',
                     templateOptions: {
+                        required: true,
                         label: '排序:',
                         numberMask: 0,
                         max: 99999,
@@ -364,7 +370,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '阶段说明:'
                     }
@@ -407,13 +413,16 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     key: 'synopsis',
                     type: 'textarea',
                     templateOptions: {
+                        required: true,
                         label: '内容描述:'
                     }
                 },
                 {
                     key: 'sort',
                     type: 'numberInput',
-                    templateOptions: {
+                    templateOptions:
+                    {
+                        required: true,
                         label: '排序:',
                         numberMask: 0,
                         max: 99999,
@@ -564,7 +573,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 },
                 {
                     key: 'descrvalue',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '内容:',
                         required: true

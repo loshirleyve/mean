@@ -106,6 +106,10 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         label: '是否完成:',
                         options:[
                             {
+                                name:"不选",
+                                id:'no'
+                            },
+                            {
                                 name:"是",
                                 id:'1'
                             },
