@@ -157,7 +157,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         vm.model = {};
 
         vm.ok = function () {
-            $uibModalInstance.close(vm.model)
+            $uibModalInstance.close(vm.model);
         };
 
         vm.cancel = function () {

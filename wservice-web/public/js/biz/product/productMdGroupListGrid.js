@@ -37,7 +37,7 @@ angular.module("productApp.productMdGroupListGrid", [])
                     type: "del",
                     listens: [
                         function (params,RemoveProductMdGroup) {
-                           return  RemoveProductMdGroup.post({groupid: params.item.id})
+                           return  RemoveProductMdGroup.post({groupid: params.item.id});
                         }
                     ]
                 }
