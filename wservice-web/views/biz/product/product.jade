@@ -79,8 +79,6 @@ block content
 
             div(npt-grid="vm.productListGridOptions",model="vm.queryService.reposProducts.data")
 
-
-
         script(type="text/ng-template",id="query.html")
             //弹出层，客户条件查询表单
             div.modal-header
@@ -93,9 +91,8 @@ block content
                         label.control-label 产品名称：
                         input.form-control(ng-model="vm.model.name")
             div.modal-footer
-                button.btn.btn-default(type="button",ng-click="vm.cancel()") 关闭
-                button.btn.btn-primary(type="button",ng-click="vm.ok()") 确认
-
+                button.btn.btn-default(type="button",data-dismiss="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
         //新增产品
         script(type="text/ng-template",id="add.html")
             //功能导航区域

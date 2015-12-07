@@ -60,6 +60,20 @@ block content
 
             div(npt-grid="vm.clientListGridOptions",model="vm.queryService.clientList.data")
 
+        script(type="text/ng-template",id="query.html")
+            //弹出层，客户条件查询表单
+            div.modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close", ng-click="vm.cancel()")
+                    span(aria-hidden="true")&times;
+                h4.modal-title 客户查询
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        div(npt-form="vm.clientSearchFormOptions",model="vm.searchModel")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="modal", ng-click="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
+
         //详情模板
         script(type="text/ng-template", id="detail.html")
             //功能导航区域

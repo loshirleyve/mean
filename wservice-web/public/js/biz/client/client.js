@@ -58,12 +58,12 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("QueryInstClientInfoById", function(nptRepository){
         return nptRepository("queryInstClientInfoById");
     })
-    .service("InstClientsQueryService", function(Notification, QueryInstClients){
+    .service("InstClientsQueryService", function(Notification, QueryInstClients,QueryCtrlCode, $uibModal){
         var self = this;
-        self.searchModel = {};
+
         //客户列表数据库资源
         self.clientList = QueryInstClients;
-
+        //self.clientList.refresh();
         //查询当前用户的客户列表
         self.query = function (params) {
             params = params || {};
@@ -79,35 +79,45 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //建立待查询列表
         self.queryList = [{
             label: "全部",
-            type: "all",
             callback: function () {
                 self.query();
             }
-        }, {
-            label: "A类-客户等级",
-            type: "A",
+        },{
+            label: "条件查询",
             callback: function () {
-                self.query({
-                    level:"A"
-                });
-            }
-        }, {
-            label: "B类-客户等级",
-            type: "B",
-            callback: function () {
-                self.query({
-                    level:"B"
-                });
-            }
-        }, {
-            label: "C类-客户等级",
-            type: "C",
-            callback: function () {
-                self.query({
-                    level:"C"
-                });
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'query.html',
+                    controller: 'clientListQueryController',
+                    controllerAs: 'vm'
+                }).result.then(function (response) {
+                        //查询
+                        params = response || {};
+                        self.query(params);
+                    }, function () {
+                        //用户关闭
+
+                    });
             }
         }];
+
+        function queryByLevel(queryType){
+           return function(){
+               self.query({
+                   level:queryType.no
+               });
+           }
+        }
+
+        //查询控制编码
+        QueryCtrlCode.post({"defno":"clientlevel"}).then(function(response){
+            angular.forEach(response.data,function(value){
+                self.queryList.push({
+                    label: value.no +"等级",
+                    callback:queryByLevel(value)
+                })
+            });
+        });
 
         //选择查询列表
         self.selectQuery = function (query) {
@@ -122,16 +132,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         //选择一个默认查询
         self.selectQuery(self.queryList[0]);
     })
-    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm, InstClientsQueryService) {
+    .controller("clientListQueryController", function ($uibModalInstance, ClientSearchForm) {
         var vm = this;
-        vm.queryService = InstClientsQueryService;
 
-        vm.clientListGridOptions = {
-           store:ClientListGrid,
-            onRegisterApi:function(nptGridApi){
-                vm.nptGridApi = nptGridApi;
-            }
-        };
+        vm.searchModel = {};
 
         //客户条件查询表单配置
         vm.clientSearchFormOptions = {
@@ -141,6 +145,24 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
 
+        vm.ok = function () {
+            $uibModalInstance.close(vm.searchModel)
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, InstClientsQueryService) {
+        var vm = this;
+        vm.queryService = InstClientsQueryService;
+
+        vm.clientListGridOptions = {
+           store:ClientListGrid,
+            onRegisterApi:function(nptGridApi){
+                vm.nptGridApi = nptGridApi;
+            }
+        };
     })
 
     .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {

@@ -20,6 +20,15 @@ angular.module("clientApp.clientSearchForm", ["ui.neptune"])
                     }
                 },
                 {
+                    key: 'contactphone',
+                    type: 'maskedInput',
+                    templateOptions: {
+                        label: '手机号:',
+                        placeholder: "请输入手机号",
+                        "mask":"999 9999 9999"
+                    }
+                },
+                {
                     key: 'fullname',
                     type: 'input',
                     templateOptions: {
