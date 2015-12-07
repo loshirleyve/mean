@@ -31,6 +31,12 @@ block content
                     h4 用户个人信息
                 div.page-body
                     div.col-md-4
+                        div.thumbnail(href="")
+                            img(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+
+
+
+
                         button.btn.btn-primary(type="button", ng-click="vm.open()") 选择图片
                         div(npt-select-image="vm.selectImageOptions")
                         hr

@@ -24,6 +24,9 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
+    .factory("QueryFileById", function(nptRepository){
+        return nptRepository("QueryFileById");
+    })
 //    .factory("QueryUserInfoById", function(nptRepository, nptSessionManager){
 //        return nptRepository("QueryUserInfoById").params({
 //           "userid":nptSessionManager.getSession().getUser().id
@@ -34,7 +37,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
            "userid":"10000001466017"
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, $log, QueryImageByUserLevel,nptCache){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, $log, QueryImageByUserLevel,nptCache, QueryFileById, nptSessionManager){
         var vm = this;
         vm.userInfo = queryUserInfoById;
 
@@ -48,7 +51,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             single: true
         };
 
-        vm.imageOptions = {
+        /*vm.imageOptions = {
             repository:QueryImageByUserLevel.addResponseInterceptor(function(response) {
                 if (response.data) {
                     response.data.forEach(function(item) {
@@ -66,6 +69,31 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             emptyImage:"https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150",
             errorImage:"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/logo_white_fe6da1ec.png"
         };
+*/
+//        vm.imageOptions = {
+//            repository: QueryFileById,
+//            searchProp: "fileid",
+//            labelProp: "thumbnailUrl"
+//        };
+
+        vm.profile = {
+            user: undefined,
+            inst: undefined,
+            init: function () {
+                var self = this;
+                //this.user = sessionData.getUser();
+                //this.inst = sessionData.getInst();
+                this.user = nptSessionManager.getSession().getUser();
+                this.inst = nptSessionManager.getSession().getInst();
+            }
+        };
+
+
+
+
+
+
+
 
         vm.open = function () {
             if (vm.selectImageApi) {
