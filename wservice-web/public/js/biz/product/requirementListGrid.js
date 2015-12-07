@@ -5,6 +5,9 @@ angular.module("productApp.requirementListGrid", [])
     .factory("requirementListGrid", function (nptGridStore) {
         return nptGridStore("requirementListGrid", {
             gridOptions: {
+                multiSelect: true,
+                enableRowSelection: false,
+                enableSelectAll: true,
                 columnDefs: [
                     {field: 'attachname', displayName: "资料名称", width: 120},
                     {field: 'inputtype', displayName: "交接类型", width: 100},

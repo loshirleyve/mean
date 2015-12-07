@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productMdGroupListGrid", [])
-    .factory("productMdGroupListGrid", function (nptGridStore,addGroupForm,editGroupForm,ProductQueryService) {
+    .factory("productMdGroupListGrid", function (nptGridStore, addGroupForm, editGroupForm) {
         return nptGridStore("productMdGroupListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -14,40 +14,59 @@ angular.module("productApp.productMdGroupListGrid", [])
                 add: {
                     label: "添加",
                     type: "add",
-                    target:addGroupForm,
+                    target: addGroupForm,
                     listens: [
-                        function (params, $timeout, $q) {
-                            var deferd = $q.defer();
-                            $timeout(function () {
-                                ProductQueryService.addGroup(params,$q);
-                            }, 500);
-                            return deferd.promise;
-                        },
-                        function () {
-                            return "我是第二个方法";
+                        function (params, $q, $timeout, AddOrUpdateMdProductGroup) {
+                            return AddOrUpdateMdProductGroup.post();
                         }
+//                        ,
+//                        function ($timeout) {
+//                            var deferd = $q.defer();
+//
+//                            $timeout(function () {
+//                                deferd.resolve({
+//                                    name: "leon"
+//                                });
+//                            }, 3000);
+//
+//                            deferd.promise.then(function (response) {
+//                                return response;
+//                            }, function (error) {
+//                                return error;
+//                            });
+//
+//                            return deferd.promise;
+//                        }, function () {
+//                            return {
+//                                test: "def"
+//                            }
+//                        }
                     ]
                 },
                 edit: {
                     label: "编辑",
                     type: "edit",
-                    target:editGroupForm,
+                    target: editGroupForm,
                     listens: [
                         function (params, $timeout, $q) {
-                            var deferd = $q.defer();
-                            $timeout(function () {
-                                ProductQueryService.addGroup(params,$q);
-                            }, 500);
-                            return deferd.promise;
-                        },
-                        function () {
-                            return "我是第二个方法";
+//                            var deferd = $q.defer();
+//                            $timeout(function () {
+//                                ProductQueryService.addGroup(params, $q).then(function () {
+//                                    deferd.resolve();
+//                                });
+//                            }, 500);
+//                            return deferd.promise;
                         }
                     ]
                 },
                 del: {
                     label: "删除",
-                    type: "del"
+                    type: "del",
+                    listens: [
+                        function (params, $timeout, $q) {
+                            return RemoveProductMdGroup.post();
+                        }
+                    ]
                 }
             }
         });

@@ -183,6 +183,27 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
             ]
         });
     })
+    .factory("productSearchForm", function (nptFormlyStore) {
+        return nptFormlyStore("productSearchForm", {
+            options: {
+                formState: {
+                    disabled: false
+                }
+
+            },
+            fields: [
+                {
+                    key: 'name',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '产品名称:',
+                        placeholder: "请输入产品名称"
+                    }
+                }
+            ]
+        });
+    })
     .factory("addGroupForm", function (nptFormlyStore) {
         return nptFormlyStore("addGroupForm", {
             buttons: {

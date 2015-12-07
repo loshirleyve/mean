@@ -86,19 +86,19 @@ block content
                             li
                                 button.btn.btn-info.navbar-btn(role="button", data-toggle="modal", data-target="#clientAdviserModal") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                             li
-                                button.btn.btn-primary.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
+                                button.btn.btn-default.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
                             li
-                                button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.reset()") 重置
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.reset()") 重置
                             li
-                                button.btn.btn-info.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
+                                button.btn.btn-default.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.goToList()") 返回
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.goToList()") 返回
                             li
                                 | &nbsp &nbsp &nbsp &nbsp
 
