@@ -106,7 +106,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                self.query({
                    level:queryType.no
                });
-           }
+           };
         }
 
         //查询控制编码
@@ -115,7 +115,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 self.queryList.push({
                     label: value.no +"等级",
                     callback:queryByLevel(value)
-                })
+                });
             });
         });
 
@@ -146,7 +146,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.ok = function () {
-            $uibModalInstance.close(vm.searchModel)
+            $uibModalInstance.close(vm.searchModel);
         };
 
         vm.cancel = function () {
