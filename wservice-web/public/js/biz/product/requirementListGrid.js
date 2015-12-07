@@ -10,8 +10,8 @@ angular.module("productApp.requirementListGrid", [])
                 enableSelectAll: true,
                 columnDefs: [
                     {field: 'attachname', displayName: "资料名称", width: 120},
-                    {field: 'inputtype', displayName: "交接类型", width: 100},
-                    {field: 'transfertype', displayName: "资料类型", width: 100},
+                    {field: 'inputtype', displayName: "交接类型", width: 100,cellFilter: "ctrlCodeFilter:'inputtype':'name':'no'"},
+                    {field: 'transfertype', displayName: "资料类型", width: 100,cellFilter: "ctrlCodeFilter:'transfertype':'name':'no'"},
                     {field: 'inputdesc', displayName: "要求描述", width: 100}
                 ]
             }
