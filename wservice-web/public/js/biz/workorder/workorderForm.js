@@ -107,7 +107,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
             fields: [
                 {
                     key: 'postscript',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '附言:',
                         required: false
@@ -120,7 +120,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
             fields: [
                 {
                     key: 'postscript',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '附言:',
                         required: false
@@ -145,7 +145,7 @@ angular.module("workorderApp.workorderForm", ["ui.neptune"])
                 },
                 {
                     key: 'postscript',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         label: '附言:',
                         required: false

@@ -37,30 +37,42 @@ block content
                             li(ng-if="vm.clientList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.clientList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryName}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.query('全部')") 全部
-                                    li
-                                        a(href="", data-toggle="modal", data-target="#clientSearch") 条件查询
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
             //弹出层，客户条件查询表单
             div#clientSearch.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
                             button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
+                                span(aria-hidden="true")&times;
                             h4.modal-title 客户查询
                         div.modal-body
                             div.row
                                 div.col-md-12
-                                    div(npt-form="vm.clientSearchFormOptions",model="vm.searchModel")
+                                    div(npt-form="vm.clientSearchFormOptions",model="vm.queryService.searchModel")
                         div.modal-footer
                                 button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.clientSearchConfirm('条件查询', vm.searchModel)") 确认
+                                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.queryService.clientSearchConfirm('条件查询', vm.queryService.searchModel)") 确认
 
-            div(npt-grid="vm.clientListGridOptions",model="vm.clientList.data")
+            div(npt-grid="vm.clientListGridOptions",model="vm.queryService.clientList.data")
+
+        script(type="text/ng-template",id="query.html")
+            //弹出层，客户条件查询表单
+            div.modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close", ng-click="vm.cancel()")
+                    span(aria-hidden="true")&times;
+                h4.modal-title 客户查询
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        div(npt-form="vm.clientSearchFormOptions",model="vm.searchModel")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="modal", ng-click="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
 
         //详情模板
         script(type="text/ng-template", id="detail.html")
@@ -85,20 +97,22 @@ block content
                                 a(href="") 正在查询,请稍后...
                     div(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
                         ul.nav.navbar-nav.navbar-right
+                            li
+                                button.btn.btn-info.navbar-btn(role="button", data-toggle="modal", data-target="#clientAdviserModal") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
                                 button.btn.btn-default.navbar-btn(type="button",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                             li
-                                button.btn.btn-info.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
+                                button.btn.btn-default.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
                             li
-                                button.btn.btn-primary.navbar-btn(type="button",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.updateSave(vm.clientInfo.data)") 保存
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.reset()") 重置
                             li
-                                button.btn.btn-danger.navbar-btn(type="button",ng-click="vm.reset()") 重置
+                                button.btn.btn-default.navbar-btn(ng-click="vm.goToAddClient()",role="button") 新增客户
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.previous(vm.clientInfo.data)",ng-show="vm.clientList.previous(vm.clientInfo.data)") 上一个
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.next(vm.clientInfo.data)",ng-show="vm.clientList.next(vm.clientInfo.data)") 下一个
                             li
-                                button.btn.btn-info.navbar-btn(type="button",ng-click="vm.goToList()") 返回
+                                button.btn.btn-default.navbar-btn(type="button",ng-click="vm.goToList()") 返回
                             li
                                 | &nbsp &nbsp &nbsp &nbsp
 
@@ -107,6 +121,21 @@ block content
                h4 基本信息
             div.page-body
                div(npt-form="vm.clientFormOptions",model="vm.model.client")
+            //弹出层，显示客户机构和业务员
+            div#clientAdviserModal.modal.fade(tabindex="-1",role="dialog")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            button.close(type="button", data-dismiss="modal", aria-label="Close")
+                                span(aria-hidden="true") &times;
+                            h4.modal-title 客户机构和业务员
+                        div.modal-body
+                            div.list-group
+                                a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersIRN")
+                                    h6.glyphicon.glyphicon-triangle-right.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属机构"}}
+                                    h5.list-group-item-text &nbsp;&nbsp;&nbsp; {{clientUser.username}}
+                        div.modal-footer
+                            button.btn.btn-primary(type="button", data-dismiss="modal") 确定
 
         //新增客户模板
         script(type="text/ng-template", id="addClient.html")

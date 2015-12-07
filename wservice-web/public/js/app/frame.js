@@ -54,6 +54,13 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     self.resizeFrame();
                 }
             },
+            navigateToUrl: function navigateTo(url) {
+                if (url) {
+                    self.moduleUrl = url;
+                    self.setFocus();
+                    self.resizeFrame();
+                }
+            },
             findByName: function (name) {
                 var tempMenuItem;
                 angular.forEach(self.menus, function (menu) {
@@ -78,21 +85,24 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     }
                 });
 
-                //设置当前选择项
-                angular.forEach(self.menus, function (menu) {
-                    var parent = menu;
-                    if (menu.items) {
-                        angular.forEach(menu.items, function (menuItem) {
-                            if (item.no === menuItem.no) {
-                                parent.selected = true;
-                                menuItem.selected = true;
-                            }
-                        });
-                    }
-                });
+                if (item) {
+                    //设置当前选择项
+                    angular.forEach(self.menus, function (menu) {
+                        var parent = menu;
+                        if (menu.items) {
+                            angular.forEach(menu.items, function (menuItem) {
+                                if (item.no === menuItem.no) {
+                                    parent.selected = true;
+                                    menuItem.selected = true;
+                                }
+                            });
+                        }
+                    });
+                }
+
 
             },
-            resizeFrame : function() {
+            resizeFrame: function () {
                 // 在每次重新设置iframe高度后，$('.content-wrapper').height()都会+5，找不到原因
                 // 所以这里在设置前先保存一次原高度
                 this.frameHeight = this.frameHeight || $('.content-wrapper').height();
@@ -105,12 +115,12 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
 
         return self;
     })
-    .controller("MainController", function ($scope,sessionData, NavigateMenu, QueryFileById) {
+    .controller("MainController", function ($scope, sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
         $.AdminLTE.layout.fix();    // 重新计算界面content-wrapper高度
         // iframe初始化时，重新计算iframe高度
-        $("#contentIFrame").load(function() {
+        $("#contentIFrame").load(function () {
             NavigateMenu.resizeFrame();
         });
 

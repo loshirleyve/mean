@@ -27,8 +27,9 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             .otherwise({
                 redirectTo: "/list"
             });
-    }).factory("queryInstList", function (nptRepository) {
+    }).factory("queryInstList", function (nptRepository,nptSessionManager) {
         return nptRepository("queryInsts").params({
+            id: nptSessionManager.getSession().getInst().id
         });
     }).factory("queryInstInfo", function (nptRepository) {
         return nptRepository("queryInstDetail").params({
@@ -46,7 +47,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             self.instList.post(name).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({message: '查询机构数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({title: '查询机构数据出现错误,请稍后再试.',message: error.data.cause, delay: 2000});
             });
         };
         //选择一个默认查询
@@ -119,11 +120,13 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             params.tel=vm.model.tel;
             params.updateby=vm.userid;
             vm.updateInst.post(params).then(function(response){
-                $location.path("/list");
-                vm.instListQuery.query("");
+                Notification.success({
+                    message: "保存机构成功.",
+                    delay: 2000
+                });
             },function(error)
             {
-                Notification.error({message: '修改失败,请稍后再试.', delay: 2000});
+                Notification.error({title: '修改失败,请稍后再试.',message: error.data.cause, delay: 2000});
             });
         };
 

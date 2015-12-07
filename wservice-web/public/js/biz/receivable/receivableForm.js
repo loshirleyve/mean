@@ -28,8 +28,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
-                        repository: QueryPayModeType,
-                        search:['name']
+                        repository: QueryPayModeType
                     }
                 },
                 {
@@ -106,6 +105,10 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         labelProp:"name",
                         label: '是否完成:',
                         options:[
+                            {
+                                name:"不选",
+                                id:'no'
+                            },
                             {
                                 name:"是",
                                 id:'1'

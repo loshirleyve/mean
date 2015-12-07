@@ -1,7 +1,7 @@
 /**
  * Created by rxy on 15/11/3.
  */
-angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid","receivableApp.receivableForm", "wservice.common", "ngRoute","ui-notification"])
+angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid", "receivableApp.receivableForm", "wservice.common", "ngRoute", "ui-notification"])
     .config(function ($routeProvider) {
         //注册产品路由
         $routeProvider
@@ -39,7 +39,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
     }).factory("QueryReceivableList", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryPayRegisters").params({
             instid: nptSessionManager.getSession().getInst().id,
-            createby:nptSessionManager.getSession().getUser().id
+            createby: nptSessionManager.getSession().getUser().id
         });
     }).factory("QueryPayRegisterInfo", function (nptRepository) {
         return nptRepository("QueryPayRegisterByid").params({
@@ -48,13 +48,13 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         return nptRepository("UpdateByCollect").params({
         });
     })
-    .factory("QueryPayModeType", function (nptRepository,nptSessionManager) {
+    .factory("QueryPayModeType", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryPayModeType").addRequestInterceptor(function (request) {
             request.params.instid = nptSessionManager.getSession().getInst().id;
             return request;
         });
     })
-    .service("receivableListQueryService", function (Notification, QueryReceivableList) {
+    .service("receivableListQueryService", function (Notification, QueryReceivableList,$uibModal) {
         var self = this;
 
         self.receivableList = QueryReceivableList;
@@ -64,34 +64,58 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             self.receivableList.post(params).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({message: '查询收款数据出现错误,请稍后再试.', delay: 2000});
+                Notification.error({title: '查询收款数据出现错误,请稍后再试.',message: error.data.cause, delay: 2000});
             });
         };
 
         //建立待查询列表
-        self.queryList = [{
-            label: "全部",
-            type: "all",
-            callback: function () {
-                self.query();
+        self.queryList = [
+            {
+                label: "全部",
+                type: "all",
+                callback: function () {
+                    self.query();
+                }
+            },
+            {
+                label: "未收款",
+                type: "0",
+                callback: function () {
+                    self.query({
+                        complete: "0"
+                    });
+                }
+            },
+            {
+                label: "已收款",
+                type: "1",
+                callback: function () {
+                    self.query({
+                        complete: "1"
+                    });
+                }
+            },
+            {
+                label: "条件查询",
+                callback: function () {
+                    $uibModal.open({
+                        animation: true,
+                        templateUrl: 'query.html',
+                        controller: 'receivableListQueryController',
+                        controllerAs: 'vm'
+                    }).result.then(function (response) {
+                            //查询
+
+                            var params=angular.copy(response);
+                            if(params.complete=='no')
+                                delete params.complete;
+                            self.query(params);
+                        }, function () {
+                            //用户关闭
+                        });
+                }
             }
-        }, {
-            label: "未收款",
-            type: "0",
-            callback: function () {
-                self.query({
-                    complete: "0"
-                });
-            }
-        }, {
-            label: "已收款",
-            type: "1",
-            callback: function () {
-                self.query({
-                    complete: "1"
-                });
-            }
-        }];
+        ];
 
         //选择查询列表
         self.selectQuery = function (query) {
@@ -105,8 +129,9 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
         //选择一个默认查询
         self.selectQuery(self.queryList[0]);
+
     })
-    .controller("receivableListController", function ($scope, $http, $location, receivableListGrid,receivableListQueryService,receivableSearchForm) {
+    .controller("receivableListController", function ($scope, $http, $location, receivableListGrid, receivableListQueryService) {
         var vm = this;
 
         vm.queryService = receivableListQueryService;
@@ -117,6 +142,11 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 vm.nptGridApi = nptGridApi;
             }
         };
+
+
+    }).controller("receivableListQueryController", function ($uibModalInstance,receivableSearchForm) {
+        var vm = this;
+
         vm.receivableSearchFormOptions = {
             store: receivableSearchForm,
             onRegisterApi: function (nptFormApi) {
@@ -124,28 +154,18 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             }
         };
 
-        vm.search=function()
-        {
-            var params=[];
-            params.businessKey=vm.search.businessKey;
-            params.begindate=vm.search.begindate;
-            params.enddate=vm.search.enddate;
-            params.complete=vm.search.complete;
-            if(!params.businessKey){
-                delete params.businessKey;
-            }
-            if(!params.begindate){
-                delete params.begindate;
-            }
-            if(!params.enddate){
-                delete params.enddate;
-            }
-            vm.queryService.query(params);
+        vm.model = {};
+
+        vm.ok = function () {
+            $uibModalInstance.close(vm.model)
         };
 
-    }).controller("receivableDetailController", function ($scope, $location, $routeParams,QueryReceivableList, QueryPayRegisterInfo) {
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }).controller("receivableDetailController", function ($scope, $location, $routeParams, QueryReceivableList, QueryPayRegisterInfo) {
 
-        var vm=this;
+        var vm = this;
         vm.receivableId = $routeParams.id;
         vm.receivableList = QueryReceivableList;
         vm.receivableInfo = QueryPayRegisterInfo;
@@ -155,12 +175,12 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
 
         vm.query = function () {
-            if (vm.receivableId ) {
+            if (vm.receivableId) {
                 vm.receivableInfo.post({
-                    payRegisterId:  vm.receivableId
+                    payRegisterId: vm.receivableId
                 }).then(function (response) {
                     vm.model = response.data;
-                    vm.modelCollections=response.data.payRegisterCollects;
+                    vm.modelCollections = response.data.payRegisterCollects;
                 }, function (error) {
                     var de = error;
                 });
@@ -194,15 +214,15 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
         vm.query();
     })
-    .controller("receivableConfirmController", function ($scope, $location, $routeParams,QueryPayRegisterInfo,UpdateByCollect,Notification,receivableForm,nptSessionManager) {
+    .controller("receivableConfirmController", function ($scope, $location, $routeParams, QueryPayRegisterInfo, UpdateByCollect, Notification, receivableForm, nptSessionManager) {
 
-        var vm=this;
+        var vm = this;
         vm.receivableId = $routeParams.id;
         //数据模型
-        vm.model={};
+        vm.model = {};
         vm.modelReceivable = {};
         vm.receivableInfo = QueryPayRegisterInfo;
-        vm.updateByCollect=UpdateByCollect;
+        vm.updateByCollect = UpdateByCollect;
         vm.userid = nptSessionManager.getSession().getUser().id;
         vm.receivableConfirmFormOptions = {
             store: receivableForm,
@@ -233,14 +253,14 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             if (vm.nptFormApi.form.$invalid) {
                 Notification.error({message: '请正确输入收款信息.', delay: 2000});
             } else {
-                vm.model.payRegisterId=vm.receivableId;
-                vm.model.createby=vm.userid;
-                vm.model.payregisterid=vm.userid;
+                vm.model.payRegisterId = vm.receivableId;
+                vm.model.createby = vm.userid;
+                vm.model.payregisterid = vm.userid;
                 vm.updateByCollect.post(vm.model).then(function (response) {
                     Notification.success({message: '确认收款成功!', delay: 2000});
                     vm.toDetail();
                 }, function (error) {
-                    Notification.error({message: '确认收款失败,发生服务器错误,请稍后重新尝试.', delay: 2000});
+                    Notification.error({title: '确认收款失败,发生服务器错误,请稍后重新尝试.', message: error.data.cause,delay: 2000});
                 });
             }
         };

@@ -26,7 +26,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 必须输入汉字！"'
+                            message: '"客户公司名称必须是汉字!"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
@@ -34,15 +34,19 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                 {
                     key: 'name',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '客户公司简称:',
-                        placeholder: "请输入客户公司简称"
+                        placeholder: "请输入客户公司简称",
+                        reversal: true,
+                        searchProp:"name",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 必须输入汉字！"'
+                            message: '"客户公司简称必须是汉字！"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
@@ -62,7 +66,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     validators: {
                         format: {
                             expression: RegExpValidatorFactory.createRegExpValidator(/^[a-z0-9A-Z]{4,8}$/i),
-                            message: '$viewValue + " 是无效的编号"'
+                            message: '"请输入4至8位由字母或数字组成的客户编号！"'
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }

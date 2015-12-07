@@ -59,6 +59,9 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateMdProductGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateMdProductGroupService"
+}).action("UpdateProductState", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateProductStateService"
 }).action("QueryMdProductGroupBylocation", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMdProductGroupBylocationService"
@@ -71,12 +74,10 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
-})
-.action("AddProductRequirement", {
+}).action("AddProductRequirement", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddProductRequirementService"
-})
-.action("AddOrUpdateProductProfile", {
+}).action("AddOrUpdateProductProfile", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
 }).action("AddOrUpdateProductGroup", {
@@ -88,6 +89,36 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateProductDescr", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductDescrService"
+}).action("QueryProductPhaseInfo", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductPhaseInfoByIdService"
+}).action("QueryProductProfileInfo", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductProfileInfoByIdService"
+}).action("QueryProductGroupInfo", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductGroupInfoByIdService"
+}).action("QueryProductClassifyInfo", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductClassifyInfoByIdService"
+}).action("QueryProductDescrInfo", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductDescrInfoByIdService"
+}).action("QueryProductPhaseByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
+}).action("QueryProductProfileByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductProfileByProductidService"
+}).action("QueryProductGroupByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductGroupByProductidService"
+}).action("QueryProductClassifyByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductClassifyByProductidService"
+}).action("QueryProductDescrByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductDescrByProductidService"
 }).action("RemoveProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductPhaseService"
@@ -106,42 +137,39 @@ proxy.action("queryCities", {
 }).action("RemoveProductDescr", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductDescrService"
-}).action("QueryProductPhaseByProductid", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
 }).action("QueryRequirementsByInstid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
 });
 
 //工单
-proxy.action("queryWorkorderList", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
-}).action("queryWorkorderDetail", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
-}).action("queryUsersByOrgid", {
+proxy.action("queryUsersByOrgid", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
 }).action("queryOrgTree", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryOrgTreeService"
-}).action("startWorkorder", {
+}).action("updateWorkOrderInserviceById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderInserviceByIdService"
-}).action("completeWorkorder", {
+}).action("updateWorkOrderCompleteById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderCompleteByIdService"
 }).action("queryUsersByOrgid", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
-}).action("deliverWorkorder", {
+}).action("updateWorkorderByProcessid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
 }).action("queryWorkordersUnread", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkordersUnreadService"
+}).action("UpdateWorkOrderProcess", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderProcessService"
+}).action("updateWorkordersToRead", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
 });
 
 
@@ -161,6 +189,9 @@ proxy.action("queryInstClients", {
 }).action("instInit", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.InstInitService"
+}).action("queryInstClientInfoById",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryInstClientInfoByIdService"
 });
 
 

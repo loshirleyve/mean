@@ -1,7 +1,7 @@
 /**
  * Created by leon on 15/11/19.
  */
-var debug = require("debug")("wservice-web-middleware-loader");
+var debug = require("debug")("y9-wservice-web-middleware-loader");
 var fs = require('fs');
 var path = require('path');
 

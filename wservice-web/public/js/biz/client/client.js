@@ -55,18 +55,87 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("InstInit", function(nptRepository){
         return nptRepository("instInit");
     })
-    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
-        var vm = this;
-        vm.searchModel = {};
-        //客户列表数据库资源
-        vm.clientList = QueryInstClients;
+    .factory("QueryInstClientInfoById", function(nptRepository){
+        return nptRepository("queryInstClientInfoById");
+    })
+    .service("InstClientsQueryService", function(Notification, QueryInstClients,QueryCtrlCode, $uibModal){
+        var self = this;
 
-        vm.clientListGridOptions = {
-           store:ClientListGrid,
-            onRegisterApi:function(nptGridApi){
-                vm.nptGridApi = nptGridApi;
+        //客户列表数据库资源
+        self.clientList = QueryInstClients;
+        //self.clientList.refresh();
+        //查询当前用户的客户列表
+        self.query = function (params) {
+            params = params || {};
+            self.clientList.post(params).then(function(response){
+            }, function(error){
+                Notification.error({
+                    title: "查询客户列表失败.",
+                    message: error.data.cause, delay: 2000
+                });
+            });
+        };
+
+        //建立待查询列表
+        self.queryList = [{
+            label: "全部",
+            callback: function () {
+                self.query();
+            }
+        },{
+            label: "条件查询",
+            callback: function () {
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'query.html',
+                    controller: 'clientListQueryController',
+                    controllerAs: 'vm'
+                }).result.then(function (response) {
+                        //查询
+                        params = response || {};
+                        self.query(params);
+                    }, function () {
+                        //用户关闭
+
+                    });
+            }
+        }];
+
+        function queryByLevel(queryType){
+           return function(){
+               self.query({
+                   level:queryType.no
+               });
+           };
+        }
+
+        //查询控制编码
+        QueryCtrlCode.post({"defno":"clientlevel"}).then(function(response){
+            angular.forEach(response.data,function(value){
+                self.queryList.push({
+                    label: value.no +"等级",
+                    callback:queryByLevel(value)
+                });
+            });
+        });
+
+        //选择查询列表
+        self.selectQuery = function (query) {
+            if (query) {
+                self.currQuery = query;
+                if (query.callback) {
+                    query.callback();
+                }
             }
         };
+
+        //选择一个默认查询
+        self.selectQuery(self.queryList[0]);
+    })
+    .controller("clientListQueryController", function ($uibModalInstance, ClientSearchForm) {
+        var vm = this;
+
+        vm.searchModel = {};
 
         //客户条件查询表单配置
         vm.clientSearchFormOptions = {
@@ -75,44 +144,28 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 vm.nptClientFormApi = nptFormApi;
             }
         };
-        /**
-         * 查询当前用户的客户列表
-         */
-        vm.query = function (name,params) {
-            params = params || {};
-            vm.clientList.post(params).then(function(){
-                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
+
+        vm.ok = function () {
+            $uibModalInstance.close(vm.searchModel);
         };
 
-        /**
-         * 根据条件查询当前用户的客户列表
-         */
-        vm.clientSearchConfirm = function (name, params) {
-            params = params || {};
-            if(!params.contactman){
-                delete params.contactman;
-            }
-            if(!params.fullname){
-                delete params.fullname;
-            }
-            vm.clientList.post(params).then(function(){
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
         };
+    })
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, InstClientsQueryService) {
+        var vm = this;
+        vm.queryService = InstClientsQueryService;
 
-        //首先查询全部客户
-        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
-            vm.query('全部');
-        }
+        vm.clientListGridOptions = {
+           store:ClientListGrid,
+            onRegisterApi:function(nptGridApi){
+                vm.nptGridApi = nptGridApi;
+            }
+        };
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -126,7 +179,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
-        vm.model.clientBackup = {};
+        vm.clientDeUser = QueryInstClientInfoById;
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -208,9 +261,27 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            $route.reload();
+            vm.query();
         };
 
+        $('#clientAdviserModal').on('show.bs.modal', function($modelValue){
+            var param = {"instClient":vm.clientid} || {};
+            vm.clientDeUser.post(param)
+                .then(function(response){
+                    vm.clientUsersIRN = [];
+                    for(var i=0; i<response.data.clientUsers.length; i++){
+                        for(var key in response.cache.user){
+                            if(response.cache.user[key].id == response.data.clientUsers[i].userid){
+                                var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
+                                                   "username":response.cache.user[key].name};
+                                vm.clientUsersIRN.push(aClientUser);
+                            }
+                        }
+                    }
+                },function(){
+
+                });
+        });
         //更新客户信息
         vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){

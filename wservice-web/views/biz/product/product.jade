@@ -8,12 +8,7 @@ block titleContent
 block content
     script(src="/js/biz/product/productListGrid.js")
     script(src="/js/biz/product/productMdGroupListGrid.js")
-    script(src="/js/biz/product/productPhaseListGrid.js")
-    script(src="/js/biz/product/productRequirementListGrid.js")
-    script(src="/js/biz/product/productProfilesListGrid.js")
-    script(src="/js/biz/product/productGroupListGrid.js")
-    script(src="/js/biz/product/productClassifiesListGrid.js")
-    script(src="/js/biz/product/productDescrsListGrid.js")
+    script(src="/js/biz/product/requirementListGrid.js")
     script(src="/js/biz/product/productForm.js")
     script(src="/js/biz/product/product.js")
     div(ng-app="productApp")
@@ -74,10 +69,24 @@ block content
                                 li
                                     a(href="#/add") 添加产品
                                 li
-                                    a(href="#/group/{{vm.productCategory.currProvince}}/{{vm.productCategory.currCity}}/{{vm.productCategory.currDistrict}}",ng-if='!vm.productList.loading()') 编辑分组
+                                    a(href="#/group/{{vm.queryService.currProvince.province}}/{{vm.queryService.currCity.city}}/{{vm.queryService.currDistrict.district}}",ng-if='!vm.productList.loading()') 编辑分组
 
             div(npt-grid="vm.productListGridOptions",model="vm.queryService.reposProducts.data")
 
+        script(type="text/ng-template",id="query.html")
+            //弹出层，客户条件查询表单
+            div.modal-header
+                button.close(type="button",ng-click="vm.cancel()")
+                    span(aria-hidden="ture")&times;
+                h4.modal-title 产品查询
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        label.control-label 产品名称：
+                        input.form-control(ng-model="vm.model.name")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
         //新增产品
         script(type="text/ng-template",id="add.html")
             //功能导航区域
@@ -94,16 +103,45 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 新增产品
-                    //div.collapse.navbar-collapse.navbar-right
-                    //    div
-                    //        ul.nav.navbar-nav.navbar-left
-                    //            li
-                    //                button.btn.btn-primary.navbar-btn(ng-click="vm.save()",ng-disabled="vm.nptFormApi.form.$invalid") 保存
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加产品
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="#/list") 返回
             div.page-header
                 h4 基本信息
             div.page-body
                 div(npt-form="vm.productFormOptions",model="vm.model")
 
+
+        //分组列表
+        script(type="text/ng-template",id="group.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li.active 分组列表
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 分组列表
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="#/list") 返回
+
+            div(npt-grid="vm.groupListGridOptions",model="vm.model")
 
         //新增产品
         script(type="text/ng-template",id="edit.html")
@@ -123,14 +161,20 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 编辑产品
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一单
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一单
-                                li
-                                    a(href="#/list") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一单
+                            li
+                                a(href="",ng-click="vm.updateProductState(vm.modelProduct.id,'offshelves')",ng-show="vm.isShowOffTheShelf(vm.modelProduct)") 下架
+                            li
+                                a(href="",ng-click="vm.updateProductState(vm.modelProduct.id,'normal')",ng-show="vm.isShowRelease(vm.modelProduct)") 发布
+                            li
+                                a(href="#/list") 返回
             div.page-header
                 h4 基本信息
             div.page-body
@@ -150,7 +194,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{profile.synopsis}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteProfileById(profile.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/profile/{{vm.productid}}/{{profile.id}}") 编辑
 
@@ -168,7 +212,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.descr}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteDescrById(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/descr/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
@@ -190,7 +234,7 @@ block content
                                     span &nbsp &nbsp
                                     span {{item.groupname}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteGroupById(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/group/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
@@ -210,38 +254,35 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.classifyname}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteClassifyById(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
-                            span 价格:{{item.price | number}} 排序:{{item.sort}}
+                            span 价格:{{item.price | number}}; &nbsp;&nbsp; 排序:{{item.sort}}
 
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
                         h4 办理资料
                     div.col-xs-6.col-md-6
-                        button.btn.btn-default.pull-right(type="button") 添加办理资料
+                        a.btn.btn-default.pull-right(ng-click="vm.queryRequirement();")  添加办理资料
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductRequirements")
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-6
-                                    h5 {{item.attachname}}
-                                div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
-                                    span.pull-right &nbsp &nbsp
-                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                        div.list-group-item-heading.row
+                            div.col-xs-6.col-md-6
+                                h5 {{item.attachname}}
+                            div.col-xs-6.col-md-6
+                                button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteRequirementById(item.id);") 删除
                         div.list-group-item-text
-                            span 识别Key:{{item.attachkey}}; 填写方式:{{item.inputtype}}; 填写说明:{{item.inputdesc}}; 填写样板:{{item.demovalue}}; 交接方式:{{item.doc}};
+                            span 识别Key:{{item.attachkey}}; &nbsp;&nbsp; 填写方式:{{item.inputtype}}; &nbsp;&nbsp; 填写说明:{{item.inputdesc}}; &nbsp;&nbsp; 填写样板:{{item.demovalue}}; &nbsp;&nbsp; 交接方式:{{item.doc}};
 
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
                         h4 服务阶段
                     div.col-xs-6.col-md-6
-                        button.btn.btn-default.pull-right(type="button") 添加服务阶段
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/phase/{{vm.productid}}") 添加服务阶段
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductPhases")
@@ -250,9 +291,9 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.sortno}} {{item.name}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deletePhaseById(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
-                                    button.btn.btn-primary.btn-sm.pull-right(type="button") 编辑
+                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/phase/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
                             dl.dl-horizontal
                                 dt 服务周期及时间:
@@ -263,7 +304,6 @@ block content
                                 dd {{item.phasedescr}}
                                 dt 备注:
                                 dd {{item.remark}}
-
         //编辑产品内容
         script(type="text/ng-template",id="editProductProfile.html")
             //功能导航
@@ -272,14 +312,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品内容
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productProfileInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productProfileInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productProfileByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productProfileByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/profile/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -303,14 +347,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品详情
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productDescrInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productDescrInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productDescrByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productDescrByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/descr/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -334,14 +382,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品类
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productClassifyInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productClassifyInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productClassifyByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productClassifyByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/classifies/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -365,14 +417,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品所属分组
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一个
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productGroupInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productGroupInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productGroupByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productGroupByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/group/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -387,6 +443,41 @@ block content
                 li.active 添加/编辑产品所属分组
 
             div(npt-form="vm.productGroupFormOptions",model="vm.model")
+
+        //编辑产品阶段
+        script(type="text/ng-template",id="editProductPhase.html")
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 添加/编辑产品阶段
+                    div.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productPhaseInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productPhaseInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productPhaseByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productPhaseByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/phase/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
+
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#list") 产品列表
+                li
+                    a(href="#edit/{{vm.productid}}") 编辑产品
+                li.active 添加/编辑产品阶段
+
+            div(npt-form="vm.productPhaseFormOptions",model="vm.model")
 
         //用于选择产品所属分组的模板
         script(type="text/ng-template",id="selectProductGroup.html")

@@ -62,31 +62,35 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     .factory("QueryWorkorderList",function(nptRepository, nptSessionManager) {
         return nptRepository("queryWorkorderList").params({
             instid: nptSessionManager.getSession().getInst().id,
-            userid: nptSessionManager.getSession().getUser().id
+            processid: nptSessionManager.getSession().getUser().id
         });
     })
     .factory("QueryWorkorderInfo",function(nptRepository) {
         return nptRepository("queryWorkorderDetail");
     })
-    .factory("StartWorkorder",function(nptRepository) {
-        return nptRepository("startWorkorder");
+    .factory("UpdateWorkOrderInserviceById",function(nptRepository) {
+        return nptRepository("updateWorkOrderInserviceById");
     })
-    .factory("CompleteWorkorder", function(nptRepository) {
-        return nptRepository("completeWorkorder");
+    .factory("UpdateWorkOrderCompleteById", function(nptRepository) {
+        return nptRepository("updateWorkOrderCompleteById");
     })
-    .factory("DeliverWorkorder", function(nptRepository) {
-        return nptRepository("deliverWorkorder");
+    .factory("UpdateWorkorderByProcessid", function(nptRepository) {
+        return nptRepository("updateWorkorderByProcessid");
     })
-    .factory("QueryWorkordersIsUnread", function (nptRepository, nptSessionManager) {
+    .factory("QueryWorkordersUnread", function (nptRepository, nptSessionManager) {
         return nptRepository("queryWorkordersUnread").params({
             instid: nptSessionManager.getSession().getInst().id,
             processid: nptSessionManager.getSession().getUser().id
         });
     })
-    .service("WorkorderUnreadService", function (QueryWorkordersIsUnread, Notification, $interval) {
+    .factory("UpdateWorkordersToRead", function (nptRepository, nptSessionManager) {
+        return nptRepository("updateWorkordersToRead").params({
+        });
+    })
+    .service("WorkorderUnreadService", function (QueryWorkordersUnread, Notification, $interval) {
         var self = this;
         //检查新订单资源
-        self.workordersIsUnread = QueryWorkordersIsUnread;
+        self.queryWorkordersUnread = QueryWorkordersUnread;
 
         //周期检查新订单配置
         self.schedules = [{
@@ -111,12 +115,12 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             self.count++;
             self.hasNewWorkorders = false;
             //执行服务器检查
-            self.workordersIsUnread.post().then(function (response) {
+            self.queryWorkordersUnread.post().then(function (response) {
                 if (response.data && response.data.length > 0) {
                     self.hasNewWorkorders = true;
 
                     Notification.success({
-                        message: '检查到' + response.data.length + '张最新的工单,点击显示新订单按钮立即查看!',
+                        message: '检查到' + response.data.length + '张最新的工单,点击显示新工单按钮立即查看!',
                         title: '检查到新工单',
                         replaceMessage: true,
                         delay: 5000
@@ -163,8 +167,8 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         //获取新订单
         self.getNewWorkorder = function () {
-            if (self.workordersIsUnread && self.workordersIsUnread.data) {
-                return self.workordersIsUnread.data;
+            if(self.queryWorkordersUnread && self.queryWorkordersUnread.data) {
+                return self.queryWorkordersUnread.data;
             }
         };
     })
@@ -227,7 +231,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         //选择一个默认查询
         self.selectQuery(self.queryList[1]);
     })
-    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid, WorkorderListQueryService, WorkorderUnreadService) {
+    .controller("WorkorderListController", function ($scope, $http, $location, QueryWorkorderList, WorkorderListGrid, WorkorderListQueryService, WorkorderUnreadService, UpdateWorkordersToRead) {
         var vm = this;
 
         //订单列表数据资源库
@@ -242,25 +246,26 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             }
         };
 
-        vm.workorderAction = function (action, item, index) {
-            console.info(action);
-            if (item && action.type === "view") {
-                $location.path("/detail/" + item.id);
-            }
-        };
-
-        //显示新订单,并同时设置为已读
+        //显示新工单,并同时设置为已读
         vm.showNewWorkorders = function () {
-            var newWorkorders = vm.workorderUnreadService.getNewWorkorder();
-            if (newWorkorders) {
-                //vm.model = vm.ordersIsUnread.data.orderList;
-                //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
-                vm.queryService.workorderList.data = newWorkorders;
-                //将显示后的订单设置为已读状态
-                //UpdateOrderReadState.post(newOrders).then(function (response) {
-                //}, function (error) {
-                //    Notification.error({message: '设置订单为已读状态出现错误.', delay: 2000});
-                //});
+            var newWorkorderids = vm.workorderUnreadService.getNewWorkorder();
+            if (newWorkorderids) {
+                var params = {workids:newWorkorderids};
+
+                vm.queryService.query(params);
+
+                //将显示后的工单设置为已读状态
+                UpdateWorkordersToRead.params({
+                    workorderids: vm.workorderUnreadService.queryWorkordersUnread.data
+                }).post().then(function (response) {
+
+                }, function (error) {
+                    Notification.error({
+                        title: '设置工单为已读状态出现错误.',
+                        message: error.data.cause,
+                        delay: 2000
+                    });
+                });
             }
         };
 
@@ -270,7 +275,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         } else {
             vm.workorderUnreadService.selectSchedule(vm.workorderUnreadService.schedules[2]);
         }
-        //销毁时关闭订单检查任务
+        //销毁时关闭工单检查任务
         $scope.$on("$destroy", function () {
             vm.workorderUnreadService.stopCheck();
         });
@@ -308,7 +313,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         };
 
         //配置工单评价
-        vm.workorderAttachmentOptions = {
+        vm.workorderCommentOptions = {
             store: WorkorderCommentGrid,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
@@ -379,7 +384,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.query();
 
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder, StartWorkorderForm) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, UpdateWorkOrderInserviceById, StartWorkorderForm, Notification) {
 
         var vm = this;
         $scope.workorderid = $routeParams.id;
@@ -429,10 +434,22 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
-            StartWorkorder.post(params).then(function (response) {
+            UpdateWorkOrderInserviceById.post(params).then(function (response) {
                 $location.path("/detail/" + id);
-            }, function (err) {
-                var de = err;
+
+                Notification.success({
+                    title: '工单开始成功',
+                    replaceMessage: true,
+                    delay: 2000
+                });
+
+            }, function (error) {
+                Notification.error({
+                    title: '工单开始失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
             });
 
         };
@@ -441,7 +458,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             $location.path("/detail/" + $scope.workorderid);
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, CompleteWorkorder, QueryWorkorderInfo, CompleteWorkorderForm) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, UpdateWorkOrderCompleteById, QueryWorkorderInfo, CompleteWorkorderForm, Notification) {
         var vm = this;
         $scope.workorderid = $routeParams.id;
 
@@ -469,7 +486,12 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 }).then(function (response) {
                     vm.modelWorkorder = response.data.workOrder;
                 }, function (error) {
-                    var de = error;
+                    Notification.error({
+                        title: '查询工单失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
                 });
             }
 
@@ -491,10 +513,20 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
-            CompleteWorkorder.post(params).then(function (response) {
+            UpdateWorkOrderCompleteById.post(params).then(function (response) {
                 $location.path("/detail/" + id);
-            }, function (err) {
-                var de = err;
+                Notification.success({
+                    title: '工单完成成功',
+                    replaceMessage: true,
+                    delay: 2000
+                });
+            }, function (error) {
+                Notification.error({
+                    title: '工单完成失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
             });
 
         };
@@ -503,7 +535,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             $location.path("/detail/" + $scope.workorderid);
         };
     }).
-    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, nptResource, QueryWorkorderInfo, deliverWorkorderForm, DeliverWorkorder) {
+    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, nptResource, QueryWorkorderInfo, deliverWorkorderForm, UpdateWorkorderByProcessid, Notification) {
         var vm = this;
         $scope.workorderid = $routeParams.id;
 
@@ -531,7 +563,12 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 }).then(function (response) {
                     vm.modelWorkorder = response.data.workOrder;
                 }, function (error) {
-                    var de = error;
+                    Notification.error({
+                        title: '查询工单失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
                 });
             }
 
@@ -553,10 +590,20 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.targetprocessid = vm.model.assignedid;
             params.workorderids = workorderids;
 
-            DeliverWorkorder.post(params).then(function (response) {
+            UpdateWorkorderByProcessid.post(params).then(function (response) {
                 $location.path("/detail/" + id);
+                Notification.success({
+                    title: '工单转交成功',
+                    replaceMessage: true,
+                    delay: 2000
+                });
             }, function (err) {
-                var de = err;
+                Notification.error({
+                    title: '工单转交失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
             });
 
         };

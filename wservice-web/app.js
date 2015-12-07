@@ -18,7 +18,7 @@ var session = require("express-session");
 var passport = require("./passport");
 var security = require("./security");
 var proxy = require("./proxy");
-var repository = require("./repository");
+//var repository = require("./repository");
 var instPassport = require("./inst");
 var middleware = require("./middleware");
 
@@ -45,8 +45,8 @@ app.use(proxy());
 app.use("/service", proxy.service());
 
 // 载入资源服务
-app.use(repository());
-app.use("/model", repository.service());
+//app.use(repository());
+//app.use("/model", repository.service());
 
 //1.加载session管理
 app.use(session({
