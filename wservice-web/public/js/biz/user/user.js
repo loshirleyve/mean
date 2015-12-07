@@ -76,7 +76,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                     $log.info("取消选择", error);
                 });
             }
-        }
+        };
 
 
         vm.queryUserInfo = function(){
