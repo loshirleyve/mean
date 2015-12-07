@@ -71,12 +71,10 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductPhaseService"
-})
-.action("AddProductRequirement", {
+}).action("AddProductRequirement", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddProductRequirementService"
-})
-.action("AddOrUpdateProductProfile", {
+}).action("AddOrUpdateProductProfile", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateProductProfileService"
 }).action("AddOrUpdateProductGroup", {
@@ -91,9 +89,6 @@ proxy.action("queryCities", {
 }).action("QueryProductPhaseInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductPhaseInfoByIdService"
-}).action("QueryProductRequirementInfo", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductRequirementInfoByIdService"
 }).action("QueryProductProfileInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductProfileInfoByIdService"
@@ -106,12 +101,27 @@ proxy.action("queryCities", {
 }).action("QueryProductDescrInfo", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryProductDescrInfoByIdService"
+}).action("QueryProductPhaseByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
+}).action("QueryProductProfileByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductProfileByProductidService"
+}).action("QueryProductGroupByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductGroupByProductidService"
+}).action("QueryProductClassifyByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductClassifyByProductidService"
+}).action("QueryProductDescrByProductid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryProductDescrByProductidService"
 }).action("RemoveProductPhase", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductPhaseService"
 }).action("RemoveProductRequirement", {
-proxy: "Y9",
-action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
 }).action("RemoveProductProfile", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductProfileService"
@@ -124,9 +134,6 @@ action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
 }).action("RemoveProductDescr", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.RemoveProductDescrService"
-}).action("QueryProductPhaseByProductid", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryProductPhaseByProductidService"
 }).action("QueryRequirementsByInstid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
