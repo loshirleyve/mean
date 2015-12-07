@@ -48,6 +48,7 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     key: 'homepath',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '机构网址:'
                     }
                 },
@@ -55,6 +56,7 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     key: 'tel',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '机构电话:'
                     }
                 }

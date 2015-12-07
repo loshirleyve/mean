@@ -29,7 +29,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
             });
     }).factory("queryInstList", function (nptRepository,nptSessionManager) {
         return nptRepository("queryInsts").params({
-            instid: nptSessionManager.getSession().getInst().id
+            id: nptSessionManager.getSession().getInst().id
         });
     }).factory("queryInstInfo", function (nptRepository) {
         return nptRepository("queryInstDetail").params({
