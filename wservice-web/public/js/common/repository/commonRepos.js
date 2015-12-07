@@ -92,4 +92,10 @@ angular.module("wservice.common.repository.common",
     })
     .factory("QueryInsts", function (nptRepository) {
         return nptRepository("queryInsts");
+    }).factory("AddOrUpdateFileRepo", function (nptRepository, nptSessionManager) {
+        return nptRepository("AddOrUpdateFile").addRequestInterceptor(function (request) {
+            request.params.createby = nptSessionManager.getSession().getUser().id;
+            request.params.instid = nptSessionManager.getSession().getInst().id;
+            return request;
+        });
     });
