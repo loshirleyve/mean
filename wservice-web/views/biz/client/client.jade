@@ -37,20 +37,18 @@ block content
                             li(ng-if="vm.clientList.loading()")
                                 a(href="") 正在查询,请稍后...
                             li.dropdown(ng-if='!vm.clientList.loading()')
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryService.queryName}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 客户查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
-                                    li
-                                        a(href="",ng-click="vm.queryService.query('全部')") 全部
-                                    li
-                                        a(href="", data-toggle="modal", data-target="#clientSearch") 条件查询
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
             //弹出层，客户条件查询表单
             div#clientSearch.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
                     div.modal-content
                         div.modal-header
                             button.close(type="button",data-dismiss="modal",aria-label="Close")
-                                span(aria-hidden="ture")&times;
+                                span(aria-hidden="true")&times;
                             h4.modal-title 客户查询
                         div.modal-body
                             div.row

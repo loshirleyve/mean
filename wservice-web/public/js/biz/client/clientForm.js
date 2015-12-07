@@ -133,12 +133,18 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 },
                 {
                     key: 'contactphone',
-                    type: 'input',
+                    type: 'maskedInput',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
-                        disabled:true,
+                        required: true,
                         label: '手机号:',
-                        placeholder:'请输入手机号'
-                    }
+                        placeholder:'请输入手机号',
+                        "mask":"999 9999 9999",
+                        reversal: true,
+                        searchProp:"contactphone",
+                        repository: QueryInstClients
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'contactposition',
