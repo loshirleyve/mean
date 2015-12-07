@@ -7,7 +7,8 @@
 angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
     .run(function (nptFormStore, OrgListBySelectTree,
                    UserListBySelectTree, QueryUserInfoById,
-                   QueryCtrlCode, QueryImageByUserLevel, QueryInsts,QueryUserByInst) {
+                   QueryCtrlCode, QueryImageByUserLevel,
+                   QueryInsts, QueryUserByInst, UploadSignature, AddOrUpdateFileRepo) {
         nptFormStore.put("demo", {
             options: {},
             fields: [
@@ -45,6 +46,7 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                     "key": "cycle2",
                     "type": "ui-select",
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '服务周期(指定数据源):',
                         valueProp: 'id',
                         labelProp: 'name',
@@ -76,6 +78,7 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                     "key": "choiceInst",
                     "type": "ui-select",
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '选择机构:',
                         valueProp: 'id',
                         labelProp: 'name',
@@ -87,11 +90,12 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                         repository: QueryInsts,
                         repositoryParams: {}
                     }
-                } ,
+                },
                 {
                     "key": "choiceUser2",
                     "type": "ui-select",
                     templateOptions: {
+                        optionsAttr: 'bs-options',
                         label: '选择用户:',
                         valueProp: 'id',
                         labelProp: 'name',
@@ -109,6 +113,26 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                     templateOptions: {
                         label: "选择图片",
                         imageRepository: QueryImageByUserLevel
+                    }
+                },
+                {
+                    key: 'uploaddemo',
+                    type: 'npt-formly-upload',
+                    templateOptions: {
+                        label: '头像',
+                        required: true,
+                        up: {
+                            filters: {
+                                mime_types: [
+                                    {title: "Image File", extensions: "jpg,gif,png"}
+                                ],
+                                max_file_size: '100kb'
+                            },
+                            multi_selection: false
+                        },
+                        getSignature: UploadSignature.query,
+                        repository: AddOrUpdateFileRepo,
+                        repositoryParams: {}
                     }
                 }
             ]

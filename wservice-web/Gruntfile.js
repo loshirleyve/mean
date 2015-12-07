@@ -14,6 +14,7 @@ module.exports = function (grunt) {
                     "public/js/common/index.js",
                     "public/js/common/master.js",
                     "public/js/common/repository/*.js",
+                    "public/js/common/service/*.js",
                     "public/js/common/store/*.js"
                 ],
                 dest: "dist/wservice-common-<%= pkg.version%>.js"
