@@ -242,7 +242,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                         Notification.success({message: '初始化机构成功!', delay: 2000});
                         $route.reload();
                     }, function(err){
-                        Notification.error({message: '初始化机构失败.' + err.data.cause, delay: 2000});
+                        Notification.error({
+                            title: "初始化机构失败.",
+                            message: err.data.cause, delay: 2000
+                        });
                     });
             }
         };
@@ -254,8 +257,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     instClient:vm.clientid
                 }).then(function(response){
                     vm.model.client = response.data;
-                }, function(error){
-                    Notification.error({message: '查询客户信息失败.', delay: 2000});
+                }, function(err){
+                    Notification.error({
+                        title: "查询客户信息失败.",
+                        message: err.data.cause, delay: 2000
+                    });
                 });
             }
         };
@@ -305,10 +311,13 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
                 vm.updateClient.post(updateParams)
                     .then(function(response){
-                    Notification.success({message: '更新客户信息成功!', delay: 2000});
-                }, function(error){
-                    Notification.error({message: '更新客户信息失败.', delay: 2000});
-                });
+                        Notification.success({message: '更新客户信息成功!', delay: 2000});
+                    }, function(err){
+                        Notification.error({
+                            title: "更新客户信息失败.",
+                            message: err.data.cause, delay: 2000
+                        });
+                    });
             }
         };
 
@@ -365,9 +374,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                         clientid = response.data.id;
                         $location.path("/detail/" + clientid);
                         Notification.success({message: '新增客户成功!', delay: 2000});
-                    }, function(error){
-                        var de = error;
-                        Notification.error({message: '新增客户失败.', delay: 2000});
+                    }, function(err){
+                        Notification.error({
+                            title: "新增客户失败.",
+                            message: err.data.cause, delay: 2000
+                        });
                     });
             }
         };

@@ -429,7 +429,7 @@ angular.module("productApp", ["ui.neptune",
         vm.model = {};
 
         vm.ok = function () {
-            $uibModalInstance.close(vm.model)
+            $uibModalInstance.close(vm.model);
         };
 
         vm.cancel = function () {
@@ -626,7 +626,7 @@ angular.module("productApp", ["ui.neptune",
                 return true;
             }
             return false;
-        }
+        };
 
         //发布
         vm.isShowRelease=function(product)
@@ -636,7 +636,7 @@ angular.module("productApp", ["ui.neptune",
                 return true;
             }
             return false;
-        }
+        };
 
         vm.updateProductState=function(productid,state)
         {
@@ -655,7 +655,7 @@ angular.module("productApp", ["ui.neptune",
                     delay: 2000
                 });
             });
-        }
+        };
 
         //查询
         vm.query();
