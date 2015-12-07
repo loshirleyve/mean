@@ -66,14 +66,8 @@ block content
                                         li(ng-repeat="queryType in vm.queryService.queryTypes")
                                             a(href="",ng-click="vm.queryService.selectQueryType(queryType)") {{queryType.label}}
 
-                                li.dropdown
-                                    a.dropdown-toggle(href="",data-toggle="dropdown") 产品
-                                        span.caret
-                                    ul.dropdown-menu
-                                        li
-                                            a(href="#/add") 添加产品
-                                        li
-                                            a(data-toggle="modal", data-target="#proSearch") 查询产品
+                                li
+                                    a(href="#/add") 添加产品
                                 li
                                     a(href="#/group/{{vm.queryService.currProvince.province}}/{{vm.queryService.currCity.city}}/{{vm.queryService.currDistrict.district}}",ng-if='!vm.productList.loading()') 编辑分组
 
@@ -82,7 +76,7 @@ block content
         script(type="text/ng-template",id="query.html")
             //弹出层，客户条件查询表单
             div.modal-header
-                button.close(type="button",data-dismiss="modal",aria-label="Close")
+                button.close(type="button",ng-click="vm.cancel()")
                     span(aria-hidden="ture")&times;
                 h4.modal-title 产品查询
             div.modal-body
@@ -167,14 +161,20 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 编辑产品
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一单
-                                li
-                                    a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一单
-                                li
-                                    a(href="#/list") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.previous(vm.modelProduct)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.modelProduct)",ng-show="vm.productQueryService.reposProducts.next(vm.modelProduct)") 下一单
+                            li
+                                a(href="",ng-click="vm.updateProductState(vm.modelProduct.id,'offshelves')",ng-show="vm.isShowOffTheShelf(vm.modelProduct)") 下架
+                            li
+                                a(href="",ng-click="vm.updateProductState(vm.modelProduct.id,'normal')",ng-show="vm.isShowRelease(vm.modelProduct)") 发布
+                            li
+                                a(href="#/list") 返回
             div.page-header
                 h4 基本信息
             div.page-body
@@ -258,7 +258,7 @@ block content
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
-                            span 价格:{{item.price | number}} 排序:{{item.sort}}
+                            span 价格:{{item.price | number}}; &nbsp;&nbsp; 排序:{{item.sort}}
 
             div.page-header
                 div.row
@@ -269,16 +269,13 @@ block content
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductRequirements")
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-6
-                                    h5 {{item.attachname}}
-                                div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteRequirementById(item.id);") 删除
-                                    span.pull-right &nbsp &nbsp
-                                    a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/requirement/{{vm.productid}}/{{item.id}}") 编辑
+                        div.list-group-item-heading.row
+                            div.col-xs-6.col-md-6
+                                h5 {{item.attachname}}
+                            div.col-xs-6.col-md-6
+                                button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteRequirementById(item.id);") 删除
                         div.list-group-item-text
-                            span 识别Key:{{item.attachkey}}; 填写方式:{{item.inputtype}}; 填写说明:{{item.inputdesc}}; 填写样板:{{item.demovalue}}; 交接方式:{{item.doc}};
+                            span 识别Key:{{item.attachkey}}; &nbsp;&nbsp; 填写方式:{{item.inputtype}}; &nbsp;&nbsp; 填写说明:{{item.inputdesc}}; &nbsp;&nbsp; 填写样板:{{item.demovalue}}; &nbsp;&nbsp; 交接方式:{{item.doc}};
 
             div.page-header
                 div.row
@@ -315,16 +312,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品内容
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productProfileByProductid.previous(vm.model)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productProfileByProductid.next(vm.model)") 下一个
-                                li
-                                    a(href="#edit/profile/{{vm.productid}}") 添加
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productProfileInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productProfileInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productProfileByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productProfileByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/profile/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -348,16 +347,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品详情
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productDescrByProductid.previous(vm.model)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productDescrByProductid.next(vm.model)") 下一个
-                                li
-                                    a(href="#edit/descr/{{vm.productid}}") 添加
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productDescrInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productDescrInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productDescrByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productDescrByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/descr/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -381,16 +382,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品类
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productClassifyByProductid.previous(vm.model)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productClassifyByProductid.next(vm.model)") 下一个
-                                li
-                                    a(href="#edit/classifies/{{vm.productid}}") 添加
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productClassifyInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productClassifyInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productClassifyByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productClassifyByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/classifies/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -414,16 +417,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品所属分组
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productGroupByProductid.previous(vm.model)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productGroupByProductid.next(vm.model)") 下一个
-                                li
-                                    a(href="#edit/group/{{vm.productid}}") 添加
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productGroupInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productGroupInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productGroupByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productGroupByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/group/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb
@@ -447,16 +452,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 添加/编辑产品阶段
                     div.collapse.navbar-collapse.navbar-right
-                        div
-                            ul.nav.navbar-nav.navbar-left
-                                li
-                                    a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productPhaseByProductid.previous(vm.model)") 上一个
-                                li
-                                    a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productPhaseByProductid.next(vm.model)") 下一个
-                                li
-                                    a(href="#edit/phase/{{vm.productid}}") 添加
-                                li
-                                    a(href="#edit/{{vm.productid}}") 返回
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.productPhaseInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.productPhaseInfo.loading()")
+                            li
+                                a(href="",ng-click="vm.previous(vm.model)",ng-show="vm.productPhaseByProductid.previous(vm.model)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productPhaseByProductid.next(vm.model)") 下一单
+                            li
+                                a(href="#edit/phase/{{vm.productid}}") 添加
+                            li
+                                a(href="#edit/{{vm.productid}}") 返回
 
             //功能导航区域
             ul.breadcrumb

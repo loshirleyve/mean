@@ -4,4 +4,4 @@
  * MIT Licensed
  */
 
-angular.module("wservice.common",["wservice.common.repository"]);
+angular.module("wservice.common",["wservice.common.repository",'wservice.common.service']);

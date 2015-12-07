@@ -2,7 +2,7 @@
  * Created by rxy on 15/11/17.
  */
 angular.module("productApp.productMdGroupListGrid", [])
-    .factory("productMdGroupListGrid", function (nptGridStore, addGroupForm, editGroupForm) {
+    .factory("productMdGroupListGrid", function (nptGridStore, addGroupForm, editGroupForm,groupService) {
         return nptGridStore("productMdGroupListGrid", {
             gridOptions: {
                 columnDefs: [
@@ -16,31 +16,10 @@ angular.module("productApp.productMdGroupListGrid", [])
                     type: "add",
                     target: addGroupForm,
                     listens: [
-                        function (params, $q, $timeout, AddOrUpdateMdProductGroup) {
-                            return AddOrUpdateMdProductGroup.post();
+                        function (params, $q) {
+                           return groupService.addGroup(params,$q);
                         }
-//                        ,
-//                        function ($timeout) {
-//                            var deferd = $q.defer();
-//
-//                            $timeout(function () {
-//                                deferd.resolve({
-//                                    name: "leon"
-//                                });
-//                            }, 3000);
-//
-//                            deferd.promise.then(function (response) {
-//                                return response;
-//                            }, function (error) {
-//                                return error;
-//                            });
-//
-//                            return deferd.promise;
-//                        }, function () {
-//                            return {
-//                                test: "def"
-//                            }
-//                        }
+
                     ]
                 },
                 edit: {
@@ -49,13 +28,7 @@ angular.module("productApp.productMdGroupListGrid", [])
                     target: editGroupForm,
                     listens: [
                         function (params, $timeout, $q) {
-//                            var deferd = $q.defer();
-//                            $timeout(function () {
-//                                ProductQueryService.addGroup(params, $q).then(function () {
-//                                    deferd.resolve();
-//                                });
-//                            }, 500);
-//                            return deferd.promise;
+                            return groupService.addGroup(params,$q);
                         }
                     ]
                 },
@@ -63,8 +36,8 @@ angular.module("productApp.productMdGroupListGrid", [])
                     label: "删除",
                     type: "del",
                     listens: [
-                        function (params, $timeout, $q) {
-                            return RemoveProductMdGroup.post();
+                        function (params,RemoveProductMdGroup) {
+                           return  RemoveProductMdGroup.post({groupid: params.item.id});
                         }
                     ]
                 }

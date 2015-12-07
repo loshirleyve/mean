@@ -12,10 +12,12 @@ angular.module("wservice.dt.store.receivable", ["ui.neptune"]).
                         label: "业务内容"
                     },
                     amount: {
-                        label: "应收金额"
+                        label: "应收金额",
+                        filter:"number"
                     },
                     payamount: {
-                        label: "已收金额"
+                        label: "已收金额",
+                        filter:"number"
                     },
                     complete: {
                         label: "收款状态"
@@ -28,7 +30,7 @@ angular.module("wservice.dt.store.receivable", ["ui.neptune"]).
                         filter:"timestampFilter|json"
                     },
                     expirydate: {
-                        label: "确定日期",
+                        label: "有效日期",
                         filter:"timestampFilter|json"
                     }
                 }

@@ -59,6 +59,9 @@ proxy.action("queryCities", {
 }).action("AddOrUpdateMdProductGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddOrUpdateMdProductGroupService"
+}).action("UpdateProductState", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateProductStateService"
 }).action("QueryMdProductGroupBylocation", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMdProductGroupBylocationService"
