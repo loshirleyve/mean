@@ -68,14 +68,14 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     .factory("QueryWorkorderInfo",function(nptRepository) {
         return nptRepository("queryWorkorderDetail");
     })
-    .factory("StartWorkorder",function(nptRepository) {
-        return nptRepository("startWorkorder");
+    .factory("UpdateWorkOrderInserviceById",function(nptRepository) {
+        return nptRepository("updateWorkOrderInserviceById");
     })
-    .factory("CompleteWorkorder", function(nptRepository) {
-        return nptRepository("completeWorkorder");
+    .factory("UpdateWorkOrderCompleteById", function(nptRepository) {
+        return nptRepository("updateWorkOrderCompleteById");
     })
-    .factory("DeliverWorkorder", function(nptRepository) {
-        return nptRepository("deliverWorkorder");
+    .factory("UpdateWorkorderByProcessid", function(nptRepository) {
+        return nptRepository("updateWorkorderByProcessid");
     })
     .factory("QueryWorkordersUnread", function (nptRepository, nptSessionManager) {
         return nptRepository("queryWorkordersUnread").params({
@@ -275,7 +275,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         } else {
             vm.workorderUnreadService.selectSchedule(vm.workorderUnreadService.schedules[2]);
         }
-        //销毁时关闭订单检查任务
+        //销毁时关闭工单检查任务
         $scope.$on("$destroy", function () {
             vm.workorderUnreadService.stopCheck();
         });
@@ -384,7 +384,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.query();
 
     }).
-    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder, StartWorkorderForm, Notification) {
+    controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, UpdateWorkOrderInserviceById, StartWorkorderForm, Notification) {
 
         var vm = this;
         $scope.workorderid = $routeParams.id;
@@ -434,7 +434,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
-            StartWorkorder.post(params).then(function (response) {
+            UpdateWorkOrderInserviceById.post(params).then(function (response) {
                 $location.path("/detail/" + id);
 
                 Notification.success({
@@ -458,7 +458,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             $location.path("/detail/" + $scope.workorderid);
         };
     }).
-    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, CompleteWorkorder, QueryWorkorderInfo, CompleteWorkorderForm, Notification) {
+    controller("WorkorderCompleteController", function ($scope, $location, $routeParams, nptResource, nptSessionManager, UpdateWorkOrderCompleteById, QueryWorkorderInfo, CompleteWorkorderForm, Notification) {
         var vm = this;
         $scope.workorderid = $routeParams.id;
 
@@ -513,7 +513,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
-            CompleteWorkorder.post(params).then(function (response) {
+            UpdateWorkOrderCompleteById.post(params).then(function (response) {
                 $location.path("/detail/" + id);
                 Notification.success({
                     title: '工单完成成功',
@@ -535,7 +535,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             $location.path("/detail/" + $scope.workorderid);
         };
     }).
-    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, nptResource, QueryWorkorderInfo, deliverWorkorderForm, DeliverWorkorder, Notification) {
+    controller("WorkorderDeliverController", function ($scope, $location, $routeParams, nptResource, QueryWorkorderInfo, deliverWorkorderForm, UpdateWorkorderByProcessid, Notification) {
         var vm = this;
         $scope.workorderid = $routeParams.id;
 
@@ -590,7 +590,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             params.targetprocessid = vm.model.assignedid;
             params.workorderids = workorderids;
 
-            DeliverWorkorder.post(params).then(function (response) {
+            UpdateWorkorderByProcessid.post(params).then(function (response) {
                 $location.path("/detail/" + id);
                 Notification.success({
                     title: '工单转交成功',
