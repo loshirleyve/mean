@@ -151,11 +151,6 @@ block content
                         div.list-group-item-text
                             span 评价内容:{{item.commenttext}} 评论时间:{{item.createdate | ctrlCodeFilter:'inputtype':'name':'no'}}
 
-            //div.page-header
-            //    h4 工单评价
-            //div.page-body
-            //    div(npt-grid="vm.workorderCommentOptions",model="vm.modelComment")
-
         script(type="text/ng-template",id="startWorkorder.html")
             //功能导航区域
             ul.breadcrumb
@@ -190,6 +185,12 @@ block content
                     dd {{vm.workorderInfo.data.workOrder.sn}}
                     dt 工单名称:
                     dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 客户机构:
+                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 工单来源:
+                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                    dt 工单来源值:
+                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
@@ -199,7 +200,17 @@ block content
                     dt 处理人:
                     dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
                     dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
+                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                    dt 计划开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 实际开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                    dt 计划完成日期:
+                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 职责:
+                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                    dt 创建日期:
+                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.startWorkorderOptions",model="vm.model")
         script(type="text/ng-template",id="completeWorkorder.html")
@@ -243,6 +254,12 @@ block content
                     dd {{vm.workorderInfo.data.workOrder.sn}}
                     dt 工单名称:
                     dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 客户机构:
+                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 工单来源:
+                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                    dt 工单来源值:
+                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
@@ -252,7 +269,17 @@ block content
                     dt 处理人:
                     dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
                     dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
+                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                    dt 计划开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 实际开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                    dt 计划完成日期:
+                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 职责:
+                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                    dt 创建日期:
+                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.completeWorkorderOptions",model="vm.model")
 
@@ -292,6 +319,12 @@ block content
                     dd {{vm.workorderInfo.data.workOrder.sn}}
                     dt 工单名称:
                     dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 客户机构:
+                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 工单来源:
+                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                    dt 工单来源值:
+                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
@@ -301,6 +334,16 @@ block content
                     dt 处理人:
                     dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
                     dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
+                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                    dt 计划开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 实际开始日期:
+                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                    dt 计划完成日期:
+                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                    dt 职责:
+                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                    dt 创建日期:
+                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.deliverWorkorderOptions",model="vm.model")

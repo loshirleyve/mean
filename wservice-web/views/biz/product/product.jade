@@ -275,7 +275,7 @@ block content
                             div.col-xs-6.col-md-6
                                 button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteRequirementById(item.id);") 删除
                         div.list-group-item-text
-                            span 识别Key:{{item.attachkey}}; &nbsp;&nbsp; 填写方式:{{item.inputtype}}; &nbsp;&nbsp; 填写说明:{{item.inputdesc}}; &nbsp;&nbsp; 填写样板:{{item.demovalue}}; &nbsp;&nbsp; 交接方式:{{item.doc}};
+                            span 识别Key:{{item.attachkey}}; &nbsp;&nbsp; 交接类型:{{item.inputtype | ctrlCodeFilter:'inputtype':'name':'no'}}; &nbsp;&nbsp; 填写说明:{{item.inputdesc}}; &nbsp;&nbsp; 填写样板:{{item.demovalue}}; &nbsp;&nbsp; 资料类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}};
 
             div.page-header
                 div.row
