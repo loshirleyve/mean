@@ -58,11 +58,47 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .factory("QueryInstClientInfoById", function(nptRepository){
         return nptRepository("queryInstClientInfoById");
     })
-    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm) {
-        var vm = this;
-        vm.searchModel = {};
+    .service("InstClientsQueryService", function(Notification, QueryInstClients){
+        var self = this;
+        self.searchModel = {};
         //客户列表数据库资源
-        vm.clientList = QueryInstClients;
+        self.clientList = QueryInstClients;
+
+        //查询当前用户的客户列表
+        self.query = function (name,params) {
+            params = params || {};
+            self.clientList.post(params).then(function(){
+                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
+                self.queryName = name;
+            }, function(error){
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
+            });
+        };
+
+        //根据条件查询当前用户的客户列表
+        self.clientSearchConfirm = function (name, params) {
+            params = params || {};
+            if(!params.contactman){
+                delete params.contactman;
+            }
+            if(!params.fullname){
+                delete params.fullname;
+            }
+            self.clientList.post(params).then(function(){
+                self.queryName = name;
+            }, function(error){
+                Notification.error({message: '查询客户列表失败.', delay: 2000});
+            });
+        };
+
+        //首先查询全部客户
+        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
+            self.query('全部');
+        }
+    })
+    .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, ClientSearchForm, InstClientsQueryService) {
+        var vm = this;
+        vm.queryService = InstClientsQueryService;
 
         vm.clientListGridOptions = {
            store:ClientListGrid,
@@ -78,44 +114,14 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 vm.nptClientFormApi = nptFormApi;
             }
         };
-        /**
-         * 查询当前用户的客户列表
-         */
-        vm.query = function (name,params) {
-            params = params || {};
-            vm.clientList.post(params).then(function(){
-                //在服务查询完毕，且将查询到的数据返回给界面之前将queryName设置为name的值
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
-        };
-
-        /**
-         * 根据条件查询当前用户的客户列表
-         */
-        vm.clientSearchConfirm = function (name, params) {
-            params = params || {};
-            if(!params.contactman){
-                delete params.contactman;
-            }
-            if(!params.fullname){
-                delete params.fullname;
-            }
-            vm.clientList.post(params).then(function(){
-                vm.queryName = name;
-            }, function(error){
-                Notification.error({message: '查询客户列表失败.', delay: 2000});
-            });
-        };
 
         //首先查询全部客户
-        if (!QueryInstClients.data || QueryInstClients.data.length <= 0) {
-            vm.query('全部');
+        if (!vm.queryService.clientList.data || vm.queryService.clientList.data.length <= 0) {
+            vm.queryService.query('全部');
         }
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById, nptCache) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -129,10 +135,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
-        vm.model.clientBackup = {};
         vm.clientDeUser = QueryInstClientInfoById;
-        vm.clientUsersModel = {};
-        vm.clientUsersCacheModel = {};
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -221,14 +224,16 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             var param = {"instClient":vm.clientid} || {};
             vm.clientDeUser.post(param)
                 .then(function(response){
-                    vm.clientUsersModel = response;
-                    /*var data = nptCache.get("user", $modelValue);
-                    //var data = response.cache.user;
-                    for(var i = 0; i<data.length; i++){
-                        var val = {"id":data[i].id,"name":data[i].name};
-                        vm.clientUsersCacheModel.push(val);
-                    }*/
-                    //vm.clientUsersCacheModel = response.cache.user;
+                    vm.clientUsersIRN = [];
+                    for(var i=0; i<response.data.clientUsers.length; i++){
+                        for(var key in response.cache.user){
+                            if(response.cache.user[key].id == response.data.clientUsers[i].userid){
+                                var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
+                                                   "username":response.cache.user[key].name};
+                                vm.clientUsersIRN.push(aClientUser);
+                            }
+                        }
+                    }
                 },function(){
 
                 });

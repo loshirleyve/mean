@@ -174,15 +174,15 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         //获取新订单
         self.getNewWorkorder = function () {
-            self.workordersIsUnread.params({
-                workids: self.workordersIsUnreadIds.data
-            }).post().then(function (response) {
-            }, function (error) {
-                Notification.error({message: '检查新工单出现错误.', delay: 2000});
-            });
+            //self.workordersIsUnread.params({
+            //    workids: self.workordersIsUnreadIds.data
+            //}).post().then(function (response) {
+            //}, function (error) {
+            //    Notification.error({message: '检查新工单出现错误.', delay: 2000});
+            //});
 
-            if(self.workordersIsUnread && self.workordersIsUnread.data) {
-                return self.workordersIsUnread.data;
+            if(self.workordersIsUnreadIds && self.workordersIsUnreadIds.data) {
+                return self.workordersIsUnreadIds.data;
             }
         };
     })
@@ -267,13 +267,17 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             }
         };
 
-        //显示新订单,并同时设置为已读
+        //显示新工单,并同时设置为已读
         vm.showNewWorkorders = function () {
-            var newWorkorders = vm.workorderUnreadService.getNewWorkorder();
-            if (newWorkorders) {
+            var newWorkorderids = vm.workorderUnreadService.getNewWorkorder();
+            if (newWorkorderids) {
                 //vm.model = vm.ordersIsUnread.data.orderList;
                 //将列表模型数据改为当前检索的新订单数据,用于详情界面的上下单移动
-                vm.queryService.workorderList.data = newWorkorders;
+                //vm.queryService.workorderList.data = newWorkorders;
+                var params = {workids:newWorkorderids};
+
+                vm.queryService.query(params);
+
                 //将显示后的工单设置为已读状态
                 UpdateWorkordersToRead.params({
                     workorderids: vm.workorderUnreadService.workordersIsUnreadIds.data
@@ -283,7 +287,6 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                     Notification.error({message: '设置工单为已读状态出现错误.', delay: 2000});
                 });
             }
-            vm.workorderUnreadService.hasNewWorkorders = false;
         };
 
         //如果存在当前检查项则使用当前项触发检查,否则选择一个特定项触发
@@ -399,6 +402,12 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         };
 
         vm.query();
+
+        vm.jumpToOrder = function() {
+            // TODO 窗口的跳转，订单详细界面
+            alert("TODO 窗口的跳转，订单详细界面");
+            //location.href = "/biz/order";
+        };
 
     }).
     controller("WorkorderStartController", function ($scope, $location, $routeParams, QueryWorkorderInfo, nptSessionManager, nptResource, StartWorkorder, StartWorkorderForm) {
