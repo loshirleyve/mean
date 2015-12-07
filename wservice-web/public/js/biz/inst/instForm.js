@@ -54,10 +54,11 @@ angular.module("instApp.instForm", ["ui.neptune"])
                 },
                 {
                     key: 'tel',
-                    type: 'input',
+                    type: 'maskedInput',
                     templateOptions: {
                         required: true,
-                        label: '机构电话:'
+                        label: '机构电话:',
+                        mask:"999 9999 9999"
                     }
                 }
             ],
