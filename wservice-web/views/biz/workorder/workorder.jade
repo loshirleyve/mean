@@ -79,39 +79,27 @@ block content
                         li
                             a(href="#/deliverWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isNotComplete()") 转交
                         li
-                            a(href="" ng-click="vm.jumpToOrder()") 查看订单
+                            a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}" target="_blank") 查看订单
                         li
                             a(href="#/list") 返回
             div.page-header
                 h4 基本信息
             div.page-body
-                //div(npt-form="vm.workorderFormOptions",model="vm.model.data.workOrder")
-                ul
-                    li
-                        strong 工单编号:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.sn}}
-                    li
-                        strong 工单名称:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.name}}
-                    li
-                        strong 工单描述:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.descr}}
-                    li
-                        strong 工单状态:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
-                    li
-                        strong 分配人:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
-                    li
-                        strong 处理人:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
-                    li
-                        strong 分配日期:&nbsp
-                        span {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
-            //div.page-header
-            //    h4 工单资料
-            //div.page-body
-            //    div(npt-grid="vm.workorderAttachmentOptions",model="vm.modelAttachment")
+                dl.dl-horizontal
+                    dt 工单编号:
+                    dd {{vm.workorderInfo.data.workOrder.sn}}
+                    dt 工单名称:
+                    dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 工单描述:
+                    dd {{vm.workorderInfo.data.workOrder.descr}}
+                    dt 工单状态:
+                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    dt 分配人:
+                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                    dt 处理人:
+                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                    dt 分配日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
@@ -124,7 +112,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.attachname}}
                         div.list-group-item-text
-                            span 资料交接类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}} 资料类型:{{item.inputtype | timestampFilter}}
+                            span 资料交接类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}} 资料类型:{{item.inputtype | ctrlCodeFilter:'inputtype':'name':'no'}}
 
             div.page-header
                 div.row
@@ -159,13 +147,6 @@ block content
                     a(href="#/detail/{{vm.modelWorkorder.id}}")
                         span 工单详情
                 li.active 开始工单
-            //nav.navbar.navbar-default.navbar-fixed-top
-            //    div.container-fluid
-            //        div.navbar-header
-            //            a.navbar-brand(href="") 开始工单
-            //        ul.nav.navbar-nav.navbar-right
-            //            li
-            //                a(href="#/detail/{{vm.modelWorkorder.id}}") 返回
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -181,19 +162,21 @@ block content
                             | &nbsp &nbsp &nbsp &nbsp
             div.well
                 span 请核对以下工单信息!
-                ul
-                    li
-                        strong 工单编号:&nbsp
-                        span {{vm.modelWorkorder.sn}}
-                    li
-                        strong 工单名称:&nbsp
-                        span {{vm.modelWorkorder.name}}
-                    li
-                        strong 工单描述:&nbsp
-                        span {{vm.modelWorkorder.descr}}
-                    li
-                        strong 工单状态:&nbsp
-                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                dl.dl-horizontal
+                    dt 工单编号:
+                    dd {{vm.workorderInfo.data.workOrder.sn}}
+                    dt 工单名称:
+                    dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 工单描述:
+                    dd {{vm.workorderInfo.data.workOrder.descr}}
+                    dt 工单状态:
+                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    dt 分配人:
+                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                    dt 处理人:
+                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                    dt 分配日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
 
             div(npt-form="vm.startWorkorderOptions",model="vm.model")
         script(type="text/ng-template",id="completeWorkorder.html")
@@ -232,19 +215,21 @@ block content
                             | &nbsp &nbsp &nbsp &nbsp
             div.well
                 span 请核对以下工单信息!
-                ul
-                    li
-                        strong 工单编号:&nbsp
-                        span {{vm.modelWorkorder.sn}}
-                    li
-                        strong 工单名称:&nbsp
-                        span {{vm.modelWorkorder.name}}
-                    li
-                        strong 工单描述:&nbsp
-                        span {{vm.modelWorkorder.descr}}
-                    li
-                        strong 工单状态:&nbsp
-                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                dl.dl-horizontal
+                    dt 工单编号:
+                    dd {{vm.workorderInfo.data.workOrder.sn}}
+                    dt 工单名称:
+                    dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 工单描述:
+                    dd {{vm.workorderInfo.data.workOrder.descr}}
+                    dt 工单状态:
+                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    dt 分配人:
+                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                    dt 处理人:
+                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                    dt 分配日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
 
             div(npt-form="vm.completeWorkorderOptions",model="vm.model")
 
@@ -279,18 +264,20 @@ block content
                             | &nbsp &nbsp &nbsp &nbsp
             div.well
                 span 请核对以下工单信息!
-                ul
-                    li
-                        strong 工单编号:&nbsp
-                        span {{vm.modelWorkorder.sn}}
-                    li
-                        strong 工单名称:&nbsp
-                        span {{vm.modelWorkorder.name}}
-                    li
-                        strong 工单描述:&nbsp
-                        span {{vm.modelWorkorder.descr}}
-                    li
-                        strong 工单状态:&nbsp
-                        span {{vm.modelWorkorder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                dl.dl-horizontal
+                    dt 工单编号:
+                    dd {{vm.workorderInfo.data.workOrder.sn}}
+                    dt 工单名称:
+                    dd {{vm.workorderInfo.data.workOrder.name}}
+                    dt 工单描述:
+                    dd {{vm.workorderInfo.data.workOrder.descr}}
+                    dt 工单状态:
+                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    dt 分配人:
+                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                    dt 处理人:
+                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                    dt 分配日期:
+                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter}}
 
             div(npt-form="vm.deliverWorkorderOptions",model="vm.model")

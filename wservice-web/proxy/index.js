@@ -133,13 +133,7 @@ action: "com.yun9.ws.biz.service.RemoveProductRequirementService"
 });
 
 //工单
-proxy.action("queryWorkorderList", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
-}).action("queryWorkorderDetail", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrderByIdService"
-}).action("queryUsersByOrgid", {
+proxy.action("queryUsersByOrgid", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.QueryUsersByOrgidService"
 }).action("queryOrgTree", {
@@ -157,15 +151,12 @@ proxy.action("queryWorkorderList", {
 }).action("deliverWorkorder", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkorderByProcessidService"
-}).action("queryWorkordersUnreadIds", {
+}).action("queryWorkordersUnread", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryWorkordersUnreadService"
 }).action("UpdateWorkOrderProcess", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderProcessService"
-}).action("queryWorkordersUnread", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryWorkOrdersService"
 }).action("updateWorkordersToRead", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
