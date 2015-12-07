@@ -7,7 +7,12 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
         //注册用户路由
         $routeProvider.when("/userInfo",{
             controller: "UserInfoController as vm",
-            templateUrl: "userInfo.html"
+            templateUrl: "userInfo.html",
+            resolve:{
+                sessionData:function(nptSession){
+                    return nptSession();
+                }
+            }
         })
         .otherwise({
             redirectTo: "/userInfo"
@@ -27,29 +32,24 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
     .factory("QueryFileById", function(nptRepository){
         return nptRepository("QueryFileById");
     })
-//    .factory("QueryUserInfoById", function(nptRepository, nptSessionManager){
-//        return nptRepository("QueryUserInfoById").params({
-//           "userid":nptSessionManager.getSession().getUser().id
-//        });
-//    })
-    .factory("queryUserInfoById", function(nptRepository){
+    .factory("queryUserInfoById", function(nptRepository, nptSessionManager){
         return nptRepository("QueryUserInfoById").params({
-           "userid":"10000001466017"
+           "userid":nptSessionManager.getSession().getUser().id
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, $log, QueryImageByUserLevel,nptCache, QueryFileById, nptSessionManager){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager){
         var vm = this;
         vm.userInfo = queryUserInfoById;
 
-        vm.selected = [];
-
-        vm.selectImageOptions = {
-            imageRepository: QueryImageByUserLevel,
-            onRegisterApi: function (selectImageApi) {
-                vm.selectImageApi = selectImageApi;
-            },
-            single: true
-        };
+//        vm.selected = [];
+//
+//        vm.selectImageOptions = {
+//            imageRepository: QueryImageByUserLevel,
+//            onRegisterApi: function (selectImageApi) {
+//                vm.selectImageApi = selectImageApi;
+//            },
+//            single: true
+//        };
 
         /*vm.imageOptions = {
             repository:QueryImageByUserLevel.addResponseInterceptor(function(response) {
@@ -68,43 +68,35 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             class:"col-md-2 thumbnail",
             emptyImage:"https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150",
             errorImage:"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/logo_white_fe6da1ec.png"
+        };*/
+        vm.imageOptions = {
+            repository:QueryFileById,
+            searchProp:"fileid",
+            labelProp:"thumbnailUrl"
         };
-*/
-//        vm.imageOptions = {
-//            repository: QueryFileById,
-//            searchProp: "fileid",
-//            labelProp: "thumbnailUrl"
-//        };
 
         vm.profile = {
             user: undefined,
             inst: undefined,
             init: function () {
                 var self = this;
-                //this.user = sessionData.getUser();
-                //this.inst = sessionData.getInst();
                 this.user = nptSessionManager.getSession().getUser();
                 this.inst = nptSessionManager.getSession().getInst();
             }
         };
 
+        vm.profile.init();
 
-
-
-
-
-
-
-        vm.open = function () {
-            if (vm.selectImageApi) {
-                vm.selectImageApi.open().then(function (response) {
-                    $log.info("用户选择了图片", response);
-                    vm.selected = response;
-                }, function (error) {
-                    $log.info("取消选择", error);
-                });
-            }
-        };
+//        vm.open = function () {
+//            if (vm.selectImageApi) {
+//                vm.selectImageApi.open().then(function (response) {
+//                    $log.info("用户选择了图片", response);
+//                    vm.selected = response;
+//                }, function (error) {
+//                    $log.info("取消选择", error);
+//                });
+//            }
+//        };
 
 
         vm.queryUserInfo = function(){
