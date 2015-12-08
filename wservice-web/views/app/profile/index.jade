@@ -26,6 +26,8 @@ block content
                         ul.nav.navbar-nav.navbar-left
                             li
                                 button.btn.btn-primary.navbar-btn(type="button", ng-click="vm.changePwd()") 更改密码
+                                button.btn.btn-primary(type="button",ng-click="vm.changeImg()") 更改头像
+                                div(npt-select-image="vm.selectImageOptions")
 
             div.page-header
                 h4 用户个人信息

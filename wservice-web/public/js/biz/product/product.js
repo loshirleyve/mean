@@ -407,10 +407,11 @@ angular.module("productApp", ["ui.neptune",
         //执行查询
         self.queryCities();
     })
-    .service("groupService",function(AddOrUpdateMdProductGroup){
-        var self=this;
+    .service("groupService", function (AddOrUpdateMdProductGroup, QueryMdProductGroup) {
+        var self = this;
 
         self.addMdProductGroup = AddOrUpdateMdProductGroup;
+        self.queryMdProductGroup = QueryMdProductGroup;
 
         self.addGroup = function (params, $q) {
             var deferd = $q.defer();
@@ -419,6 +420,13 @@ angular.module("productApp", ["ui.neptune",
                     deferd.resolve();
                 }, function () {
                     deferd.reject();
+                });
+        };
+
+        self.queryMdProductGroup = function (params) {
+            self.queryMdProductGroup.post(params.data)
+                .then(function () {
+                }, function () {
                 });
         };
 
@@ -513,7 +521,7 @@ angular.module("productApp", ["ui.neptune",
             $location.path("/edit/" + productId);
         };
     })
-    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryRequirementsByInstid, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, RemoveProductProfile, RemoveProductPhase, RemoveProductRequirement, AddProductRequirement, RemoveProductGroup, RemoveProductClassify, RemoveProductDescr,UpdateProductState, productForm, requirementListGrid, nptSessionManager, nptMessageBox) {
+    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryRequirementsByInstid, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, RemoveProductProfile, RemoveProductPhase, RemoveProductRequirement, AddProductRequirement, RemoveProductGroup, RemoveProductClassify, RemoveProductDescr, UpdateProductState, productForm, requirementListGrid, nptSessionManager, nptMessageBox) {
         var vm = this;
 
         //记录当前编辑的产品id
@@ -529,7 +537,7 @@ angular.module("productApp", ["ui.neptune",
 
         vm.queryRequirements = QueryRequirementsByInstid;
 
-        vm.updateProState=UpdateProductState;
+        vm.updateProState = UpdateProductState;
 
         //保存产品
         function saveProduct() {
@@ -619,32 +627,27 @@ angular.module("productApp", ["ui.neptune",
         };
 
         //下架
-        vm.isShowOffTheShelf=function(product)
-        {
-            if(product.state=="normal" || product.state=="promotion")
-            {
+        vm.isShowOffTheShelf = function (product) {
+            if (product.state == "normal" || product.state == "promotion") {
                 return true;
             }
             return false;
         };
 
         //发布
-        vm.isShowRelease=function(product)
-        {
-            if(product.state=="draft")
-            {
+        vm.isShowRelease = function (product) {
+            if (product.state == "draft") {
                 return true;
             }
             return false;
         };
 
-        vm.updateProductState=function(productid,state)
-        {
+        vm.updateProductState = function (productid, state) {
             vm.updateProState.post({
                 productid: productid,
-                state:state
+                state: state
             }).then(function (response) {
-                vm.modelProduct.state=angular.copy(state);
+                vm.modelProduct.state = angular.copy(state);
                 Notification.success({
                     title: "操作成功.",
                     delay: 2000
@@ -845,11 +848,10 @@ angular.module("productApp", ["ui.neptune",
             });
         };
 
-    }).controller("groupListController", function ($scope, $location, $routeParams, Notification,QueryMdProductGroup, AddOrUpdateMdProductGroup,
-                                                   groupService, productMdGroupListGrid, nptSessionManager) {
+    }).controller("groupListController", function ($scope, $location, $routeParams, Notification, QueryMdProductGroup, AddOrUpdateMdProductGroup, groupService, productMdGroupListGrid, nptSessionManager) {
         var vm = this;
 
-        vm.groupService=groupService;
+        vm.groupService = groupService;
 
         vm.province = $routeParams.province;
         vm.city = $routeParams.city;
@@ -893,8 +895,7 @@ angular.module("productApp", ["ui.neptune",
         vm.queryGroupList();
 
     })
-    .controller("editProductProfileController", function ($routeParams, $location, ProductProfilesForm, AddOrUpdateProductProfile,
-                                                          QueryProductProfileInfo,QueryProductProfileByProductid, Notification, nptSessionManager) {
+    .controller("editProductProfileController", function ($routeParams, $location, ProductProfilesForm, AddOrUpdateProductProfile, QueryProductProfileInfo, QueryProductProfileByProductid, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -1009,8 +1010,7 @@ angular.module("productApp", ["ui.neptune",
         vm.queryById(vm.profileid);
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductDescrController", function ($routeParams, $location, ProductDescrsForm, AddOrUpdateProductDescr,
-                                                          QueryProductDescrInfo, QueryProductDescrByProductid, Notification, nptSessionManager) {
+    }).controller("editProductDescrController", function ($routeParams, $location, ProductDescrsForm, AddOrUpdateProductDescr, QueryProductDescrInfo, QueryProductDescrByProductid, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -1124,9 +1124,7 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductClassifiesController", function ($routeParams, $location, ProductClassifiesForm,AddOrUpdateProductClassify,
-                                                               QueryProductClassifyInfo,QueryProductClassifyByProductid, ProductQueryService,
-                                                               Notification, nptSessionManager) {
+    }).controller("editProductClassifiesController", function ($routeParams, $location, ProductClassifiesForm, AddOrUpdateProductClassify, QueryProductClassifyInfo, QueryProductClassifyByProductid, ProductQueryService, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -1246,9 +1244,7 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductGroupController", function ($routeParams, $location, ProductGroupForm, AddOrUpdateProductGroup,
-                                                          QueryProductGroupInfo, QueryProductInfo, QueryProductGroupByProductid,
-                                                          Notification, nptSessionManager) {
+    }).controller("editProductGroupController", function ($routeParams, $location, ProductGroupForm, AddOrUpdateProductGroup, QueryProductGroupInfo, QueryProductInfo, QueryProductGroupByProductid, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -1366,8 +1362,7 @@ angular.module("productApp", ["ui.neptune",
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
     })
-    .controller("editProductPhaseController", function ($routeParams, $location, ProductPhaseForm, AddOrUpdateProductPhase,
-                                                        QueryProductPhaseInfo, QueryProductPhaseByProductid, Notification, nptSessionManager) {
+    .controller("editProductPhaseController", function ($routeParams, $location, ProductPhaseForm, AddOrUpdateProductPhase, QueryProductPhaseInfo, QueryProductPhaseByProductid, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id

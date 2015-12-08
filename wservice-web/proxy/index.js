@@ -170,6 +170,9 @@ proxy.action("queryUsersByOrgid", {
 }).action("updateWorkordersToRead", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
+}).action("UpdateWorkOrderByBatch",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateWorkOrderByBatchService"
 });
 
 
@@ -250,6 +253,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("UpdatePasswd", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.UpdatePasswdService"
+}).action("UpdateUserByHeaderfileid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.UpdateUserByHeaderfileidService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
