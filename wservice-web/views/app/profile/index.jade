@@ -38,7 +38,7 @@ block content
             div.page-body
                 div.col-md-4
                     div.thumbnail(href="")
-                        img(npt-image="vm.profile.user.headerfileid",npt-image-options="vm.imageOptions")
+                        img(npt-image="vm.userInfo.data.headerfileid",npt-image-options="vm.imageOptions")
 
                 div.col-md-8
                     dl.dl-horizontal
@@ -54,6 +54,8 @@ block content
                         dd(ng-bind="vm.userInfo.data.no")
                         dt 在线状态:
                         dd(ng-bind="vm.userInfo.data.onlinestate=='offline'?'离线':'在线'")
+                        dt 机构名称:
+                        dd(ng-bind="vm.instName")
                         dt 签名:
                         dd(ng-bind="vm.userInfo.data.signature")
 

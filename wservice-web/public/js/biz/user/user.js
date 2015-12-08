@@ -44,7 +44,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
@@ -56,20 +56,13 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             labelProp: "thumbnailUrl"
         };
 
-        vm.profile = {
-            user: undefined,
-            inst: undefined,
-            init: function () {
-                var self = this;
-                this.user = nptSessionManager.getSession().getUser();
-                this.inst = nptSessionManager.getSession().getInst();
-            }
-        };
-
-        vm.profile.init();
-
         vm.queryUserInfo = function(){
             vm.userInfo.post().then(function(response){
+                for(var key in response.cache.user){
+                    if(response.cache.user[key].id == response.data.id){
+                        vm.instName = response.cache.user[key].instname;
+                    }
+                }
             },function(error){
                 Notification.error({
                     message:error.data.cause, delay:2000

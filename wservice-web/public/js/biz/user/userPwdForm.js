@@ -3,20 +3,21 @@
  */
 
 angular.module("userApp.userPwdForm", ["ui.neptune"])
-    .factory("UserPwdForm", function(nptFormlyStore, RegExpValidatorFactory){
+    .factory("UserPwdForm", function (nptFormlyStore, RegExpValidatorFactory) {
         return nptFormlyStore("UserPwdForm", {
-            field:[
+            fields: [
                 {
                     key:'oldPasswd',
-                    type:'password',
+                    type:'input',
                     templateOptions:{
                         required:true,
-                        label:'原密码'
+                        label:'原密码',
+                        placeholder: "请输入原始密码"
                     }
                 },
                 {
                     key:'newPasswd',
-                    type:'password',
+                    type:'input',
                     templateOptions:{
                         required:true,
                         label:'新密码',
@@ -32,10 +33,11 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                 },
                 {
                     key:'newPasswd2',
-                    type:'password',
+                    type:'input',
                     templateOptions:{
                         required:true,
-                        label:'确认新密码'
+                        label:'确认新密码',
+                        placeholder: "请确认新密码"
                     },
                     validators: {
                         pwdFormat: {
@@ -47,6 +49,6 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                     },
                     modelOptions:{ updateOn: 'blur' }
                 }
-            ]
+        ]
         });
     });
