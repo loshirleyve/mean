@@ -25,7 +25,9 @@ block content
                     div.collapse.navbar-collapse.col-md-3
                         ul.nav.navbar-nav.navbar-left
                             li
-                                button.btn.btn-primary.navbar-btn(type="button", onclick="vm.changePwd()") 更改密码
+                                button.btn.btn-primary.navbar-btn(type="button", ng-click="vm.changePwd()") 更改密码
+                                button.btn.btn-primary(type="button",ng-click="vm.changeImg()") 更改头像
+                                div(npt-select-image="vm.selectImageOptions")
 
             div.page-header
                 h4 用户个人信息
@@ -63,10 +65,10 @@ block content
                         form
                             div.form-group
                                 label(for="originPwd") 原密码
-                                input#originPwd.form-control(type="password", placeholder="请输入原密码")
+                                input#originPwd.form-control(ng-model="vm.model.oriPwd", type="password", placeholder="请输入原密码")
                             div.form-group
                                 label(for="newPwd") 新密码
-                                input#newPwd.form-control(type="password", placeholder="请输入新密码")
+                                input#newPwd.form-control(ng-model="vm.model.newPwd", type="password", placeholder="请输入新密码")
             div.modal-footer
                 button.btn.btn-default(type="button",data-dismiss="modal", ng-click="vm.cancel()") 关闭
                 button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
