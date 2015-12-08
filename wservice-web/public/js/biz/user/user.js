@@ -76,8 +76,8 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                         Notification.error({
                             title:"更改密码失败.",
                             message:err.data.cause, delay:2000
-                        })
-                    })
+                        });
+                    });
                 }, function(){
                     //用户关闭
                 }) ;
