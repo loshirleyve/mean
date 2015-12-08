@@ -224,7 +224,7 @@ block content
                     a(href="#/list")
                         span 工单列表
                 li
-                    a(href="#/detail/{{workorderid}}")
+                    a(href="#/detail/{{vm.workorderid}}")
                         span 工单详情
                 li.active 开始工单
             nav.navbar.navbar-default.navbar-fixed-top
@@ -233,7 +233,7 @@ block content
                         a.navbar-brand(href="") 完成工单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="#/detail/{{workorderid}}") 返回
+                            a(href="#/detail/{{vm.workorderid}}") 返回
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -296,7 +296,7 @@ block content
                     a(href="#/list")
                         span 工单列表
                 li
-                    a(href="#/detail/{{workorderid}}")
+                    a(href="#/detail/{{vm.workorderid}}")
                         span 工单详情
                 li.active 转交工单
             nav.navbar.navbar-default.navbar-fixed-top
