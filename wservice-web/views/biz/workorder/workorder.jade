@@ -310,11 +310,11 @@ block content
                         a.navbar-brand(href="") 转交工单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="",type="button",ng-click="vm.deliverWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 确认转交
+                            a(href="",ng-click="vm.deliverWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 确认转交
                         li
-                            a(href="",type="button",ng-click="vm.nptFormApi.reset()") 重置
+                            a(href="",ng-click="vm.nptFormApi.reset()") 重置
                         li
-                            a(href="",type="button",ng-click="vm.toDetail()") 返回
+                            a(href="",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
             div.panel.panel-default
