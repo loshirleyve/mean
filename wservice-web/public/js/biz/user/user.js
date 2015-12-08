@@ -29,10 +29,26 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
            "userid":nptSessionManager.getSession().getUser().id
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager, $uibModal, updatePasswd){
+    .factory("updateUserByHeaderfileid", function(nptRepository, nptSessionManager){
+        return nptRepository("UpdateUserByHeaderfileid").params({
+           "userid":nptSessionManager.getSession().getUser().id
+        });
+    })
+    .factory("queryFile", function(nptRepository, nptSessionManager){
+        return nptRepository("QueryFile").params({
+           "userid":nptSessionManager.getSession().getUser().id,
+            "level":"user",
+            "instid":nptSessionManager.getSession().getInst().id,
+            "filetype":"image"
+        }).addRequestInterceptor(function(request){
+            return request;
+        });
+    })
+    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
+        vm.updateUserImg = updateUserByHeaderfileid;
 
         vm.imageOptions = {
             repository: QueryFileById,
@@ -82,6 +98,55 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                     //用户关闭
                 }) ;
         };
+
+        vm.selectImageOptions = {
+            imageRepository: queryFile,
+            onRegisterApi: function (selectImageApi) {
+                vm.selectImageApi = selectImageApi;
+            },
+            single: true
+        };
+
+        vm.imageOptions = {
+            repository:queryFile.addResponseInterceptor(function(response) {
+                if (response.data) {
+                    response.data.forEach(function(item) {
+                        var file = nptCache.get("file", item.id);
+                        if (file) {
+                            item.thumbnailUrl = file.thumbnailUrl;
+                        }
+                    });
+                }
+                return response;
+            }),
+            searchProp:"id",
+            labelProp:"thumbnailUrl",
+            class:"col-md-2 thumbnail",
+            emptyImage:"https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150",
+            errorImage:"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/logo_white_fe6da1ec.png"
+        };
+
+
+        vm.changeImg = function () {
+            if (vm.selectImageApi) {
+                vm.selectImageApi.open().then(function (response) {
+                    $log.info("用户选择了图片", response);
+                    //vm.selected = response;
+                    vm.updateUserImg.post({"headerfileid":response[0].file.id}).then(function(response){
+                        Notification.success({
+                            message:'修改用户头像成功!', delay:2000
+                        })
+                    }, function(error){
+                        Notification.error({
+                            title:"修改用户头像失败.",
+                            message:error.data.cause, delay:2000
+                        });
+                    });
+                }, function (error) {
+                    $log.info("取消选择", error);
+                });
+            }
+        }
     })
     .controller("changePwdController", function($uibModalInstance){
         var vm=this;
