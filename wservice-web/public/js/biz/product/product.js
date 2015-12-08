@@ -428,7 +428,7 @@ angular.module("productApp", ["ui.neptune",
                 .then(function () {
                 }, function () {
                 });
-        }
+        };
 
     })
     .controller("productListQueryController", function ($uibModalInstance) {
