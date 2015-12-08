@@ -170,6 +170,9 @@ proxy.action("queryUsersByOrgid", {
 }).action("updateWorkordersToRead", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
+}).action("UpdateWorkOrderByBatch",{
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateWorkOrderByBatchService"
 });
 
 

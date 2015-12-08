@@ -93,10 +93,8 @@ angular.module("orderApp", [
     }).factory("UpdateOrderAdviser", function (nptRepository) {
         return nptRepository("UpdateOrderAdviser");
     })
-    .factory("UpdateWorkOrderProcess", function (nptRepository, nptSessionManager) {
-        return nptRepository("UpdateWorkOrderProcess").params({
-            assignedid: nptSessionManager.getSession().getUser().id
-        });
+    .factory("UpdateWorkOrderByBatch", function (nptRepository) {
+        return nptRepository("UpdateWorkOrderByBatch");
     })
     .service("OrderListQueryService", function (Notification, QueryOrderList) {
         var self = this;
@@ -320,7 +318,7 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UpdateWorkOrderProcess, UserListBySelectTree, OrgListBySelectTree) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -328,11 +326,7 @@ angular.module("orderApp", [
         //订单信息资源库
         vm.orderInfo = QueryOrderInfo;
         //分配工单员
-        vm.updateWorkOrderProcess = UpdateWorkOrderProcess;
-        //数据模型
-        vm.model = {};
-        vm.modelProducts = [];
-        vm.modelWorkorders = [];
+        vm.updateWorkOrderByBatch = UpdateWorkOrderByBatch;
 
         //表单配置
         vm.orderFormOptions = {
@@ -410,12 +404,14 @@ angular.module("orderApp", [
                 //弹出用户选择窗口
                 vm.selectTreeApi.open().then(function (response) {
                     if (response && response.length > 0) {
-                        vm.updateWorkOrderProcess.post({
+                        vm.updateWorkOrderByBatch.post({
                             workordernos: workordernos,
-                            processid: response[0].id
+                            source: "so",
+                            sourcevalue: vm.orderInfo.data.order.id,
+                            targetprocessid: response[0].id,
+                            assignedid: nptSessionManager.getSession().getUser().id
                         }).then(function () {
                             Notification.error({message: '分配工单员成功.', delay: 2000});
-
                             //分配完成后需要刷新单据
                             vm.query();
                         }, function (error) {
@@ -515,8 +511,17 @@ angular.module("orderApp", [
         };
 
         vm.confirm = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
-                Notification.error({message: '请输入正确的确认订单信息.', delay: 2000});
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
+                    errorText = errorText + value + "</br>";
+                });
+
+                Notification.error({
+                    title: "请输入正确的确认订单信息",
+                    message: errorText, delay: 2000
+                });
             } else {
                 vm.model.orderid = vm.orderid;
                 vm.orderByConfirm.post(vm.model).then(function (response) {
@@ -561,8 +566,18 @@ angular.module("orderApp", [
         vm.model = {};
 
         vm.adviser = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
-                Notification.error({message: '请正确输入专属顾问信息.', delay: 2000});
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
+                    errorText = errorText + value + "</br>";
+                });
+
+                Notification.error({
+                    title: "请正确输入专属顾问信息",
+                    message: errorText, delay: 2000
+                });
+
             } else {
                 vm.orderAdviser.post({
                     orderid: vm.orderid,
@@ -625,8 +640,17 @@ angular.module("orderApp", [
         };
 
         vm.changePrice = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
-                Notification.error({message: '请输入正确的新订单价格..', delay: 2000});
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
+                    errorText = errorText + value + "</br>";
+                });
+
+                Notification.error({
+                    title: "请正确填写表单内容.",
+                    message: errorText, delay: 2000
+                });
             } else {
                 vm.updateOrderPrice.post({
                     orderid: vm.orderid,

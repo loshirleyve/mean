@@ -66,7 +66,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 订单详情
+                        a.navbar-brand(href="") 订单详情 - {{vm.modelOrder.name}}
                     div.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.orderInfo.loading()")
                             li
@@ -183,9 +183,9 @@ block content
                         a.navbar-brand(href="") 确认订单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
+                            a(type="button",ng-click="vm.confirm()",ng-disabled="vm.nptFormApi.form.$invalid") 立即确认
                         li
-                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                            a(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
             div.panel.panel-default
@@ -244,9 +244,9 @@ block content
                         a.navbar-brand(href="") 确认订单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.adviser()",ng-disabled="vm.nptFormApi.form.$invalid") 立即分配
+                            a(type="button",ng-click="vm.adviser()",ng-disabled="vm.nptFormApi.form.$invalid") 立即分配
                         li
-                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                            a(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
 
@@ -297,9 +297,9 @@ block content
                         li(ng-if="vm.updateOrderPrice.loading()")
                             a(href="") 正在处理请稍后...
                         li(ng-if="!vm.updateOrderPrice.loading()")
-                            button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.changePrice()",ng-disabled="vm.nptFormApi.form.$invalid") 确认改价
+                            a(ng-click="vm.changePrice()",ng-disabled="vm.nptFormApi.form.$invalid") 确认改价
                         li(ng-if="!vm.updateOrderPrice.loading()")
-                            button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
+                            a(ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
             div.panel.panel-default

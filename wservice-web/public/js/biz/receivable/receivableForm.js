@@ -11,7 +11,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
             fields: [
                 {
                     key: 'amount',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '本次收款金额:'
@@ -45,9 +45,10 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                 },
                 {
                     key: 'remark',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
-                        label: '说明:'
+                        label: '说明:',
+                        maxlength:200
                     }
                 }
             ],
@@ -120,7 +121,7 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         ],
                         allowClear:false
                     },
-                    defaultValue:0
+                    defaultValue:'no'
                 }
             ],
             buttons: {
