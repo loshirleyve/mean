@@ -25,7 +25,7 @@ block content
                     div.collapse.navbar-collapse.col-md-3
                         ul.nav.navbar-nav.navbar-left
                             li
-                                button.btn.btn-primary.navbar-btn(type="button", onclick="") 更改密码
+                                button.btn.btn-primary.navbar-btn(type="button", onclick="vm.changePwd()") 更改密码
 
             div.page-header
                 h4 用户个人信息
@@ -37,6 +37,36 @@ block content
                 div.col-md-8
                     dl.dl-horizontal
                         dt 用户名:
-                        dd {{vm.userInfo.data.name}}
+                        dd(ng-bind="vm.userInfo.data.name")
+                        dt 性别:
+                        dd(ng-bind="vm.userInfo.data.sex")
+                        dt 生日:
+                        dd(ng-bind="vm.userInfo.data.birthday")
                         dt 注册时间:
-                        dd {{vm.userInfo.data.createdate}}
+                        dd(ng-bind="vm.userInfo.data.registerdate | timestampFilter")
+                        dt 联系电话:
+                        dd(ng-bind="vm.userInfo.data.no")
+                        dt 在线状态:
+                        dd(ng-bind="vm.userInfo.data.onlinestate=='offline'?'离线':'在线'")
+                        dt 签名:
+                        dd(ng-bind="vm.userInfo.data.signature")
+
+        script(type="text/ng-template",id="changePassword.html")
+            //弹出层，客户条件查询表单
+            div.modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close", ng-click="vm.cancel()")
+                    span(aria-hidden="true")&times;
+                h4.modal-title 更改密码
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        form
+                            div.form-group
+                                label(for="originPwd") 原密码
+                                input#originPwd.form-control(type="password", placeholder="请输入原密码")
+                            div.form-group
+                                label(for="newPwd") 新密码
+                                input#newPwd.form-control(type="password", placeholder="请输入新密码")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="modal", ng-click="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认

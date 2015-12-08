@@ -24,7 +24,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
            "userid":nptSessionManager.getSession().getUser().id
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager, $uibModal){
         var vm = this;
         vm.userInfo = queryUserInfoById;
 
@@ -55,4 +55,27 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             });
         };
         vm.queryUserInfo();
+
+        vm.changePwd = function(){
+            $uibModal.open({
+                animation:true,
+                templateUrl:'changePassword.html',
+                controller:'changePwdController',
+                controllerAs:'vm'
+            }).result.then(function(response){
+                    //调用服务
+                }, function(){
+                    //用户关闭
+                }) ;
+        }
+    })
+    .controller("changePwdController", function($uibModalInstance){
+        var vm=this;
+        vm.model = {};
+        vm.ok = function(){
+            $uibModalInstance.close(vm.model);
+        };
+        vm.cancel = function(){
+          $uibModalInstance.dismiss('cancel');
+        };
     });
