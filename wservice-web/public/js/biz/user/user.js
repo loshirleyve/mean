@@ -135,7 +135,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                     vm.updateUserImg.post({"headerfileid":response[0].file.id}).then(function(response){
                         Notification.success({
                             message:'修改用户头像成功!', delay:2000
-                        })
+                        });
                     }, function(error){
                         Notification.error({
                             title:"修改用户头像失败.",
@@ -146,7 +146,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                     $log.info("取消选择", error);
                 });
             }
-        }
+        };
     })
     .controller("changePwdController", function($uibModalInstance){
         var vm=this;
