@@ -40,7 +40,7 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                     validators: {
                         pwdFormat: {
                             expression: function(viewValue,modelValue,scope) {
-                                return viewValue == scope.model['newPasswd'];
+                                return viewValue == scope.model.newPasswd;
                             },
                             message: '"再次密码输入不一致！"'
                         }
@@ -48,5 +48,5 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                     modelOptions:{ updateOn: 'blur' }
                 }
             ]
-        })
+        });
     });
