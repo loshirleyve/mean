@@ -280,7 +280,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
     controller("WorkorderDetailController", function ($scope, $location, $routeParams, nptSessionManager, QueryWorkorderInfo, QueryWorkorderList, WorkorderForm, WorkorderAttachmentGrid,WorkorderCommentGrid, Notification) {
         var vm = this;
 
-        var workorderid = $routeParams.id;
+        vm.workorderid = $routeParams.id;
 
         //工单列表资源库
         vm.workorderList = QueryWorkorderList;
@@ -336,9 +336,9 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         //查询工单
         vm.query = function () {
 
-            if (workorderid) {
+            if (vm.workorderid) {
                 vm.workorderInfo.post({
-                    workorderid: workorderid
+                    workorderid: vm.workorderid
                 }).then(function (response) {
                     vm.modelAttachment = response.data.orderAttachments;
                     vm.modelComment = response.data.workorderComment;

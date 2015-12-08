@@ -31,9 +31,9 @@ block content
                         a.navbar-brand(href="#") 工单列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.queryService.workorderList.loading() || vm.workorderUnreadService.workordersIsUnread.loading()")
+                            li(ng-if="vm.queryService.workorderList.loading() || vm.workorderUnreadService.queryWorkordersUnread.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.queryService.workorderList.loading() && !vm.workorderUnreadService.workordersIsUnread.loading()')
+                            li.dropdown(ng-if='!vm.queryService.workorderList.loading() && !vm.workorderUnreadService.queryWorkordersUnread.loading()')
                                 a.dropdown-toggle(href="",data-toggle="dropdown") 工单查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
