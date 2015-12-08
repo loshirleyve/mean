@@ -194,11 +194,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             $location.path("/addClient/");
         };
 
-        //跳转到客户列表界面
-        vm.goToList = function(){
-            $location.path("/list/");
-        };
-
         //转到下一个客户
         vm.next = function(client){
             var nextClient = vm.clientList.next(client);
@@ -341,11 +336,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         vm.reset = function () {
             vm.nptFormApi.reset();
-        };
-
-        //跳转到客户列表界面
-        vm.goToList = function(){
-          $location.path("/list/");
         };
 
         //新增客户

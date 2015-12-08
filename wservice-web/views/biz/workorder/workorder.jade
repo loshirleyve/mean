@@ -31,9 +31,9 @@ block content
                         a.navbar-brand(href="#") 工单列表
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li(ng-if="vm.queryService.workorderList.loading() || vm.workorderUnreadService.workordersIsUnread.loading()")
+                            li(ng-if="vm.queryService.workorderList.loading() || vm.workorderUnreadService.queryWorkordersUnread.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li.dropdown(ng-if='!vm.queryService.workorderList.loading() && !vm.workorderUnreadService.workordersIsUnread.loading()')
+                            li.dropdown(ng-if='!vm.queryService.workorderList.loading() && !vm.workorderUnreadService.queryWorkordersUnread.loading()')
                                 a.dropdown-toggle(href="",data-toggle="dropdown") 工单查询 - {{vm.queryService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
@@ -65,23 +65,25 @@ block content
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="") 工单详情
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.workorderInfo.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.workorderInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.previous(vm.workorderInfo.data.workOrder)") 上一单
-                        li(ng-if="!vm.orderInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.next(vm.workorderInfo.data.workOrder)") 下一单
-                        li
-                            a(href="#/startWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isUnstart()") 开始做
-                        li
-                            a(href="#/completeWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isInservice()") 完成
-                        li
-                            a(href="#/deliverWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isNotComplete()") 转交
-                        li
-                            a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}" target="_blank") 查看订单
-                        li
-                            a(href="#/list") 返回
+                    div.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.workorderInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.workorderInfo.loading()")
+                            li(ng-if="!vm.workorderInfo.loading()")
+                                a(href="",ng-click="vm.previous(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.previous(vm.workorderInfo.data.workOrder)") 上一单
+                            li(ng-if="!vm.orderInfo.loading()")
+                                a(href="",ng-click="vm.next(vm.workorderInfo.data.workOrder)",ng-show="vm.workorderList.next(vm.workorderInfo.data.workOrder)") 下一单
+                            li
+                                a(href="#/startWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isUnstart()") 开始做
+                            li
+                                a(href="#/completeWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isInservice()") 完成
+                            li
+                                a(href="#/deliverWorkorder/{{vm.workorderInfo.data.workOrder.id}}",ng-show="vm.isNotComplete()") 转交
+                            li
+                                a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}" target="_blank") 查看订单
+                            li
+                                a(href="#/list") 返回
             div.page-header
                 h4 基本信息
             div.page-body
@@ -93,9 +95,11 @@ block content
                     dt 客户机构:
                     dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
                     dt 工单来源:
-                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
-                    dt 工单来源值:
-                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
+                    dd
+                        div(ng-if="vm.workorderInfo.data.workOrder.source == 'so'")
+                            a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}" target="_blank") {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                        div(ng-if="!vm.workorderInfo.data.workOrder.source == 'so'")
+                            {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
@@ -127,9 +131,10 @@ block content
                     div.list-group-item(ng-repeat="item in vm.modelAttachment")
                         div.list-group-item-heading
                             div.row
-                                div.col-xs-6.col-md-6
+                                div.col-xs-6.col-md-3
                                     h5 {{item.attachname}}
-                                    div(ng-if="item.inputtype === 'image'", style="width:200px;height:100px;",npt-image="item.inputvalue")
+                                    div.thumbnail(ng-if="item.inputtype === 'image'")
+                                        div(npt-image="item.inputvalue")
                                     p(ng-if="item.inputtype === 'text'")
                                         {{item.inputvalue}}
                         div.list-group-item-text
@@ -178,39 +183,39 @@ block content
                             button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
-            div.well
-                span 请核对以下工单信息!
-                dl.dl-horizontal
-                    dt 工单编号:
-                    dd {{vm.workorderInfo.data.workOrder.sn}}
-                    dt 工单名称:
-                    dd {{vm.workorderInfo.data.workOrder.name}}
-                    dt 客户机构:
-                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
-                    dt 工单来源:
-                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
-                    dt 工单来源值:
-                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
-                    dt 工单描述:
-                    dd {{vm.workorderInfo.data.workOrder.descr}}
-                    dt 工单状态:
-                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
-                    dt 分配人:
-                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
-                    dt 处理人:
-                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
-                    dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
-                    dt 计划开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 实际开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
-                    dt 计划完成日期:
-                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 职责:
-                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
-                    dt 创建日期:
-                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请核对以下工单信息!
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 工单编号:
+                        dd {{vm.workorderInfo.data.workOrder.sn}}
+                        dt 工单名称:
+                        dd {{vm.workorderInfo.data.workOrder.name}}
+                        dt 客户机构:
+                        dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                        dt 工单来源:
+                        dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                        dt 工单描述:
+                        dd {{vm.workorderInfo.data.workOrder.descr}}
+                        dt 工单状态:
+                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dt 分配人:
+                        dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                        dt 处理人:
+                        dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                        dt 分配日期:
+                        dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                        dt 计划开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 实际开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                        dt 计划完成日期:
+                        dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 职责:
+                        dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                        dt 创建日期:
+                        dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.startWorkorderOptions",model="vm.model")
         script(type="text/ng-template",id="completeWorkorder.html")
@@ -224,7 +229,7 @@ block content
                     a(href="#/list")
                         span 工单列表
                 li
-                    a(href="#/detail/{{workorderid}}")
+                    a(href="#/detail/{{vm.workorderid}}")
                         span 工单详情
                 li.active 开始工单
             nav.navbar.navbar-default.navbar-fixed-top
@@ -233,7 +238,7 @@ block content
                         a.navbar-brand(href="") 完成工单
                     ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="#/detail/{{workorderid}}") 返回
+                            a(href="#/detail/{{vm.workorderid}}") 返回
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -247,39 +252,39 @@ block content
                             button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
-            div.well
-                span 请核对以下工单信息!
-                dl.dl-horizontal
-                    dt 工单编号:
-                    dd {{vm.workorderInfo.data.workOrder.sn}}
-                    dt 工单名称:
-                    dd {{vm.workorderInfo.data.workOrder.name}}
-                    dt 客户机构:
-                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
-                    dt 工单来源:
-                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
-                    dt 工单来源值:
-                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
-                    dt 工单描述:
-                    dd {{vm.workorderInfo.data.workOrder.descr}}
-                    dt 工单状态:
-                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
-                    dt 分配人:
-                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
-                    dt 处理人:
-                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
-                    dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
-                    dt 计划开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 实际开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
-                    dt 计划完成日期:
-                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 职责:
-                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
-                    dt 创建日期:
-                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请核对以下工单信息!
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 工单编号:
+                        dd {{vm.workorderInfo.data.workOrder.sn}}
+                        dt 工单名称:
+                        dd {{vm.workorderInfo.data.workOrder.name}}
+                        dt 客户机构:
+                        dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                        dt 工单来源:
+                        dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                        dt 工单描述:
+                        dd {{vm.workorderInfo.data.workOrder.descr}}
+                        dt 工单状态:
+                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dt 分配人:
+                        dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                        dt 处理人:
+                        dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                        dt 分配日期:
+                        dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                        dt 计划开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 实际开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                        dt 计划完成日期:
+                        dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 职责:
+                        dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                        dt 创建日期:
+                        dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.completeWorkorderOptions",model="vm.model")
 
@@ -296,7 +301,7 @@ block content
                     a(href="#/list")
                         span 工单列表
                 li
-                    a(href="#/detail/{{workorderid}}")
+                    a(href="#/detail/{{vm.workorderid}}")
                         span 工单详情
                 li.active 转交工单
             nav.navbar.navbar-default.navbar-fixed-top
@@ -312,38 +317,38 @@ block content
                             button.btn.btn-warning.navbar-btn(type="button",ng-click="vm.toDetail()") 返回
                         li
                             | &nbsp &nbsp &nbsp &nbsp
-            div.well
-                span 请核对以下工单信息!
-                dl.dl-horizontal
-                    dt 工单编号:
-                    dd {{vm.workorderInfo.data.workOrder.sn}}
-                    dt 工单名称:
-                    dd {{vm.workorderInfo.data.workOrder.name}}
-                    dt 客户机构:
-                    dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
-                    dt 工单来源:
-                    dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
-                    dt 工单来源值:
-                    dd {{vm.workorderInfo.data.workOrder.sourcevalue}}
-                    dt 工单描述:
-                    dd {{vm.workorderInfo.data.workOrder.descr}}
-                    dt 工单状态:
-                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
-                    dt 分配人:
-                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
-                    dt 处理人:
-                    dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
-                    dt 分配日期:
-                    dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
-                    dt 计划开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 实际开始日期:
-                    dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
-                    dt 计划完成日期:
-                    dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
-                    dt 职责:
-                    dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
-                    dt 创建日期:
-                    dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
+            div.panel.panel-default
+                div.panel-heading
+                    span 请核对以下工单信息!
+                div.panel-body
+                    dl.dl-horizontal
+                        dt 工单编号:
+                        dd {{vm.workorderInfo.data.workOrder.sn}}
+                        dt 工单名称:
+                        dd {{vm.workorderInfo.data.workOrder.name}}
+                        dt 客户机构:
+                        dd {{vm.workorderInfo.data.workOrder.clientinstid | cacheFilter:'inst':'instname':'instid'}}
+                        dt 工单来源:
+                        dd {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                        dt 工单描述:
+                        dd {{vm.workorderInfo.data.workOrder.descr}}
+                        dt 工单状态:
+                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dt 分配人:
+                        dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
+                        dt 处理人:
+                        dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                        dt 分配日期:
+                        dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
+                        dt 计划开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.processdate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 实际开始日期:
+                        dd {{vm.workorderInfo.data.workOrder.doactiondate | timestampFilter}}
+                        dt 计划完成日期:
+                        dd {{vm.workorderInfo.data.workOrder.expirydate | timestampFilter:"yyyy-MM-dd"}}
+                        dt 职责:
+                        dd {{vm.workorderInfo.data.workOrder.duty | timestampFilter}}
+                        dt 创建日期:
+                        dd {{vm.workorderInfo.data.workOrder.createdate | timestampFilter}}
 
             div(npt-form="vm.deliverWorkorderOptions",model="vm.model")
