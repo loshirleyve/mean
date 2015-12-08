@@ -67,7 +67,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 }, function(){
                     //用户关闭
                 }) ;
-        }
+        };
     })
     .controller("changePwdController", function($uibModalInstance){
         var vm=this;
