@@ -644,6 +644,7 @@ angular.module("productApp", ["ui.neptune",
                 productid: productid,
                 state:state
             }).then(function (response) {
+                vm.modelProduct.state=angular.copy(state);
                 Notification.success({
                     title: "操作成功.",
                     delay: 2000
