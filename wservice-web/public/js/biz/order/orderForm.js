@@ -145,6 +145,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                 {
                     key: 'begindate',
                     type: 'dateInput',
+                    optionsTypes: ["notempty"],
                     templateOptions: {
                         "formateType": "short",
                         label: '服务开始日期:',
@@ -153,6 +154,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                 }, {
                     key: 'enddate',
                     type: 'dateInput',
+                    optionsTypes: ["notempty"],
                     templateOptions: {
                         "formateType": "short",
                         label: '服务结束日期:',
