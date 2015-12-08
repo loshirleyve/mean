@@ -17,14 +17,7 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '机构全称:'
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '$viewValue + " 中含有非法字符"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'logo',
@@ -42,6 +35,12 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '机构简称:'
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            message: '"机构简称不可以有特殊字符！"'
+                        }
                     }
                 },
                 {
@@ -50,6 +49,12 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '机构网址:'
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/[a-zA-z]+:\/\/[^\s]*/),
+                            message: '"机构网址必须为网址链接！"'
+                        }
                     }
                 },
                 {
@@ -91,6 +96,12 @@ angular.module("instApp.instForm", ["ui.neptune"])
                     templateOptions: {
                         label: '机构名称:',
                         placeholder: "请输入机构名称"
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            message: '"机构名称不可以有特殊字符！"'
+                        }
                     }
                 }
             ],

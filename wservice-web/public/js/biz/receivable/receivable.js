@@ -38,8 +38,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             });
     }).factory("QueryReceivableList", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryPayRegisters").params({
-            instid: nptSessionManager.getSession().getInst().id,
-            createby: nptSessionManager.getSession().getUser().id
+            instid: nptSessionManager.getSession().getInst().id
         });
     }).factory("QueryPayRegisterInfo", function (nptRepository) {
         return nptRepository("QueryPayRegisterByid").params({
