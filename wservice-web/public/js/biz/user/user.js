@@ -2,7 +2,7 @@
  * Created by Shirley on 2015/12/5.
  */
 
-angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification"])
+angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm"])
     .config(function($routeProvider){
         //注册用户路由
         $routeProvider.when("/userInfo",{
@@ -86,7 +86,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 controllerAs:'vm'
             }).result.then(function(response){
                     //调用更改用户密码服务
-                    vm.updateUserPwd.post({"oldPasswd":response.oriPwd, "newPasswd":response.newPwd}).then(function(response){
+                    vm.updateUserPwd.post({"oldPasswd":response.oldPasswd, "newPasswd":response.newPasswd}).then(function(response){
                         Notification.success({message:'修改密码成功！',delay:2000});
                     },function(err){
                         Notification.error({
@@ -131,7 +131,6 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             if (vm.selectImageApi) {
                 vm.selectImageApi.open().then(function (response) {
                     $log.info("用户选择了图片", response);
-                    //vm.selected = response;
                     vm.updateUserImg.post({"headerfileid":response[0].file.id}).then(function(response){
                         Notification.success({
                             message:'修改用户头像成功!', delay:2000
@@ -148,9 +147,16 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             }
         };
     })
-    .controller("changePwdController", function($uibModalInstance){
+    .controller("changePwdController", function($uibModalInstance, UserPwdForm){
         var vm=this;
         vm.model = {};
+        //修改用户密码表单配置
+        vm.userPwdFormOptions = {
+          store:UserPwdForm,
+          onRegisterApi: function(nptFormApi){
+              vm.nptFormApi = nptFormApi;
+          }
+        };
         vm.ok = function(){
             $uibModalInstance.close(vm.model);
         };

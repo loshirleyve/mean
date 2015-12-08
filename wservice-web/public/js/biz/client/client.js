@@ -304,6 +304,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "remark":clientInfo.remark
                 };
 
+                vm.nptFormApi.form.$commitViewValue();
+
                 vm.updateClient.post(updateParams)
                     .then(function(response){
                         Notification.success({message: '更新客户信息成功!', delay: 2000});
@@ -358,6 +360,8 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "level":clientInfo.level,
                     "remark":clientInfo.remark
                 };
+
+                vm.nptFormApi.form.$commitViewValue();
 
                 vm.addClient.post(params)
                     .then(function(response){
