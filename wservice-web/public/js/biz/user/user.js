@@ -2,7 +2,7 @@
  * Created by Shirley on 2015/12/5.
  */
 
-angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification"])
+angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm"])
     .config(function($routeProvider){
         //注册用户路由
         $routeProvider.when("/userInfo",{
@@ -44,7 +44,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, nptSessionManager, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
@@ -56,20 +56,13 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             labelProp: "thumbnailUrl"
         };
 
-        vm.profile = {
-            user: undefined,
-            inst: undefined,
-            init: function () {
-                var self = this;
-                this.user = nptSessionManager.getSession().getUser();
-                this.inst = nptSessionManager.getSession().getInst();
-            }
-        };
-
-        vm.profile.init();
-
         vm.queryUserInfo = function(){
             vm.userInfo.post().then(function(response){
+                for(var key in response.cache.user){
+                    if(response.cache.user[key].id == response.data.id){
+                        vm.instName = response.cache.user[key].instname;
+                    }
+                }
             },function(error){
                 Notification.error({
                     message:error.data.cause, delay:2000
@@ -86,7 +79,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 controllerAs:'vm'
             }).result.then(function(response){
                     //调用更改用户密码服务
-                    vm.updateUserPwd.post({"oldPasswd":response.oriPwd, "newPasswd":response.newPwd}).then(function(response){
+                    vm.updateUserPwd.post({"oldPasswd":response.oldPasswd, "newPasswd":response.newPasswd}).then(function(response){
                         Notification.success({message:'修改密码成功！',delay:2000});
                     },function(err){
                         Notification.error({
@@ -131,7 +124,6 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             if (vm.selectImageApi) {
                 vm.selectImageApi.open().then(function (response) {
                     $log.info("用户选择了图片", response);
-                    //vm.selected = response;
                     vm.updateUserImg.post({"headerfileid":response[0].file.id}).then(function(response){
                         Notification.success({
                             message:'修改用户头像成功!', delay:2000
@@ -148,9 +140,16 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             }
         };
     })
-    .controller("changePwdController", function($uibModalInstance){
+    .controller("changePwdController", function($uibModalInstance, UserPwdForm){
         var vm=this;
         vm.model = {};
+        //修改用户密码表单配置
+        vm.userPwdFormOptions = {
+          store:UserPwdForm,
+          onRegisterApi: function(nptFormApi){
+              vm.nptFormApi = nptFormApi;
+          }
+        };
         vm.ok = function(){
             $uibModalInstance.close(vm.model);
         };

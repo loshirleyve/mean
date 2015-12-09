@@ -511,6 +511,7 @@ angular.module("orderApp", [
         };
 
         vm.confirm = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
                 var errorText = "";
                 angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
@@ -565,8 +566,8 @@ angular.module("orderApp", [
         vm.model = {};
 
         vm.adviser = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
-
                 var errorText = "";
                 angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
                     errorText = errorText + value + "</br>";
@@ -639,6 +640,7 @@ angular.module("orderApp", [
         };
 
         vm.changePrice = function () {
+            vm.nptFormApi.form.$commitViewValue();
             if (vm.nptFormApi.form.$invalid) {
                 var errorText = "";
                 angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {

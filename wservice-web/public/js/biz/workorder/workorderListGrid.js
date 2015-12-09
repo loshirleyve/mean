@@ -17,7 +17,7 @@ angular.module("workorderApp.WorkorderListGrid", [])
                     {field: 'expirydate', displayName: "计划完成日期", width: 100, cellFilter: "timestampFilter:'yyyy-MM-dd'"},
                     {field: 'completedate', displayName: "实际完成日期", width: 150, cellFilter: "timestampFilter"},
                     {field: 'expriyday', displayName: "距离完成期限(天)", width: 100},
-                    {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"},
+                    {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"}
                 ]
             },
             action: {
