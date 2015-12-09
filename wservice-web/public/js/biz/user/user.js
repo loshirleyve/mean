@@ -169,7 +169,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 Notification.error({
                     title:"请确认修改密码各项数据填写正确!",
                     message: errorText, delay:2000
-                })
+                });
             }else{
                 $uibModalInstance.close(vm.model);
             }
