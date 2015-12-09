@@ -20,7 +20,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             .when("/failed", {
                 controller: "RegFailedController as vm",
                 templateUrl: "failed.html"
-            })
+            });
     })
     .factory("RegUserForm", function (nptFormlyStore) {
         return nptFormlyStore("RegUserForm", {
@@ -66,7 +66,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     }
                 }
             ]
-        })
+        });
     })
     .factory("KitActionQuery", function (nptRepository) {
         return nptRepository("KitActionQuery");
@@ -107,7 +107,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                             title: "注册用户出错.",
                             message: error.data.cause,
                             dealy: 2000
-                        })
+                        });
                         deferd.reject();
                     });
 
