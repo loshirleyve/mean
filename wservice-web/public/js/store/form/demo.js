@@ -114,26 +114,6 @@ angular.module("wservice.form.store.demo", ["ui.neptune", "wservice.common"])
                         label: "选择图片",
                         imageRepository: QueryImageByUserLevel
                     }
-                },
-                {
-                    key: 'uploaddemo',
-                    type: 'npt-formly-upload',
-                    templateOptions: {
-                        label: '头像',
-                        required: true,
-                        up: {
-                            filters: {
-                                mime_types: [
-                                    {title: "Image File", extensions: "jpg,gif,png"}
-                                ],
-                                max_file_size: '100kb'
-                            },
-                            multi_selection: false
-                        },
-                        getSignature: UploadSignature.query,
-                        repository: AddOrUpdateFileRepo,
-                        repositoryParams: {}
-                    }
                 }
             ]
         });

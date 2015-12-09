@@ -132,11 +132,15 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-3
-                                    h5 {{item.attachname}}
-                                    div.thumbnail(ng-if="item.inputtype === 'image'")
-                                        div(npt-image="item.inputvalue")
-                                    p(ng-if="item.inputtype === 'text'")
-                                        {{item.inputvalue}}
+                                    //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
+                                    biv(ng-if="item.inputtype === 'image'")
+                                        a(href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
+                                        div.thumbnail
+                                            div(npt-image="item.inputvalue")
+                                    div(ng-if="item.inputtype === 'text'")
+                                        h5 {{item.attachname}}
+                                        p {{item.inputvalue}}
+                                    a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
                         div.list-group-item-text
 
                             p 资料交接类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}}
@@ -185,7 +189,8 @@ block content
                             | &nbsp &nbsp &nbsp &nbsp
             div.panel.panel-default
                 div.panel-heading
-                    span 请核对以下工单信息!
+                    span 请核对以下工单信息!当前工单状态为
+                        strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                 div.panel-body
                     dl.dl-horizontal
                         dt 工单编号:

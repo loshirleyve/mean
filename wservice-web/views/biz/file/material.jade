@@ -3,6 +3,7 @@ block titleContent
     title 用户文件
 
 block content
+    script(src="/vendor/plupload-2.1.2/js/plupload.full.min.js")
     script(src="/js/biz/file/material.js")
     div(ng-app="materialFileApp")
         //内容区域
@@ -37,9 +38,10 @@ block content
                                     span(ng-if="!vm.edit") 编辑
                                     span(ng-if="vm.edit") 取消
                             li
-                                a(href="") 上传文件
+                                a(href="",ng-click="vm.upload()") 上传文件
 
             div.row(ng-if="vm.fileType === 'image'")
+                div(npt-upload-custom="vm.uploadOptions")
                 div.col-xs-6.col-md-3(ng-repeat="image in vm.queryFile.data")
                     div.thumbnail(href="")
                         div(npt-image="image.id")

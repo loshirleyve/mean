@@ -170,9 +170,9 @@ proxy.action("queryUsersByOrgid", {
 }).action("updateWorkordersToRead", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderReadStateService"
-}).action("UpdateWorkOrderByBatch",{
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.UpdateWorkOrderByBatchService"
+}).action("UpdateWorkOrderByBatch", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.UpdateWorkOrderByBatchService"
 });
 
 
@@ -192,9 +192,9 @@ proxy.action("queryInstClients", {
 }).action("instInit", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.InstInitService"
-}).action("queryInstClientInfoById",{
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryInstClientInfoByIdService"
+}).action("queryInstClientInfoById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryInstClientInfoByIdService"
 });
 
 
@@ -256,6 +256,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("UpdateUserByHeaderfileid", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.UpdateUserByHeaderfileidService"
+}).action("RegisteUser", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.RegisteUserService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
@@ -273,6 +276,12 @@ proxy.action("QueryFile", {
 }).action("AddOrUpdateFile", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.AddOrUpdateFileService"
+});
+
+/*Kit Action*/
+proxy.action("KitActionQuery", {
+    proxy: "Y9",
+    action: "com.yun9.kit.action.service.KitActionQueryService"
 });
 
 module.exports = proxy;
