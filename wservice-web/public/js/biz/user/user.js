@@ -149,7 +149,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             }
         };
     })
-    .controller("changePwdController", function($uibModalInstance, UserPwdForm){
+    .controller("changePwdController", function($uibModalInstance, UserPwdForm, Notification){
         var vm=this;
         vm.model = {};
         //修改用户密码表单配置
@@ -160,7 +160,19 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
           }
         };
         vm.ok = function(){
-            $uibModalInstance.close(vm.model);
+            vm.nptFormApi.form.$commitViewValue();
+            if(vm.nptFormApi.form.$invalid){
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function(value){
+                    errorText = errorText + value +"</br>";
+                });
+                Notification.error({
+                    title:"请确认修改密码各项数据填写正确!",
+                    message: errorText, delay:2000
+                })
+            }else{
+                $uibModalInstance.close(vm.model);
+            }
         };
         vm.cancel = function(){
           $uibModalInstance.dismiss('cancel');
