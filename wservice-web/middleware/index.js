@@ -6,24 +6,43 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = function (app) {
-    var files = fs.readdirSync(__dirname + "");
+    function builder(dirname, parentPath) {
+        var files = fs.readdirSync(dirname);
 
-    files.forEach(function (file) {
-        var fileStat = fs.statSync(path.join(__dirname, file));
+        files.forEach(function (file) {
+            var fileStat = fs.statSync(path.join(dirname, file));
 
-        if (fileStat.isDirectory()) {
-            debug("加载目录:/" + file);
-            var router = require(path.join(__dirname, file));
-            var routerFn = router();
-            var paths = ["/" + file];
+            if (fileStat.isDirectory()) {
+                debug("加载目录:/" + file);
+                var router = require(path.join(dirname, file));
+                var routerFn = router();
+                var paths = [];
+                var childPath = undefined;
 
-            if (router.otherPaths) {
-                paths = paths.concat(router.otherPaths);
+                //如果存在上级目录则加入上级目录
+                if (parentPath) {
+                    paths.push(parentPath + "/" + file);
+                    childPath = parentPath + "/" + file;
+                } else {
+                    paths.push("/" + file);
+                    childPath = "/" + file;
+                }
+
+                if (router.otherPaths) {
+                    paths = paths.concat(router.otherPaths);
+                }
+
+                paths.forEach(function (pathValue) {
+                    debug("载入中间件:" + pathValue);
+                    app.use(pathValue, routerFn);
+                });
+
+                //加载子目录
+                builder(dirname + "/" + file, childPath);
             }
+        });
+    }
 
-            paths.forEach(function (pathValue) {
-                app.use(pathValue, routerFn);
-            });
-        }
-    });
+    //递归加载子目录
+    builder(__dirname + "");
 };
