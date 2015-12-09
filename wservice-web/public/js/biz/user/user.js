@@ -2,7 +2,8 @@
  * Created by Shirley on 2015/12/5.
  */
 
-angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm"])
+angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm",
+    "wservice.common"])
     .config(function($routeProvider){
         //注册用户路由
         $routeProvider.when("/userInfo",{
@@ -47,11 +48,24 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, queryFileById, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, queryFileById, $uibModal,
+                                               updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid,
+                                               UploadSignature, AddOrUpdateFileRepo){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
         vm.updateUserImg = updateUserByHeaderfileid;
+
+        vm.uploadOptions = {
+            uploadImage: false,
+            uploadDoc: false,
+            getSignature: UploadSignature.query,
+            repository: AddOrUpdateFileRepo,
+            repositoryParams:{"level":"user"},
+            onRegisterApi: function (api) {
+                vm.uploadApi = api;
+            }
+        };
 
         vm.queryUserInfo = function(){
             vm.userInfo.post().then(function(response){
@@ -60,6 +74,7 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                         vm.instName = response.cache.user[key].instname;
                     }
                 }
+                vm.headerfileid= response.data.headerfileid;
             },function(error){
                 Notification.error({
                     message:error.data.cause, delay:2000
@@ -98,15 +113,23 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 }) ;
         };
 
-        vm.selectImageOptions = {
-            imageRepository: queryFile,
-            onRegisterApi: function (selectImageApi) {
-                vm.selectImageApi = selectImageApi;
-            },
-            single: true
-        };
-
         vm.changeImg = function () {
+            vm.uploadApi.uploadImage().then(function(datas) {
+                if (datas.length ===0 ) {
+                    return;
+                }
+                vm.updateUserImg.post({"headerfileid":datas[0].id}).then(function(response){
+                    Notification.success({
+                        message:'修改用户头像成功!', delay:2000
+                    });
+                    vm.headerfileid = datas[0].id;
+                }, function(error){
+                    Notification.error({
+                        title:"修改用户头像失败.",
+                        message:error.data.cause, delay:2000
+                    });
+                });
+            });
             if (vm.selectImageApi) {
                 vm.selectImageApi.open().then(function (response) {
                     $log.info("用户选择了图片", response);
