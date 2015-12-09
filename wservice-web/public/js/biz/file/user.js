@@ -6,7 +6,8 @@
 angular.module("userFileApp", [
     "ui.neptune",
     "ngRoute",
-    "ui-notification"])
+    "ui-notification",
+    "wservice.common"])
     .config(function ($routeProvider) {
         $routeProvider
             .when("/list", {
@@ -29,12 +30,36 @@ angular.module("userFileApp", [
             level: "user"
         });
     })
-    .controller("UserFileListController", function (QueryFile, Notification) {
+    .controller("UserFileListController", function (QueryFile, Notification, UploadSignature, AddOrUpdateFileRepo) {
         var vm = this;
 
         //默认显示image
         vm.fileType = "image";
         vm.queryFile = QueryFile;
+
+        vm.uploadOptions = {
+            uploadImage: false,
+            uploadDoc: false,
+            getSignature: UploadSignature.query,
+            repository: AddOrUpdateFileRepo,
+            repositoryParams:{"level":"user"},
+            onRegisterApi: function (api) {
+                vm.uploadApi = api;
+            }
+        };
+
+        // 上传文件
+        vm.upload = function () {
+            var promise;
+            if (vm.fileType == "image") {
+                promise = vm.uploadApi.uploadImage();
+            } else {
+                promise = vm.uploadApi.uploadDoc("上传文件",{fileExtensions:"js,css"});
+            }
+            promise.then(function (datas) {
+                vm.query(vm.fileType);
+            });
+        };
 
         //设置编辑状态
         vm.edit = false;

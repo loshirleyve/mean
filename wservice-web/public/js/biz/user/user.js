@@ -44,17 +44,17 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, QueryFileById, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
         vm.updateUserImg = updateUserByHeaderfileid;
 
-        vm.imageOptions = {
-            repository: QueryFileById,
+        /*vm.imageOptions = {
+            repository: queryFileById,
             searchProp: "fileid",
             labelProp: "thumbnailUrl"
-        };
+        };*/
 
         vm.queryUserInfo = function(){
             vm.userInfo.post().then(function(response){
@@ -99,26 +99,6 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             },
             single: true
         };
-
-        vm.imageOptions = {
-            repository:queryFile.addResponseInterceptor(function(response) {
-                if (response.data) {
-                    response.data.forEach(function(item) {
-                        var file = nptCache.get("file", item.id);
-                        if (file) {
-                            item.thumbnailUrl = file.thumbnailUrl;
-                        }
-                    });
-                }
-                return response;
-            }),
-            searchProp:"id",
-            labelProp:"thumbnailUrl",
-            class:"col-md-2 thumbnail",
-            emptyImage:"https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97150&w=350&h=150",
-            errorImage:"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/logo_white_fe6da1ec.png"
-        };
-
 
         vm.changeImg = function () {
             if (vm.selectImageApi) {
