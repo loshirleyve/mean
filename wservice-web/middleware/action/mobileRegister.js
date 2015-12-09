@@ -5,9 +5,9 @@
 module.exports = function () {
     return function (req, res, next) {
         if (req.query.code) {
-            res.redirect("/mobile/userRegister#/" + req.query.code);
+            res.redirect("/mobile/userRegister#/form/" + req.query.code);
         } else {
-            res.redirect("/mobile/userRegister");
+            res.redirect("/mobile/userRegister/form");
         }
 
     }

@@ -18,4 +18,22 @@ block content
             p
             div.well
                 h5
-                    a(href="") 下载移办通
+                    a(href="/mobile/download") 下载移办通
+
+        script(type="text/ng-template",id="success.html")
+            div.jumbotron
+
+                div.row
+                    div.col-xs-4
+                        img(src="/image/yun9logo.png",style="width:60px;")
+                    div.col-xs-8
+                        h3 注册成功
+            div.well
+                a(href="/mobile/download") 下载移办通
+
+        script(type="text/ng-template",id="failed.html")
+            div.jumbotron
+                h1 注册错误
+                p 注册邀请码不能存在或已经失效
+
+
