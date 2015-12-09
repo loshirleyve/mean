@@ -254,6 +254,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 Notification.error({message: '请正确输入收款信息.', delay: 2000});
             } else {
                 vm.nptFormApi.form.$commitViewValue();
+                delete vm.model.modelReceivable;
                 vm.model.payRegisterId = vm.receivableId;
                 vm.model.createby = vm.userid;
                 vm.model.payregisterid = vm.userid;
