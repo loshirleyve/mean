@@ -286,7 +286,19 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //更新客户信息
         vm.updateSave = function(clientInfo){
-            if (clientInfo && !vm.nptFormApi.form.$invalid){
+            vm.nptFormApi.form.$commitViewValue();
+            if (vm.nptFormApi.form.$invalid) {
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function (value) {
+                    errorText = errorText + value + "</br>";
+                });
+
+                Notification.error({
+                    title: "请正确输入修改的客户信息",
+                    message: errorText, delay: 2000
+                });
+
+            }else{
                 var updateParams = {
                     "id":clientInfo.id,
                     "sn":clientInfo.sn,
@@ -303,9 +315,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "contactposition":clientInfo.contactposition,
                     "level":clientInfo.level,
                     "remark":clientInfo.remark
-                };
-
-                vm.nptFormApi.form.$commitViewValue();
+                } || {};
 
                 vm.updateClient.post(updateParams)
                     .then(function(response){
@@ -343,7 +353,17 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //新增客户
         vm.addClientSave = function(clientInfo){
-            if (clientInfo && !vm.nptFormApi.form.$invalid){
+            vm.nptFormApi.form.$commitViewValue();
+            if(vm.nptFormApi.form.$invalid){
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function(value){
+                    errorText = errorText + value + "</br>";
+                });
+                Notification.error({
+                    title:"请输入正确的新增客户信息",
+                    message: errorText, delay:2000
+                })
+            }else{
                 var params = {
                     "createby":nptSessionManager.getSession().getUser().id,
                     "sn":clientInfo.sn,
@@ -360,9 +380,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     "contactposition":clientInfo.contactposition,
                     "level":clientInfo.level,
                     "remark":clientInfo.remark
-                };
-
-                vm.nptFormApi.form.$commitViewValue();
+                } || {};
 
                 vm.addClient.post(params)
                     .then(function(response){
