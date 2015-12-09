@@ -251,6 +251,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     instClient:vm.clientid
                 }).then(function(response){
                     vm.model.client = response.data;
+                    vm.backup = angular.copy(response.data);
                 }, function(err){
                     Notification.error({
                         title: "查询客户信息失败.",
@@ -261,7 +262,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
 
         vm.reset = function () {
-            vm.query();
+            vm.model.client=angular.copy(vm.backup);
         };
 
         vm.clientAdviser = function(){
@@ -282,6 +283,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
                 });
         };
+
         //更新客户信息
         vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
