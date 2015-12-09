@@ -712,7 +712,9 @@ angular.module("productApp", ["ui.neptune",
         vm.addProRequirement = function (requirements) {
             vm.addProductRequirement.post({productid: vm.productid, userid: userid, requirements: requirements})
                 .then(function (response) {
-                    vm.modelProductRequirements.push(response.data[0]);
+                    angular.forEach(response.data, function (value) {
+                        vm.modelProductRequirements.push(value);
+                    });
                     Notification.success({
                         title: "保存产品资料成功!",
                         delay: 2000
