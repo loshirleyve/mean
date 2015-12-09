@@ -1,0 +1,21 @@
+//
+   Created by leon on 15/12/9.
+
+extends ../layout/layout-mobile
+
+block title
+    p 用户注册
+
+block content
+    script(src="/js/mobile/userRegister.js")
+    div(ng-app="userRegisterApp")
+        div(ng-view)
+        script(type="text/ng-template",id="register.html")
+            div.well
+                h3 注册移办通用户
+                p {{vm.params.inviteUserName}} 邀请你加入{{vm.params.inviteInstName}} - {{vm.params.inviteDeptName}}
+            div(npt-form="vm.regFormOptions",model="vm.model")
+            p
+            div.well
+                h5
+                    a(href="") 下载移办通
