@@ -380,7 +380,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     type: 'numberInput',
                     templateOptions: {
                         required: true,
-                        label: '自购买日几天起:',
+                        label:"自购买日几天起：",
+                        description: '当你选择月时表示：每月____号开始服务[格式:1-31之间的整数值]，共提供___次服务。当你选择次时表示：按次服务，自购买之日起____天开始服务[格式:大于0的整数值]。当你选择季时表示：按季度服务，每个季度的____开始服务[格式:只能为日期,如:0510]，共提供___次服务。当你选择年时表示：按年服务，每年____开始服务[格式:只能为日期,如:0510]，共提供___次服务。:',
                         numberMask: 0,
                         max: 99999,
                         min: 0

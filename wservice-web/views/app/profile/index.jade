@@ -6,6 +6,7 @@ block titleContent
     title 个人中心
 
 block content
+    script(src="/vendor/plupload-2.1.2/js/plupload.full.min.js")
     script(src="/js/biz/user/userPwdForm.js")
     script(src="/js/biz/user/user.js")
     div(ng-app="userApp")
@@ -29,7 +30,7 @@ block content
                                 a(type="button", ng-click="vm.changePwd()") 更改密码
                             li
                                 a(type="button",ng-click="vm.changeImg()") 更改头像
-                                div(npt-select-image="vm.selectImageOptions")
+                                div(npt-upload-custom="vm.uploadOptions")
                             li
                                 | &nbsp &nbsp &nbsp &nbsp
 
@@ -38,7 +39,7 @@ block content
             div.page-body
                 div.col-md-4
                     div.thumbnail(href="")
-                        img(npt-image="vm.userInfo.data.headerfileid", npt-image-options="vm.imageOptions")
+                        img(style="width:300px;height:300px;", npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
 
                 div.col-md-8
                     dl.dl-horizontal

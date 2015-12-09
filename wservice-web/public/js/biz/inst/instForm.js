@@ -84,7 +84,7 @@ angular.module("instApp.instForm", ["ui.neptune"])
             ]
         });
     })
-    .factory("instSearchForm", function (nptFormlyStore) {
+    .factory("instSearchForm", function (nptFormlyStore,RegExpValidatorFactory) {
         return nptFormlyStore("instSearchForm", {
             options: {
 
