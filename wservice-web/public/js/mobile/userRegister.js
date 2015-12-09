@@ -35,7 +35,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             },
             fields: [
                 {
-                    key: 'no',
+                    key: 'userno',
                     type: 'input',
                     templateOptions: {
                         label: '用户编号:',
@@ -52,6 +52,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     key: "passwd",
                     type: 'input',
                     templateOptions: {
+                        type:"password",
                         label: '密码:',
                         required: true
                     }
@@ -59,6 +60,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     key: "repasswd",
                     type: 'input',
                     templateOptions: {
+                        type:"password",
                         label: '确认密码:',
                         required: true
                     }
@@ -78,7 +80,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
         vm.reposRegisteUser = RegisteUser;
         vm.code = $routeParams.id;
         vm.model = {
-            userstate: "normal"
+            state: "normal"
         };
 
         vm.originModel = angular.copy(vm.model);
@@ -121,7 +123,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.model.phoneNum = vm.params.phoneNum;
-                vm.model.no = vm.params.phoneNum;
+                vm.model.userno = vm.params.phoneNum;
                 vm.model.inviteUserid = vm.params.inviteUserid;
                 vm.model.inviteDeptid = vm.params.inviteDeptid;
                 vm.model.inviteInstName = vm.params.inviteInstName;
