@@ -165,7 +165,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         };
     })
 
-    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById) {
+    .controller("ClientDetailController", function ($scope, $location, $routeParams, ClientForm, QueryInstClients, QueryInstClientById, AddOrUpdateInstClients, InstInit, Notification, $route, QueryInstClientInfoById, $uibModal) {
         var vm = this;
         vm.clientid = $routeParams.id;
 
@@ -179,7 +179,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.instInit = InstInit;
         //数据模型
         vm.model = {};
-        vm.clientDeUser = QueryInstClientInfoById;
 
         //客户详情表单配置
         vm.clientFormOptions = {
@@ -265,24 +264,24 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             vm.query();
         };
 
-        $('#clientAdviserModal').on('show.bs.modal', function($modelValue){
-            var param = {"instClient":vm.clientid} || {};
-            vm.clientDeUser.post(param)
-                .then(function(response){
-                    vm.clientUsersIRN = [];
-                    for(var i=0; i<response.data.clientUsers.length; i++){
-                        for(var key in response.cache.user){
-                            if(response.cache.user[key].id == response.data.clientUsers[i].userid){
-                                var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
-                                                   "username":response.cache.user[key].name};
-                                vm.clientUsersIRN.push(aClientUser);
-                            }
-                        }
+        vm.clientAdviser = function(){
+            $uibModal.open({
+                animation: true,
+                templateUrl: 'clientAdviser.html',
+                controller: 'clientAdviserController',
+                controllerAs: 'vm',
+                resolve:{
+                    ClientId:function(){
+                        return vm.clientid;
                     }
-                },function(){
+                }
+            }).result.then(function (response) {
+                    //查询
+                }, function () {
+                    //用户关闭
 
                 });
-        });
+        };
         //更新客户信息
         vm.updateSave = function(clientInfo){
             if (clientInfo && !vm.nptFormApi.form.$invalid){
@@ -376,4 +375,29 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     });
             }
         };
+    })
+    .controller("clientAdviserController", function($uibModalInstance, ClientId, QueryInstClientInfoById){
+        var vm = this;
+        vm.clientDeUser = QueryInstClientInfoById;
+
+        vm.cancel = function(){
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        var param = {"instClient":ClientId} || {};
+        vm.clientDeUser.post(param)
+            .then(function(response){
+                vm.clientUsersIRN = [];
+                for(var i=0; i<response.data.clientUsers.length; i++){
+                    for(var key in response.cache.user){
+                        if(response.cache.user[key].id == response.data.clientUsers[i].userid){
+                            var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
+                                "username":response.cache.user[key].name};
+                            vm.clientUsersIRN.push(aClientUser);
+                        }
+                    }
+                }
+            },function(){
+
+            });
     });
