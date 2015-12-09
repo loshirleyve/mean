@@ -513,7 +513,7 @@ angular.module("productApp", ["ui.neptune",
             $location.path("/edit/" + productId);
         };
     })
-    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryRequirementsByInstid, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, RemoveProductProfile, RemoveProductPhase, RemoveProductRequirement, AddProductRequirement, RemoveProductGroup, RemoveProductClassify, RemoveProductDescr, UpdateProductState, productForm, requirementListGrid, nptSessionManager, nptMessageBox,ProductQueryService) {
+    .controller("editProductController", function ($scope, $location, $routeParams, Notification, QueryRequirementsByInstid, QueryProductInfo, AddOrUpdateProduct, ProductQueryService, RemoveProductProfile, RemoveProductPhase, RemoveProductRequirement, AddProductRequirement, RemoveProductGroup, RemoveProductClassify, RemoveProductDescr, UpdateProductState, productForm, requirementListGrid, nptSessionManager, nptMessageBox) {
         var vm = this;
 
         //记录当前编辑的产品id
