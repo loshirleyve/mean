@@ -362,7 +362,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                 Notification.error({
                     title:"请输入正确的新增客户信息",
                     message: errorText, delay:2000
-                })
+                });
             }else{
                 var params = {
                     "createby":nptSessionManager.getSession().getUser().id,
