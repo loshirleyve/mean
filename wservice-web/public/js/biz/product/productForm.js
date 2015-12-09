@@ -87,6 +87,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '详情链接:',
                         maxlength: 200
+                    },
+                    validators: {
+                        format: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/[a-zA-z]+:\/\/[^\s]*/),
+                            message: '"详情链接必须为网址链接！"'
+                        }
                     }
                 },
                 {
@@ -493,7 +499,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,RegExpValidatorFactory) {
+    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,QueryProductsGroup,RegExpValidatorFactory) {
         return nptFormlyStore("productClassifiesForm", {
             buttons: {
                 ok: true,
@@ -552,6 +558,22 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "packagetype"}
                     }
+                },
+                {
+                    key: 'packagecontent',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: 'bs-options',
+                        label: '套餐内容:',
+                        required: true,
+                        valueProp: 'no',
+                        labelProp: 'name',
+                        placeholder: '请选择',
+                        options: [],
+                        multiple:true,
+                        repository: QueryProductsGroup
+                    },
+                    hideExpression:"model.packagetype !='packages'"
                 },
                 {
                     key: 'sort',

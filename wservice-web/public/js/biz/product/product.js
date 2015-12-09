@@ -81,7 +81,7 @@ angular.module("productApp", ["ui.neptune",
                     }
                 }
             })
-            .when("/edit/classifies/:productid", {
+            .when("/edit/classifies/:productid/:cityid", {
                 controller: "editProductClassifiesController as vm",
                 templateUrl: "editProductClassifies.html",
                 resolve: {
@@ -407,11 +407,10 @@ angular.module("productApp", ["ui.neptune",
         //执行查询
         self.queryCities();
     })
-    .service("groupService", function (AddOrUpdateMdProductGroup, QueryMdProductGroup) {
+    .service("groupService", function (AddOrUpdateMdProductGroup) {
         var self = this;
 
         self.addMdProductGroup = AddOrUpdateMdProductGroup;
-        self.queryMdProductGroup = QueryMdProductGroup;
 
         self.addGroup = function (params, $q) {
             var deferd = $q.defer();
@@ -420,13 +419,6 @@ angular.module("productApp", ["ui.neptune",
                     deferd.resolve();
                 }, function () {
                     deferd.reject();
-                });
-        };
-
-        self.queryMdProductGroup = function (params) {
-            self.queryMdProductGroup.post(params.data)
-                .then(function () {
-                }, function () {
                 });
         };
 
@@ -538,6 +530,8 @@ angular.module("productApp", ["ui.neptune",
         vm.queryRequirements = QueryRequirementsByInstid;
 
         vm.updateProState = UpdateProductState;
+
+        vm.queryService=ProductQueryService;
 
         //保存产品
         function saveProduct() {
@@ -856,7 +850,12 @@ angular.module("productApp", ["ui.neptune",
         vm.province = $routeParams.province;
         vm.city = $routeParams.city;
         vm.district = $routeParams.district;
-        vm.queryMdProductGroup = QueryMdProductGroup;
+        vm.queryMdProductGroup = QueryMdProductGroup.addRequestInterceptor(function(request) {
+            request.params.province = vm.province;
+            request.params.city = vm.city;
+            request.params.district = vm.district;
+            return request;
+        });
         vm.addMdProductGroup = AddOrUpdateMdProductGroup;
 
         vm.groupListGridOptions = {
@@ -877,9 +876,6 @@ angular.module("productApp", ["ui.neptune",
         vm.queryGroupList = function () {
             //如果查询到数据则记录model以及originModel
             vm.queryMdProductGroup.post({
-                province: vm.province,
-                city: vm.city,
-                district: vm.district
             }).then(function (response) {
                 vm.model = response.data;
             }, function () {
@@ -1133,7 +1129,7 @@ angular.module("productApp", ["ui.neptune",
         vm.productClassifyInfo = QueryProductClassifyInfo;
         vm.productClassifyByProductid = QueryProductClassifyByProductid;
         vm.queryService = ProductQueryService;
-        vm.cityid = vm.queryService.currDistrict.id;
+        vm.cityid = $routeParams.cityid;
 
         if ($routeParams.classifiesid) {
             vm.classifiesid = $routeParams.classifiesid;

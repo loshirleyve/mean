@@ -220,6 +220,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
         //数据模型
         vm.model = {};
         vm.modelReceivable = {};
+        vm.model.modelReceivable = vm.modelReceivable;
         vm.receivableInfo = QueryPayRegisterInfo;
         vm.updateByCollect = UpdateByCollect;
         vm.userid = nptSessionManager.getSession().getUser().id;
@@ -236,7 +237,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                 vm.receivableInfo.post({
                     payRegisterId: vm.receivableId
                 }).then(function (response) {
-                    vm.modelReceivable = response.data;
+                    angular.extend(vm.modelReceivable,response.data);
                 }, function (error) {
                     var de = error;
                 });
