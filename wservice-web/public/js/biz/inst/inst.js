@@ -113,6 +113,7 @@ angular.module("instApp", ["ui.neptune", "instApp.instListGrid", "instApp.instFo
 
         vm.updateInstInfo=function()
         {
+            vm.nptFormApi.form.$commitViewValue();
             var params={};
             params.instid=vm.model.id;
             params.simplename=vm.model.simplename;
