@@ -15,6 +15,18 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     templateOptions: {
                         required: true,
                         label: '本次收款金额:'
+                    },
+                    validators:{
+                        checkAmount:{
+                            expression:function(viewValue,modelValue,scope) {
+                                var modelReceivable = scope.model.modelReceivable;
+                                if (modelReceivable.amount-modelReceivable.payamount-modelReceivable.lockamount-modelValue <0) {
+                                 return false;
+                                }
+                                return true;
+                            },
+                            message:"'总共付款金额不能大于：'+model.modelReceivable.amount"
+                        }
                     }
                 },
                 {

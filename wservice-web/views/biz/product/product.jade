@@ -223,7 +223,7 @@ block content
                     div.col-xs-6.col-md-6
                         h4 所属分组
                     div.col-xs-6.col-md-6
-                        a.btn.btn-default.pull-right(type="button",href="#/edit/group/{{vm.productid}}") 添加所属分类
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/group/{{vm.productid}}") 添加所属分组
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductGroups")
@@ -245,7 +245,7 @@ block content
                     div.col-xs-6.col-md-6
                         h4 产品分类
                     div.col-xs-6.col-md-6
-                        a.btn.btn-default.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}") 添加产品分类
+                        a.btn.btn-default.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{vm.queryService.currDistrict.id}}") 添加产品分类
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductClassifies")

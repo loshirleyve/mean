@@ -125,7 +125,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.ptdescr}}
                         div.list-group-item-text
-                            span 收款金额:{{item.amount | number}} ; &nbsp;&nbsp; 收款人:{{item.collectuserid |  cacheFilter:'user':'name':'id'}} ; &nbsp;&nbsp; 收款出纳:{{item.createby |  cacheFilter:'user':'name':'id'}} ; &nbsp;&nbsp;
+                            span 收款金额:{{item.amount | number}} ; &nbsp;&nbsp; 经办人:{{item.collectuserid |  cacheFilter:'user':'name':'id'}} ; &nbsp;&nbsp; 操作人:{{item.createby |  cacheFilter:'user':'name':'id'}} ; &nbsp;&nbsp;
                                  收款状态:{{item.state |  ctrlCodeFilter:'payregistercollectstate':'name':'no'}} ; &nbsp;&nbsp; 收款日期:{{item.createdate |  timestampFilter}} ; &nbsp;&nbsp;
                             div 说明:{{item.remark}} ;
 
