@@ -82,7 +82,7 @@ block content
                     div(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
                         ul.nav.navbar-nav.navbar-right
                             li
-                                a(data-toggle="modal", data-target="#clientAdviserModal") 专属顾问和业务员
+                                a(data-toggle="modal", ng-click="vm.clientAdviser()") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
                                 a(href="",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                             li
@@ -105,21 +105,19 @@ block content
                h4 基本信息
             div.page-body
                div(npt-form="vm.clientFormOptions",model="vm.model.client")
-            //弹出层，显示客户机构和业务员
-            div#clientAdviserModal.modal.fade(tabindex="-1",role="dialog")
-                div.modal-dialog(role="document")
-                    div.modal-content
-                        div.modal-header
-                            button.close(type="button", data-dismiss="modal", aria-label="Close")
-                                span(aria-hidden="true") &times;
-                            h4.modal-title 专属顾问和业务员
-                        div.modal-body
-                            div.list-group
-                                a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersIRN")
-                                    h6.glyphicon.glyphicon-triangle-right.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属顾问"}}
-                                    h5.list-group-item-text &nbsp;&nbsp;&nbsp; {{clientUser.username}}
-                        div.modal-footer
-                            button.btn.btn-primary(type="button", data-dismiss="modal") 确定
+
+        script(type="text/ng-template", id="clientAdviser.html")
+            div.modal-header
+                button.close(type="button", data-dismiss="modal", aria-label="Close", ng-click="vm.cancel()")
+                    span(aria-hidden="true") &times;
+                h4.modal-title 专属顾问和业务员
+            div.modal-body
+                div.list-group
+                    a.list-group-item(href="", ng-repeat="clientUser in vm.clientUsersIRN")
+                        p.list-group-item-heading {{clientUser.userrole=="salesman"?"业务员":"专属顾问"}}
+                        p.list-group-item-text &nbsp;&nbsp;&nbsp; {{clientUser.username}}
+            div.modal-footer
+                button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="vm.cancel()") 确定
 
         //新增客户模板
         script(type="text/ng-template", id="addClient.html")
