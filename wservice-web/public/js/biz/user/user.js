@@ -34,6 +34,9 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
            "userid":nptSessionManager.getSession().getUser().id
         });
     })
+    .factory("queryFileById", function(nptRepository){
+        return nptRepository("QueryFileById");
+    })
     .factory("queryFile", function(nptRepository, nptSessionManager){
         return nptRepository("QueryFile").params({
            "userid":nptSessionManager.getSession().getUser().id,
@@ -44,17 +47,11 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             return request;
         });
     })
-    .controller("UserInfoController", function(queryUserInfoById, Notification, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
+    .controller("UserInfoController", function(queryUserInfoById, Notification, queryFileById, $uibModal, updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.updateUserPwd = updatePasswd;
         vm.updateUserImg = updateUserByHeaderfileid;
-
-        /*vm.imageOptions = {
-            repository: queryFileById,
-            searchProp: "fileid",
-            labelProp: "thumbnailUrl"
-        };*/
 
         vm.queryUserInfo = function(){
             vm.userInfo.post().then(function(response){
@@ -69,7 +66,16 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                 });
             });
         };
+
         vm.queryUserInfo();
+
+        vm.imageOptions = {
+            repository: queryFileById,
+            searchProp: "fileid",
+            labelProp: "fileUrl"
+        };
+
+
 
         vm.changePwd = function(){
             $uibModal.open({
