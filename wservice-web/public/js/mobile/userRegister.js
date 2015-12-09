@@ -5,17 +5,22 @@
 angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
     .config(function ($routeProvider) {
         $routeProvider
-            .when("/:id", {
+            .when("/form/:id", {
                 controller: "UserRegisterController as vm",
                 templateUrl: "register.html"
             })
-            .when("/", {
+            .when("/form", {
                 controller: "UserRegisterController as vm",
                 templateUrl: "register.html"
             })
-            .otherwise({
-                redirectTo: "/"
-            });
+            .when("/success", {
+                controller: "RegSuccessController as vm",
+                templateUrl: "success.html"
+            })
+            .when("/failed", {
+                controller: "RegFailedController as vm",
+                templateUrl: "failed.html"
+            })
     })
     .factory("RegUserForm", function (nptFormlyStore) {
         return nptFormlyStore("RegUserForm", {
@@ -67,7 +72,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
     .factory("RegisteUser", function (nptRepository) {
         return nptRepository("RegisteUser");
     })
-    .controller("UserRegisterController", function ($location, $routeParams, KitActionQuery, RegUserForm, RegisteUser) {
+    .controller("UserRegisterController", function ($location, $routeParams, KitActionQuery, RegUserForm, RegisteUser, Notification) {
         var vm = this;
 
         vm.reposRegisteUser = RegisteUser;
@@ -87,8 +92,24 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     vm.model = angular.copy(vm.originModel);
                 });
 
-                vm.nptFormApi.addOnSubmitListen(function () {
+                vm.nptFormApi.addOnSubmitListen(function ($q) {
 
+                    var deferd = $q.defer();
+
+                    vm.reposRegisteUser.post(vm.model).then(function (response) {
+                        //注册成功.转到成功提示页面
+                        deferd.resolve(response);
+                        $location.path("/success");
+                    }, function (error) {
+                        Notification.error({
+                            title: "注册用户出错.",
+                            message: error.data.cause,
+                            dealy: 2000
+                        })
+                        deferd.reject();
+                    });
+
+                    return deferd.promise;
                 });
             }
         };
@@ -106,8 +127,19 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 vm.model.inviteInstName = vm.params.inviteInstName;
                 vm.originModel = angular.copy(vm.model);
             }, function (error) {
-                console.info(error);
+                $location.path("/failed");
+                Notification.error({
+                    title: "获取注册信息错误.",
+                    message: error.data.cause,
+                    dealy: 5000
+                });
             });
         }
+
+    })
+    .controller("RegSuccessController", function () {
+
+    })
+    .controller("RegFailedController", function () {
 
     });
