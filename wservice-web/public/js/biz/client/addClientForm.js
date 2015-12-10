@@ -8,7 +8,7 @@
  */
 
 angular.module("clientApp.addClientForm", ["ui.neptune"])
-    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, QueryInstClients, RegExpValidatorFactory) {
+    .factory("AddClientForm", function (nptFormlyStore, QueryCtrlCode, QueryMdInstScale, QueryInstClients, RegExpValidatorFactory, nptSessionManager) {
         return nptFormlyStore("AddClientForm", {
             fields: [
                 {
@@ -143,7 +143,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         placeholder:'请选择',
                         options:[],
                         repository: QueryMdInstScale,
-                        repositoryParams: {"instid":"10000001463017"}
+                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
                     }
                 },
                 {

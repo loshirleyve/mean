@@ -282,6 +282,9 @@ proxy.action("QueryFile", {
 proxy.action("KitActionQuery", {
     proxy: "Y9",
     action: "com.yun9.kit.action.service.KitActionQueryService"
+}).action("KitActionFinish", {
+    proxy: "Y9",
+    action: "com.yun9.kit.action.service.KitActionFinishService"
 });
 
 module.exports = proxy;

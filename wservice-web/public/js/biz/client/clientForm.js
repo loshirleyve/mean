@@ -6,7 +6,7 @@
 
 angular.module("clientApp.clientForm", ["ui.neptune"])
     .factory("ClientForm", function (nptFormlyStore, QueryCtrlCode,
-                                     QueryMdInstScale, nptCache, RegExpValidatorFactory, QueryInstClients) {
+                                     QueryMdInstScale, nptCache, RegExpValidatorFactory, QueryInstClients, nptSessionManager) {
         return nptFormlyStore("ClientForm", {
             fields: [
                 {
@@ -119,7 +119,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                         placeholder:'请选择',
                         options:[],
                         repository: QueryMdInstScale,
-                        repositoryParams: {"instid":"10000001463017"}
+                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
                     }
                 },
                 {
@@ -134,17 +134,11 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                 {
                     key: 'contactphone',
                     type: 'maskedInput',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
-                        required: true,
                         label: '手机号:',
                         placeholder:'请输入手机号',
-                        "mask":"999 9999 9999",
-                        reversal: true,
-                        searchProp:"contactphone",
-                        repository: QueryInstClients
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                        disabled:true
+                    }
                 },
                 {
                     key: 'contactposition',
