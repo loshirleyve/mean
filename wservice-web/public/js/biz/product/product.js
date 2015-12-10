@@ -712,7 +712,9 @@ angular.module("productApp", ["ui.neptune",
         vm.addProRequirement = function (requirements) {
             vm.addProductRequirement.post({productid: vm.productid, userid: userid, requirements: requirements})
                 .then(function (response) {
-                    vm.modelProductRequirements.push(response);
+                    angular.forEach(response.data, function (value) {
+                        vm.modelProductRequirements.push(value);
+                    });
                     Notification.success({
                         title: "保存产品资料成功!",
                         delay: 2000
@@ -760,7 +762,7 @@ angular.module("productApp", ["ui.neptune",
                         vm.temp1.push(value);
                     }
                 });
-                vm.modelProductProfiles = angular.copy(vm.temp1);
+                vm.modelProductPhases = angular.copy(vm.temp1);
             }, function () {
                 Notification.error({
                     title: "删除产品阶段出错,请稍后尝试.",

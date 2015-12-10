@@ -189,7 +189,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
         //当前单据是否能够确认
         vm.isComplete = function () {
-            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0) {
+            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0 && vm.receivableInfo.data.amount-vm.receivableInfo.payamount-vm.receivableInfo.lockamount<0) {
                 return true;
             } else {
                 return false;
@@ -253,6 +253,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
             if (vm.nptFormApi.form.$invalid) {
                 Notification.error({message: '请正确输入收款信息.', delay: 2000});
             } else {
+                vm.nptFormApi.form.$commitViewValue();
+                delete vm.model.modelReceivable;
                 vm.model.payRegisterId = vm.receivableId;
                 vm.model.createby = vm.userid;
                 vm.model.payregisterid = vm.userid;

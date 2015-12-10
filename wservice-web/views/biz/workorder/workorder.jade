@@ -136,7 +136,7 @@ block content
                                     biv(ng-if="item.inputtype === 'image'")
                                         a(href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
                                         div.thumbnail
-                                            div(npt-image="item.inputvalue")
+                                            div(npt-image="item.inputvalue" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
                                     div(ng-if="item.inputtype === 'text'")
                                         h5 {{item.attachname}}
                                         p {{item.inputvalue}}
