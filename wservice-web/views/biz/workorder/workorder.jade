@@ -98,8 +98,7 @@ block content
                     dd
                         div(ng-if="vm.workorderInfo.data.workOrder.source == 'so'")
                             a(href="/biz/order/#detail/{{vm.workorderInfo.data.workOrder.sourcevalue}}" target="_blank") {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
-                        div(ng-if="!vm.workorderInfo.data.workOrder.source == 'so'")
-                            {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
+                        div(ng-if="!vm.workorderInfo.data.workOrder.source == 'so'") {{vm.workorderInfo.data.workOrder.source | ctrlCodeFilter:'sourcetype':'name':'no'}}
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
