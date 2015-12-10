@@ -342,6 +342,8 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 }).then(function (response) {
                     vm.modelAttachment = response.data.orderAttachments;
                     vm.modelComment = response.data.workorderComment;
+
+                    console.info(vm.modelComment);
                 }, function (error) {
                     Notification.error({
                         title: '查询工单失败',
