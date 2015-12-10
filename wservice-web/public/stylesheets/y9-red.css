@@ -133,10 +133,12 @@
 
 .y9-red .treeview-menu > li.active > a {
     background: #cb2027;
+    color: #fff;
 }
 
 .y9-red .treeview-menu > li > a:hover {
     background: #58677B;
+    color: #fff;
 }
 
 .y9-red .sidebar-form {
