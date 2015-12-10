@@ -24,14 +24,13 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
     })
     .factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory) {
         return nptFormlyStore("RegUserForm", {
-            /*actions: [
+            actions: [
                 {
-                    label: "确定",
-                    type: "ok"
+                    label: "重置",
+                    type: "reset"
                 }
-            ],*/
+            ],
             buttons: {
-                reset: true,
                 ok:true
             },
             fields: [
@@ -77,7 +76,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     validators: {
                         pwdFormat: {
                             expression: function(viewValue,modelValue,scope) {
-                                if (scope.fc) {
+                                if (scope.fc && viewValue) {
                                     scope.fc.$touched = true;
                                 }
                                 return viewValue == scope.model.passwd;
@@ -112,9 +111,9 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
 
-                /*vm.nptFormApi.setOnActionListen(function () {
+                vm.nptFormApi.setOnActionListen(function () {
                     vm.model = angular.copy(vm.originModel);
-                });*/
+                });
 
                 vm.nptFormApi.addOnSubmitListen(function ($q) {
 
@@ -149,6 +148,8 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 vm.model.inviteUserid = vm.params.inviteUserid;
                 vm.model.inviteDeptid = vm.params.inviteDeptid;
                 vm.model.inviteInstName = vm.params.inviteInstName;
+                vm.model.passwd = "";
+                vm.model.repasswd = "";
                 vm.originModel = angular.copy(vm.model);
             }, function (error) {
                 $location.path("/failed");
