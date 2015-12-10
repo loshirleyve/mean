@@ -54,7 +54,7 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                             expression: function(viewValue,modelValue,scope) {
                                 return viewValue == scope.model.newPasswd;
                             },
-                            message: '"再次密码输入不一致！"'
+                            message: '"两次密码输入不一致！"'
                         }
                     }
                 }

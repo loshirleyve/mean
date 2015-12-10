@@ -27,7 +27,8 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                             },
                             message:"'总共付款金额不能大于：'+model.modelReceivable.amount"
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'payTypeCode',
@@ -39,9 +40,11 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                         valueProp: 'code',
                         labelProp: 'name',
                         placeholder: '请选择',
+                        selectIndex:0,
                         options: [],
                         repository: QueryPayModeType
                     }
+
                 },
                 {
                     key: 'collectuserid',
