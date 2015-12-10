@@ -2,8 +2,8 @@
  * Created by rxy on 15/12/3.
  */
 
-angular.module("instApp.instForm", ["ui.neptune"])
-    .factory("editInstForm", function (nptFormlyStore,QueryImageByMaterialLevel,RegExpValidatorFactory) {
+angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
+    .factory("editInstForm", function (nptFormlyStore,QueryImageByMaterialLevel,RegExpValidatorFactory,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("editInstForm", {
             options: {
                 formState:{
@@ -26,7 +26,12 @@ angular.module("instApp.instForm", ["ui.neptune"])
                         label: '机构logo:',
                         required: true,
                         single: true,
-                        imageRepository: QueryImageByMaterialLevel
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 },
                 {
