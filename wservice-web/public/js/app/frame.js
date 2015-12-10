@@ -110,13 +110,6 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
     .controller("MainController", function ($scope, sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
-        $(window).resize(function () {
-            $.AdminLTE.layout.fix();
-            var frameHeight = $('.content-wrapper').height();
-            $("#contentIFrame").height(frameHeight);
-            $('.content-wrapper').height(frameHeight);
-        });
-
         vm.imageOptions = {
             repository: QueryFileById,
             searchProp: "fileid",
