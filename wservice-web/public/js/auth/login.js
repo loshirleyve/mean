@@ -13,9 +13,7 @@ angular.module("LoginApp", [])
                 userno: "13510237981",
                 password: "1111111"
             }).then(function (response) {
-                debugger;
             }, function (error) {
-                debugger;
             });
-        }
+        };
     });

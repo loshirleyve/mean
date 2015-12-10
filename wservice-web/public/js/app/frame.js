@@ -51,16 +51,14 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
             navigateTo: function navigateTo(item) {
                 if (item && item.actionvalue && item.actiontype === "link") {
                     self.moduleUrl = item.actionvalue;
-                    $location.path("/home/" + item.no);
                     self.setFocus(item);
-                    self.resizeFrame();
+                    $location.path("/home/" + item.no,false);
                 }
             },
             navigateToUrl: function navigateTo(url) {
                 if (url) {
                     self.moduleUrl = url;
                     self.setFocus();
-                    self.resizeFrame();
                 }
             },
             findByName: function (name) {
@@ -102,14 +100,6 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     });
                 }
             },
-            resizeFrame: function () {
-                $.AdminLTE.layout.fix();
-                // 在每次重新设置iframe高度后，$('.content-wrapper').height()都会+5，找不到原因
-                // 所以这里在设置前先保存一次原高度
-                this.frameHeight = this.frameHeight || $('.content-wrapper').height();
-                $("#contentIFrame").height(this.frameHeight);
-                $('.content-wrapper').height(this.frameHeight);
-            },
             menus: [],
             moduleUrl: "/app/home"
         };
@@ -120,15 +110,11 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
     .controller("MainController", function ($scope, sessionData, NavigateMenu, QueryFileById) {
         var vm = this;
 
-        $.AdminLTE.layout.fix();    // 重新计算界面content-wrapper高度
-        // iframe初始化时，重新计算iframe高度
-        $("#contentIFrame").load(function () {
-            NavigateMenu.resizeFrame();
-        });
-
         $(window).resize(function () {
-            NavigateMenu.frameHeight = undefined;
-            NavigateMenu.resizeFrame();
+            $.AdminLTE.layout.fix();
+            var frameHeight = $('.content-wrapper').height();
+            $("#contentIFrame").height(frameHeight);
+            $('.content-wrapper').height(frameHeight);
         });
 
         vm.imageOptions = {
@@ -166,4 +152,16 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
 
         // template中无法异步加载js，这里需要重新激活左侧菜单收起动画
         $.AdminLTE.pushMenu.activate($.AdminLTE.options.sidebarToggleSelector);
+    }).run(function($rootScope,$location,$route) {
+        var original = $location.path;
+        $location.path = function (path, reload) {
+            if (reload === false) {
+                var lastRoute = $route.current;
+                var un = $rootScope.$on('$locationChangeSuccess', function () {
+                    $route.current = lastRoute;
+                    un();
+                });
+            }
+            return original.apply($location, [path]);
+        };
     });
