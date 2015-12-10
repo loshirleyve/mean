@@ -189,7 +189,7 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
         //当前单据是否能够确认
         vm.isComplete = function () {
-            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0) {
+            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0 && vm.receivableInfo.data.amount-vm.receivableInfo.payamount-vm.receivableInfo.lockamount<0) {
                 return true;
             } else {
                 return false;
