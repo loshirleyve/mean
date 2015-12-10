@@ -38,18 +38,8 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
     .factory("queryFileById", function(nptRepository){
         return nptRepository("QueryFileById");
     })
-    .factory("queryFile", function(nptRepository, nptSessionManager){
-        return nptRepository("QueryFile").params({
-           "userid":nptSessionManager.getSession().getUser().id,
-            "level":"user",
-            "instid":nptSessionManager.getSession().getInst().id,
-            "filetype":"image"
-        }).addRequestInterceptor(function(request){
-            return request;
-        });
-    })
     .controller("UserInfoController", function(queryUserInfoById, Notification, queryFileById, $uibModal,
-                                               updatePasswd, $log, queryFile, nptCache, updateUserByHeaderfileid,
+                                               updatePasswd, updateUserByHeaderfileid,
                                                UploadSignature, AddOrUpdateFileRepo){
         var vm = this;
         vm.userInfo = queryUserInfoById;
@@ -90,8 +80,6 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
             labelProp: "fileUrl"
         };
 
-
-
         vm.changePwd = function(){
             $uibModal.open({
                 animation:true,
@@ -130,26 +118,9 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
                     });
                 });
             });
-            if (vm.selectImageApi) {
-                vm.selectImageApi.open().then(function (response) {
-                    $log.info("用户选择了图片", response);
-                    vm.updateUserImg.post({"headerfileid":response[0].file.id}).then(function(response){
-                        Notification.success({
-                            message:'修改用户头像成功!', delay:2000
-                        });
-                    }, function(error){
-                        Notification.error({
-                            title:"修改用户头像失败.",
-                            message:error.data.cause, delay:2000
-                        });
-                    });
-                }, function (error) {
-                    $log.info("取消选择", error);
-                });
-            }
         };
     })
-    .controller("changePwdController", function($uibModalInstance, UserPwdForm){
+    .controller("changePwdController", function($uibModalInstance, UserPwdForm, Notification){
         var vm=this;
         vm.model = {};
         //修改用户密码表单配置
@@ -160,7 +131,19 @@ angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notificat
           }
         };
         vm.ok = function(){
-            $uibModalInstance.close(vm.model);
+            vm.nptFormApi.form.$commitViewValue();
+            if(vm.nptFormApi.form.$invalid){
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function(value){
+                    errorText = errorText + value +"</br>";
+                });
+                Notification.error({
+                    title:"请确认修改密码各项数据填写正确!",
+                    message: errorText, delay:2000
+                });
+            }else{
+                $uibModalInstance.close(vm.model);
+            }
         };
         vm.cancel = function(){
           $uibModalInstance.dismiss('cancel');

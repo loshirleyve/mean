@@ -44,6 +44,8 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                             self.navigateTo(menuItem);
                         }
                     }
+                }).then(function() {
+                    $.AdminLTE.layout.fixSidebar();
                 });
             },
             navigateTo: function navigateTo(item) {
@@ -164,5 +166,4 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
 
         // template中无法异步加载js，这里需要重新激活左侧菜单收起动画
         $.AdminLTE.pushMenu.activate($.AdminLTE.options.sidebarToggleSelector);
-
     });

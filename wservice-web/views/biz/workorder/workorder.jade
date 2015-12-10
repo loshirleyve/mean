@@ -133,10 +133,10 @@ block content
                             div.row
                                 div.col-xs-6.col-md-3
                                     //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
-                                    biv(ng-if="item.inputtype === 'image'")
+                                    div(ng-if="item.inputtype === 'image'")
                                         a(href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
                                         div.thumbnail
-                                            div(npt-image="item.inputvalue")
+                                            div(npt-image="item.inputvalue" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
                                     div(ng-if="item.inputtype === 'text'")
                                         h5 {{item.attachname}}
                                         p {{item.inputvalue}}
@@ -152,13 +152,21 @@ block content
                         h4 工单评论
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.modelComment")
+                    div.list-group-item
                         div.list-group-item-heading
                             div.row
-                                div.col-xs-6.col-md-6
-                                    h5 {{item.displayName}}
+                                div.col-xs-6.col-md-3
+                                    p 评价内容:{{vm.modelComment.commenttext}}
                         div.list-group-item-text
-                            span 评价内容:{{item.commenttext}} 评论时间:{{item.createdate | ctrlCodeFilter:'inputtype':'name':'no'}}
+                            span 评论人:{{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}} 评论时间:{{vm.modelComment.createdate | timestampFilter}}
+                    //追加评论
+                    div.list-group-item(ng-repeat="item in vm.modelComment.addcomments")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-3
+                                    p 追加评论:{{item.commenttext}}
+                        div.list-group-item-text
+                            span 评论人:{{item.senderid | cacheFilter:'user':'name':'id'}} 评论时间:{{item.createdate | timestampFilter}}
 
         script(type="text/ng-template",id="startWorkorder.html")
             //功能导航区域

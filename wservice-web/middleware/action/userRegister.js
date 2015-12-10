@@ -7,7 +7,7 @@ module.exports = function () {
         if (req.query.code) {
             res.redirect("/mobile/userRegister#/form/" + req.query.code);
         } else {
-            res.redirect("/mobile/userRegister/form");
+            next(new Error("转发动作错误,无法获取code."));
         }
 
     }
