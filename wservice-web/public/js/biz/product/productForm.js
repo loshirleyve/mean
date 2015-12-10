@@ -44,7 +44,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"产品名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'saleprice',
@@ -69,7 +70,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "producttype"},
                         options: [],
-                        allowClear: true
+                        selectIndex:0
                     }
                 },
                 {
@@ -93,7 +94,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/[a-zA-z]+:\/\/[^\s]*/),
                             message: '"详情链接必须为网址链接！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'createby',
@@ -107,7 +109,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]
@@ -146,6 +148,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '所属分组:',
                         required: true,
+                        disabled: true,
                         labelProp: "groupname"
                     }
                 },
@@ -195,7 +198,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]
@@ -223,7 +226,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"产品名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 }
             ]
         });
@@ -265,7 +269,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"分组名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 }
             ]
         });
@@ -303,7 +308,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"分组名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'sort',
@@ -348,7 +354,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                                 expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                                 message: '"阶段名称不可以有特殊字符！"'
                             }
-                        }
+                        },
+                        modelOptions:{ updateOn: 'blur' }
                     }
                 },
                 {
@@ -371,6 +378,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
+                        selectIndex:0,
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "cycle"}
                     }
@@ -440,7 +448,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]
@@ -495,7 +503,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]
@@ -531,7 +539,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"分类名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'price',
@@ -556,6 +565,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
+                        selectIndex:0,
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "packagetype"}
                     }
@@ -607,7 +617,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]
@@ -643,7 +653,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"标题不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 },
                 {
                     key: 'type',
@@ -656,6 +667,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],
+                        selectIndex:0,
                         repository: QueryCtrlCode,
                         repositoryParams: {"defno": "productdescrtype"}
                     }
@@ -681,7 +693,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         options: [],
                         search: ["userid"],
                         repository: QueryUserInfoById,
-                        allowClear: true
+                        allowClear: false
                     }
                 }
             ]

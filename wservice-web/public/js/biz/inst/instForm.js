@@ -102,7 +102,8 @@ angular.module("instApp.instForm", ["ui.neptune"])
                             expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
                             message: '"机构名称不可以有特殊字符！"'
                         }
-                    }
+                    },
+                    modelOptions:{ updateOn: 'blur' }
                 }
             ],
             buttons: {
