@@ -30,24 +30,26 @@ html(lang="zh_CN",ng-app="selectInstApp")
         script(src="/node_modules/y9-neptune/dist/y9-neptune.js")
         script(src="/js/system/inst-select.js")
 
-        div.row.table-responsive.clearfix(style="background-color:white;")
-            table(style="margin:20px;")
-                tr
-                    td.col-md-1(rowspan="2")
+        div.row(style="background-color:white;padding-top:10px;padding-bottom:10px")
+            div.col-md-4.col-xs-6(style="border-right:1px solid #DCDCDC")
+                div.row
+                    div.col-md-2.col-xs-4.col-sm-2
                         img(src="/image/yun9logo.png",width="52.2",height="69.6")
-                    td.col-md-3(style="border-right:1px solid #DCDCDC")
-                        h4 深圳市顶聚科技有限公司
-                    td(rowspan="2",style="padding-left:20px;")
-                        h4 选择机构
-                tr
-                    td.col-md-2(style="border-right:1px solid #DCDCDC;")
-                        h4
-                            a(href="http://www.yun9.com" style="color:black;") www.yun9.com
+                    div.col-md-10.col-xs-8.col-sm-10
+                        h4 移办通
+                        h5
+                        a(href="http://m.yun9.com",style="color:black;") yun9.com
+            div.col-md-8.col-xs-6
+                div.pull-left
+                    h4 选择机构
+                    h5
+                        a(href="/mobile/download",style="color:black;",target="_blank") 下载移办通
 
-        div.row(style="background:white;position:absolute;top:30%;left:30%;right:30% ")
+        div.row(style="padding-top:50px")
             div.col-md-12
-                div.page-header
+                div.container(style="background:white;")
                     h4 请选择你需要登录的机构
+                    div.list-group
+                        a.list-group-item(href="/system/inst/setup?instid={{inst.id}}",ng-repeat="inst in vm.insts") {{inst.name}}
 
-                div.list-group
-                    a.list-group-item(href="/system/inst/setup?instid={{inst.id}}",ng-repeat="inst in vm.insts") {{inst.name}}
+

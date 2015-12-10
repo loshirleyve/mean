@@ -5,7 +5,7 @@
 angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"])
     .config(function ($routeProvider) {
         $routeProvider
-            .when("/:id", {
+            .when("/home/:id", {
                 controller: "MainController as vm",
                 templateUrl: "home.html",
                 resolve: {
@@ -14,7 +14,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     }
                 }
             })
-            .when("/", {
+            .when("/home", {
                 controller: "MainController as vm",
                 templateUrl: "home.html",
                 resolve: {
@@ -23,7 +23,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     }
                 }
             }).otherwise({
-                redirectTo: "/"
+                redirectTo: "/home"
             });
 
     })
@@ -44,14 +44,14 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                             self.navigateTo(menuItem);
                         }
                     }
-                }).then(function() {
+                }).then(function () {
                     $.AdminLTE.layout.fixSidebar();
                 });
             },
             navigateTo: function navigateTo(item) {
                 if (item && item.actionvalue && item.actiontype === "link") {
                     self.moduleUrl = item.actionvalue;
-                    $location.path("/" + item.no);
+                    $location.path("/home/" + item.no);
                     self.setFocus(item);
                     self.resizeFrame();
                 }
@@ -101,10 +101,9 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                         }
                     });
                 }
-
-
             },
             resizeFrame: function () {
+                $.AdminLTE.layout.fix();
                 // 在每次重新设置iframe高度后，$('.content-wrapper').height()都会+5，找不到原因
                 // 所以这里在设置前先保存一次原高度
                 this.frameHeight = this.frameHeight || $('.content-wrapper').height();
@@ -114,7 +113,8 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
             menus: [],
             moduleUrl: "/app/home"
         };
-
+        //初始化菜单
+        self.init();
         return self;
     })
     .controller("MainController", function ($scope, sessionData, NavigateMenu, QueryFileById) {
@@ -160,7 +160,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
         };
 
         //初始化
-        vm.navigateMenu.init();
+
         vm.brand.init();
         vm.profile.init();
 
