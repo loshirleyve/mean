@@ -189,7 +189,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
 
         //当前单据是否能够确认
         vm.isComplete = function () {
-            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0 && vm.receivableInfo.data.amount-vm.receivableInfo.payamount-vm.receivableInfo.lockamount<0) {
+            var balance=vm.receivableInfo.data.amount-vm.receivableInfo.data.payamount-vm.receivableInfo.data.lockamount;
+            if (vm.receivableInfo.data && vm.receivableInfo.data.complete === 0 && balance>0) {
                 return true;
             } else {
                 return false;
@@ -238,6 +239,8 @@ angular.module("receivableApp", ["ui.neptune", "receivableApp.receivableListGrid
                     payRegisterId: vm.receivableId
                 }).then(function (response) {
                     angular.extend(vm.modelReceivable,response.data);
+                    var balance=vm.modelReceivable.amount-vm.modelReceivable.payamount-vm.modelReceivable.lockamount;
+                    vm.model.amount=angular.copy(balance);
                 }, function (error) {
                     var de = error;
                 });
