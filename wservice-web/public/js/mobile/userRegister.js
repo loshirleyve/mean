@@ -22,16 +22,17 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 templateUrl: "failed.html"
             });
     })
-    .factory("RegUserForm", function (nptFormlyStore) {
+    .factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory) {
         return nptFormlyStore("RegUserForm", {
-            actions: [
+            /*actions: [
                 {
-                    label: "重置",
-                    type: "reset"
+                    label: "确定",
+                    type: "ok"
                 }
-            ],
+            ],*/
             buttons: {
-                ok: true
+                reset: true,
+                ok:true
             },
             fields: [
                 {
@@ -46,7 +47,8 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     type: 'input',
                     templateOptions: {
                         label: '用户名称:',
-                        required: true
+                        required: true,
+                        placeholder:"请输入用户名"
                     }
                 }, {
                     key: "passwd",
@@ -54,7 +56,14 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     templateOptions: {
                         type:"password",
                         label: '密码:',
-                        required: true
+                        required: true,
+                        placeholder: "请输入6至12位由字母或数字组成的密码"
+                    },
+                    validators: {
+                        pwdFormat: {
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[a-z0-9A-Z]{6,12}$/i),
+                            message: '"请输入6至12位由字母或数字组成的密码！"'
+                        }
                     }
                 }, {
                     key: "repasswd",
@@ -62,8 +71,21 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     templateOptions: {
                         type:"password",
                         label: '确认密码:',
-                        required: true
+                        required: true,
+                        placeholder:"请再次确认密码"
+                    },
+                    validators: {
+                        pwdFormat: {
+                            expression: function(viewValue,modelValue,scope) {
+                                if (scope.fc) {
+                                    scope.fc.$touched = true;
+                                }
+                                return viewValue == scope.model.passwd;
+                            },
+                            message: '"两次密码输入不一致！"'
+                        }
                     }
+
                 }
             ]
         });
@@ -90,9 +112,9 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
 
-                vm.nptFormApi.setOnActionListen(function () {
+                /*vm.nptFormApi.setOnActionListen(function () {
                     vm.model = angular.copy(vm.originModel);
-                });
+                });*/
 
                 vm.nptFormApi.addOnSubmitListen(function ($q) {
 

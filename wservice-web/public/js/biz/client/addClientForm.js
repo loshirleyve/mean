@@ -78,6 +78,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         optionsAttr: "bs-options",
                         label:'行业',
                         required: true,
+                        selectIndex:0,
                         valueProp:'no',
                         labelProp:'name',
                         placeholder:'请选择',
@@ -92,6 +93,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         optionsAttr: "bs-options",
                         required: true,
+                        selectIndex:0,
                         label: '类型:',
                         valueProp:'no',
                         labelProp:'name',
@@ -108,6 +110,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         optionsAttr: "bs-options",
                         required: true,
                         label: '级别:',
+                        selectIndex:0,
                         valueProp:'no',
                         labelProp:'name',
                         placeholder:'请选择',
@@ -123,6 +126,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                         optionsAttr: "bs-options",
                         required: true,
                         label: '来源:',
+                        selectIndex:0,
                         valueProp:'no',
                         labelProp:'name',
                         placeholder:'请选择',
@@ -137,6 +141,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         optionsAttr: "bs-options",
                         required: true,
+                        selectIndex:0,
                         label: '规模:',
                         valueProp:'type',
                         labelProp:'name',
@@ -176,6 +181,7 @@ angular.module("clientApp.addClientForm", ["ui.neptune"])
                     templateOptions: {
                         optionsAttr: "bs-options",
                         required: true,
+                        selectIndex:0,
                         label: '职位:',
                         valueProp:'no',
                         labelProp:'name',
