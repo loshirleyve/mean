@@ -14,7 +14,9 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                     type: 'numberInput',
                     templateOptions: {
                         required: true,
-                        label: '本次收款金额:'
+                        label: '本次收款金额:',
+                        "min": 0.00,
+                        "max": 99999
                     },
                     validators:{
                         checkAmount:{
