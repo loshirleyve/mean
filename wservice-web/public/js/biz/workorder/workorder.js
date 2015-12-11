@@ -346,7 +346,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                     //获取用户头像id
                     if(vm.modelComment){
                         var commentUserId = vm.modelComment.senderid;
-                        vm.commentUserHeadid = response.cache.user[commentUserId].head;
+                        vm.commentUserUrl = response.cache.user[commentUserId].url;
                     }
                     console.info(vm.modelComment);
                 }, function (error) {
