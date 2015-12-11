@@ -287,4 +287,10 @@ proxy.action("KitActionQuery", {
     action: "com.yun9.kit.action.service.KitActionFinishService"
 });
 
+/**动态*/
+proxy.action("QueryMsgsGroup", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryMsgsGroupService"
+});
+
 module.exports = proxy;

@@ -5,7 +5,7 @@
 
 exports = module.exports = function () {
     return function (req, res, next) {
-        res.render("app/home/frame");
+        res.render("app/frame");
     }
 };
 
