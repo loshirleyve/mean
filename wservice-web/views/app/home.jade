@@ -1,0 +1,74 @@
+//
+   Created by leon on 15/12/11.
+
+extends ../layout/layout-bizpage
+block titleContent
+    title 动态
+block content
+    script(src="/js/app/home.js")
+    div(ng-app="HomeApp")
+        div(ng-view)
+
+        script(id="dynamic.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 动态
+                    div.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgsGroup.loading()")
+                            li
+                                a 正在查询...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgsGroup.loading()")
+                            li
+                                a(type="button", ng-click="vm.changePwd()") 发动态
+                            li
+                                a(type="button", ng-click="vm.query()") 刷新动态
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
+            div
+                ul.media-list
+                    li.media(ng-repeat="item in vm.model")
+                        div(ng-if="item.fromtype ==='person'")
+                            div.media-left
+                                a(href="")
+                                    img.media-object(ng-src="{{item.fromUser.url}}",style="width:64px;height:64px")
+                            div.media-body
+                                a.list-group-item(ng-click="vm.toDetail(item)")
+                                    span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
+                                    h4.media-heading {{item.fromUser.name}}
+                                    small {{item.fromUser.instsimplename}}
+                                    br
+                                    | {{item.lastcontent}}
+
+                        div(ng-if="item.fromtype ==='inst'")
+                            div.media-left
+                                a(href="")
+                                    img.media-object(ng-src="{{item.inst.logourl}}",style="width:64px;height:64px")
+                            div.media-body
+                                a.list-group-item(ng-click="vm.toDetail(item)")
+                                    span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
+                                    h4.media-heading.text-blue {{item.inst.simplename}}
+                                    | {{item.lastcontent}}
+
+        script(id="send2me.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 动态 - 顶聚科技
+
+                    div.collapse.navbar-collapse.navbar-right
+                        //ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgsGroup.loading()")
+                        //    li
+                        //        a 正在查询...
+                        //ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgsGroup.loading()")
+                        //    li
+                        //        a(type="button", ng-click="vm.changePwd()") 发动态
+                        //    li
+                        //        a(type="button", ng-click="vm.query()") 刷新动态
+                        //    li
+                        //        | &nbsp &nbsp &nbsp &nbsp
+
+            div.list-group
+                a.list-group-item(href="",ng-repeat="item in vm.module")
+                    div.list-group-item-heading
+                        h4 {{item.subject}}
