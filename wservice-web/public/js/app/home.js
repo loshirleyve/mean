@@ -52,7 +52,6 @@ angular.module("HomeApp", ["ui.neptune", "ngRoute", "ui-notification"])
                     value.fromUser = nptCache.get("user", value.fromuserid);
                     value.inst = nptCache.get("inst", value.instid);
                 });
-                console.info(vm.model);
             }, function (error) {
                 console.info(error);
             });
