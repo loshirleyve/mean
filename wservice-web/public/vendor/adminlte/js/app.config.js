@@ -17,4 +17,5 @@ var AdminLTEOptions = {
     enableFastclick: true,
     // 动画速度
     animationSpeed:'fast',
+    popMenus:true
 };
