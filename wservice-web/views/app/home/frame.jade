@@ -63,7 +63,7 @@ html(ng-app='wservice.web.home')
             .wrapper
                 header.main-header
                     // Logo
-                    a.logo(href="/app/home")
+                    a.logo(href="")
                         // mini logo for sidebar mini 50x50 pixels
                         span.logo-mini
                             b(ng-bind="vm.brand.inst.simplename")
@@ -252,7 +252,7 @@ html(ng-app='wservice.web.home')
                                             .pull-left
                                                 a.btn.btn-default.btn-flat(ng-click='vm.navigateMenu.navigateToUrl("/app/profile")') 个人信息
                                             .pull-right
-                                                a.btn.btn-default.btn-flat(href="javascript:void(0);") 退出
+                                                a.btn.btn-default.btn-flat(href="/auth/logout") 退出
                                 // Control Sidebar Toggle Button
                                 // 临时屏蔽设置tab
                                 li(style='display:none')

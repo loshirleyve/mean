@@ -133,7 +133,7 @@ block content
                                 div.col-xs-6.col-md-3
                                     //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
                                     div(ng-if="item.inputtype === 'image'")
-                                        a(href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
+                                        a(href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachname}}
                                         div.thumbnail
                                             div(npt-image="item.inputvalue" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
                                     div(ng-if="item.inputtype === 'text'")

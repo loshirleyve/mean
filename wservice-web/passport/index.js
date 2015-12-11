@@ -46,11 +46,17 @@ module.exports = function (app) {
 
     //配置登录访问路由,对应本地登录策略
     app.post("/auth", passport.authenticate("local", {
-        successRedirect: "/app/home",
+        successRedirect: "/app/frame",
         failureRedirect: "/auth/login",
-        failureFlash: true,
-        "successReturnToOrRedirect": "/app/home"
+        failureFlash: {},
+        "successReturnToOrRedirect": "/app/frame"
     }));
 
-
-}
+    //app.post("/auth", passport.authenticate("local", {
+    //    successRedirect: "/app/frame",
+    //    failWithError: true, //登录失败后抛出错误
+    //    //failureMessage: "登录失败!",
+    //    failureFlash: {},
+    //    "successReturnToOrRedirect": "/app/frame"
+    //}));
+};

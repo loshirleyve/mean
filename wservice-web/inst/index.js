@@ -46,7 +46,7 @@ module.exports = function (app) {
     });
 
     router.use("/setup", instPassport.setInst({
-        successReturnToOrRedirect: "/home"
+        successReturnToOrRedirect: "/"
     }));
 
     app.use("/system/inst", router);
