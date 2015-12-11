@@ -336,7 +336,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
-        //vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small","contactposition":"legal"};
         vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置
