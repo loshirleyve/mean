@@ -259,6 +259,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("RegisteUser", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.RegisteUserService"
+}).action("AddUserByEmail", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddUserByEmailService"
 });
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
@@ -293,7 +296,7 @@ proxy.action("QueryMsgsGroup", {
     action: "com.yun9.ws.biz.service.QueryMsgsGroupService"
 }).action("QueryMsgCardByScene", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryMsgCardBySceneService"
+    action: "com.yun9.ws.biz.service.QueryMsgBySceneService"
 });
 
 module.exports = proxy;

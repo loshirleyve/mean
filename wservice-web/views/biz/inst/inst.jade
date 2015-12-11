@@ -30,7 +30,7 @@ block content
                         ul.nav.navbar-nav.navbar-right
                             li(ng-if="vm.queryService.loading()")
                                 a(href="") 正在查询,请稍后...
-                            li
+                            li(ng-if="!vm.queryService.loading()")
                                 a(data-toggle="modal", data-target="#instSearch") 机构查询
 
             div(npt-grid="vm.instListGridOptions",model="vm.queryService.instList.data")
