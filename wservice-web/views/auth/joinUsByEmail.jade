@@ -30,7 +30,8 @@ block content
             div.page-header
                 h4 欢迎加入移办通，请输入您的邮箱地址
             div.page-body
-                div(npt-form="vm.emailFormOption",model="vm.email")
+                div.col-md-2
+                div.col-md-8(npt-form="vm.emailFormOption",model="vm.email")
 
         script(type="text/ng-template", id = "readyLogin.html")
             ul.breadcrumb
