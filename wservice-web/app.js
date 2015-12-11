@@ -39,22 +39,19 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 app.use("/dist", express.static(path.join(__dirname, "dist")));
 
+app.use(flash());
 
 //0.加载服务代理
 app.use(proxy());
 app.use("/service", proxy.service());
 
-// 载入资源服务
-//app.use(repository());
-//app.use("/model", repository.service());
 
 //1.加载session管理
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: "y9-wservice-web"
+    secret: "2a93c70ba62540dfa362a0fa6fe1c293"
 }));
-app.use(flash());
 
 //2.加载登录验证管理
 passport(app);
@@ -76,8 +73,6 @@ app.use(function (req, res, next) {
 });
 
 // 错误处理
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         console.error(err.stack);
@@ -86,11 +81,24 @@ if (app.get('env') === 'development') {
             message: err.message,
             error: err
         });
+
+        //
+        //if (err.name === "AuthenticationError") {
+        //    res.status(err.status || 401);
+        //    res.send({
+        //        state: false,
+        //        messages: req.session.flash
+        //    });
+        //} else {
+        //    res.status(err.status || 500);
+        //    res.render('sys/error', {
+        //        message: err.message,
+        //        error: err
+        //    });
+        //}
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('sys/error', {
