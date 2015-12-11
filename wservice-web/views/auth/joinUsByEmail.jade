@@ -11,12 +11,6 @@ block content
     div(ng-app="joinUsByEmailApp")
         div(ng-view)
         script(type="text/ng-template", id = "joinUsByEmail.html")
-            ul.breadcrumb
-                li
-                    a(href="/app/home")
-                        span.glyphicon.glyphicon-home 首页
-                li.active 通过邮件注册
-
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -34,12 +28,6 @@ block content
                 div.col-md-8(npt-form="vm.emailFormOption",model="vm.email")
 
         script(type="text/ng-template", id = "readyLogin.html")
-            ul.breadcrumb
-                li
-                    a(href="/app/home")
-                        span.glyphicon.glyphicon-home 首页
-                li.active 通过邮件注册
-
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
