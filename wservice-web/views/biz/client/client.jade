@@ -29,8 +29,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 客户列表
-                    div.collapse.navbar-collapse
+                    div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li
                                 a(href="#/addClient") 新增客户
@@ -74,13 +79,17 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="") 客户详情
-                    div(ng-if="vm.clientInfo.loading() || vm.updateClient.loading() || vm.instInit.loading()")
-                        ul.nav.navbar-nav.navbar-right
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.clientInfo.loading() || vm.updateClient.loading() || vm.instInit.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
-                    div(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
-                        ul.nav.navbar-nav.navbar-right
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
                             li
                                 a(data-toggle="modal", ng-click="vm.clientAdviser()") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
@@ -135,13 +144,17 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="") 新增客户
-                    div(ng-if="vm.addClient.loading()")
-                        ul.nav.navbar-nav.navbar-right
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.addClient.loading()")
                             li
                                 a(href="") 正在保存,请稍后...
-                    div(ng-if="!vm.addClient.loading()")
-                        ul.nav.navbar-nav.navbar-right
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.addClient.loading()")
                             li
                                 a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
                             li
