@@ -64,7 +64,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 工单详情
+                        a.navbar-brand(href="") 工单详情-[{{vm.workorderInfo.data.workOrder.name}}({{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}})]
                     div.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.workorderInfo.loading()")
                             li
@@ -102,7 +102,8 @@ block content
                     dt 工单描述:
                     dd {{vm.workorderInfo.data.workOrder.descr}}
                     dt 工单状态:
-                    dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    dd
+                        strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                     dt 分配人:
                     dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
                     dt 处理人:
@@ -149,23 +150,40 @@ block content
                 div.row
                     div.col-xs-6.col-md-6
                         h4 工单评论
-            div.page-body
-                div.list-group
-                    div.list-group-item
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-3
-                                    p 评价内容:{{vm.modelComment.commenttext}}
-                        div.list-group-item-text
-                            span 评论人:{{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}} 评论时间:{{vm.modelComment.createdate | timestampFilter}}
+            div.page-body(ng-if="vm.modelComment")
+                div.media
+                    div.media-left
+                        a(href="")
+                            img.media-object(ng-src="{{vm.commentUserUrl}}",style="width:64px;height:64px")
+                    div.media-body
+                        a.list-group-item
+                            div.media-heading
+                                h4 {{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}
+                            div.list-group-item-text
+                                p {{vm.modelComment.commenttext}}
+                                p {{vm.modelComment.createdate | timestampFilter}}
+
+                        ul.media.media-list(ng-repeat="item in vm.modelComment.addcomments")
+                            li.media
+                                div.media-left
+                                    img.media-object(ng-src="{{vm.commentUserUrl}}",style="width:64px;height:64px")
+                                div.media-body
+                                    a.list-group-item
+                                        div.media-heading
+                                            h4 {{item.senderid | cacheFilter:'user':'name':'id'}}
+                                        div.list-group-item-text
+                                            p {{item.commenttext}}
+                                            p {{item.createdate | timestampFilter}}
+
+
                     //追加评论
-                    div.list-group-item(ng-repeat="item in vm.modelComment.addcomments")
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-3
-                                    p 追加评论:{{item.commenttext}}
-                        div.list-group-item-text
-                            span 评论人:{{item.senderid | cacheFilter:'user':'name':'id'}} 评论时间:{{item.createdate | timestampFilter}}
+                    //div.list-group-item(ng-repeat="item in vm.modelComment.addcomments")
+                    //    div.list-group-item-heading
+                    //        div.row
+                    //            div
+                    //                p 追加评论:{{item.commenttext}}
+                    //    div.list-group-item-text
+                    //        span 评论人:{{item.senderid | cacheFilter:'user':'name':'id'}}; 评论时间:{{item.createdate | timestampFilter}}
 
         script(type="text/ng-template",id="startWorkorder.html")
             //功能导航区域
@@ -184,7 +202,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 开始工单
+                        a.navbar-brand(href="") 开始工单-[{{vm.workorderInfo.data.workOrder.name}}({{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}})]
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href="",type="button",ng-click="vm.startWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 立即开始
@@ -196,8 +214,7 @@ block content
                             | &nbsp &nbsp &nbsp &nbsp
             div.panel.panel-default
                 div.panel-heading
-                    span 请核对以下工单信息!当前工单状态为
-                        strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                    span 请核对以下工单信息!
                 div.panel-body
                     dl.dl-horizontal
                         dt 工单编号:
@@ -211,7 +228,8 @@ block content
                         dt 工单描述:
                         dd {{vm.workorderInfo.data.workOrder.descr}}
                         dt 工单状态:
-                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dd
+                            strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                         dt 分配人:
                         dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
                         dt 处理人:
@@ -243,7 +261,7 @@ block content
                 li
                     a(href="#/detail/{{vm.workorderid}}")
                         span 工单详情
-                li.active 开始工单
+                li.active 完成工单
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -254,7 +272,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 完成工单
+                        a.navbar-brand(href="") 完成工单-[{{vm.workorderInfo.data.workOrder.name}}({{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}})]
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href="",type="button",ng-click="vm.completeWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 立即完成
@@ -280,7 +298,8 @@ block content
                         dt 工单描述:
                         dd {{vm.workorderInfo.data.workOrder.descr}}
                         dt 工单状态:
-                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dd
+                            strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                         dt 分配人:
                         dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
                         dt 处理人:
@@ -319,7 +338,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="") 转交工单
+                        a.navbar-brand(href="") 转交工单-[{{vm.workorderInfo.data.workOrder.name}}({{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}})]
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href="",ng-click="vm.deliverWorkorder()",ng-disabled="vm.nptFormApi.form.$invalid") 确认转交
@@ -345,7 +364,8 @@ block content
                         dt 工单描述:
                         dd {{vm.workorderInfo.data.workOrder.descr}}
                         dt 工单状态:
-                        dd {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                        dd
+                            strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                         dt 分配人:
                         dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
                         dt 处理人:
