@@ -45,7 +45,7 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                         }
                     }
                 }).then(function() {
-                    $.AdminLTE.layout.fixSidebarHeight(true);
+                    //$.AdminLTE.layout.fixSidebarHeight(true);
                 });
             },
             navigateTo: function navigateTo(item) {
@@ -158,14 +158,14 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
             return original.apply($location, [path]);
         };
 
-        $("body").bind("expanded.pushMenu",function(event) {
-            if ($.AdminLTE.options.popMenus){
-                $.AdminLTE.layout.fixSidebarHeight(true);
-            }
-        });
-        $("body").bind("collapsed.pushMenu",function(event) {
-            if ($.AdminLTE.options.popMenus){
-                $.AdminLTE.layout.fixSidebarHeight(false);
-            }
-        });
+        //$("body").bind("expanded.pushMenu",function(event) {
+        //    if ($.AdminLTE.options.popMenus){
+        //        $.AdminLTE.layout.fixSidebarHeight(true);
+        //    }
+        //});
+        //$("body").bind("collapsed.pushMenu",function(event) {
+        //    if ($.AdminLTE.options.popMenus){
+        //        $.AdminLTE.layout.fixSidebarHeight(false);
+        //    }
+        //});
     });
