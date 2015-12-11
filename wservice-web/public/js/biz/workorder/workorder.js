@@ -343,6 +343,11 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                     vm.modelAttachment = response.data.orderAttachments;
                     vm.modelComment = response.data.workorderComment;
 
+                    //获取用户头像id
+                    if(vm.modelComment){
+                        var commentUserId = vm.modelComment.senderid;
+                        vm.commentUserHeadid = response.cache.user[commentUserId].head;
+                    }
                     console.info(vm.modelComment);
                 }, function (error) {
                     Notification.error({
@@ -437,7 +442,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 $location.path("/detail/" + vm.workorderid);
 
                 Notification.success({
-                    title: '工单开始成功',
+                    message: '工单开始成功',
                     replaceMessage: true,
                     delay: 2000
                 });
@@ -514,7 +519,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
                 UpdateWorkOrderCompleteById.post(params).then(function (response) {
                     $location.path("/detail/" + vm.workorderid);
                     Notification.success({
-                        title: '工单完成成功',
+                        message: '工单完成成功',
                         replaceMessage: true,
                         delay: 2000
                     });
@@ -589,7 +594,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
             UpdateWorkorderByProcessid.post(params).then(function (response) {
                 $location.path("/detail/" + vm.workorderid);
                 Notification.success({
-                    title: '工单转交成功',
+                    message: '工单转交成功',
                     replaceMessage: true,
                     delay: 2000
                 });
