@@ -736,9 +736,141 @@ angular.module("productApp", ["ui.neptune",
         vm.delProductClassify = RemoveProductClassify;
         vm.delProductDescr = RemoveProductDescr;
 
+
+        vm.isDeleteProfile = function (profileid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deleteProfileById(profileid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.isDeletePhase = function (phaseid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deletePhaseById(phaseid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.isDeleteRequirement = function (requirementid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deleteRequirementById(requirementid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.isDeleteGroup = function (groupid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deleteGroupById(groupid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.isDeleteClassify = function (classifyid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deleteClassifyById(classifyid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.isDeleteDescr = function (descrid) {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.deleteDescrById(descrid);
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+        vm.showTip=function() {
+            nptMessageBox.open({
+                title:"提示",
+                content: '删除成功！',
+                showCancel: false,
+                action: {
+                    success: {
+                        label: "确定"
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
         vm.deleteProfileById = function (profileid) {
             vm.temp = [];
             vm.delProductProfile.post({profileid: profileid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductProfiles, function (value) {
                     if (value.id != profileid) {
                         vm.temp.push(value);
@@ -757,6 +889,7 @@ angular.module("productApp", ["ui.neptune",
         vm.deletePhaseById = function (phaseid) {
             vm.temp1 = [];
             vm.delProductPhase.post({phaseid: phaseid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductPhases, function (value) {
                     if (value.id != phaseid) {
                         vm.temp1.push(value);
@@ -775,6 +908,7 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteRequirementById = function (requirementid) {
             vm.temp2 = [];
             vm.delProductRequirement.post({requirementid: requirementid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductRequirements, function (value) {
                     if (value.id != requirementid) {
                         vm.temp2.push(value);
@@ -793,6 +927,7 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteGroupById = function (groupid) {
             vm.temp3 = [];
             vm.delProductGroup.post({groupid: groupid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductGroups, function (value) {
                     if (value.id != groupid) {
                         vm.temp3.push(value);
@@ -811,6 +946,7 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteClassifyById = function (classifyid) {
             vm.temp4 = [];
             vm.delProductClassify.post({classifyid: classifyid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductClassifies, function (value) {
                     if (value.id != classifyid) {
                         vm.temp4.push(value);
@@ -829,6 +965,7 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteDescrById = function (descrid) {
             vm.temp5 = [];
             vm.delProductDescr.post({productDescrid: descrid}).then(function (response) {
+                vm.showTip();
                 angular.forEach(vm.modelProductDescrs, function (value) {
                     if (value.id != descrid) {
                         vm.temp5.push(value);

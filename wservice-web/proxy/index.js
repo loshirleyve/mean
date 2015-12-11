@@ -293,7 +293,7 @@ proxy.action("QueryMsgsGroup", {
     action: "com.yun9.ws.biz.service.QueryMsgsGroupService"
 }).action("QueryMsgCardByScene", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.QueryMsgCardBySceneService"
+    action: "com.yun9.ws.biz.service.QueryMsgBySceneService"
 });
 
 module.exports = proxy;

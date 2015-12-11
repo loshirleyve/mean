@@ -87,6 +87,21 @@ block content
             div.modal-footer
                 button.btn.btn-default(type="button",data-dismiss="vm.cancel()") 关闭
                 button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
+
+        script(type="text/ng-template",id="isDelete.html")
+            //弹出层，客户条件查询表单
+            div.modal-header
+                button.close(type="button",ng-click="vm.cancel()")
+                    span(aria-hidden="ture")&times;
+                h4.modal-title 产品查询
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        label.control-label 产品名称：
+                        input.form-control(ng-model="vm.model.name")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
         //新增产品
         script(type="text/ng-template",id="add.html")
             //功能导航区域
@@ -194,7 +209,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{profile.synopsis}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteProfileById(profile.id);") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeleteProfile(profile.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/profile/{{vm.productid}}/{{profile.id}}") 编辑
 
@@ -212,7 +227,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.descr}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteDescrById(item.id);") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeleteDescr(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/descr/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
@@ -234,7 +249,7 @@ block content
                                     span &nbsp &nbsp
                                     span {{item.groupname}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteGroupById(item.id);") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeleteGroup(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/group/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
@@ -254,7 +269,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.classifyname}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteClassifyById(item.id);") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeleteClassify(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
@@ -273,7 +288,7 @@ block content
                             div.col-xs-6.col-md-6
                                 h5 {{item.attachname}}
                             div.col-xs-6.col-md-6
-                                button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deleteRequirementById(item.id);") 删除
+                                button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeleteRequirement(item.id);") 删除
                         div.list-group-item-text
                             span 识别Key:{{item.attachkey}}; &nbsp;&nbsp; 交接类型:{{item.inputtype | ctrlCodeFilter:'inputtype':'name':'no'}}; &nbsp;&nbsp; 填写说明:{{item.inputdesc}}; &nbsp;&nbsp; 填写样板:{{item.demovalue}}; &nbsp;&nbsp; 资料类型:{{item.transfertype | ctrlCodeFilter:'transfertype':'name':'no'}};
 
@@ -291,7 +306,7 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.sortno}} {{item.name}}
                                 div.col-xs-6.col-md-6
-                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.deletePhaseById(item.id);") 删除
+                                    button.btn.btn-danger.btn-sm.pull-right(type="button",ng-click="vm.isDeletePhase(item.id);") 删除
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/phase/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
