@@ -11,44 +11,29 @@ block content
     div(ng-app="joinUsByEmailApp")
         div(ng-view)
         script(type="text/ng-template", id = "joinUsByEmail.html")
-            ul.breadcrumb
-                li
-                    a(href="/app/home")
-                        span.glyphicon.glyphicon-home 首页
-                li.active 通过邮件注册
-
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 通过邮件注册
-                    div
-                        ul.nav.navbar-nav.navbar-right
-                            li
-                                a(href="", type="button", ng-click="vm.sure(vm.email)") 确定
-                            li &nbsp &nbsp &nbsp &nbsp
 
-            div.page-header
+            div.well
                 h4 欢迎加入移办通，请输入您的邮箱地址
             div.page-body
                 div.col-md-2
-                div.col-md-8(npt-form="vm.emailFormOption",model="vm.email")
+                div.col-md-8
+                    div(npt-form="vm.emailFormOption",model="vm.email")
+                    a.btn.btn-primary(href="", type="button", ng-click="vm.sure(vm.email)") 确定
 
         script(type="text/ng-template", id = "readyLogin.html")
-            ul.breadcrumb
-                li
-                    a(href="/app/home")
-                        span.glyphicon.glyphicon-home 首页
-                li.active 通过邮件注册
-
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
                         a.navbar-brand(href="#") 通过邮件注册
 
-            div.page-header
+            div.well
                 h4 我们发送了一封激活邮件到您的邮箱。请登录邮箱按邮件内容引导激活您的账户。
+                h4 如您已经激活账户，请登录移办通
             div.page-body
-                div.col-md-4
-                div.col-md-4
-                    h4 如您已经激活账户，请登录移办通
-                    button.btn.btn-default.btn-lg(ng-click="") &nbsp &nbsp &nbsp &nbsp登录&nbsp &nbsp &nbsp &nbsp
+                div.col-md-5
+                div.col-md-2
+                    a.btn.btn-primary.btn-lg(href="./login") &nbsp &nbsp &nbsp &nbsp登录&nbsp &nbsp &nbsp &nbsp
