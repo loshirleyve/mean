@@ -161,7 +161,7 @@ block content
                                 h4 {{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}
                             div.list-group-item-text
                                 p {{vm.modelComment.commenttext}}
-                                p {{vm.modelComment.createdate | timestampFilter}}
+                                p.text-right {{vm.modelComment.createdate | timestampFilter}}
 
                         ul.media.media-list(ng-repeat="item in vm.modelComment.addcomments")
                             li.media
@@ -173,7 +173,7 @@ block content
                                             h4 {{item.senderid | cacheFilter:'user':'name':'id'}}
                                         div.list-group-item-text
                                             p {{item.commenttext}}
-                                            p {{item.createdate | timestampFilter}}
+                                            p.text-right {{item.createdate | timestampFilter}}
 
 
                     //追加评论
