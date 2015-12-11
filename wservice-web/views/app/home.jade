@@ -50,3 +50,25 @@ block content
                                     h4.media-heading.text-blue {{item.inst.simplename}}
                                     | {{item.lastcontent}}
 
+        script(id="send2me.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 动态 - 顶聚科技
+
+                    div.collapse.navbar-collapse.navbar-right
+                        //ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgsGroup.loading()")
+                        //    li
+                        //        a 正在查询...
+                        //ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgsGroup.loading()")
+                        //    li
+                        //        a(type="button", ng-click="vm.changePwd()") 发动态
+                        //    li
+                        //        a(type="button", ng-click="vm.query()") 刷新动态
+                        //    li
+                        //        | &nbsp &nbsp &nbsp &nbsp
+
+            div.list-group
+                a.list-group-item(href="",ng-repeat="item in vm.module")
+                    div.list-group-item-heading
+                        h4 {{item.subject}}
