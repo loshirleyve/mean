@@ -51,9 +51,15 @@ angular.module("joinUsByEmailApp", ["ui.neptune", "ngRoute", "joinUsByEmailApp.e
             else{
                 vm.addUserByEmailService.post(email)
                     .then(function(response){
+                        Notification.success({
+                           message:'注册成功，请登录！', delay:2000
+                        });
                         $location.path("/readyLogin/" + email.email);
                     }, function(err){
-
+                        Notification.error({
+                           title:"注册失败.",
+                           message:err.data.cause, delay:2000
+                        });
                     });
             }
         };

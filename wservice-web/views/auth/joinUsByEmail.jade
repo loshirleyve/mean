@@ -16,13 +16,18 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 通过邮件注册
 
-            div.well
-                h4 欢迎加入移办通，请输入您的邮箱地址
-            div.page-body
+            div.well.row
+                div.col-md-2
+                div.col-md-8
+                    h4 欢迎加入移办通，请输入您的邮箱地址
+            div.page-body.row
                 div.col-md-2
                 div.col-md-8
                     div(npt-form="vm.emailFormOption",model="vm.email")
-                    a.btn.btn-primary(href="", type="button", ng-click="vm.sure(vm.email)") 确定
+                    div(ng-if="vm.addUserByEmailService.loading()")
+                        a(href="") 正在注册,请稍后...
+                    div(ng-if="!vm.addUserByEmailService.loading()")
+                        a.btn.btn-primary.btn-lg(href="", type="button", ng-click="vm.sure(vm.email)") 确定
 
         script(type="text/ng-template", id = "readyLogin.html")
             nav.navbar.navbar-default.navbar-fixed-top
@@ -30,9 +35,11 @@ block content
                     div.navbar-header
                         a.navbar-brand(href="#") 通过邮件注册
 
-            div.well
-                h4 我们发送了一封激活邮件到您的邮箱。请登录邮箱按邮件内容引导激活您的账户。
-                h4 如您已经激活账户，请登录移办通
+            div.well.row
+                div.col-md-2
+                div.col-md-8
+                    h4 我们发送了一封激活邮件到您的邮箱。请登录邮箱按邮件内容引导激活您的账户。
+                    h4 如您已经激活账户，请登录移办通
             div.page-body
                 div.col-md-5
                 div.col-md-2
