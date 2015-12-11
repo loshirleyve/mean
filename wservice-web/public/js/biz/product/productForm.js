@@ -53,9 +53,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '产品价格:',
                         required: true,
-                        numberMask: 0,
-                        max: 99999,
-                        min: 0
+                        "min": 0.00,
+                        "max": 99999
                     }
                 },
                 {
@@ -548,9 +547,8 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '价格:',
                         required: true,
-                        numberMask: 0,
-                        max: 99999,
-                        min: 0
+                        "min": 0.00,
+                        "max": 99999
 
                     }
                 },
