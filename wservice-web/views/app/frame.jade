@@ -20,6 +20,7 @@ html(ng-app='wservice.web.home')
         link(rel="stylesheet", href="/vendor/adminlte/css/skins/_all-skins.min.css")
         link(rel="stylesheet", href="/stylesheets/y9-red.css")
         link(rel="stylesheet", href="/stylesheets/frame.css")
+        link(rel="stylesheet", href="/stylesheets/fontStyle.css")
         // 提示框样式
         link(rel="stylesheet" href="/vendor/angular-ui-notification/dist/angular-ui-notification.min.css")
         // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -262,7 +263,7 @@ html(ng-app='wservice.web.home')
                             li.header &#23548;&#33322;
                             li.treeview(ng-repeat='menu in vm.navigateMenu.menus',ng-class="{'active':menu.selected}")
                                 a(href="javascript:void(0);")
-                                    i.fa.fa-files-o
+                                    i.fa(ng-class="'icon-'+menu.no")
                                     span(style="font-weight:500") {{menu.name}}
                                     i.fa.fa-angle-left.pull-right
                                 ul.treeview-menu.menu-open
