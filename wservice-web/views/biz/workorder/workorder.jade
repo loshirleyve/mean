@@ -161,7 +161,7 @@ block content
                         div.media-heading
                             p 评价内容:{{vm.modelComment.commenttext}}
                         div.list-group-item-text
-                            span 评论人:{{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}; 评论时间:{{vm.modelComment.createdate | timestampFilter}}
+                            p 评论人:{{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}; 评论时间:{{vm.modelComment.createdate | timestampFilter}}
                         ul.media-list(ng-repeat="item in vm.modelComment.addcomments")
                             li.media.list-group
                                 div.media-left
@@ -171,7 +171,7 @@ block content
                                     div.media-heading
                                         p 追加评论:{{item.commenttext}}
                                     div.list-group-item-text
-                                        span 评论人:{{item.senderid | cacheFilter:'user':'name':'id'}}; 评论时间:{{item.createdate | timestampFilter}}
+                                        p 评论人:{{item.senderid | cacheFilter:'user':'name':'id'}}; 评论时间:{{item.createdate | timestampFilter}}
 
 
                     //追加评论
