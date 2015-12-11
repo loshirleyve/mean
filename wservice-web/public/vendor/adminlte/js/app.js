@@ -277,7 +277,13 @@ function _init() {
     },
     fixSidebar: function () {
       //Make sure the body tag has the .fixed class
-      if (!$("body").hasClass("fixed")) {
+      /**
+       * 增加条件：$.AdminLTE.options.popMenus
+       * 由配置决定是否弹出窗口菜单;
+       * 不过这样就不能动态计算左侧菜单的高度了
+       */
+      if (!$("body").hasClass("fixed") ||
+          $.AdminLTE.options.popMenus) {
         if (typeof $.fn.slimScroll != 'undefined') {
           $(".sidebar").slimScroll({destroy: true}).height("auto");
         }
@@ -343,9 +349,15 @@ function _init() {
       });
 
       //Enable expand on hover for sidebar mini
+      /**
+       * 原始条件：
+       * $.AdminLTE.options.sidebarExpandOnHover
+            || ($('body').hasClass('fixed')
+                && $('body').hasClass('sidebar-mini'))
+        * 去掉了fixed的判断，这样鼠标移上去不会滑出完成原始菜单
+       */
       if ($.AdminLTE.options.sidebarExpandOnHover
-              || ($('body').hasClass('fixed')
-                      && $('body').hasClass('sidebar-mini'))) {
+              && $('body').hasClass('sidebar-mini')) {
         this.expandOnHover();
       }
     },

@@ -84,7 +84,6 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                             message: '"两次密码输入不一致！"'
                         }
                     }
-
                 }
             ]
         });
