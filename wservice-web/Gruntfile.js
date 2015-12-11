@@ -13,6 +13,7 @@ module.exports = function (grunt) {
                 src: [
                     "public/js/common/index.js",
                     "public/js/common/master.js",
+                    "public/js/common/onIframeLoad.js",
                     "public/js/common/repository/*.js",
                     "public/js/common/service/*.js",
                     "public/js/common/store/*.js"
