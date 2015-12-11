@@ -127,7 +127,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'input',
                     templateOptions: {
                         label: '联系人:',
-                        placeholder:'请输入联系人',
+                        required:true,
                         disabled:true
                     }
                 },
@@ -136,7 +136,7 @@ angular.module("clientApp.clientForm", ["ui.neptune"])
                     type: 'maskedInput',
                     templateOptions: {
                         label: '手机号:',
-                        placeholder:'请输入手机号',
+                        required:true,
                         disabled:true
                     }
                 },
