@@ -22,7 +22,7 @@ angular.module("joinUsByEmailApp", ["ui.neptune", "ngRoute", "joinUsByEmailApp.e
                         return nptSession();
                     }
                 }
-            })
+            });
     })
     .factory("AddUserByEmail", function(nptRepository){
         return nptRepository("AddUserByEmail");
@@ -56,7 +56,7 @@ angular.module("joinUsByEmailApp", ["ui.neptune", "ngRoute", "joinUsByEmailApp.e
 
                     });
             }
-        }
+        };
     })
     .controller("ReadyLoginController", function(){
         var vm = this;

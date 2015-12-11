@@ -24,5 +24,5 @@ angular.module("joinUsByEmailApp.emailForm", ["ui.neptune"])
                     modelOptions:{ updateOn: 'blur' }
                 }
             ]
-        })
+        });
     });
