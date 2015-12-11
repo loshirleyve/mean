@@ -157,11 +157,9 @@ block content
                             img.media-object(ng-src="{{vm.commentUserUrl}}",style="width:64px;height:64px")
                     div.media-body
                         a.list-group-item
-                            div.media-heading
-                                h4 {{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}
-                            div.list-group-item-text
-                                p {{vm.modelComment.commenttext}}
-                                p.text-right {{vm.modelComment.createdate | timestampFilter}}
+                            h4.media-heading {{vm.modelComment.senderid | cacheFilter:'user':'name':'id'}}
+                            | {{vm.modelComment.commenttext}}
+                            div.text-right {{vm.modelComment.createdate | timestampFilter}}
 
                         ul.media.media-list(ng-repeat="item in vm.modelComment.addcomments")
                             li.media
@@ -171,9 +169,8 @@ block content
                                     a.list-group-item
                                         div.media-heading
                                             h4 {{item.senderid | cacheFilter:'user':'name':'id'}}
-                                        div.list-group-item-text
-                                            p {{item.commenttext}}
-                                            p.text-right {{item.createdate | timestampFilter}}
+                                            | {{item.commenttext}}
+                                            div.text-right {{item.createdate | timestampFilter}}
 
         script(type="text/ng-template",id="startWorkorder.html")
             //功能导航区域
