@@ -21,7 +21,7 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 controller: "FailedController as vm",
                 templateUrl: "failed.html"
             });
-    }).factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory, QueryMdInstScale) {
+    }).factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory, QueryInstClients, QueryMdInstScale) {
         return nptFormlyStore("RegUserForm", {
             actions: [
                 {
@@ -41,7 +41,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         required: true,
                         disabled: true
                     }
-                }, {
+                },
+                {
                     key: "userName",
                     type: 'input',
                     templateOptions: {
@@ -49,7 +50,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         required: true,
                         placeholder: "请输入你的姓名."
                     }
-                }, {
+                },
+                {
                     key: "passwd",
                     type: 'input',
                     templateOptions: {
@@ -64,7 +66,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                             message: '"请输入6至12位由字母或数字组成的密码！"'
                         }
                     }
-                }, {
+                },
+                {
                     key: "repasswd",
                     type: 'input',
                     templateOptions: {
@@ -85,10 +88,14 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 {
                     key: 'companyName',
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         label: '公司名称:',
                         required: true,
-                        placeholder: "请输入与营业执照上登记一致的公司名称."
+                        placeholder: "请输入与营业执照上登记一致的公司名称.",
+                        reversal: true,
+                        searchProp:"fullname",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
@@ -97,13 +104,18 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
-                }, {
+                },
+                {
                     key: "simpleName",
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         label: '公司简称:',
                         required: true,
-                        placeholder: "请输入便于记忆的公司简称."
+                        placeholder: "请输入便于记忆的公司简称.",
+                        reversal: true,
+                        searchProp:"name",
+                        repository: QueryInstClients
                     },
                     validators: {
                         format: {
@@ -112,21 +124,28 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         }
                     },
                     modelOptions:{ updateOn: 'blur' }
-                }, {
+                },
+                {
                     key: "companyNo",
                     type: 'input',
+                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         label: '公司编号:',
                         required: true,
-                        placeholder: "请输入公司简称的拼音首字母大写."
+                        placeholder: "请输入公司简称的拼音首字母大写.",
+                        reversal: true,
+                        searchProp:"sn",
+                        repository: QueryInstClients
                     },
                     validators: {
                         pwdFormat: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[A-Z]$/i),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[A-Z]+$/),
                             message: '"请输入公司简称的拼音首字母大写！"'
                         }
-                    }
-                }/*, {
+                    },
+                    modelOptions:{ updateOn: 'blur' }
+                },
+                {
                     key: "companyScale",
                     type: 'ui-select',
                     templateOptions: {
@@ -138,12 +157,14 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         valueProp:'type',
                         labelProp:'name',
                         options:[],
-                        repository: QueryMdInstScale,
-                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
+                        repository: QueryMdInstScale
                     }
-                }*/
+                }
             ]
         });
+    })
+    .factory("QueryInstClients", function (nptRepository) {
+        return nptRepository("queryInstClients");
     })
     .factory("QueryMdInstScale",function(nptRepository){
         return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
@@ -170,6 +191,12 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.model.userNo = vm.params.email;
+                vm.model.userName = "";
+                vm.model.passwd = "";
+                vm.model.repasswd = "";
+                vm.model.companyName = "";
+                vm.model.simpleName = "";
+                vm.model.companyNo = "";
                 vm.originModel = angular.copy(vm.model);
             }, function (error) {
                 $location.path("/failed");
