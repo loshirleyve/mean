@@ -575,7 +575,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         optionsAttr: 'bs-options',
                         label: '套餐内容:',
                         required: true,
-                        valueProp: 'no',
+                        valueProp: 'id',
                         labelProp: 'name',
                         placeholder: '请选择',
                         options: [],

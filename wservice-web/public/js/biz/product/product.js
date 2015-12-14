@@ -537,7 +537,7 @@ angular.module("productApp", ["ui.neptune",
         function saveProduct() {
             vm.addOrUpdateProduct.post(vm.modelProduct).then(function (response) {
                 Notification.success({
-                    title: "保存产品成功.",
+                    message: "保存产品成功.",
                     delay: 2000
                 });
             }, function (error) {
@@ -643,7 +643,7 @@ angular.module("productApp", ["ui.neptune",
             }).then(function (response) {
                 vm.modelProduct.state = angular.copy(state);
                 Notification.success({
-                    title: "操作成功.",
+                    message: "操作成功.",
                     delay: 2000
                 });
             }, function (error) {
@@ -716,7 +716,7 @@ angular.module("productApp", ["ui.neptune",
                         vm.modelProductRequirements.push(value);
                     });
                     Notification.success({
-                        title: "保存产品资料成功!",
+                        message: "保存产品资料成功!",
                         delay: 2000
                     });
                 }, function () {
@@ -851,32 +851,19 @@ angular.module("productApp", ["ui.neptune",
             });
         };
 
-        vm.showTip=function() {
-            nptMessageBox.open({
-                title:"提示",
-                content: '删除成功！',
-                showCancel: false,
-                action: {
-                    success: {
-                        label: "确定"
-                    }
-                },
-                modal:{
-                    size:"sm"
-                }
-            });
-        };
-
         vm.deleteProfileById = function (profileid) {
             vm.temp = [];
             vm.delProductProfile.post({profileid: profileid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductProfiles, function (value) {
                     if (value.id != profileid) {
                         vm.temp.push(value);
                     }
                 });
                 vm.modelProductProfiles = angular.copy(vm.temp);
+                Notification.success({
+                    message: "删除产品内容成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品内容出错,请稍后尝试.",
@@ -889,13 +876,16 @@ angular.module("productApp", ["ui.neptune",
         vm.deletePhaseById = function (phaseid) {
             vm.temp1 = [];
             vm.delProductPhase.post({phaseid: phaseid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductPhases, function (value) {
                     if (value.id != phaseid) {
                         vm.temp1.push(value);
                     }
                 });
                 vm.modelProductPhases = angular.copy(vm.temp1);
+                Notification.success({
+                    message: "删除产品阶段成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品阶段出错,请稍后尝试.",
@@ -908,13 +898,16 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteRequirementById = function (requirementid) {
             vm.temp2 = [];
             vm.delProductRequirement.post({requirementid: requirementid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductRequirements, function (value) {
                     if (value.id != requirementid) {
                         vm.temp2.push(value);
                     }
                 });
                 vm.modelProductRequirements = angular.copy(vm.temp2);
+                Notification.success({
+                    message: "删除产品资料成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品资料出错,请稍后尝试.",
@@ -927,13 +920,16 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteGroupById = function (groupid) {
             vm.temp3 = [];
             vm.delProductGroup.post({groupid: groupid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductGroups, function (value) {
                     if (value.id != groupid) {
                         vm.temp3.push(value);
                     }
                 });
                 vm.modelProductGroups = angular.copy(vm.temp3);
+                Notification.success({
+                    message: "删除产品分组成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品分组出错,请稍后尝试.",
@@ -946,13 +942,16 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteClassifyById = function (classifyid) {
             vm.temp4 = [];
             vm.delProductClassify.post({classifyid: classifyid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductClassifies, function (value) {
                     if (value.id != classifyid) {
                         vm.temp4.push(value);
                     }
                 });
                 vm.modelProductClassifies = angular.copy(vm.temp4);
+                Notification.success({
+                    message: "删除产品分类成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品分类出错,请稍后尝试.",
@@ -965,13 +964,16 @@ angular.module("productApp", ["ui.neptune",
         vm.deleteDescrById = function (descrid) {
             vm.temp5 = [];
             vm.delProductDescr.post({productDescrid: descrid}).then(function (response) {
-                vm.showTip();
                 angular.forEach(vm.modelProductDescrs, function (value) {
                     if (value.id != descrid) {
                         vm.temp5.push(value);
                     }
                 });
                 vm.modelProductDescrs = angular.copy(vm.temp5);
+                Notification.success({
+                    message: "删除产品详情成功！",
+                    delay: 2000
+                });
             }, function () {
                 Notification.error({
                     title: "删除产品详情出错,请稍后尝试.",
@@ -1058,7 +1060,7 @@ angular.module("productApp", ["ui.neptune",
             vm.addProductProfile.post(vm.model)
                 .then(function (response) {
                     Notification.success({
-                        title: "保存产品内容成功!",
+                        message: "保存产品内容成功!",
                         delay: 2000
                     });
                     vm.originModel = angular.copy(response.data);
@@ -1172,7 +1174,7 @@ angular.module("productApp", ["ui.neptune",
             vm.addProductDescr.post(vm.model)
                 .then(function (response) {
                     Notification.success({
-                        title: "保存产品详情成功!",
+                        message: "保存产品详情成功!",
                         delay: 2000
                     });
                     vm.originModel = angular.copy(response.data);
@@ -1292,7 +1294,7 @@ angular.module("productApp", ["ui.neptune",
             vm.addProductClassify.post(vm.model)
                 .then(function (response) {
                     Notification.success({
-                        title: "保存产品分类成功!",
+                        message: "保存产品分类成功!",
                         delay: 2000
                     });
                     vm.originModel = angular.copy(response.data);
@@ -1409,7 +1411,7 @@ angular.module("productApp", ["ui.neptune",
             vm.addProductGroup.post(vm.model)
                 .then(function (response) {
                     Notification.success({
-                        title: "保存产品分组成功!",
+                        message: "保存产品分组成功!",
                         delay: 2000
                     });
                     vm.originModel = angular.copy(response.data);
@@ -1524,7 +1526,7 @@ angular.module("productApp", ["ui.neptune",
             vm.addProductPhase.post(vm.model)
                 .then(function (response) {
                     Notification.success({
-                        title: "保存产品阶段成功!",
+                        message: "保存产品阶段成功!",
                         delay: 2000
                     });
                     vm.originModel = angular.copy(response.data);

@@ -54,7 +54,7 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="#") 动态 - 顶聚科技
+                        a.navbar-brand(href="#") 动态 - {{vm.reposUserInfo.data.name}}
 
                     div.collapse.navbar-collapse.navbar-right
                         //ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgsGroup.loading()")
@@ -69,6 +69,86 @@ block content
                         //        | &nbsp &nbsp &nbsp &nbsp
 
             div.list-group
-                a.list-group-item(href="",ng-repeat="item in vm.module")
+                a.list-group-item(href="",ng-repeat="item in vm.model",ng-click="vm.toDetail(item.msgCard)")
                     div.list-group-item-heading
-                        h4 {{item.subject}}
+                        h4 {{item.content}}
+                    span(ng-repeat="subItem in item.msgCard.attachments")
+                         div(npt-image="subItem.fileId",style="width:64px;height:64px")
+                    div
+                        label 最后回复消息 {{item.msgCard.comments[0].content}}
+
+
+        script(id="msgcardInfo.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 消息详情
+
+            div.panel.panel-default
+                div.panel-body
+                    label {{vm.model.content}}
+                    div
+                        label {{vm.model.locationlabel}}
+
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 消息评论
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right 发表评论
+                div.page-body
+                    div.list-group
+                        div.list-group-item(ng-repeat="comment in vm.model.comments")
+                            div.list-group-item-heading
+                                span.row
+                                    span.col-xs-2.col-md-2
+                                        img.media-object(ng-src="{{comment.fromUser.url}}",style="width:64px;height:64px")
+                                        h5 {{comment.fromUser.name}}
+                                        h5 {{comment.fromUser.instsimplename}}
+                                    span.col-xs-8.col-md-8
+                                        spam {{comment.content}}
+                                    span.col-xs-2.col-md-2
+                                        spam {{comment.createdate | timestampFilter}}
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 消息转发
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right 转发
+                div.page-body
+                    div.list-group
+                        div.list-group-item(ng-repeat="share in vm.model.shares")
+                            div.list-group-item-heading
+                                span.row
+                                    span.col-xs-2.col-md-2
+                                        img.media-object(ng-src="{{share.fromUser.url}}",style="width:64px;height:64px")
+                                        h5 {{share.fromUser.name}}
+                                    span.col-xs-8.col-md-8
+                                        spam {{share.content}}
+                                        h5  转发给 @ {{share.toUser.name}}
+                                    span.col-xs-2.col-md-2
+                                        spam {{share.createdate | timestampFilter}}
+
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 消息点赞
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-default.pull-right 点赞
+                div.page-body
+                    div.list-group
+                        div.list-group-item(ng-repeat="praise in vm.model.praises")
+                            div.list-group-item-heading
+                                span.row
+                                    span.col-xs-10.col-md-10
+                                        img.media-object(ng-src="{{praise.praiseUser.url}}",style="width:64px;height:64px")
+                                        h5 {{praise.praiseUser.name}}
+                                        h5 {{praise.praiseUser.instsimplename}}
+                                    span.col-xs-2.col-md-2
+                                        spam {{praise.createdate | timestampFilter}}
+
+
+

@@ -291,9 +291,12 @@ proxy.action("KitActionQuery", {
 proxy.action("QueryMsgsGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgsGroupService"
-}).action("QueryMsgCardByScene", {
+}).action("QueryMsgByScene", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgBySceneService"
+}).action("QueryMsgCardInfoById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryMsgCardInfoByIdService"
 });
 
 module.exports = proxy;
