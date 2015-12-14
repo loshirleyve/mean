@@ -8,7 +8,7 @@
  * @Support <http://www.almsaeedstudio.com>
  * @Email   <support@almsaeedstudio.com>
  * @version 2.3.0
- * @license MIT <http://opensource.org/licenses/MIT>
+ * @license MIT <http://opensource.omenu.norg/licenses/MIT>
  */
 
 //Make sure jQuery has been loaded before app.js
@@ -282,8 +282,8 @@ function _init() {
        * 由配置决定是否弹出窗口菜单;
        * 不过这样就不能动态计算左侧菜单的高度了
        */
-      if (!$("body").hasClass("fixed") ||
-          $.AdminLTE.options.popMenus) {
+      if (!$("body").hasClass("fixed")
+          || $.AdminLTE.options.popMenus) {
         if (typeof $.fn.slimScroll != 'undefined') {
           $(".sidebar").slimScroll({destroy: true}).height("auto");
         }
@@ -302,6 +302,24 @@ function _init() {
             color: "rgba(0,0,0,0.2)",
             size: "3px"
           });
+        }
+      }
+    },
+    fixSidebarHeight : function(isBool) {
+      if (isBool) {
+        if (typeof $.fn.slimScroll != 'undefined') {
+          $(".sidebar").slimScroll({destroy: true}).height("auto");
+          //Add slimscroll
+          $(".sidebar").slimScroll({
+            height: ($(window).height() - $(".main-header").height()) + "px",
+            color: "rgba(0,0,0,0.2)",
+            size: "3px"
+          });
+        }
+      } else {
+        if (typeof $.fn.slimScroll != 'undefined') {
+          //$(".sidebar").unbind("mouseenter mouseleave");
+          $(".sidebar").slimScroll({destroy: true});
         }
       }
     }

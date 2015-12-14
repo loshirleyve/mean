@@ -42,7 +42,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         return nptRepository("queryInstClients").params({
             "userid":nptSessionManager.getSession().getUser().id,
             "instid":nptSessionManager.getSession().getInst().id
-        });
+        }).header("page",{"limitrow":1000});
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
@@ -336,7 +336,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("AddClientController", function($scope, $location, $routeParams, AddClientForm, AddOrUpdateInstClients, nptSessionManager, Notification){
         var vm = this;
         vm.clientid = {};
-        //vm.model = {"industry":"smallent","type":"ent","level":"A","source":"network","scaleid":"small","contactposition":"legal"};
         vm.addClient = AddOrUpdateInstClients;
 
         //新增客户表单配置

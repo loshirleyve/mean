@@ -21,7 +21,7 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 controller: "FailedController as vm",
                 templateUrl: "failed.html"
             });
-    }).factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory, QueryInstClients, QueryMdInstScale) {
+    }).factory("RegUserForm", function (nptFormlyStore, RegExpValidatorFactory, QueryInst, QueryMdInstScale) {
         return nptFormlyStore("RegUserForm", {
             actions: [
                 {
@@ -94,8 +94,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         required: true,
                         placeholder: "请输入与营业执照上登记一致的公司名称.",
                         reversal: true,
-                        searchProp:"fullname",
-                        repository: QueryInstClients
+                        searchProp:"instName",
+                        repository: QueryInst
                     },
                     validators: {
                         format: {
@@ -114,8 +114,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         required: true,
                         placeholder: "请输入便于记忆的公司简称.",
                         reversal: true,
-                        searchProp:"name",
-                        repository: QueryInstClients
+                        searchProp:"simplename",
+                        repository: QueryInst
                     },
                     validators: {
                         format: {
@@ -134,8 +134,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         required: true,
                         placeholder: "请输入公司简称的拼音首字母大写.",
                         reversal: true,
-                        searchProp:"sn",
-                        repository: QueryInstClients
+                        searchProp:"no",
+                        repository: QueryInst
                     },
                     validators: {
                         pwdFormat: {
@@ -163,8 +163,8 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
             ]
         });
     })
-    .factory("QueryInstClients", function (nptRepository) {
-        return nptRepository("queryInstClients");
+    .factory("QueryInst", function (nptRepository) {
+        return nptRepository("queryInsts");
     })
     .factory("QueryMdInstScale",function(nptRepository){
         return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
