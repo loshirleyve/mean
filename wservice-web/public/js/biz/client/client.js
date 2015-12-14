@@ -42,7 +42,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         return nptRepository("queryInstClients").params({
             "userid":nptSessionManager.getSession().getUser().id,
             "instid":nptSessionManager.getSession().getInst().id
-        }).header("page",{"limitrow":1000});
+        }).header("limitrow",2);
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
@@ -63,11 +63,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //客户列表数据库资源
         self.clientList = QueryInstClients;
-        //self.clientList.refresh();
         //查询当前用户的客户列表
         self.query = function (params) {
             params = params || {};
             self.clientList.post(params).then(function(response){
+                self.clientList._lastParams = angular.copy(params);
             }, function(error){
                 Notification.error({
                     title: "查询客户列表失败.",
@@ -156,7 +156,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, InstClientsQueryService) {
         var vm = this;
         vm.queryService = InstClientsQueryService;
-
+        vm.queryService.clientList.refresh();
         vm.clientListGridOptions = {
            store:ClientListGrid,
             onRegisterApi:function(nptGridApi){
