@@ -52,7 +52,7 @@ angular.module("joinUsByEmailApp", ["ui.neptune", "ngRoute", "joinUsByEmailApp.e
                 vm.addUserByEmailService.post(email)
                     .then(function(response){
                         Notification.success({
-                           message:'注册成功，请登录！', delay:2000
+                           message:'请进行邮箱验证来完成您注册的最后一步！', delay:2000
                         });
                         $location.path("/readyLogin/" + email.email);
                     }, function(err){
