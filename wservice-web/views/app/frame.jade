@@ -88,7 +88,7 @@ html(ng-app='wservice.web.home')
                                         i.fa.fa-flag-o
                                         span.label.label-danger {{vm.unStart + vm.inService}}
                                     ul.dropdown-menu
-                                        li.header 您有两单未完成
+                                        li.header 您有{{vm.unStart + vm.inService}}个工单未完成
                                         li
                                             ul.menu
                                                 li
