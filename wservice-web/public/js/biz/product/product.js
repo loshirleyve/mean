@@ -81,7 +81,7 @@ angular.module("productApp", ["ui.neptune",
                     }
                 }
             })
-            .when("/edit/classifies/:productid/:cityid", {
+            .when("/add/classifies/:productid/:cityid", {
                 controller: "editProductClassifiesController as vm",
                 templateUrl: "editProductClassifies.html",
                 resolve: {
@@ -1261,7 +1261,7 @@ angular.module("productApp", ["ui.neptune",
 
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
-    }).controller("editProductClassifiesController", function ($routeParams, $location, ProductClassifiesForm, AddOrUpdateProductClassify, QueryProductClassifyInfo, QueryProductClassifyByProductid, ProductQueryService, Notification, nptSessionManager) {
+    }).controller("editProductClassifiesController", function ($routeParams, $location, ProductClassifiesForm, AddOrUpdateProductClassify, QueryProductClassifyInfo, QueryProductClassifyByProductid, Notification, nptSessionManager) {
         var vm = this;
 
         //记录产品id
@@ -1269,7 +1269,6 @@ angular.module("productApp", ["ui.neptune",
         vm.addProductClassify = AddOrUpdateProductClassify;
         vm.productClassifyInfo = QueryProductClassifyInfo;
         vm.productClassifyByProductid = QueryProductClassifyByProductid;
-        vm.queryService = ProductQueryService;
         vm.cityid = $routeParams.cityid;
 
         if ($routeParams.classifiesid) {

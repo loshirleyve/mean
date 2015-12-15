@@ -300,6 +300,12 @@ proxy.action("QueryMsgsGroup", {
 }).action("QueryMsgCardInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgCardInfoByIdService"
+}).action("AddMsgCardComment", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddMsgCardCommentService"
+}).action("AddMsgCardShare", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddMsgCardShareService"
 });
 
 module.exports = proxy;
