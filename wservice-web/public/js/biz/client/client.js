@@ -42,7 +42,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         return nptRepository("queryInstClients").params({
             "userid":nptSessionManager.getSession().getUser().id,
             "instid":nptSessionManager.getSession().getInst().id
-        }).header("page",{"limitrow":1000});
+        }).header("limitrow",2);
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
@@ -63,11 +63,11 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
 
         //客户列表数据库资源
         self.clientList = QueryInstClients;
-        //self.clientList.refresh();
         //查询当前用户的客户列表
         self.query = function (params) {
             params = params || {};
             self.clientList.post(params).then(function(response){
+                self.clientList._lastParams = angular.copy(params);
             }, function(error){
                 Notification.error({
                     title: "查询客户列表失败.",
@@ -156,7 +156,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
     .controller("ClientListController", function ($scope, $http, $location, QueryInstClients, ClientListGrid, InstClientsQueryService) {
         var vm = this;
         vm.queryService = InstClientsQueryService;
-
+        vm.queryService.clientList.refresh();
         vm.clientListGridOptions = {
            store:ClientListGrid,
             onRegisterApi:function(nptGridApi){
@@ -395,7 +395,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
     })
-    .controller("clientAdviserController", function($uibModalInstance, ClientId, QueryInstClientInfoById){
+    .controller("clientAdviserController", function($uibModalInstance, ClientId, QueryInstClientInfoById, nptCache){
         var vm = this;
         vm.clientDeUser = QueryInstClientInfoById;
 
@@ -407,16 +407,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.clientDeUser.post(param)
             .then(function(response){
                 vm.clientUsersIRN = [];
-                for(var i=0; i<response.data.clientUsers.length; i++){
-                    for(var key in response.cache.user){
-                        if(response.cache.user[key].id == response.data.clientUsers[i].userid){
-                            var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
-                                "username":response.cache.user[key].name};
-                            vm.clientUsersIRN.push(aClientUser);
-                        }
-                    }
-                }
-            },function(){
-
+                angular.forEach(response.data.clientUsers, function(value){
+                    var aClientUser = {"username":nptCache.get("user", value.userid).name,
+                                       "userrole":value.userrole};
+                    vm.clientUsersIRN.push(aClientUser);
+                })
             });
     });

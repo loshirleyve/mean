@@ -132,14 +132,14 @@ angular.module("InstRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     templateOptions: {
                         label: '公司编号:',
                         required: true,
-                        placeholder: "请输入公司简称的拼音首字母大写.",
+                        placeholder: "请输入公司简称的拼音首字母.",
                         reversal: true,
                         searchProp:"no",
                         repository: QueryInst
                     },
                     validators: {
                         pwdFormat: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[A-Z]+$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^[A-Z]+$/i),
                             message: '"请输入公司简称的拼音首字母大写！"'
                         }
                     },
