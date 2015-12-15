@@ -395,7 +395,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
             }
         };
     })
-    .controller("clientAdviserController", function($uibModalInstance, ClientId, QueryInstClientInfoById){
+    .controller("clientAdviserController", function($uibModalInstance, ClientId, QueryInstClientInfoById, nptCache){
         var vm = this;
         vm.clientDeUser = QueryInstClientInfoById;
 
@@ -407,16 +407,10 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         vm.clientDeUser.post(param)
             .then(function(response){
                 vm.clientUsersIRN = [];
-                for(var i=0; i<response.data.clientUsers.length; i++){
-                    for(var key in response.cache.user){
-                        if(response.cache.user[key].id == response.data.clientUsers[i].userid){
-                            var aClientUser = {"userrole":response.data.clientUsers[i].userrole,
-                                "username":response.cache.user[key].name};
-                            vm.clientUsersIRN.push(aClientUser);
-                        }
-                    }
-                }
-            },function(){
-
+                angular.forEach(response.data.clientUsers, function(value){
+                    var aClientUser = {"username":nptCache.get("user", value.userid).name,
+                                       "userrole":value.userrole};
+                    vm.clientUsersIRN.push(aClientUser);
+                })
             });
     });
