@@ -80,7 +80,7 @@ html(ng-app='wservice.web.home')
                         .navbar-custom-menu
                             ul.nav.navbar-nav
                                 li
-                                    a(href="#/home")
+                                    a(href="",ng-click='vm.navigateMenu.navigateToUrl("/app/home#/dynamic")')
                                         i.fa.fa-bell-o
                                         span.label.label-warning(ng-if="vm.msgsUnRead") {{vm.msgsUnRead}}
                                 li.dropdown.tasks-menu
@@ -88,7 +88,7 @@ html(ng-app='wservice.web.home')
                                         i.fa.fa-flag-o
                                         span.label.label-danger {{vm.unStart + vm.inService}}
                                     ul.dropdown-menu
-                                        li.header 工单完成情况如下：
+                                        li.header 您有两单未完成
                                         li
                                             ul.menu
                                                 li
