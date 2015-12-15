@@ -22,10 +22,25 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                         return nptSession();
                     }
                 }
-            }).otherwise({
+            })
+            .otherwise({
                 redirectTo: "/home"
             });
 
+    })
+    .factory("QueryMsgsUnReadByUserid", function(nptRepository, nptSessionManager){
+        return nptRepository("QueryMsgsUnReadByUserid").params({
+            "userid":nptSessionManager.getSession().getUser().id
+        })
+    })
+    .factory("QueryWorkorderStateNum", function(nptRepository, nptSessionManager){
+        return nptRepository("QueryWorkorderStateNum").params({
+            "instid":nptSessionManager.getSession().getInst().id,
+            "processid":nptSessionManager.getSession().getUser().id
+        })
+    })
+    .factory("queryFileById", function(nptRepository){
+        return nptRepository("QueryFileById");
     })
     .factory("NavigateMenu", function ($http, $location, $routeParams) {
         var self = {
@@ -107,13 +122,36 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
         self.init();
         return self;
     })
-    .controller("MainController", function ($scope, sessionData, NavigateMenu, QueryFileById) {
+    .controller("MainController", function ($scope, sessionData, NavigateMenu, queryFileById, QueryMsgsUnReadByUserid, QueryWorkorderStateNum) {
         var vm = this;
 
+        vm.queryMsgsUnRead = QueryMsgsUnReadByUserid;
+        vm.workorderStateNum = QueryWorkorderStateNum;
+
+        vm.queryMsgsUnRead.post().then(function(response){
+           vm.msgsUnRead = response.data.length;
+        });
+
+        vm.workorderStateNum.post().then(function(response){
+           angular.forEach(response.data, function(value){
+               switch (value.state){
+                   case 'unstart':
+                       vm.unStart = value.num;
+                       break;
+                   case 'inservice':
+                       vm.inService = value.num;
+                       break;
+                   case 'complete':
+                       vm.complete = value.num;
+                       break;
+               }
+           })
+        });
+
         vm.imageOptions = {
-            repository: QueryFileById,
+            repository: queryFileById,
             searchProp: "fileid",
-            labelProp: "thumbnailUrl"
+            labelProp: "fileUrl"
         };
 
         vm.navigateMenu = NavigateMenu;
@@ -139,7 +177,6 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
         };
 
         //初始化
-
         vm.brand.init();
         vm.profile.init();
 
