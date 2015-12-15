@@ -411,6 +411,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     var aClientUser = {"username":nptCache.get("user", value.userid).name,
                                        "userrole":value.userrole};
                     vm.clientUsersIRN.push(aClientUser);
-                })
+                });
             });
     });
