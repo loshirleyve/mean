@@ -66,6 +66,11 @@ angular.module("orderApp", [
                 redirectTo: "/list"
             });
     })
+    .directive('popover', function() {
+        return function(scope, elem) {
+            elem.popover();
+        }
+    })
     .factory("QueryOrderList", function (nptRepository, nptSessionManager) {
         return nptRepository("queryOrderList").params({
             instid: nptSessionManager.getSession().getInst().id
@@ -479,6 +484,10 @@ angular.module("orderApp", [
         //初始化查询(由于可能在点击确认订单后返回,需要重新刷新界面,所以每次都刷新订单)
         vm.query();
 
+        //初始化弹出框
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
 
     }).
     controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification, UpdateOrderByConfirm) {
