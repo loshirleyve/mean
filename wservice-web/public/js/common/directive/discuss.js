@@ -95,5 +95,5 @@ angular.module('wservice.common.directive.discuss', ["ui-notification"])
                 lines[i] = span.innerHTML;
             }
             return lines.join('<br />');
-        }
+        };
     });

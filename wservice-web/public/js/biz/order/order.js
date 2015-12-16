@@ -69,7 +69,7 @@ angular.module("orderApp", [
     .directive('popover', function() {
         return function(scope, elem) {
             elem.popover();
-        }
+        };
     })
     .factory("QueryOrderList", function (nptRepository, nptSessionManager) {
         return nptRepository("queryOrderList").params({
