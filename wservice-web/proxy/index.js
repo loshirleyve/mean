@@ -173,6 +173,9 @@ proxy.action("queryUsersByOrgid", {
 }).action("UpdateWorkOrderByBatch", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateWorkOrderByBatchService"
+}).action("QueryWorkorderStateNum", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryWorkorderStateNumService"
 });
 
 
@@ -300,6 +303,15 @@ proxy.action("QueryMsgsGroup", {
 }).action("QueryMsgCardInfoById", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgCardInfoByIdService"
+}).action("AddMsgCardComment", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddMsgCardCommentService"
+}).action("AddMsgCardShare", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddMsgCardShareService"
+}).action("QueryMsgsUnReadByUserid", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryMsgsUnReadByUseridService"
 });
 
 module.exports = proxy;
