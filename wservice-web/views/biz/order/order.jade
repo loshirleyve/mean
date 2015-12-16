@@ -172,6 +172,7 @@ block content
                         div.list-group-item-text
                             p {{item.inserviceName}}
                             p 分配信息:{{item.assignedInfo}}
+            div(ws-discuss="vm.msgOptions",ws-discuss-sid="vm.orderid")
 
         //确认订单模板
         script(type="text/ng-template",id="confirm.html")

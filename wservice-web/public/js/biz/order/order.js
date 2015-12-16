@@ -318,7 +318,12 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch) {
+    .controller("OrderDetailController",
+    function ($scope, $location, $routeParams, nptSessionManager,
+                                                   OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid,
+                                                   OrderWorkorderGrid, Notification, UserListBySelectTree,
+                                                   OrgListBySelectTree, UpdateWorkOrderByBatch,
+                                                    QueryMsgCardBySourceRepos,AddMsgCardCommentRepos) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -327,6 +332,18 @@ angular.module("orderApp", [
         vm.orderInfo = QueryOrderInfo;
         //分配工单员
         vm.updateWorkOrderByBatch = UpdateWorkOrderByBatch;
+
+        vm.msgOptions = {
+            source:"so",
+            title:"沟通记录",
+            queryRepository:QueryMsgCardBySourceRepos,
+            addRepository:AddMsgCardCommentRepos.addRequestInterceptor(function (request) {
+                request.params.from = nptSessionManager.getSession().getUser().id;
+                request.params.type = "normal";
+                return request;
+            }),
+            textProp:"content"
+        };
 
         //表单配置
         vm.orderFormOptions = {
