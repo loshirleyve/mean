@@ -231,7 +231,7 @@ block content
                                     span.pull-right &nbsp &nbsp
                                     a.btn.btn-primary.btn-sm.pull-right(type="button",href="#/edit/descr/{{vm.productid}}/{{item.id}}") 编辑
                         div.list-group-item-text
-                            spam {{item.descrvalue}}
+                            span {{item.descrvalue}}
 
             div.page-header
                 div.row
@@ -260,7 +260,7 @@ block content
                     div.col-xs-6.col-md-6
                         h4 产品分类
                     div.col-xs-6.col-md-6
-                        a.btn.btn-default.pull-right(type="button",href="#/edit/classifies/{{vm.productid}}/{{vm.queryService.currDistrict.id}}") 添加产品分类
+                        a.btn.btn-default.pull-right(type="button",href="#/add/classifies/{{vm.productid}}/{{vm.queryService.currDistrict.id}}") 添加产品分类
             div.page-body
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.modelProductClassifies")
@@ -406,7 +406,7 @@ block content
                             li
                                 a(href="",ng-click="vm.next(vm.model)",ng-show="vm.productClassifyByProductid.next(vm.model)") 下一单
                             li
-                                a(href="#edit/classifies/{{vm.productid}}") 添加
+                                a(href="#add/classifies/{{vm.productid}}/{{vm.model.cityid}}") 添加
                             li
                                 a(href="#edit/{{vm.productid}}") 返回
 

@@ -42,7 +42,7 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
         return nptRepository("queryInstClients").params({
             "userid":nptSessionManager.getSession().getUser().id,
             "instid":nptSessionManager.getSession().getInst().id
-        }).header("limitrow",2);
+        }).header("limitrow","1000");
     })
     .factory("QueryInstClientById", function(nptRepository){
         return nptRepository("queryInstClientById");
@@ -411,6 +411,6 @@ angular.module("clientApp", ["ui.neptune", "clientApp.ClientListGrid","clientApp
                     var aClientUser = {"username":nptCache.get("user", value.userid).name,
                                        "userrole":value.userrole};
                     vm.clientUsersIRN.push(aClientUser);
-                })
+                });
             });
     });

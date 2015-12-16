@@ -569,7 +569,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
-                    key: 'packagecontent',
+                    key: 'productids',
                     type: 'ui-select',
                     templateOptions: {
                         optionsAttr: 'bs-options',

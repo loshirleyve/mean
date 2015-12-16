@@ -115,9 +115,9 @@ block content
                     dd
                         strong {{vm.workorderInfo.data.workOrder.state | ctrlCodeFilter:'workstate':'name':'no'}}
                     dt 分配人:
-                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
-                    dt 处理人:
                     dd {{vm.workorderInfo.data.workOrder.assignedid | cacheFilter:'user':'name':'id'}}
+                    dt 处理人:
+                    dd {{vm.workorderInfo.data.workOrder.processid | cacheFilter:'user':'name':'id'}}
                     dt 分配日期:
                     dd {{vm.workorderInfo.data.workOrder.assigneddate | timestampFilter}}
                     dt 计划开始日期:
