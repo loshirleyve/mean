@@ -309,14 +309,23 @@ proxy.action("QueryMsgsGroup", {
 }).action("AddMsgCardShare", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddMsgCardShareService"
+}).action("AddPraiseLikeByMsgCardId", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddPraiseLikeByMsgCardIdService"
+}).action("AddMsgCard", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.AddMsgCardService"
+}).action("QueryTopics", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryTopicsService"
 }).action("QueryMsgsUnReadByUserid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgsUnReadByUseridService"
 }).action("QueryMsgCardBySource", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgCardBySourceService"
-}).action("AddMsgCardComment", {
+}).action("UpdateMsgCardState", {
     proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddMsgCardCommentService"
+    action: "com.yun9.ws.biz.service.UpdateMsgCardStateByIdsService"
 });
 module.exports = proxy;
