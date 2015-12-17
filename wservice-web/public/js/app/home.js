@@ -67,7 +67,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         return nptRepository("QueryMsgsGroup").params({
             userid: nptSessionManager.getSession().getUser().id
         });
-    }).factory("AddMsgCard", function (nptRepository,nptSessionManager) {
+    }).factory("AddMsgCard", function (nptRepository, nptSessionManager) {
         return nptRepository("AddMsgCard").params({
             instid: nptSessionManager.getSession().getInst().id,
             userid: nptSessionManager.getSession().getUser().id
@@ -103,7 +103,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         return nptRepository("AddPraiseLikeByMsgCardId").params({
 
         });
-    }).factory("QueryTopics", function (nptRepository,nptSessionManager) {
+    }).factory("QueryTopics", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryTopics").params({
             instid: nptSessionManager.getSession().getInst().id
         });
@@ -134,12 +134,12 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
 
         //查询消息
         vm.query();
-    }).controller("sendMessageController", function (QueryMsgsGroup, nptCache, $location, nptSessionManager, QueryUserInfo,AddMsgCard,messageForm) {
+    }).controller("sendMessageController", function (QueryMsgsGroup, nptCache, $location, nptSessionManager, QueryUserInfo, AddMsgCard, messageForm,Notification) {
         var vm = this;
         var userid = nptSessionManager.getSession().getUser().id;
         vm.reposUserInfo = QueryUserInfo;
-        vm.addMsgCard=AddMsgCard;
-        vm.modelMessage={createby:angular.copy(userid)};
+        vm.addMsgCard = AddMsgCard;
+        vm.modelMessage = {createby: angular.copy(userid),scope:"public",source:"none",msgFromtype:"person"};
 
         //配置表单
         vm.messageFormOptions = {
@@ -154,11 +154,40 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         };
 
         function reset() {
-            vm.modelMessage={createby:angular.copy(userid)};
+            vm.modelMessage = {
+                createby: angular.copy(userid),
+                scope:"public",
+                source:"none",
+                msgFromtype:"person"};
         }
 
         function save() {
-
+            var users=[];
+            var attachments=[];
+            if (vm.modelMessage.toUsers) {
+                angular.forEach(vm.modelMessage.toUsers, function (value) {
+                    users.push({ "userid":value.id,"type": "user"});
+                });
+            }
+            if (vm.modelMessage.pics) {
+                angular.forEach(vm.modelMessage.pics, function (value) {
+                    attachments.push({ "fileid":value.id});
+                });
+            }
+            delete vm.modelMessage.toUsers;
+            delete vm.modelMessage.pics;
+            vm.addMsgCard.post(vm.modelMessage).then(function (response) {
+                Notification.success({
+                    message: "添加消息卡片成功！",
+                    delay: 2000
+                });
+            }, function (error) {
+                Notification.error({
+                    title: "添加消息卡片出错",
+                    message: error.data.cause,
+                    delay: 2000
+                });
+            });
         }
 
         vm.queryUser = function () {
@@ -288,7 +317,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     });
 
                     if (vm.model.mypraise === true) {
-                        vm.praise =  angular.copy("取消点赞");
+                        vm.praise = angular.copy("取消点赞");
                     }
 
                 }, function (error) {
@@ -308,18 +337,17 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     userid: userid
                 }).then(function (response) {
                     if (response.data.praise === 0) {
-                        vm.praise =  angular.copy("点赞");
-                        var praisesed=[];
+                        vm.praise = angular.copy("点赞");
+                        var praisesed = [];
                         angular.forEach(vm.model.praises, function (value) {
-                            if(response.data.id!=value.id)
-                            {
+                            if (response.data.id != value.id) {
                                 praisesed.push(value);
                             }
                         });
-                        vm.model.praises=angular.copy(praisesed);
+                        vm.model.praises = angular.copy(praisesed);
                     }
                     else {
-                        vm.praise = angular.copy( "取消点赞");
+                        vm.praise = angular.copy("取消点赞");
                         vm.model.praises.push(response.data);
                         angular.forEach(vm.model.praises, function (value) {
                             value.praiseUser = nptCache.get("user", value.userid);

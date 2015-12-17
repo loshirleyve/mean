@@ -102,7 +102,7 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("messageForm", function (nptFormlyStore,QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree,QueryImageByMaterialLevel,QueryTopics) {
+    }).factory("messageForm", function (nptFormlyStore,QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree,QueryImageByMaterialLevel,QueryTopics,QueryUserByInst) {
         return nptFormlyStore("messageForm", {
             buttons: {
                 ok: true,
@@ -126,7 +126,7 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '消息内容:',
                         required: true,
-                        maxlength: 200
+                        maxlength: 250
                     }
                 },
                 {
@@ -135,7 +135,6 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         optionsAttr: 'bs-options',
                         label: '消息话题:',
-                        required: true,
                         valueProp: 'id',
                         labelProp: 'name',
                         placeholder: '请选择',
@@ -144,23 +143,23 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
-                    key: 'touserid',
-                    type: 'npt-select-tree-single',
+                    key: 'toUsers',
+                    type: 'ui-select',
                     templateOptions: {
-                        label: '消息权限:',
-                        required: true,
-                        viewvalueQueryProp: "userid",
-                        treeRepository: OrgListBySelectTree,
-                        listRepository: UserListBySelectTree,
-                        viewvalueRepository: QueryUserInfoById
+                        optionsAttr: 'bs-options',
+                        label: '消息范围:',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                        placeholder: '请选择',
+                        options: [],
+                        repository: QueryUserByInst
                     }
                 },
                 {
-                    key: 'attachments',
+                    key: 'pics',
                     type: 'npt-select-image',
                     templateOptions: {
                         label: '选择图片:',
-                        required: true,
                         single: false,
                         imageRepository: QueryImageByMaterialLevel
                     }

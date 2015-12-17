@@ -1498,7 +1498,7 @@ angular.module("productApp", ["ui.neptune",
         //查询产品下得所有内容集合
         vm.queryByProductId(vm.productid);
     })
-    .controller("editProductPhaseController", function ($routeParams, $location, ProductPhaseForm, AddOrUpdateProductPhase, QueryProductPhaseInfo, QueryProductPhaseByProductid, Notification, nptSessionManager) {
+    .controller("editProductPhaseController", function ($routeParams, $location, ProductPhaseForm, AddOrUpdateProductPhase, QueryProductPhaseInfo, QueryProductPhaseByProductid, Notification, nptSessionManager,PinyinUtil) {
         var vm = this;
 
         //记录产品id
@@ -1522,6 +1522,10 @@ angular.module("productApp", ["ui.neptune",
         vm.originModel = angular.copy(vm.model);
 
         function save() {
+            if(!vm.model.no)
+            {
+                vm.model.no=angular.copy(PinyinUtil.chinese2Pinyin(vm.model.name,true));
+            }
             vm.addProductPhase.post(vm.model)
                 .then(function (response) {
                     Notification.success({
