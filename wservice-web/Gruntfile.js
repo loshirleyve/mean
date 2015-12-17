@@ -5,6 +5,22 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        html2js: {
+            options: {
+                module: "wservice.common.tpls", // no bundle module for all the html2js templates
+                base: '.',
+                jade: {
+                    doctype: "html"
+                },
+                rename: function (moduleName) {
+                    return "/" + moduleName.replace(".jade", ".html").replace("public/","");
+                }
+            },
+            main: {
+                src: ["public/template/**/*.jade"],
+                dest: "dist/templates.html.js"
+            }
+        },
         concat: {
             options: {
                 separator: ";"
@@ -16,7 +32,9 @@ module.exports = function (grunt) {
                     "public/js/common/onIframeLoad.js",
                     "public/js/common/repository/*.js",
                     "public/js/common/service/*.js",
-                    "public/js/common/store/*.js"
+                    "public/js/common/store/*.js",
+                    "public/js/common/directive/*.js",
+                    "<%= html2js.main.dest%>"
                 ],
                 dest: "dist/wservice-common-<%= pkg.version%>.js"
             }
@@ -55,9 +73,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks("grunt-html2js");
 
     grunt.registerTask("clean", ["clean"]);
     grunt.registerTask("test", ["jshint"]);
-    grunt.registerTask("default", ["jshint", "concat", "uglify"]);
-    grunt.registerTask("common", ["concat", "uglify"]);
+    grunt.registerTask("default", ["jshint",'html2js', "concat", "uglify"]);
+    grunt.registerTask("common", ['html2js',"concat", "uglify"]);
 }

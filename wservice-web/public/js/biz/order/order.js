@@ -69,7 +69,7 @@ angular.module("orderApp", [
     .directive('popover', function() {
         return function(scope, elem) {
             elem.popover();
-        }
+        };
     })
     .factory("QueryOrderList", function (nptRepository, nptSessionManager) {
         return nptRepository("queryOrderList").params({
@@ -328,7 +328,12 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch,UpdateWorkOrderProcess,UpdateWorkorderByProcessid) {
+    .controller("OrderDetailController",
+    function ($scope, $location, $routeParams, nptSessionManager,
+                                                   OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid,
+                                                   OrderWorkorderGrid, Notification, UserListBySelectTree,
+                                                   OrgListBySelectTree, UpdateWorkOrderByBatch,
+                                                    QueryMsgCardBySourceRepos,AddMsgCardCommentRepos,UpdateWorkOrderProcess,UpdateWorkorderByProcessid) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -342,6 +347,18 @@ angular.module("orderApp", [
         //转交工单
         vm.updateWorkorderByProcessid = UpdateWorkorderByProcessid;
 
+
+        vm.msgOptions = {
+            source:"so",
+            title:"沟通记录",
+            queryRepository:QueryMsgCardBySourceRepos,
+            addRepository:AddMsgCardCommentRepos.addRequestInterceptor(function (request) {
+                request.params.from = nptSessionManager.getSession().getUser().id;
+                request.params.type = "normal";
+                return request;
+            }),
+            textProp:"content"
+        };
 
         //表单配置
         vm.orderFormOptions = {
