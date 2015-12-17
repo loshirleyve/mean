@@ -97,9 +97,14 @@ angular.module("orderApp", [
         return nptRepository("UpdateOrderByConfirm").params({});
     }).factory("UpdateOrderAdviser", function (nptRepository) {
         return nptRepository("UpdateOrderAdviser");
+    }).factory("UpdateWorkOrderProcess", function (nptRepository) {
+        return nptRepository("UpdateWorkOrderProcess");
     })
     .factory("UpdateWorkOrderByBatch", function (nptRepository) {
         return nptRepository("UpdateWorkOrderByBatch");
+    })
+    .factory("UpdateWorkorderByProcessid", function(nptRepository) {
+        return nptRepository("updateWorkorderByProcessid");
     })
     .service("OrderListQueryService", function (Notification, QueryOrderList) {
         var self = this;
@@ -323,7 +328,7 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch) {
+    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch,UpdateWorkOrderProcess,UpdateWorkorderByProcessid) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -332,6 +337,11 @@ angular.module("orderApp", [
         vm.orderInfo = QueryOrderInfo;
         //分配工单员
         vm.updateWorkOrderByBatch = UpdateWorkOrderByBatch;
+        //分配工单员通过工单id
+        vm.updateWorkOrderProcess = UpdateWorkOrderProcess;
+        //转交工单
+        vm.updateWorkorderByProcessid = UpdateWorkorderByProcessid;
+
 
         //表单配置
         vm.orderFormOptions = {
@@ -485,9 +495,85 @@ angular.module("orderApp", [
         vm.query();
 
         //初始化弹出框
-        $(function () {
-            $('[data-toggle="popover"]').popover();
-        });
+        //$(function () {
+        //    $('[data-toggle="popover"]').popover();
+        //});
+
+        vm.process =function(id) {
+            //获取待分配工单选择
+            var workorderids = [];
+            workorderids.push(id);
+
+            if (workorderids.length > 0) {
+                //弹出用户选择窗口
+                vm.selectTreeApi.open().then(function (response) {
+                    if (response && response.length > 0) {
+                        vm.updateWorkOrderProcess.post({
+                            workorderids: workorderids,
+                            source: "so",
+                            sourcevalue: vm.orderInfo.data.order.id,
+                            processid: response[0].id,
+                            assignedid: nptSessionManager.getSession().getUser().id
+                        }).then(function () {
+                            //关闭模态框
+                            var id_ = "#"+id;
+                            $(id_).modal('hide');
+
+                            Notification.success({message: '分配工单员成功.', delay: 2000});
+                            //分配完成后需要刷新单据
+                            vm.query();
+                        }, function (error) {
+                            Notification.error({
+                                title: "分配工单员错误",
+                                message: error.data.cause, delay: 2000
+                            });
+                        });
+                    }
+                }, function () {
+                });
+
+
+            } else {
+                Notification.info({message: '请先选择需要分配的工单.', delay: 2000});
+            };
+        };
+
+        vm.deliver =function(id) {
+            //获取待分配工单选择
+            var workorderids = [];
+            workorderids.push(id);
+
+            if (workorderids.length > 0) {
+                //弹出用户选择窗口
+                vm.selectTreeApi.open().then(function (response) {
+                    if (response && response.length > 0) {
+                        vm.updateWorkorderByProcessid.post({
+                            workorderids: workorderids,
+                            targetprocessid: response[0].id,
+                            assignedid: nptSessionManager.getSession().getUser().id
+                        }).then(function () {
+                            //关闭模态框
+                            var id_ = "#"+id;
+                            $(id_).modal('hide');
+
+                            Notification.success({message: '转交工单员成功.', delay: 2000});
+                            //分配完成后需要刷新单据
+                            vm.query();
+                        }, function (error) {
+                            Notification.error({
+                                title: "分配工单员错误",
+                                message: error.data.cause, delay: 2000
+                            });
+                        });
+                    }
+                }, function () {
+                });
+
+
+            } else {
+                Notification.info({message: '请先选择需要分配的工单.', delay: 2000});
+            };
+        };
 
     }).
     controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification, UpdateOrderByConfirm) {
