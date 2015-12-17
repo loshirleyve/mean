@@ -21,7 +21,7 @@ block content
                                 a 正在查询...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgsGroup.loading()")
                             li
-                                a(type="button", ng-click="vm.changePwd()") 发动态
+                                a(href="#/dynamic/sendMessage") 发动态
                             li
                                 a(type="button", ng-click="vm.query()") 刷新动态
                             li
@@ -35,11 +35,15 @@ block content
                                     img.media-object(ng-src="{{item.fromUser.url}}",style="width:64px;height:64px")
                             div.media-body
                                 a.list-group-item(ng-click="vm.toDetail(item)")
-                                    span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
-                                    h4.media-heading {{item.fromUser.name}}
-                                    small {{item.fromUser.instsimplename}}
-                                    br
-                                    | {{item.lastcontent}}
+                                    div.row
+                                        div.col-md-10
+                                            h4.media-heading {{item.fromUser.name}}
+                                            small {{item.fromUser.instsimplename}}
+                                            br
+                                            | {{item.lastcontent}}
+                                        div.col-md-2
+                                            {{item.lastmsgdate | timestampFilter}}&nbsp;
+                                            span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
 
                         div(ng-if="item.fromtype ==='inst'")
                             div.media-left
@@ -47,18 +51,46 @@ block content
                                     img.media-object(ng-src="{{item.inst.logourl}}",style="width:64px;height:64px")
                             div.media-body
                                 a.list-group-item(ng-click="vm.toDetail(item)")
-                                    span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
-                                    h4.media-heading.text-blue {{item.inst.simplename}}
-                                    | {{item.lastcontent}}
+                                    div.row
+                                        div.col-md-10
+                                            h4.media-heading.text-blue {{item.inst.simplename}}
+                                            | {{item.lastcontent}}
+                                        div.col-md-2
+                                            {{item.lastmsgdate | timestampFilter}}&nbsp;
+                                            span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
+
+
+        script(id="sendMessage.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 发送动态
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="#/dynamicInfo/{{vm.msgcardid }}") 返回
+
+            div.panel.panel-default
+                div.panel-body
+                    div.row
+                        div(npt-form="vm.messageFormOptions",model="vm.modelMessage")
 
         script(id="send2me.html",type="text/ng-template")
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
-                        a.navbar-brand(href="#") 动态 - {{vm.modelUser.name}}
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgByScene.loading()")
+                            li
+                                a 正在查询...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgByScene.loading()")
+                            a.navbar-brand 动态 - {{vm.modelUser.name}}
                     div.collapse.navbar-collapse.navbar-right
                         div
-                            ul.nav.navbar-nav.navbar-left
+                            ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgByScene.loading()")
+                               li
+                                   a 正在查询...
+                            ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgByScene.loading()")
                                 li
                                     a(href="#/dynamic") 返回
 
@@ -66,7 +98,7 @@ block content
             div.list-group
                 a.list-group-item(href="",ng-repeat="item in vm.model",ng-click="vm.toDetail(item.msgCard)")
                     div.list-group-item-heading
-                        h4 {{item.content}}
+                        pre(style="background:white;border:0px;") {{item.content}}
                     span(ng-repeat="subItem in item.msgCard.attachments")
                          div(npt-image="subItem.fileId",style="width:64px;height:64px")
                     div
@@ -80,73 +112,110 @@ block content
                         a.navbar-brand(href="#") 消息详情
                     div.collapse.navbar-collapse.navbar-right
                         div
-                            ul.nav.navbar-nav.navbar-left
+                            ul.nav.navbar-nav.navbar-left(ng-if="vm.queryMsgCardInfo.loading()")
+                               li
+                                   a 正在查询...
+                            ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryMsgCardInfo.loading()")
                                 li
-                                    a(href="#/comment/{{vm.model.id}}") 评论
+                                    a(href="#/comment/{{vm.model.id}}")
+                                        span.glyphicon.glyphicon-edit(aria-hidden="true") 评论
                                 li
-                                    a 转发
+                                    a(href="#/share/{{vm.model.id}}")
+                                        span.glyphicon.glyphicon-share(aria-hidden="true") 转发
                                 li
-                                    a(href="") 点赞
+                                    a(ng-click="vm.onClickPraise()")
+                                        span.glyphicon.glyphicon-thumbs-up(aria-hidden="true") {{vm.praise}}
                                 li
                                     a(href="#/dynamic/{{vm.model.from}}/{{vm.model.fromtype}}") 返回
 
 
             div.panel.panel-default
                 div.panel-body
-                    label {{vm.model.content}}
+                    pre(style="background:white;border:0px;")
+                        lable {{vm.model.content}}
                     div
-                        label {{vm.model.locationlabel}}
+                        span.glyphicon.glyphicon-map-marker(aria-hidden="true")
+                        lable(style="font-size:5px;") {{vm.model.locationlabel}}
 
 
             div.page-header
                 h4 消息评论
             div.page-body
-                div.list-group
-                    div.list-group-item(ng-repeat="comment in vm.model.comments")
-                        div.list-group-item-heading
-                            span.row
-                                span.col-xs-1.col-md-1
+                ul.media-list
+                    li.media(ng-repeat="comment in vm.model.comments")
+                        div.media-left
+                                a(href="")
                                     img.media-object(ng-src="{{comment.fromUser.url}}",style="width:64px;height:64px")
-                                span.col-xs-9.col-md-9
-                                    h5 {{comment.fromUser.name}}
-                                    h5 {{comment.fromUser.instsimplename}}
-                                    span {{comment.content}}
-                                span.col-xs-2.col-md-2
-                                    span {{comment.createdate | timestampFilter}}
+                            div.media-body
+                                a.list-group-item
+                                    div.row
+                                        div.col-md-10
+                                            h5 {{comment.fromUser.name}}
+                                            h5 {{comment.fromUser.instsimplename}}
+                                            span {{comment.content}}
+                                        div.col-md-2
+                                            span {{comment.createdate | timestampFilter}}
 
             div.page-header
                 h4 消息转发
             div.page-body
-                div.list-group
-                    div.list-group-item(ng-repeat="share in vm.model.shares")
-                        div.list-group-item-heading
-                            span.row
-                                span.col-xs-2.col-md-2
+                ul.media-list
+                    li.media(ng-repeat="share in vm.model.shares")
+                        div.media-left
+                                a(href="")
                                     img.media-object(ng-src="{{share.fromUser.url}}",style="width:64px;height:64px")
-                                    h5 {{share.fromUser.name}}
-                                span.col-xs-8.col-md-8
-                                    spam {{share.content}}
-                                    h5  转发给 @ {{share.toUser.name}}
-                                span.col-xs-2.col-md-2
-                                    span {{share.createdate | timestampFilter}}
+                            div.media-body
+                                a.list-group-item
+                                    div.row
+                                        div.col-md-10
+                                            h5 {{share.fromUser.name}}
+                                            span {{share.content}}
+                                            h5  转发给 @ {{share.toUser.name}}
+                                        div.col-md-2
+                                            span {{share.createdate | timestampFilter}}
 
 
             div.page-header
                 h4 消息点赞
             div.page-body
-                div.list-group
-                    div.list-group-item(ng-repeat="praise in vm.model.praises")
-                        div.list-group-item-heading
-                            span.row
-                                span.col-xs-10.col-md-10
+                ul.media-list
+                    li.media(ng-repeat="praise in vm.model.praises")
+                        div.media-left
+                                a(href="")
                                     img.media-object(ng-src="{{praise.praiseUser.url}}",style="width:64px;height:64px")
-                                    h5 {{praise.praiseUser.name}}
-                                    h5 {{praise.praiseUser.instsimplename}}
-                                span.col-xs-2.col-md-2
-                                    span {{praise.createdate | timestampFilter}}
+                            div.media-body
+                                a.list-group-item
+                                    div.row
+                                        div.col-md-10
+                                            h5 {{praise.praiseUser.name}}
+                                            h5 {{praise.praiseUser.instsimplename}}
+                                        div.col-md-2
+                                            span {{praise.createdate | timestampFilter}}
+
 
 
         script(id="comment.html",type="text/ng-template")
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        a.navbar-brand(href="#") 评论
+                    div.collapse.navbar-collapse.navbar-right
+                        div
+                            ul.nav.navbar-nav.navbar-left
+                                li
+                                    a(href="#/dynamicInfo/{{vm.msgcardid }}") 返回
+
+            div.panel.panel-default
+                div.panel-body
+                    pre(style="background:white;border:0px;") {{vm.model.content}}
+                    div
+                        span.glyphicon.glyphicon-map-marker(aria-hidden="true")
+                        lable(style="font-size:5px;") {{vm.model.locationlabel}}
+
+                    div(npt-form="vm.commentFormOptions",model="vm.modelComment")
+
+
+        script(id="share.html",type="text/ng-template")
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -159,11 +228,12 @@ block content
 
             div.panel.panel-default
                 div.panel-body
-                    label {{vm.model.content}}
+                    pre(style="background:white;border:0px;") {{vm.model.content}}
                     div
-                        label {{vm.model.locationlabel}}
+                        span.glyphicon.glyphicon-map-marker(aria-hidden="true")
+                        lable(style="font-size:5px;") {{vm.model.locationlabel}}
 
-                    div(npt-form="vm.commentFormOptions",model="vm.modelComment")
+                    div(npt-form="vm.shareFormOptions",model="vm.modelShare")
 
 
 
