@@ -552,7 +552,7 @@ angular.module("orderApp", [
 
             } else {
                 Notification.info({message: '请先选择需要分配的工单.', delay: 2000});
-            };
+            }
         };
 
         vm.deliver =function(id) {
@@ -589,7 +589,7 @@ angular.module("orderApp", [
 
             } else {
                 Notification.info({message: '请先选择需要分配的工单.', delay: 2000});
-            };
+            }
         };
 
     }).
