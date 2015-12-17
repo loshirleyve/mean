@@ -1,0 +1,27 @@
+div
+   h4 {{vm.title}}
+   ul.media-list(ng-if="vm.options.queryRepository.data.id")
+      li.media
+         div
+            .media-body
+               textarea.form-control(rows="3",ng-model="vm.textareaValue",placeholder="说点什么吧..")
+            .media-right
+               button.btn.btn-primary(style='width: 64px; height: 74px;',ng-click="vm.send()")
+                  |  发布
+      li.media(ng-repeat="comment in vm.options.queryRepository.data.comments",ng-init="cacheObj = vm.getCacheObj(comment.from)")
+         div(ng-if="vm.currentUser.id != comment.from")
+            div.media-left
+               a(href="javascript:void(0);")
+                  img.media-object(ng-src="{{cacheObj.url}}",style="width:64px;height:64px")
+            div.media-body
+               a.list-group-item(style="float:left;")
+                  h4.media-heading {{cacheObj.name}}
+                  div(ng-bind-html="comment.content|nl2br")
+         div(ng-if="vm.currentUser.id == comment.from")
+            div.media-body
+               a.list-group-item(style="float:right;")
+                  h4.media-heading(style="text-align:right;") {{cacheObj.name}}
+                  div(ng-bind-html="comment.content|nl2br",style="text-align:right;")
+            div.media-right
+               a(href="javascript:void(0);")
+                  img.media-object(ng-src="{{cacheObj.url}}",style="width:64px;height:64px")

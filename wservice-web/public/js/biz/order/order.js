@@ -66,6 +66,11 @@ angular.module("orderApp", [
                 redirectTo: "/list"
             });
     })
+    .directive('popover', function() {
+        return function(scope, elem) {
+            elem.popover();
+        };
+    })
     .factory("QueryOrderList", function (nptRepository, nptSessionManager) {
         return nptRepository("queryOrderList").params({
             instid: nptSessionManager.getSession().getInst().id
@@ -318,7 +323,12 @@ angular.module("orderApp", [
             vm.orderUnreadService.stopCheck();
         });
     })
-    .controller("OrderDetailController", function ($scope, $location, $routeParams, nptSessionManager, OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid, OrderWorkorderGrid, Notification, UserListBySelectTree, OrgListBySelectTree, UpdateWorkOrderByBatch) {
+    .controller("OrderDetailController",
+    function ($scope, $location, $routeParams, nptSessionManager,
+                                                   OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid,
+                                                   OrderWorkorderGrid, Notification, UserListBySelectTree,
+                                                   OrgListBySelectTree, UpdateWorkOrderByBatch,
+                                                    QueryMsgCardBySourceRepos,AddMsgCardCommentRepos) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -327,6 +337,18 @@ angular.module("orderApp", [
         vm.orderInfo = QueryOrderInfo;
         //分配工单员
         vm.updateWorkOrderByBatch = UpdateWorkOrderByBatch;
+
+        vm.msgOptions = {
+            source:"so",
+            title:"沟通记录",
+            queryRepository:QueryMsgCardBySourceRepos,
+            addRepository:AddMsgCardCommentRepos.addRequestInterceptor(function (request) {
+                request.params.from = nptSessionManager.getSession().getUser().id;
+                request.params.type = "normal";
+                return request;
+            }),
+            textProp:"content"
+        };
 
         //表单配置
         vm.orderFormOptions = {
@@ -479,6 +501,10 @@ angular.module("orderApp", [
         //初始化查询(由于可能在点击确认订单后返回,需要重新刷新界面,所以每次都刷新订单)
         vm.query();
 
+        //初始化弹出框
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
 
     }).
     controller("ConfirmOrderController", function ($scope, $routeParams, $location, QueryOrderInfo, OrderConfirmForm, Notification, UpdateOrderByConfirm) {

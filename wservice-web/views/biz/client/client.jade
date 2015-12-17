@@ -34,7 +34,7 @@ block content
                             span.icon-bar
                             span.icon-bar
                             span.icon-bar
-                        a.navbar-brand(href="#") 客户列表
+                        a.navbar-brand(href="") 客户列表
                     div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li
@@ -91,7 +91,7 @@ block content
                                 a(href="") 正在查询,请稍后...
                         ul.nav.navbar-nav.navbar-right(ng-if="!vm.clientInfo.loading() && !vm.updateClient.loading()")
                             li
-                                a(data-toggle="modal", ng-click="vm.clientAdviser()") 专属顾问和业务员
+                                a(href="", data-toggle="modal", ng-click="vm.clientAdviser()") 专属顾问和业务员
                             li(ng-if="!vm.clientInfo.loading() && vm.isInitInst()")
                                 a(href="",ng-click="vm.initClientInst(vm.clientInfo.data)") 初始化机构
                             li

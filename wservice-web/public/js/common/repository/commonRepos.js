@@ -92,10 +92,17 @@ angular.module("wservice.common.repository.common",
     })
     .factory("QueryInsts", function (nptRepository) {
         return nptRepository("queryInsts");
-    }).factory("AddOrUpdateFileRepo", function (nptRepository, nptSessionManager) {
+    })
+    .factory("AddOrUpdateFileRepo", function (nptRepository, nptSessionManager) {
         return nptRepository("AddOrUpdateFile").addRequestInterceptor(function (request) {
             request.params.createby = nptSessionManager.getSession().getUser().id;
             request.params.instid = nptSessionManager.getSession().getInst().id;
             return request;
         });
+    })
+    .factory("QueryMsgCardBySourceRepos", function (nptRepository) {
+        return nptRepository("QueryMsgCardBySource");
+    })
+    .factory("AddMsgCardCommentRepos", function (nptRepository) {
+        return nptRepository("AddMsgCardComment");
     });
