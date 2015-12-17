@@ -31,8 +31,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 产品列表
-                    div.collapse.navbar-collapse.col-md-9.navbar-right
+                    div#navbar-collapse.collapse.navbar-collapse.col-md-9.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if='vm.queryService.reposProducts.loading()')
                             li
                                 a(href="") 正在查询,请稍后...
@@ -113,6 +118,7 @@ block content
                 li
                     a(href="#list") 产品列表
                 li.active 新增产品
+
             //功能导航
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
@@ -122,8 +128,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse1', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加产品
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse1.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li
@@ -149,8 +160,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse2', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 分组列表
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse2.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li
@@ -174,8 +190,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse3', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 编辑产品
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse3.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
@@ -325,8 +346,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse4', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加/编辑产品内容
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse4.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productProfileInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
@@ -360,8 +386,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse5', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加/编辑产品详情
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse5.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productDescrInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
@@ -395,8 +426,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse6', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加/编辑产品类
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse6.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productClassifyInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
@@ -430,8 +466,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse7', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加/编辑产品所属分组
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse7.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productGroupInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
@@ -465,8 +506,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse8', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 添加/编辑产品阶段
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse8.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.productPhaseInfo.loading()")
                             li
                                 a(href="") 正在查询,请稍后...

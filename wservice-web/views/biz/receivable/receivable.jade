@@ -22,8 +22,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 收款列表
-                    div.collapse.navbar-collapse
+                    div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li(ng-if="vm.queryService.receivableList.loading()")
                                 a(href="") 正在查询,请稍后...
@@ -67,19 +72,25 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse1', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="") 收款详情
-                    ul.nav.navbar-nav.navbar-right(ng-if="vm.receivableInfo.loading()")
+                    div#navbar-collapse1.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.receivableInfo.loading()")
+                                li
+                                    a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.receivableInfo.loading()")
                             li
-                                a(href="") 正在查询,请稍后...
-                    ul.nav.navbar-nav.navbar-right(ng-if="!vm.receivableInfo.loading()")
-                        li
-                            a(href="",ng-click="vm.previous(vm.receivableInfo.data)",ng-show="vm.receivableList.previous(vm.receivableInfo.data)") 上一单
-                        li
-                            a(href="",ng-click="vm.next(vm.receivableInfo.data)",ng-show="vm.receivableList.next(vm.receivableInfo.data)") 下一单
-                        li
-                            a(href="#/receivableConfirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isComplete()") 收款
-                        li
-                            a(href="#/list") 返回
+                                a(href="",ng-click="vm.previous(vm.receivableInfo.data)",ng-show="vm.receivableList.previous(vm.receivableInfo.data)") 上一单
+                            li
+                                a(href="",ng-click="vm.next(vm.receivableInfo.data)",ng-show="vm.receivableList.next(vm.receivableInfo.data)") 下一单
+                            li
+                                a(href="#/receivableConfirm/{{vm.receivableInfo.data.id}}",ng-show="vm.isComplete()") 收款
+                            li
+                                a(href="#/list") 返回
 
             //数据表格区域
             div.page-header
@@ -146,17 +157,23 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse2', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="") 收款确认
-                    ul.nav.navbar-nav.navbar-right(ng-if="vm.receivableInfo.loading()")
+                    div#navbar-collapse2.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.receivableInfo.loading()")
+                                li
+                                    a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.receivableInfo.loading()")
                             li
-                                a(href="") 正在查询,请稍后...
-                    ul.nav.navbar-nav.navbar-right(ng-if="!vm.receivableInfo.loading()")
-                        li
-                            a(type="button",ng-click="vm.receivableConfirm()",ng-disabled="vm.nptFormApi.form.$invalid")  确认收款
-                        li
-                            a(type="button",ng-click="vm.toDetail()") 返回
-                        li
-                            | &nbsp &nbsp &nbsp &nbsp
+                                a(type="button",ng-click="vm.receivableConfirm()",ng-disabled="vm.nptFormApi.form.$invalid")  确认收款
+                            li
+                                a(type="button",ng-click="vm.toDetail()") 返回
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
             div.page-header
                 h4 付款确认
             div.page-body
