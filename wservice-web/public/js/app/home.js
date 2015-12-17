@@ -287,7 +287,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         value.fromUser = nptCache.get("user", value.fromuserid);
                     });
 
-                    if (vm.model.mypraise == true) {
+                    if (vm.model.mypraise === true) {
                         vm.praise =  angular.copy("取消点赞");
                     }
 
@@ -307,7 +307,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     msgcardid: vm.msgcardid,
                     userid: userid
                 }).then(function (response) {
-                    if (response.data.praise == 0) {
+                    if (response.data.praise === 0) {
                         vm.praise =  angular.copy("点赞");
                         var praisesed=[];
                         angular.forEach(vm.model.praises, function (value) {
@@ -446,7 +446,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 createby: angular.copy(userid),
                 type: 'normal',
                 msgcardid: angular.copy(vm.msgcardid)
-            }
+            };
         }
 
         function save() {
