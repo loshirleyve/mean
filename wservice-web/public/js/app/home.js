@@ -190,13 +190,13 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
             delete vm.modelMessage.pics;
             vm.addMsgCard.post(vm.modelMessage).then(function (response) {
                 Notification.success({
-                    message: "添加消息卡片成功！",
+                    message: "发送消息成功！",
                     delay: 2000
                 });
                 $location.path("/dynamic/" + response.data.from + "/" + response.data.fromtype);
             }, function (error) {
                 Notification.error({
-                    title: "添加消息卡片出错",
+                    title: "发送消息出错",
                     message: error.data.cause,
                     delay: 2000
                 });
@@ -223,7 +223,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         vm.model = response.data;
                     }, function (error) {
                         Notification.error({
-                            title: "查询动态错误",
+                            title: "获取消息错误",
                             message: error.data.cause,
                             delay: 2000
                         });
@@ -237,7 +237,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         vm.model = response.data;
                     }, function (error) {
                         Notification.error({
-                            title: "查询动态错误",
+                            title: "获取消息出错",
                             message: error.data.cause,
                             delay: 2000
                         });
@@ -255,7 +255,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         vm.modelUser = response.data;
                     }, function (error) {
                         Notification.error({
-                            title: "查询用户信息错误",
+                            title: "获取用户信息出错",
                             message: error.data.cause,
                             delay: 2000
                         });
@@ -269,7 +269,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         vm.modelUser = response.data;
                     }, function (error) {
                         Notification.error({
-                            title: "查询机构信息错误",
+                            title: "获取机构信息出错",
                             message: error.data.cause,
                             delay: 2000
                         });
@@ -325,7 +325,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     }
                 }, function (error) {
                     Notification.error({
-                        title: "查询消息详情出错",
+                        title: "获取消息详情出错",
                         message: error.data.cause,
                         delay: 2000
                     });
@@ -359,7 +359,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     }
                 }, function (error) {
                     Notification.error({
-                        title: "点赞出错",
+                        title: "点赞失败，请稍后在试！",
                         message: error.data.cause,
                         delay: 2000
                     });
@@ -424,7 +424,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     vm.model = response.data;
                 }, function (error) {
                     Notification.error({
-                        title: "查询消息详情出错",
+                        title: "获取消息详情出错",
                         message: error.data.cause,
                         delay: 2000
                     });
@@ -438,13 +438,13 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     vm.modelComment
                 ).then(function (response) {
                         Notification.success({
-                            message: "保存消息评论成功!",
+                            message: "发送消息评论成功!",
                             delay: 2000
                         });
                         $location.path("/dynamicInfo/" + vm.msgcardid);
                     }, function (error) {
                         Notification.error({
-                            title: "保存评论出错",
+                            title: "发送评论出错",
                             message: error.data.cause,
                             delay: 2000
                         });
@@ -500,7 +500,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     vm.model = response.data;
                 }, function (error) {
                     Notification.error({
-                        title: "查询消息详情出错",
+                        title: "获取消息详情出错",
                         message: error.data.cause,
                         delay: 2000
                     });
@@ -514,13 +514,13 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     vm.modelShare
                 ).then(function (response) {
                         Notification.success({
-                            message: "保存消息转发成功!",
+                            message: "消息转发成功!",
                             delay: 2000
                         });
                         $location.path("/dynamicInfo/" + vm.msgcardid);
                     }, function (error) {
                         Notification.error({
-                            title: "保存转发出错",
+                            title: "消息转发出错",
                             message: error.data.cause,
                             delay: 2000
                         });

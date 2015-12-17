@@ -14,8 +14,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 动态
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgsGroup.loading()")
                             li
                                 a 正在查询...
@@ -42,8 +47,8 @@ block content
                                             br
                                             | {{item.lastcontent}}
                                         div.col-md-2
-                                            {{item.lastmsgdate | timestampFilter}}&nbsp;
-                                            span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
+                                            div {{item.lastmsgdate | timestampFilter}}&nbsp;
+                                            div.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
 
                         div(ng-if="item.fromtype ==='inst'")
                             div.media-left
@@ -56,16 +61,21 @@ block content
                                             h4.media-heading.text-blue {{item.inst.simplename}}
                                             | {{item.lastcontent}}
                                         div.col-md-2
-                                            {{item.lastmsgdate | timestampFilter}}&nbsp;
-                                            span.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
+                                            div {{item.lastmsgdate | timestampFilter}}&nbsp;
+                                            div.badge(ng-if="item.unreadnum>0") {{item.unreadnum}}
 
 
         script(id="sendMessage.html",type="text/ng-template")
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse1', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 发送动态
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse1.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li
@@ -80,12 +90,17 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse2', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgByScene.loading()")
                             li
                                 a 正在查询...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.reposMsgByScene.loading()")
                             a.navbar-brand 动态 - {{vm.modelUser.name}}
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse2.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left(ng-if="vm.reposMsgByScene.loading()")
                                li
@@ -98,9 +113,16 @@ block content
             div.list-group
                 a.list-group-item(href="",ng-repeat="item in vm.model",ng-click="vm.toDetail(item.msgCard)")
                     div.list-group-item-heading
-                        pre(style="background:white;border:0px;") {{item.content}}
-                    span(ng-repeat="subItem in item.msgCard.attachments")
-                         div(npt-image="subItem.fileId",style="width:64px;height:64px")
+                        div.row
+                            div.col-md-11
+                                pre(style="background:white;border:0px;") {{item.content}}
+                                span(ng-repeat="subItem in item.msgCard.attachments")
+                                    div(npt-image="subItem.fileId",style="width:64px;height:64px")
+                                div
+                                    span.glyphicon.glyphicon-map-marker(aria-hidden="true")
+                                    lable(style="font-size:5px;") {{item.locationlabel}}
+                            div(style="padding: 0px;margin: 0px;float: right;margin-top: -11px;",ng-if="item.state=='0'")
+                                image(src="/image/new@3x.png",style="width:32px;height:32px")
                     div
                         label 最后回复消息 {{item.msgCard.comments[0].content}}
 
@@ -109,8 +131,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse3', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 消息详情
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse3.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left(ng-if="vm.queryMsgCardInfo.loading()")
                                li
@@ -198,8 +225,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse4', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 评论
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse4.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li
@@ -219,8 +251,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse5', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 转发
-                    div.collapse.navbar-collapse.navbar-right
+                    div#navbar-collapse5.collapse.navbar-collapse.navbar-right
                         div
                             ul.nav.navbar-nav.navbar-left
                                 li

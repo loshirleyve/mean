@@ -25,8 +25,13 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="#") 机构列表
-                    div.collapse.navbar-collapse
+                    div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li(ng-if="vm.queryService.loading()")
                                 a(href="") 正在查询,请稍后...
@@ -66,18 +71,24 @@ block content
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse1', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
                         a.navbar-brand(href="") 机构详情
-                    ul.nav.navbar-nav.navbar-right
-                        li(ng-if="vm.instInfo.loading()")
-                            a(href="") 正在查询,请稍后...
-                        li(ng-if="!vm.instInfo.loading()")
-                            a(href="",ng-click="vm.previous(vm.instInfo.data)",ng-show="vm.instList.previous(vm.instInfo.data)") 上一单
-                        li(ng-if="!vm.instInfo.loading()")
-                            a(href="",ng-click="vm.next(vm.instInfo.data)",ng-show="vm.instList.next(vm.instInfo.data)") 下一单
-                        li(ng-if="!vm.instInfo.loading()")
-                            a(href="",ng-click="vm.updateInstInfo();" ng-show="vm.showSave") 保存
-                        li
-                            a(href="#/list") 返回
+                    div#navbar-collapse1.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right
+                            li(ng-if="vm.instInfo.loading()")
+                                a(href="") 正在查询,请稍后...
+                            li(ng-if="!vm.instInfo.loading()")
+                                a(href="",ng-click="vm.previous(vm.instInfo.data)",ng-show="vm.instList.previous(vm.instInfo.data)") 上一单
+                            li(ng-if="!vm.instInfo.loading()")
+                                a(href="",ng-click="vm.next(vm.instInfo.data)",ng-show="vm.instList.next(vm.instInfo.data)") 下一单
+                            li(ng-if="!vm.instInfo.loading()")
+                                a(href="",ng-click="vm.updateInstInfo();" ng-show="vm.showSave") 保存
+                            li
+                                a(href="#/list") 返回
 
             //数据表格区域
             div.page-header
