@@ -324,8 +324,5 @@ proxy.action("QueryMsgsGroup", {
 }).action("QueryMsgCardBySource", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryMsgCardBySourceService"
-}).action("AddMsgCardComment", {
-    proxy: "Y9",
-    action: "com.yun9.ws.biz.service.AddMsgCardCommentService"
 });
 module.exports = proxy;
