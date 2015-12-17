@@ -107,6 +107,10 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         return nptRepository("QueryTopics").params({
             instid: nptSessionManager.getSession().getInst().id
         });
+    }).factory("UpdateMsgCardState", function (nptRepository, nptSessionManager) {
+        return nptRepository("UpdateMsgCardState").params({
+            userid: nptSessionManager.getSession().getUser().id
+        });
     }).controller("HomeDynamicController", function (QueryMsgsGroup, nptCache, $location) {
         var vm = this;
         vm.reposMsgsGroup = QueryMsgsGroup;
@@ -134,12 +138,11 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
 
         //查询消息
         vm.query();
-    }).controller("sendMessageController", function (QueryMsgsGroup, nptCache, $location, nptSessionManager, QueryUserInfo, AddMsgCard, messageForm,Notification) {
+    }).controller("sendMessageController", function (QueryMsgsGroup, nptCache, $location, nptSessionManager, QueryUserInfo, AddMsgCard, messageForm, Notification) {
         var vm = this;
         var userid = nptSessionManager.getSession().getUser().id;
-        vm.reposUserInfo = QueryUserInfo;
         vm.addMsgCard = AddMsgCard;
-        vm.modelMessage = {createby: angular.copy(userid),scope:"public",source:"none",msgFromtype:"person"};
+        vm.modelMessage = {createby: angular.copy(userid), scope: "public", source: "none", msgFromtype: "person"};
 
         //配置表单
         vm.messageFormOptions = {
@@ -156,24 +159,33 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         function reset() {
             vm.modelMessage = {
                 createby: angular.copy(userid),
-                scope:"public",
-                source:"none",
-                msgFromtype:"person"};
+                scope: "public",
+                source: "none",
+                msgFromtype: "person"};
         }
 
         function save() {
-            var users=[];
-            var attachments=[];
+            var users = [];
+            var attachments = [];
+            var tempTopic = "";
             if (vm.modelMessage.toUsers) {
                 angular.forEach(vm.modelMessage.toUsers, function (value) {
-                    users.push({ "userid":value.id,"type": "user"});
+                    users.push({ "userid": value, "type": "user"});
                 });
             }
             if (vm.modelMessage.pics) {
                 angular.forEach(vm.modelMessage.pics, function (value) {
-                    attachments.push({ "fileid":value.id});
+                    attachments.push({ "fileid": value});
                 });
             }
+            if (vm.modelMessage.topics) {
+                angular.forEach(vm.modelMessage.topics, function (value) {
+                    tempTopic += "#" + value + "# ";
+                });
+            }
+            vm.modelMessage.users = users;
+            vm.modelMessage.attachments = attachments;
+            vm.modelMessage.content = tempTopic + vm.modelMessage.content;
             delete vm.modelMessage.toUsers;
             delete vm.modelMessage.pics;
             vm.addMsgCard.post(vm.modelMessage).then(function (response) {
@@ -181,6 +193,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     message: "添加消息卡片成功！",
                     delay: 2000
                 });
+                $location.path("/dynamic/" + response.data.from + "/" + response.data.fromtype);
             }, function (error) {
                 Notification.error({
                     title: "添加消息卡片出错",
@@ -189,23 +202,6 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 });
             });
         }
-
-        vm.queryUser = function () {
-            if (userid) {
-                vm.reposUserInfo.post({
-                    userid: userid
-                }).then(function (response) {
-                    console.info(response.data);
-                }, function (error) {
-                    Notification.error({
-                        title: "查询用户信息错误",
-                        message: error.data.cause,
-                        delay: 2000
-                    });
-                });
-            }
-        };
-        vm.queryUser();
 
     }).controller("SendToMeController", function ($routeParams, $location, QueryMsgByScene, Notification, QueryUserInfo, queryInstDetail) {
         var vm = this;
@@ -281,17 +277,19 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 }
             }
         };
+
         vm.queryFormUser();
         vm.query();
 
         vm.toDetail = function (item) {
             $location.path("/dynamicInfo/" + item.id);
         };
-    }).controller("MsgCardInfoController", function ($routeParams, $location, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, nptCache, nptSessionManager) {
+    }).controller("MsgCardInfoController", function ($routeParams, $location, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, UpdateMsgCardState, nptCache, nptSessionManager) {
         var vm = this;
         vm.msgcardid = $routeParams.msgcardid;
         vm.queryMsgCardInfo = QueryMsgCardInfoById;
         vm.addPraiseLike = AddPraiseLikeByMsgCardId;
+        vm.updateMsgCardState = UpdateMsgCardState;
         var userid = nptSessionManager.getSession().getUser().id;
         vm.praise = angular.copy("点赞");
         vm.model = {};
@@ -320,6 +318,11 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         vm.praise = angular.copy("取消点赞");
                     }
 
+                    if (vm.model.state === 'unread') {
+                        var msgcardidList = [];
+                        msgcardidList.push(response.data.id);
+                        vm.updatMsgState(msgcardidList);
+                    }
                 }, function (error) {
                     Notification.error({
                         title: "查询消息详情出错",
@@ -362,6 +365,14 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     });
                 });
             }
+        };
+
+        vm.updatMsgState = function (msgcardidList) {
+            vm.updateMsgCardState.post({
+                msgcardidList: msgcardidList
+            }).then(function (response) {
+            }, function (error) {
+            });
         };
 
         vm.query();

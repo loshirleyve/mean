@@ -130,16 +130,18 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
-                    key: 'topic',
+                    key: 'topics',
                     type: 'ui-select',
                     templateOptions: {
                         optionsAttr: 'bs-options',
                         label: '消息话题:',
-                        valueProp: 'id',
+                        valueProp: 'name',
                         labelProp: 'name',
-                        placeholder: '请选择',
+                        placeholder: '请输入',
                         options: [],
-                        repository: QueryTopics
+                        multiple:true,
+                        repository: QueryTopics,
+                        search:["name"]
                     }
                 },
                 {
@@ -150,9 +152,11 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                         label: '消息范围:',
                         valueProp: 'id',
                         labelProp: 'name',
-                        placeholder: '请选择',
+                        placeholder: '请输入',
                         options: [],
-                        repository: QueryUserByInst
+                        multiple:true,
+                        repository: QueryUserByInst,
+                        search:["name"]
                     }
                 },
                 {
