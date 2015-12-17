@@ -358,6 +358,14 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
+                    key: 'no',
+                    type: 'input',
+                    templateOptions: {
+                        label: '编号:',
+                        maxlength: 25
+                    }
+                },
+                {
                     key: 'duty',
                     type: 'input',
                     templateOptions: {
