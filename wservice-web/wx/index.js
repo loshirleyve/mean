@@ -12,19 +12,20 @@ module.exports = function (app) {
     app.get("/wx/gateway", function (req, res, next) {
         debug("微信接入验证网关.", req.query);
 
-        getToken("wx3f12d479b0082446", "eb61f0db8aa0403d30e9f9f3fe569af0", function (response) {
-            if (response && response.access_token) {
-                var sigState = checkSignature(req, response.access_token);
+        var sigState = checkSignature(req, "Sybase12");
+        if (sigState) {
+            res.send(200, req.query.echostr);
+        } else {
+            res.send(200, 'fail');
+        }
 
-                if (sigState) {
-                    res.send(200, req.query.echostr);
-                } else {
-                    res.send(200, 'fail');
-                }
-            } else {
-                res.send(200, 'fail');
-            }
-        });
+        //getToken("wx3f12d479b0082446", "eb61f0db8aa0403d30e9f9f3fe569af0", function (response) {
+        //    if (response && response.access_token) {
+        //
+        //    } else {
+        //        res.send(200, 'fail');
+        //    }
+        //});
 
 
     });
