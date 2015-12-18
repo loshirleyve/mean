@@ -7,6 +7,7 @@ var PassportLocal = require("passport-local").Strategy;
 var flash = require("express-flash");
 var proxy = require("../proxy");
 var y9MarsUtil = require("y9-mars-util");
+var WeixinStrategy = require("y9-passport-weixin").Strategy;
 
 module.exports = function (app) {
 
@@ -32,6 +33,18 @@ module.exports = function (app) {
                 });
         }));
 
+    //配置微信客户端登陆
+    passport.use('loginByWeixinClient', new WeixinStrategy({
+        clientID: 'CLIENTID'
+        , clientSecret: 'CLIENT SECRET'
+        , callbackURL: 'CALLBACK URL'
+        , requireState: false
+        , authorizationURL: 'https://open.weixin.qq.com/connect/oauth2/authorize' //[公众平台-网页授权获取用户基本信息]的授权URL 不同于[开放平台-网站应用微信登录]的授权URL
+        , scope: 'snsapi_userinfo' //[公众平台-网页授权获取用户基本信息]的应用授权作用域 不同于[开放平台-网站应用微信登录]的授权URL
+    }, function (accessToken, refreshToken, profile, done) {
+        done(null, profile);
+    }));
+
     //配置用户持久化策略
     passport.serializeUser(function (user, done) {
         //TODO 持久化用户的登录日志,最新登录时间等等.
@@ -51,6 +64,15 @@ module.exports = function (app) {
         failureFlash: {},
         "successReturnToOrRedirect": "/app/frame"
     }));
+
+    //在微信客户端登录，使用/auth/loginByWeixinClient
+    app.get("/auth/loginByWeixinClient",
+        passport.authenticate('loginByWeixinClient', {
+            successRedirect: '/app/home',
+            failureRedirect: '/login'
+        })
+    );
+
 
     //app.post("/auth", passport.authenticate("local", {
     //    successRedirect: "/app/frame",

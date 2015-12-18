@@ -54,7 +54,8 @@
     "y9-mars-security": "^1.0.0",
     "y9-mars-service": "^1.0.2",
     "y9-mars-util": "^1.0.2",
-    "y9-neptune": "^1.0.11"
+    "y9-neptune": "^1.0.11",
+    "y9-passport-weixin": "0.0.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
