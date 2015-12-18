@@ -38,12 +38,14 @@ module.exports = function (app) {
     passport.use('loginByWeixinClient', new WeixinStrategy({
         clientID: 'wx3f12d479b0082446'
         , clientSecret: 'eb61f0db8aa0403d30e9f9f3fe569af0'
-        , callbackURL: 'http://www.yun9.com/app/home'
+        , callbackURL: 'http://www.yun9.com/auth/loginByWeixinClient'
         , requireState: false
         , authorizationURL: 'https://open.weixin.qq.com/connect/oauth2/authorize' //[公众平台-网页授权获取用户基本信息]的授权URL 不同于[开放平台-网站应用微信登录]的授权URL
         , scope: 'snsapi_userinfo' //[公众平台-网页授权获取用户基本信息]的应用授权作用域 不同于[开放平台-网站应用微信登录]的授权URL
     }, function (accessToken, refreshToken, profile, done) {
-        debug("微信单点登录策略回调数据.", accessToken, refreshToken, profile);
+        debug("微信客户端登录回调数据.", accessToken, refreshToken, profile);
+
+        //TODO 查找或者创建用户
         done(null, profile);
     }));
 
