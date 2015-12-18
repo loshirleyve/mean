@@ -48,6 +48,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "serve-favicon": "^2.3.0",
+    "sha1": "^1.1.1",
+    "superagent": "^1.6.1",
     "util": "^0.10.3",
     "y9-mars-inst-passport": "^1.0.1",
     "y9-mars-repository": "^1.0.0",
