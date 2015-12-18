@@ -502,36 +502,32 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.query();
 
         vm.completeWorkorder = function() {
-            if (vm.nptFormApi.form.$invalid) {
-                Notification.error({message: '请选择用户.', delay: 2000});
-            } else {
-                var params = {};
-                var workorderids = [];
+            var params = {};
+            var workorderids = [];
 
-                workorderids.push(vm.workorderid);
+            workorderids.push(vm.workorderid);
 
-                console.info(vm.model);
+            console.info(vm.model);
 
-                params.postscript = vm.model.postscript;
-                params.workorderids = workorderids;
-                params.userid = nptSessionManager.getSession().getUser().id;
+            params.postscript = vm.model.postscript;
+            params.workorderids = workorderids;
+            params.userid = nptSessionManager.getSession().getUser().id;
 
-                UpdateWorkOrderCompleteById.post(params).then(function (response) {
-                    $location.path("/detail/" + vm.workorderid);
-                    Notification.success({
-                        message: '工单完成成功',
-                        replaceMessage: true,
-                        delay: 2000
-                    });
-                }, function (error) {
-                    Notification.error({
-                        title: '工单完成失败',
-                        message: error.data.cause,
-                        replaceMessage: true,
-                        delay: 5000
-                    });
+            UpdateWorkOrderCompleteById.post(params).then(function (response) {
+                $location.path("/detail/" + vm.workorderid);
+                Notification.success({
+                    message: '工单完成成功',
+                    replaceMessage: true,
+                    delay: 2000
                 });
-            }
+            }, function (error) {
+                Notification.error({
+                    title: '工单完成失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
         };
 
         vm.toDetail = function () {
@@ -580,33 +576,36 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.query();
 
         vm.deliverWorkorder = function() {
-            var params = {};
-            var workorderids = [];
+            if (vm.nptFormApi.form.$invalid) {
+                Notification.error({message: '请选择用户.', delay: 2000});
+            } else {
+                var params = {};
+                var workorderids = [];
 
-            workorderids.push(vm.workorderid);
+                workorderids.push(vm.workorderid);
 
-            console.info(vm.model);
+                console.info(vm.model);
 
-            params.postscript = vm.model.postscript;
-            params.targetprocessid = vm.model.assignedid;
-            params.workorderids = workorderids;
+                params.postscript = vm.model.postscript;
+                params.targetprocessid = vm.model.assignedid;
+                params.workorderids = workorderids;
 
-            UpdateWorkorderByProcessid.post(params).then(function (response) {
-                $location.path("/detail/" + vm.workorderid);
-                Notification.success({
-                    message: '工单转交成功',
-                    replaceMessage: true,
-                    delay: 2000
+                UpdateWorkorderByProcessid.post(params).then(function (response) {
+                    $location.path("/detail/" + vm.workorderid);
+                    Notification.success({
+                        message: '工单转交成功',
+                        replaceMessage: true,
+                        delay: 2000
+                    });
+                }, function (err) {
+                    Notification.error({
+                        title: '工单转交失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
                 });
-            }, function (err) {
-                Notification.error({
-                    title: '工单转交失败',
-                    message: error.data.cause,
-                    replaceMessage: true,
-                    delay: 5000
-                });
-            });
-
+            }
         };
 
         vm.toDetail = function () {
