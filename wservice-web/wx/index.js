@@ -19,13 +19,7 @@ module.exports = function (app) {
             res.send(200, 'fail');
         }
 
-        //getToken("wx3f12d479b0082446", "eb61f0db8aa0403d30e9f9f3fe569af0", function (response) {
-        //    if (response && response.access_token) {
-        //
-        //    } else {
-        //        res.send(200, 'fail');
-        //    }
-        //});
+
 
 
     });

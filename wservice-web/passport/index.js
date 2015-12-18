@@ -8,6 +8,7 @@ var flash = require("express-flash");
 var proxy = require("../proxy");
 var y9MarsUtil = require("y9-mars-util");
 var WeixinStrategy = require("y9-passport-weixin").Strategy;
+var debug = require("debug")("y9-wservice-passport");
 
 module.exports = function (app) {
 
@@ -42,6 +43,7 @@ module.exports = function (app) {
         , authorizationURL: 'https://open.weixin.qq.com/connect/oauth2/authorize' //[公众平台-网页授权获取用户基本信息]的授权URL 不同于[开放平台-网站应用微信登录]的授权URL
         , scope: 'snsapi_userinfo' //[公众平台-网页授权获取用户基本信息]的应用授权作用域 不同于[开放平台-网站应用微信登录]的授权URL
     }, function (accessToken, refreshToken, profile, done) {
+        debug("微信单点登录策略回调数据.", accessToken, refreshToken, profile);
         done(null, profile);
     }));
 
@@ -52,6 +54,7 @@ module.exports = function (app) {
     });
     //配置用户读取策略
     passport.deserializeUser(function (user, done) {
+        debug("登录获取用户数据.", user);
         var dUser = y9MarsUtil.Merge({}, user.user);
         dUser.insts = user.insts;
         done(null, dUser);
