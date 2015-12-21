@@ -90,15 +90,10 @@ app.use(function (err, req, res, next) {
 
 function errorHandler(err, req, res, next) {
     res.status(err.status || 500);
-    if (err.name === 'WxAuthenticationerror') {
-        //微信认证失败,转发到绑定微信页面
-        res.redirect("/mobile/wx/bind");
-    } else {
-        res.render('sys/error', {
-            message: err.message,
-            error: {}
-        });
-    }
+    res.render('sys/error', {
+        message: err.message,
+        error: {}
+    });
 }
 
 module.exports = app;
