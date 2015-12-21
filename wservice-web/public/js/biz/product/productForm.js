@@ -41,7 +41,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"产品名称不可以有特殊字符！"'
                         }
                     },
@@ -222,7 +222,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"产品名称不可以有特殊字符！"'
                         }
                     },
@@ -265,7 +265,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"分组名称不可以有特殊字符！"'
                         }
                     },
@@ -304,7 +304,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"分组名称不可以有特殊字符！"'
                         }
                     },
@@ -350,7 +350,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         maxlength: 25,
                         validators: {
                             format: {
-                                expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                                expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                                 message: '"阶段名称不可以有特殊字符！"'
                             }
                         },
@@ -543,7 +543,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"分类名称不可以有特殊字符！"'
                         }
                     },
@@ -656,7 +656,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"标题不可以有特殊字符！"'
                         }
                     },
