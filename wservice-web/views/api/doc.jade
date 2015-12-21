@@ -22,84 +22,61 @@ block content
         div(ng-controller="ServiceDocController")
             div.page-header
                 H3 服务目录
-            div.page-body
+            div.page-body(ng-repeat="action in model")
                 ul
                     li
-                        a(href="#") 通过id查询用户信息
-            div.page-header
-                H3 通过id查询用户信息
-            div.page-body
-                ul
-                    li 动作名称:
-                        pre com.yun9.sys.inst.serivce.AddOrUpdateFileService
-                    li 服务说明:
-                        pre 服务说明内容服务说明内容服务说明内容服务<br>说明内容服务说明内容服务说明内容服务说明内容服务说明内容服务说明内容服务说明内容服务说明内容
+                        a(href="#{{action.desc +'#'}}", ng-bind="action.desc")
+            div(ng-repeat="action in model")
+                div.page-header
+                    a(name="{{action.desc+'#'}}")
+                    H3(ng-bind="action.desc")
+                div.page-body
+                    ul
+                        li 动作名称:
+                            pre(ng-bind="action.name")
+                        li 服务说明:
+                            pre(ng-bind="action.desc")
 
-                    li 请求参数:
-                        table.table.table-bordered.table-condensed
-                            thead
-                                td
-                                    span 参数名称
-                                td
-                                    span 参数Key
-                                td
-                                    span 参数类型
-                                td
-                                    span 验证规则
-                                td
-                                    span 说明
-                                td
-                                    span 示例
-                            tbody
-                                td
-                                    | 产品ID
-                                td
-                                    | productid
-                                td
-                                    | String
-                                td
-                                    | 必须的
-                                td
-                                    | 需要添加阶段信息的产品ID
-                                td
-                                    | 10000002334916
-                    li 请求样例:
-                        pre
-                            | {"token": "8fc50dd14a951318ca168e40a9fa1ec78d1110e058700c9affdbe6ab5eb6b931",}
+                        li 请求参数:
+                            table.table.table-bordered.table-condensed(ng-if="action.inputs.paramsDefs.length > 0")
+                                thead
+                                    td
+                                        span 参数名称
+                                    td
+                                        span 参数Key
+                                    td
+                                        span 参数类型
+                                    td
+                                        span 验证规则
+                                    td
+                                        span 说明
+                                tbody(ng-repeat="reqParam in action.inputs.paramsDefs")
+                                    td(ng-bind="reqParam.label")
+                                    td(ng-bind="reqParam.name")
+                                    td(ng-bind="reqParam.type")
+                                    td(ng-if="reqParam.validates.length")
+                                        | {{reqParam.validates[0].label}} ({{reqParam.validates[0].name}})
+                                    td(ng-bind="reqParam.desc")
 
-                    li 响应参数:
-                        table.table.table-bordered.table-condensed
-                            thead
-                                td
-                                    span 参数名称
-                                td
-                                    span 参数Key
-                                td
-                                    span 参数类型
-                                td
-                                    span 验证规则
-                                td
-                                    span 说明
-                                td
-                                    span 示例
-                            tbody
-                                td
-                                    | 产品ID
-                                td
-                                    | productid
-                                td
-                                    | String
-                                td
-                                    | 必须的
-                                td
-                                    | 需要添加阶段信息的产品ID
-                                td
-                                    | 10000002334916
-                    li 响应样例:
-                        pre
-                            | {"token": "8fc50dd14a951318ca168e40a9fa1ec78d1110e058700c9affdbe6ab5eb6b931",}
-
-
+                        li 响应参数:
+                            table.table.table-bordered.table-condensed(ng-if="action.outputs.paramsDefs.length > 0")
+                                thead
+                                    td
+                                        span 参数名称
+                                    td
+                                        span 参数Key
+                                    td
+                                        span 参数类型
+                                    td
+                                        span 验证规则
+                                    td
+                                        span 说明
+                                tbody(ng-repeat="resParam in action.outputs.paramsDefs")
+                                    td(ng-bind="resParam.label")
+                                    td(ng-bind="resParam.name")
+                                    td(ng-bind="resParam.type")
+                                    td(ng-bind="resParam.validates[0].label(resParam.validates[0].name)")
+                                    td(ng-bind="resParam.desc")
 
 
 
