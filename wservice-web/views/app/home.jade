@@ -43,7 +43,7 @@ block content
                                     div.row
                                         div.col-md-10
                                             h4.media-heading {{item.fromUser.name}}
-                                            small {{item.fromUser.instsimplename}}
+                                            small 来自 {{item.inst.simplename}}
                                             br
                                             | {{item.lastcontent}}
                                         div.col-md-2
@@ -145,15 +145,15 @@ block content
                             ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryMsgCardInfo.loading()")
                                 li
                                     a(href="#/comment/{{vm.model.id}}")
-                                        span.glyphicon.glyphicon-edit(aria-hidden="true") 评论
+                                        span.glyphicon.glyphicon-edit(aria-hidden="true") 评论({{vm.model.commentcount}})
                                 li
                                     a(href="#/share/{{vm.model.id}}")
-                                        span.glyphicon.glyphicon-share(aria-hidden="true") 转发
+                                        span.glyphicon.glyphicon-share(aria-hidden="true") 转发({{vm.model.sharecount}})
                                 li
                                     a(ng-click="vm.onClickPraise()")
-                                        span.glyphicon.glyphicon-thumbs-up(aria-hidden="true") {{vm.praise}}
+                                        span.glyphicon.glyphicon-thumbs-up(aria-hidden="true") {{vm.praise}}({{vm.model.praisecount}})
                                 li
-                                    a(href="#/dynamic/{{vm.model.from}}/{{vm.model.fromtype}}") 返回
+                                    a(href="#/dynamic/{{vm.model.from}}/{{vm.model.instid}}/{{vm.model.fromtype}}") 返回
 
 
             div.panel.panel-default

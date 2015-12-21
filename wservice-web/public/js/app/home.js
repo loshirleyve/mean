@@ -23,7 +23,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     }
                 }
             })
-            .when("/dynamic/:fromuserid/:fromusertype", {
+            .when("/dynamic/:fromuserid/:frominstid/:fromusertype", {
                 controller: "SendToMeController as vm",
                 templateUrl: "send2me.html",
                 resolve: {
@@ -74,7 +74,6 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         });
     }).factory("QueryMsgByScene", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryMsgByScene").params({
-            instid: nptSessionManager.getSession().getInst().id,
             userid: nptSessionManager.getSession().getUser().id
         });
     }).factory("queryInstDetail", function (nptRepository) {
@@ -133,7 +132,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         };
 
         vm.toDetail = function (item) {
-            $location.path("/dynamic/" + item.fromuserid + "/" + item.fromtype);
+            $location.path("/dynamic/" + item.fromuserid + "/"+item.instid+"/" + item.fromtype);
         };
 
         //查询消息
@@ -193,7 +192,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     message: "发送消息成功！",
                     delay: 2000
                 });
-                $location.path("/dynamic/" + response.data.from + "/" + response.data.fromtype);
+                $location.path("/dynamic/" + response.data.from + "/"+ response.data.fromtype);
             }, function (error) {
                 Notification.error({
                     title: "发送消息出错",
@@ -207,6 +206,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         var vm = this;
         vm.fromuserid = $routeParams.fromuserid;
         vm.fromusertype = $routeParams.fromusertype;
+        vm.frominstid = $routeParams.frominstid;
         vm.reposMsgByScene = QueryMsgByScene;
         vm.reposUserInfo = QueryUserInfo;
         vm.queryInstInfo = queryInstDetail;
@@ -218,7 +218,8 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 if (vm.fromusertype == 'person') {
                     vm.reposMsgByScene.post({
                         sence: "usergiveme",
-                        fromuserid: vm.fromuserid
+                        fromuserid: vm.fromuserid,
+                        instid:vm.frominstid
                     }).then(function (response) {
                         vm.model = response.data;
                     }, function (error) {
@@ -232,7 +233,8 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 else if (vm.fromusertype == 'inst') {
                     vm.reposMsgByScene.post({
                         sence: "instgiveme",
-                        fromuserid: vm.fromuserid
+                        fromuserid: vm.fromuserid,
+                        instid:vm.frominstid
                     }).then(function (response) {
                         vm.model = response.data;
                     }, function (error) {
@@ -348,6 +350,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                             }
                         });
                         vm.model.praises = angular.copy(praisesed);
+                        vm.model.praisecount=vm.model.praisecount-1;
                     }
                     else {
                         vm.praise = angular.copy("取消点赞");
@@ -355,7 +358,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         angular.forEach(vm.model.praises, function (value) {
                             value.praiseUser = nptCache.get("user", value.userid);
                         });
-
+                        vm.model.praisecount=vm.model.praisecount+1;
                     }
                 }, function (error) {
                     Notification.error({

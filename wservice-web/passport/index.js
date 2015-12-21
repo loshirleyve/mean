@@ -47,8 +47,9 @@ module.exports = function (app) {
 
         //TODO 通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
 
-        //TODO 查找或者创建用户
-        done(null, profile);
+
+        //TODO 缺少通过Openid查找用户的方法,暂时抛出错误
+        done(new Error("无法获取用户信息"), profile);
     }));
 
     //配置用户持久化策略
