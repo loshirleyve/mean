@@ -1,0 +1,24 @@
+//
+   Created by leon on 15/12/21.
+
+extends ../../layout/layout-mobile
+block title
+    p 绑定微信
+block content
+    script(src="/js/wx/bind.js")
+    div(ng-app="BindWxApp")
+        div(ng-view)
+        script(type="text/ng-template",id="bind.html")
+            div.well
+                h3 绑定微信
+        script(type="text/ng-template",id="success.html")
+            div.jumbotron
+                div.row
+                    div.col-xs-4
+                        img(src="/image/yun9logo.png",style="width:60px;")
+                    div.col-xs-8
+                        h3 绑定成功
+        script(type="text/ng-template",id="failed.html")
+            div.jumbotron
+                h1 绑定失败
+                p 绑定失败
