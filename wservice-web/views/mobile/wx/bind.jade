@@ -11,7 +11,10 @@ block content
         script(type="text/ng-template",id="bind.html")
             div.well
                 h3 绑定微信
-                textarea#wxprofile #{wxprofile}
+                div#wxprofile.hidden #{wxprofile}
+
+            pre {{vm.wxProfile | json}}
+
         script(type="text/ng-template",id="success.html")
             div.jumbotron
                 div.row

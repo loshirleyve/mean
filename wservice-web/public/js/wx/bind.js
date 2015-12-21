@@ -12,5 +12,8 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute"])
         })
     })
     .controller("BindWxController", function () {
-
+        var vm = this;
+        //从页面读取微信数据
+        var temp = $("#wxprofile").html();
+        vm.wxProfile = angular.fromJson(temp);
     });
