@@ -43,7 +43,7 @@ angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"机构简称不可以有特殊字符！"'
                         }
                     }
@@ -104,7 +104,7 @@ angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
                     },
                     validators: {
                         format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/),
+                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
                             message: '"机构名称不可以有特殊字符！"'
                         }
                     },

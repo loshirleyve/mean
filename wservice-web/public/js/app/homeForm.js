@@ -102,7 +102,7 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("messageForm", function (nptFormlyStore,QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree,QueryImageByMaterialLevel,QueryTopics,QueryUserByInst) {
+    }).factory("messageForm", function (nptFormlyStore,QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree,QueryImageByMaterialLevel,UploadSignature,AddOrUpdateFileRepo,QueryTopics,QueryUserByInst) {
         return nptFormlyStore("messageForm", {
             buttons: {
                 ok: true,
@@ -165,7 +165,12 @@ angular.module("homeApp.homeForm", ["ui.neptune", 'ui.bootstrap'])
                     templateOptions: {
                         label: '选择图片:',
                         single: false,
-                        imageRepository: QueryImageByMaterialLevel
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 },
                 {
