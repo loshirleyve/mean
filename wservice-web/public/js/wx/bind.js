@@ -12,7 +12,7 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
             controller: "FailedController as vm"
         }).otherwise({
             redirectTo: "/"
-        })
+        });
     }).factory("wxForm", function (nptFormlyStore) {
         return nptFormlyStore("wxForm", {
             buttons: {
@@ -57,12 +57,12 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
         vm.wxProfile = angular.fromJson($("#wxprofile").html());
 
         if (!vm.wxProfile) {
-            $location.path("/failed")
+            $location.path("/failed");
             Notification.error({
                 title: "绑定失败",
                 message: "无法获取微信认证信息.",
                 delay: 5000
-            })
+            });
         }else{
 
         }
