@@ -31,7 +31,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 }
             ],
             buttons: {
-                ok:true
+                ok: true
             },
             fields: [
                 {
@@ -47,13 +47,13 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     templateOptions: {
                         label: '用户名称:',
                         required: true,
-                        placeholder:"请输入用户名"
+                        placeholder: "请输入用户名"
                     }
                 }, {
                     key: "passwd",
                     type: 'input',
                     templateOptions: {
-                        type:"password",
+                        type: "password",
                         label: '密码:',
                         required: true,
                         placeholder: "请输入6至12位由字母或数字组成的密码"
@@ -68,14 +68,14 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     key: "repasswd",
                     type: 'input',
                     templateOptions: {
-                        type:"password",
+                        type: "password",
                         label: '确认密码:',
                         required: true,
-                        placeholder:"请再次确认密码"
+                        placeholder: "请再次确认密码"
                     },
                     validators: {
                         pwdFormat: {
-                            expression: function(viewValue,modelValue,scope) {
+                            expression: function (viewValue, modelValue, scope) {
                                 if (scope.fc && viewValue) {
                                     scope.fc.$touched = true;
                                 }
@@ -147,6 +147,7 @@ angular.module("userRegisterApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 vm.model.inviteUserid = vm.params.inviteUserid;
                 vm.model.inviteDeptid = vm.params.inviteDeptid;
                 vm.model.inviteInstName = vm.params.inviteInstName;
+                vm.model.inviteInstid = vm.params.inviteInstid;
                 vm.model.passwd = "";
                 vm.model.repasswd = "";
                 vm.originModel = angular.copy(vm.model);
