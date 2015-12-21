@@ -2,8 +2,8 @@
  * Created by rxy on 15/11/17.
  */
 
-angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
-    .factory("productForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByMaterialLevel, QueryUserInfoById, RegExpValidatorFactory) {
+angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice.common"])
+    .factory("productForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByMaterialLevel,UploadSignature,AddOrUpdateFileRepo,QueryUserInfoById, RegExpValidatorFactory) {
         return nptFormlyStore("productForm", {
             buttons: {
                 ok: true,
@@ -28,7 +28,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         label: '产品logo:',
                         required: true,
                         single: true,
-                        imageRepository: QueryImageByMaterialLevel
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 },
                 {
@@ -98,7 +103,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                 }
             ]
         });
-    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel, QueryUserInfoById) {
+    }).factory("ProductGroupForm", function (nptFormlyStore, QueryImageByMaterialLevel,UploadSignature,AddOrUpdateFileRepo, QueryUserInfoById) {
         return nptFormlyStore("productGroupForm", {
             buttons: {
                 ok: true,
@@ -123,7 +128,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                         label: '分组图片:',
                         required: true,
                         single: true,
-                        imageRepository: QueryImageByMaterialLevel
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 },
                 {

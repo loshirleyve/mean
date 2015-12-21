@@ -13,6 +13,8 @@ block content
                 h3 绑定微信
                 div#wxprofile.hidden #{wxprofile}
 
+            div(npt-form="vm.wxFormOptions",model="vm.model")
+
             pre {{vm.wxProfile | json}}
 
         script(type="text/ng-template",id="success.html")
