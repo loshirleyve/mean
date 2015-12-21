@@ -57,7 +57,8 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
 
     .controller("BindWxController", function ($location, Notification,wxForm,queryUserExist) {
         var vm = this;
-        vm.queryUserExist=queryUserExist
+        vm.queryUserExist=queryUserExist;
+        vm.isError=false;
         //从页面读取微信数据
         vm.wxProfile = angular.fromJson($("#wxprofile").html());
 
@@ -87,7 +88,7 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
         function save() {
             vm.queryUserExist.post().then(function (response) {
             }, function (error) {
-                console.info(error);
+                vm.isError=true;
             });
 
         };
