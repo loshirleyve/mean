@@ -328,4 +328,10 @@ proxy.action("QueryMsgsGroup", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.UpdateMsgCardStateByIdsService"
 });
+
+/*抓取所有服务*/
+proxy.action("QueryActionList", {
+    proxy:"Y9",
+    action:"com.yun9.common.sr.service.QueryActionListService"
+});
 module.exports = proxy;
