@@ -5,7 +5,7 @@
 module.exports = function () {
     return function (req, res, next) {
         res.render("mobile/wx/bind", {
-            "wxprofile": req.session.y9WxProfile
+            "wxprofile": JSON.stringify(req.session.y9WxProfile)
         });
     }
 };
