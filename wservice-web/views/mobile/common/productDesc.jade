@@ -1,0 +1,13 @@
+//
+   Created by leon on 15/12/21.
+
+
+extends ../../layout/layout-mobile
+block title
+    p 产品详情
+block content
+    script(src="/js/mobile/common/productDesc.js")
+    div(ng-app="ProductDescApp")
+        div(ng-view)
+        script(id="productDesc.html",type="text/ng-template")
+            H1 产品详情 {{vm.productid}}
