@@ -50,9 +50,14 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                 }
             ]
         });
+    }).factory("queryUserExist", function (nptRepository) {
+        return nptRepository("QueryIdentificationByUsernoAndPasswd").params({
+        });
     })
-    .controller("BindWxController", function ($location, Notification,wxForm) {
+
+    .controller("BindWxController", function ($location, Notification,wxForm,queryUserExist) {
         var vm = this;
+        vm.queryUserExist=queryUserExist
         //从页面读取微信数据
         vm.wxProfile = angular.fromJson($("#wxprofile").html());
 
@@ -72,7 +77,25 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
             store: wxForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
+                //注册提交事件
+                vm.nptFormApi.addOnSubmitListen(save);
+                //设置重置事件
+                vm.nptFormApi.setOnActionListen(reset);
             }
+        };
+
+        function save() {
+            vm.queryUserExist.post().then(function (response) {
+            }, function (error) {
+                console.info(error);
+            });
+
+        };
+
+
+        function reset() {
+
+
         };
 
     }).controller("FailedController", function () {
