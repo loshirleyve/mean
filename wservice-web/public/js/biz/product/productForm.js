@@ -82,21 +82,6 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap'])
                     }
                 },
                 {
-                    key: 'introduceurl',
-                    type: 'input',
-                    templateOptions: {
-                        label: '详情链接:',
-                        maxlength: 200
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/[a-zA-z]+:\/\/[^\s]*/),
-                            message: '"详情链接必须为网址链接！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-                },
-                {
                     key: 'createby',
                     type: 'ui-select',
                     templateOptions: {
