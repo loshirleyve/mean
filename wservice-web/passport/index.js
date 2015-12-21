@@ -49,7 +49,9 @@ module.exports = function (app) {
         //TODO 通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
 
         //TODO 缺少通过Openid查找用户的方法,暂时抛出错误
-        done(new WxAuthenticationerror("无法获取用户信息"), profile);
+
+        //无法通过openid获取用户信息,表示用户还未绑定数据
+        done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
     }));
 
     //配置用户持久化策略
@@ -81,12 +83,20 @@ module.exports = function (app) {
         })
     );
 
+    //检查是否发生了微信认证错误
+    app.use(function (err, req, res, next) {
+        if (err.name === 'WxAuthenticationerror') {
+            //微信认证失败,转发到绑定微信页面
+            //将微信认证信息记录到Session
+            if (err.wxprofile) {
+                req.session.y9WxProfile = err.wxprofile;
+                res.redirect("/mobile/wx/bind");
+            } else {
+                next(error);
+            }
 
-    //app.post("/auth", passport.authenticate("local", {
-    //    successRedirect: "/app/frame",
-    //    failWithError: true, //登录失败后抛出错误
-    //    //failureMessage: "登录失败!",
-    //    failureFlash: {},
-    //    "successReturnToOrRedirect": "/app/frame"
-    //}));
+        } else {
+            next(err);
+        }
+    });
 };

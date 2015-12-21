@@ -3,12 +3,13 @@
  *
  * @api private
  */
-function WxAuthenticationerror(message, status) {
+function WxAuthenticationerror(message, wxprofile, status) {
     Error.call(this);
     Error.captureStackTrace(this, arguments.callee);
     this.name = 'WxAuthenticationerror';
     this.message = message;
     this.status = status || 401;
+    this.wxprofile = wxprofile;
 }
 
 /**
