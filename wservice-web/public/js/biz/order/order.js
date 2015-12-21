@@ -330,10 +330,11 @@ angular.module("orderApp", [
     })
     .controller("OrderDetailController",
     function ($scope, $location, $routeParams, nptSessionManager,
-                                                   OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid,
-                                                   OrderWorkorderGrid, Notification, UserListBySelectTree,
-                                                   OrgListBySelectTree, UpdateWorkOrderByBatch,
-                                                    QueryMsgCardBySourceRepos,AddMsgCardCommentRepos,UpdateWorkOrderProcess,UpdateWorkorderByProcessid) {
+                                                    OrderForm, QueryOrderList, QueryOrderInfo, OrderProductGrid,
+                                                    OrderWorkorderGrid, Notification, UserListBySelectTree,
+                                                    OrgListBySelectTree, UpdateWorkOrderByBatch,
+                                                    QueryMsgCardBySourceRepos,AddMsgCardCommentRepos,
+                                                    UpdateWorkOrderProcess,UpdateWorkorderByProcessid, nptMessageBox) {
         var vm = this;
         vm.orderid = $routeParams.id;
         //订单列表资源库
@@ -516,17 +517,48 @@ angular.module("orderApp", [
         //    $('[data-toggle="popover"]').popover();
         //});
 
-        vm.process =function(id) {
-            //获取待分配工单选择
-            var workorderids = [];
-            workorderids.push(id);
+        vm.openWorkorder = function(workorder) {
+            nptMessageBox.open({
+                title:workorder.descr,
+                content: "工单处理人为: {{$$ms.wd.processid | cacheFilter:'user':'name':'id'}}",
+                showCancel: true,
+                scope:{
+                    wd:workorder
+                },
+                action: {
+                    process: {
+                        label: "分配",
+                        ngDisabled:workorder.processid,
+                        listens: [function() {
+                            if(workorder) {
+                                vm.process(workorder.id);
+                            }
+                        }]
+                    },
+                    deliver: {
+                        label: "转交",
+                        ngDisabled:!workorder.processid,
+                        listens: [function() {
+                            if(workorder) {
+                                vm.deliver(workorder.id);
+                            }
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
 
-            if (workorderids.length > 0) {
+
+        vm.process =function(id) {
+            if (id) {
                 //弹出用户选择窗口
                 vm.selectTreeApi.open().then(function (response) {
                     if (response && response.length > 0) {
                         vm.updateWorkOrderProcess.post({
-                            workorderids: workorderids,
+                            workorderids: [id],
                             source: "so",
                             sourcevalue: vm.orderInfo.data.order.id,
                             processid: response[0].id,
@@ -556,29 +588,21 @@ angular.module("orderApp", [
         };
 
         vm.deliver =function(id) {
-            //获取待分配工单选择
-            var workorderids = [];
-            workorderids.push(id);
-
-            if (workorderids.length > 0) {
+            if (id) {
                 //弹出用户选择窗口
                 vm.selectTreeApi.open().then(function (response) {
                     if (response && response.length > 0) {
                         vm.updateWorkorderByProcessid.post({
-                            workorderids: workorderids,
+                            workorderids: [id],
                             targetprocessid: response[0].id,
                             assignedid: nptSessionManager.getSession().getUser().id
                         }).then(function () {
-                            //关闭模态框
-                            var id_ = "#"+id;
-                            $(id_).modal('hide');
-
                             Notification.success({message: '转交工单员成功.', delay: 2000});
                             //分配完成后需要刷新单据
                             vm.query();
                         }, function (error) {
                             Notification.error({
-                                title: "分配工单员错误",
+                                title: "转交工单员错误",
                                 message: error.data.cause, delay: 2000
                             });
                         });

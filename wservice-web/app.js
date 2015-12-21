@@ -21,6 +21,7 @@ var proxy = require("./proxy");
 //var repository = require("./repository");
 var instPassport = require("./inst");
 var middleware = require("./middleware");
+var wx = require("./wx");
 
 //设置视图引擎
 app.set("views", path.join(__dirname, "views"));
@@ -64,6 +65,9 @@ security(app);
 
 //4.载入中间件
 middleware(app);
+
+//加载微信API
+wx(app);
 
 // 找不到页面
 app.use(function (req, res, next) {

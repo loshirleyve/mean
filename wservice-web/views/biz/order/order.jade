@@ -184,93 +184,22 @@ block content
                             //button.btn.btn-default(type="button", data-container="body", popover, data-placement="bottom", data-content="Vivamus")
                             div.row
                                 span(ng-repeat="item_ in item.workOrderInfos")
-                                    //button.btn(style="padding:0px;border:none;margin:5px;margin-left:15px;position:relative;",type="button",data-container="body",popover, data-trigger="click", data-placement="bottom",data-html="true" , data-content="" +
-                                    //"<p><strong>名称:</strong>{{item_.name}}</p>" +
-                                    //"<p><strong>编号:</strong>{{item_.sn}}</p>" +
-                                    //"<p><strong>状态:</strong>{{item_.state | ctrlCodeFilter:'workstate':'name':'no'}}</p>" +
-                                    //"<p><strong>处理人:</strong>{{item_.processid | cacheFilter:'user':'name':'id'}}" +
-                                    //"<span ng-if='item_.processid'><a class='btn npt-btn-gray-danger btn-sm pull-right' type='button',ng-click='vm.adviser()'>分配</a></span>" +
-                                    //"</p>" +
-                                    //"<p><strong>分配人:</strong>{{item_.assignedid | cacheFilter:'user':'name':'id'}}</p>" +
-                                    //"<p><strong>描述:</strong>{{item_.descr}}</p>" +
-                                    //"<p><strong>计划开始日期:</strong>{{item_.processdate | timestampFilter:'yyyy-MM-dd'}}</p>" +
-                                    //"<p><strong>实际开始日期:</strong>{{item_.doactiondate | timestampFilter}}</p>" +
-                                    //"<p><strong>计划完成日期:</strong>{{item_.expirydate | timestampFilter:'yyyy-MM-dd'}}</p>" +
-                                    //"<p><strong>实际完成日期:</strong>{{item_.completedate | timestampFilter}}</p>")
-                                    //    //div(style="background-image:url('/image/workorder/label green.png');width:700px;height:300px;")
-                                    //    img(ng-if="item_.state == 'complete'", ng-src="/image/workorder/complete.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="item_.state == 'inservice'", ng-src="/image/workorder/inservice.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/processed.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="!item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/unprocess.png", style="width:80px;height:30px;z-index:-1;")
-                                    //    small(style="top:8px;left:5px;position:absolute;width:50px;overflow:hidden;") {{item_.descr}}
-
-
-
-                                    //button.btn(style="padding:0px;border:none;margin:5px;margin-left:15px;position:relative;",type="button", data-toggle="collapse", data-target="#{{item_.sn}}", aria-expanded="false", aria-controls="collapseExample")
-                                    //    img(ng-if="item_.state == 'complete'", ng-src="/image/workorder/complete.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="item_.state == 'inservice'", ng-src="/image/workorder/inservice.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/processed.png", style="width:80px;height:30px;")
-                                    //    img(ng-if="!item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/unprocess.png", style="width:80px;height:30px;z-index:-1;")
-                                    //    small(style="top:8px;left:5px;position:absolute;width:50px;overflow:hidden;") {{item_.descr}}
-                                    ////button.btn.btn-primary(type="button", data-toggle="collapse", data-target="#{{item_.sn}}", aria-expanded="false", aria-controls="collapseExample")
-                                    ////    | Button with data-target
-                                    //div.list-group-item-text(id = "{{item_.sn}}").collapse
-                                    //    p
-                                    //        strong 名称:
-                                    //        span {{item_.name}}
-
-
-                                    //模态框
-                                    button.btn(style="padding:0px;border:none;margin:5px;margin-left:15px;position:relative;",type="button", data-toggle="modal", data-target="#{{item_.id}}")
-                                        img(ng-if="item_.state == 'complete'", ng-src="/image/workorder/complete.png", style="width:80px;height:30px;")
-                                        img(ng-if="item_.state == 'inservice'", ng-src="/image/workorder/inservice.png", style="width:80px;height:30px;")
-                                        img(ng-if="item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/processed.png", style="width:80px;height:30px;")
-                                        img(ng-if="!item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/unprocess.png", style="width:80px;height:30px;z-index:-1;")
-                                        small(style="top:8px;left:5px;position:absolute;width:50px;overflow:hidden;") {{item_.descr}}
-                                    // Modal
-                                    div.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel" id="{{item_.id}}")
-                                        .modal-dialog(role="document")
-                                            .modal-content
-                                                .modal-header
-                                                    button.close(type="button", data-dismiss="modal", aria-label="Close")
-                                                        span(aria-hidden="true") &#215;
-                                                    h4#myModalLabel.modal-title {{item_.descr}}
-                                                .modal-body
-                                                    p
-                                                        strong 名称:
-                                                        | {{item_.name}}
-                                                    p
-                                                        strong 编号:
-                                                        | {{item_.sn}}
-                                                    p
-                                                        strong 状态:
-                                                        | {{item_.state | ctrlCodeFilter:"workstate":"name":"no"}}
-                                                    p
-                                                        strong 处理人:
-                                                        | {{item_.processid | cacheFilter:"user":"name":"id"}}
-                                                    p
-                                                        strong 分配人:
-                                                        | {{item_.assignedid | cacheFilter:"user":"name":"id"}}
-                                                    p
-                                                        strong 计划开始日期:
-                                                        | {{item_.processdate | timestampFilter:"yyyy-MM-dd"}}
-                                                    p
-                                                        strong 实际开始日期:
-                                                        | {{item_.doactiondate | timestampFilter}}
-                                                    p
-                                                        strong 计划完成日期:
-                                                        | {{item_.expirydate | timestampFilter:"yyyy-MM-dd"}}
-                                                    p
-                                                        strong 实际完成日期:
-                                                        | {{item_.completedate | timestampFilter}}
-                                                .modal-footer
-                                                    button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-                                                    button.btn.btn-primary(ng-if="item_.processid", type="button", ng-click="vm.deliver(item_.id)") 转交
-                                                    button.btn.btn-primary(ng-if="!item_.processid", type="button", ng-click="vm.process(item_.id)") 分配
-
-            //确认订单模板
-                            p {{item.inserviceName}}
-                            p 分配信息:{{item.assignedInfo}}
+                                    button.btn(style="padding:0px;border:none;margin:5px;margin-left:15px;position:relative;",type="button", data-toggle="modal", ng-click="vm.openWorkorder(item_)",,data-container="body",popover, data-trigger="hover", data-placement="bottom",data-html="true" , data-content=""+
+                                    "<p><strong>名称:</strong>{{item_.name}}</p>" +
+                                    "<p><strong>编号:</strong>{{item_.sn}}</p>" +
+                                    "<p><strong>状态:</strong>{{item_.state | ctrlCodeFilter:'workstate':'name':'no'}}</p>" +
+                                    "<p><strong>处理人:</strong>{{item_.processid | cacheFilter:'user':'name':'id'}}" +
+                                    "<p><strong>分配人:</strong>{{item_.assignedid | cacheFilter:'user':'name':'id'}}</p>" +
+                                    "<p><strong>描述:</strong>{{item_.descr}}</p>" +
+                                    "<p><strong>计划开始日期:</strong>{{item_.processdate | timestampFilter:'yyyy-MM-dd'}}</p>" +
+                                    "<p><strong>实际开始日期:</strong>{{item_.doactiondate | timestampFilter}}</p>" +
+                                    "<p><strong>计划完成日期:</strong>{{item_.expirydate | timestampFilter:'yyyy-MM-dd'}}</p>" +
+                                    "<p><strong>实际完成日期:</strong>{{item_.completedate | timestampFilter}}</p>")
+                                         img(ng-if="item_.state == 'complete'", ng-src="/image/workorder/complete.png", style="width:80px;height:30px;")
+                                         img(ng-if="item_.state == 'inservice'", ng-src="/image/workorder/inservice.png", style="width:80px;height:30px;")
+                                         img(ng-if="item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/processed.png", style="width:80px;height:30px;")
+                                         img(ng-if="!item_.processid && item_.state == 'unstart'", ng-src="/image/workorder/unprocess.png", style="width:80px;height:30px;z-index:-1;")
+                                         small(style="top:8px;left:5px;position:absolute;width:50px;overflow:hidden;") {{item_.descr}}
             div(ws-discuss="vm.msgOptions",ws-discuss-sid="vm.orderid")
 
         //确认订单模板

@@ -48,13 +48,17 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "serve-favicon": "^2.3.0",
+    "sha1": "^1.1.1",
+    "superagent": "^1.6.1",
     "util": "^0.10.3",
     "y9-mars-inst-passport": "^1.0.1",
     "y9-mars-repository": "^1.0.0",
     "y9-mars-security": "^1.0.0",
     "y9-mars-service": "^1.0.2",
     "y9-mars-util": "^1.0.2",
-    "y9-neptune": "^1.0.11"
+    "y9-neptune": "^1.0.11",
+    "y9-passport-weixin": "0.0.1",
+    "y9-wx-api": "0.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
