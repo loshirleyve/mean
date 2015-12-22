@@ -103,12 +103,12 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                 }, function (error) {
                     vm.isError = true;
                 });
-        };
+        }
 
 
         function reset() {
             vm.model = {};
-        };
+        }
 
         function addWx() {
             vm.addUserWx.post(vm.userWx).then(function (response) {
