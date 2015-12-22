@@ -64,8 +64,8 @@ block content
                                     td(ng-bind="reqParam.label")
                                     td(ng-bind="reqParam.name")
                                     td(ng-bind="reqParam.type")
-                                    td(ng-if="reqParam.validates.length")
-                                        | {{reqParam.validates[0].label}} ({{reqParam.validates[0].name}})
+                                    td(ng-if="reqParam.validates[0].label",ng-bind="reqParam.validates[0].label+'('+reqParam.validates[0].name+')'")
+                                    td(ng-if="!reqParam.validates[0].label") &nbsp;
                                     td(ng-bind="reqParam.desc")
 
                         li 响应参数:
@@ -85,7 +85,8 @@ block content
                                     td(ng-bind="resParam.label")
                                     td(ng-bind="resParam.name")
                                     td(ng-bind="resParam.type")
-                                    td(ng-bind="resParam.validates[0].label(resParam.validates[0].name)")
+                                    td(ng-if="resParam.validates[0].label",ng-bind="resParam.validates[0].label+'('+resParam.validates[0].name+')'")
+                                    td(ng-if="!resParam.validates[0].label") &nbsp;
                                     td(ng-bind="resParam.desc")
 
 
