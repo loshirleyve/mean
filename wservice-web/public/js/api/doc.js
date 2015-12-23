@@ -6,7 +6,7 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
     .factory("QueryActionList", function(nptRepository){
         return nptRepository("QueryActionList");
     })
-        .controller("ServiceDocController", function ($scope, QueryActionList, Notification) {
+    .controller("ServiceDocController", function ($scope, QueryActionList, Notification) {
         $scope.queryActionList = QueryActionList;
         $scope.model = [];
         $scope.query = function(){
