@@ -17,7 +17,7 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
                     message:err.data.cause,
                     delay:2000
                 });
-            })
+            });
         };
         $scope.query();
     });

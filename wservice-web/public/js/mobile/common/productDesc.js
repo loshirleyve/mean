@@ -33,8 +33,8 @@ angular.module("ProductDescApp", ["ui.neptune", "ui-notification", "ngRoute"])
                 Notification.error({
                     message:err.data.cause,
                     delay:2000
-                })
-            })
+                });
+            });
         };
         vm.query();
     });
