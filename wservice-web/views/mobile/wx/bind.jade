@@ -12,14 +12,11 @@ block content
             div.well
                 h3 绑定微信
                 div#wxprofile.hidden #{wxprofile}
-            div.alert.alert-warning.alert-dismissible(role="alert")
+            div.alert.alert-warning.alert-dismissible(role="alert",ng-show="vm.isError")
                 button.close(type="button",data-dismiss="alert",aria-label="Close")
                     span(aria-hidden="true")&times;
                 strong 用户名密码不匹配，请检查！
             div(npt-form="vm.wxFormOptions",model="vm.model")
-
-            pre {{vm.wxProfile | json}}
-
         script(type="text/ng-template",id="success.html")
             div.jumbotron
                 div.row

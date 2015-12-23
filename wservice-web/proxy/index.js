@@ -334,4 +334,10 @@ proxy.action("QueryActionList", {
     proxy:"Y9",
     action:"com.yun9.common.sr.service.QueryActionListService"
 });
+
+//微信
+proxy.action("AddOrUpdateUserWx", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.AddOrUpdateUserWxService"
+});
 module.exports = proxy;
