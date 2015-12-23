@@ -85,21 +85,21 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         required: true,
                         maxlength: 200
                     }
-//                },
-//                {
-//                    key: 'createby',
-//                    type: 'ui-select',
-//                    templateOptions: {
-//                        optionsAttr: "bs-options",
-//                        label: '创建人:',
-//                        disabled: true,
-//                        valueProp: "id",
-//                        labelProp: "name",
-//                        options: [],
-//                        search: ["userid"],
-//                        repository: QueryUserInfoById,
-//                        allowClear: false
-//                    }
+                },
+                {
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        label: '创建人:',
+                        disabled: true,
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById,
+                        allowClear: false
+                    }
                 }
             ]
         });
