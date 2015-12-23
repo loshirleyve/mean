@@ -210,7 +210,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         vm.reposMsgByScene = QueryMsgByScene;
         vm.reposUserInfo = QueryUserInfo;
         vm.queryInstInfo = queryInstDetail;
-        vm.currUserName;
+        vm.currUserName=angular.copy("");
         vm.model = [];
 
         vm.query = function () {
