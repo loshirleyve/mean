@@ -69,7 +69,7 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
         vm.userWx = {};
         //从页面读取微信数据
         vm.wxProfile = angular.fromJson($("#wxprofile").html());
-
+        console.info(vm.wxProfile);
         if (!vm.wxProfile) {
             $location.path("/failed");
             Notification.error({
