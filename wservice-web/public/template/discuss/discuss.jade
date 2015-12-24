@@ -1,9 +1,9 @@
-div
+div(ng-if="vm.options.queryRepository.data.id")
    div.page-header
       h4 {{vm.title}}
    div.page-body
       div.list-group.list-group-item
-         ul.media-list(ng-if="vm.options.queryRepository.data.id")
+         ul.media-list
             li.media(ng-repeat="comment in vm.options.queryRepository.data.comments",ng-init="cacheObj = vm.getCacheObj(comment.from)")
                div(ng-if="vm.currentUser.id != comment.from")
                   div.media-left
