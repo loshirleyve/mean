@@ -1,4 +1,4 @@
-div(ng-if="vm.options.queryRepository.data.id")
+div(ng-show="vm.options.queryRepository.data.id")
    div.page-header
       h4 {{vm.title}}
    div.page-body
@@ -26,5 +26,5 @@ div(ng-if="vm.options.queryRepository.data.id")
                   .media-body
                      textarea.form-control(rows="3",ng-model="vm.textareaValue",placeholder="说点什么吧..")
                   .media-right
-                     button.btn.btn-primary(style='width: 64px; height: 74px;',ng-click="vm.send()")
+                     button.btn.btn-primary(style='width: 64px; height: 74px;',ng-click="vm.send()",ng-disabled="vm.addPromise.$$state.status === 0")
                         |  发布
