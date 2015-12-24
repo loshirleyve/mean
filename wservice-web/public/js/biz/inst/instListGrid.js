@@ -25,6 +25,12 @@ angular.module("instApp.instListGrid", [])
                         }
                     ]
                 }
+            },mobile: {
+                fields: {
+                    title: "name",
+                    tip: "homepath",
+                    content: "tel"
+                }
             }
         });
     });
