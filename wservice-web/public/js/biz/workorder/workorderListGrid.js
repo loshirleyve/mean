@@ -7,8 +7,9 @@ angular.module("workorderApp.WorkorderListGrid", [])
             gridOptions: {
                 columnDefs: [
                     {field: 'sn', displayName: "工单号", width: 130},
-                    {field: 'name', displayName: "工单名称",width: 110},
-                    {field: 'state', displayName: "工单状态", width: 60, cellFilter: "ctrlCodeFilter:'workstate':'name':'no'"},
+                    {field: 'name', displayName: "名称",width: 110},
+                    {field: 'descr', displayName: "描述",width: 110},
+                    {field: 'state', displayName: "状态", width: 60, cellFilter: "ctrlCodeFilter:'workstate':'name':'no'"},
                     {field: 'assignedid', displayName: "分配人", width: 60, cellFilter: "cacheFilter:'user':'name':'id'"},
                     {field: 'processid', displayName: "处理人", width: 60, cellFilter: "cacheFilter:'user':'name':'id'"},
                     {field: 'assigneddate', displayName: "分配日期", width: 150, cellFilter:"timestampFilter"},
@@ -32,6 +33,14 @@ angular.module("workorderApp.WorkorderListGrid", [])
                             }
                         }
                     ]
+                }
+            },
+            mobile: {
+                fields: {
+                    title: "name",
+                    tip: "state|ctrlCodeFilter:'workstate':'name':'no'",
+                    content: "descr",
+                    createDate: "createdate|timestampFilter"
                 }
             }
         });

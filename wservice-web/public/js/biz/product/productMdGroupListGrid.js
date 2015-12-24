@@ -41,6 +41,11 @@ angular.module("productApp.productMdGroupListGrid", [])
                         }
                     ]
                 }
+            },mobile: {
+                fields: {
+                    title: "name",
+                    tip: "sort"
+                }
             }
         });
     });

@@ -43,6 +43,13 @@ angular.module("productApp.productListGrid", [])
                         }
                     ]
                 }
+            },mobile: {
+                fields: {
+                    title: "instid|cacheFilter:'inst':'instname':'instid'",
+                    tip: "'产品编号: '+sn",
+                    content: "'产品名称: '+name+'<br/>'+'售价: '+pricedescr+'<br/>'+'产品状态: '+(state|ctrlCodeFilter:'productstate':'name':'no')+'<br/>'+'产品类型: '+(type|ctrlCodeFilter:'producttype':'name':'no')",
+                    createDate: "createdate|timestampFilter"
+                }
             }
         });
     });
