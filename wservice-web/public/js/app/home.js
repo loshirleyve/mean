@@ -204,13 +204,13 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
 
     }).controller("SendToMeController", function ($routeParams, $location, QueryMsgByScene, Notification, QueryUserInfo, queryInstDetail) {
         var vm = this;
-        vm.fromuserid = $routeParams.fromuserid;
+        vm.fromuserid = angular.copy($routeParams.fromuserid);
         vm.fromusertype = $routeParams.fromusertype;
         vm.frominstid = $routeParams.frominstid;
         vm.reposMsgByScene = QueryMsgByScene;
         vm.reposUserInfo = QueryUserInfo;
         vm.queryInstInfo = queryInstDetail;
-        vm.modelUser = {};
+        vm.currUserName=angular.copy("");
         vm.model = [];
 
         vm.query = function () {
@@ -254,7 +254,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     vm.reposUserInfo.post({
                         userid: vm.fromuserid
                     }).then(function (response) {
-                        vm.modelUser = response.data;
+                        vm.currUserName = angular.copy(response.data.name);
                     }, function (error) {
                         Notification.error({
                             title: "获取用户信息出错",
@@ -266,9 +266,9 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                 else if (vm.fromusertype == 'inst') {
 
                     vm.queryInstInfo.post({
-                        instid: vm.fromuserid
+                        instid: vm.frominstid
                     }).then(function (response) {
-                        vm.modelUser = response.data;
+                        vm.currUserName = angular.copy(response.data.simplename);
                     }, function (error) {
                         Notification.error({
                             title: "获取机构信息出错",

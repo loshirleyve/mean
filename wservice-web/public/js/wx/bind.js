@@ -10,6 +10,9 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
         }).when("/failed", {
             templateUrl: "failed.html",
             controller: "FailedController as vm"
+        }).when("/success", {
+            templateUrl: "success.html",
+            controller: "SuccessController as vm"
         }).otherwise({
             redirectTo: "/"
         });
@@ -33,7 +36,7 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
             },
             fields: [
                 {
-                    key: 'name',
+                    key: 'userno',
                     type: 'input',
                     templateOptions: {
                         label: '用户名:',
@@ -41,7 +44,7 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                     }
                 },
                 {
-                    key: 'name',
+                    key: 'passwd',
                     type: 'input',
                     templateOptions: {
                         label: "密   码：",
@@ -53,12 +56,16 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
     }).factory("queryUserExist", function (nptRepository) {
         return nptRepository("QueryIdentificationByUsernoAndPasswd").params({
         });
+    }).factory("AddOrUpdateUserWx", function (nptRepository) {
+        return nptRepository("AddOrUpdateUserWx").params({
+        });
     })
-
-    .controller("BindWxController", function ($location, Notification,wxForm,queryUserExist) {
+    .controller("BindWxController", function ($location, Notification, wxForm, queryUserExist, AddOrUpdateUserWx) {
         var vm = this;
-        vm.queryUserExist=queryUserExist;
-        vm.isError=false;
+        vm.queryUserExist = queryUserExist;
+        vm.addUserWx = AddOrUpdateUserWx;
+        vm.isError = false;
+        vm.userWx = {};
         //从页面读取微信数据
         vm.wxProfile = angular.fromJson($("#wxprofile").html());
 
@@ -69,10 +76,10 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                 message: "无法获取微信认证信息.",
                 delay: 5000
             });
-        }else{
-
+        } else {
+            vm.userWx = angular.copy(vm.wxProfile._json);
+            vm.userWx.displayName = angular.copy(vm.wxProfile.displayName);
         }
-
         //配置表单
         vm.wxFormOptions = {
             store: wxForm,
@@ -86,19 +93,41 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
         };
 
         function save() {
-            vm.queryUserExist.post().then(function (response) {
-            }, function (error) {
-                vm.isError=true;
-            });
-
-        };
+            vm.queryUserExist.post(vm.model)
+                .then(function (response) {
+                    vm.userWx.userid = angular.copy(response.data.user.id);
+                    vm.userWx.createby = angular.copy(response.data.user.id);
+                    delete vm.userWx.privilege;
+                    delete vm.userWx.headimgurl;
+                    addWx();
+                }, function (error) {
+                    vm.isError = true;
+                });
+        }
 
 
         function reset() {
+            vm.model = {};
+        }
 
-
-        };
-
+        function addWx() {
+            vm.addUserWx.post(vm.userWx).then(function (response) {
+                $location.path("/success");
+                Notification.success({
+                    message: "绑定成功",
+                    delay: 5000
+                });
+            }, function (error) {
+                $location.path("/failed");
+                Notification.error({
+                    title: "绑定失败",
+                    message: error.data.cause,
+                    delay: 5000
+                });
+            });
+        }
     }).controller("FailedController", function () {
+
+    }).controller("SuccessController", function () {
 
     });

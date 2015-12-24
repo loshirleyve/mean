@@ -3,7 +3,7 @@
  */
 
 angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice.common"])
-    .factory("productForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByMaterialLevel,UploadSignature,AddOrUpdateFileRepo,QueryUserInfoById, RegExpValidatorFactory) {
+    .factory("productForm", function (nptFormlyStore, QueryCtrlCode, QueryImageByMaterialLevel,UploadSignature,AddOrUpdateFileRepo,QueryUserInfoById) {
         return nptFormlyStore("productForm", {
             buttons: {
                 ok: true,
@@ -43,14 +43,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '产品名称:',
                         required: true,
                         maxlength: 25
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"产品名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'saleprice',
@@ -198,7 +191,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
             ]
         });
     })
-    .factory("productSearchForm", function (nptFormlyStore,RegExpValidatorFactory) {
+    .factory("productSearchForm", function (nptFormlyStore) {
         return nptFormlyStore("productSearchForm", {
             options: {
                 formState: {
@@ -214,19 +207,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '产品名称:',
                         placeholder: "请输入产品名称",
                         maxlength: 25
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"产品名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 }
             ]
         });
     })
-    .factory("addGroupForm", function (nptFormlyStore,RegExpValidatorFactory,QueryMdProductGroup) {
+    .factory("addGroupForm", function (nptFormlyStore,QueryMdProductGroup) {
         return nptFormlyStore("addGroupForm", {
             buttons: {
                 ok: true,
@@ -257,19 +243,12 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         reversal: true,
                         searchProp:"name",
                         repository: QueryMdProductGroup
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"分组名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 }
             ]
         });
     })
-    .factory("editGroupForm", function (nptFormlyStore,RegExpValidatorFactory) {
+    .factory("editGroupForm", function (nptFormlyStore) {
         return nptFormlyStore("editGroupForm", {
             buttons: {
                 ok: true,
@@ -296,14 +275,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '分组名称:',
                         placeholder: "请输入分组名称",
                         maxlength: 10
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"分组名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'sort',
@@ -318,7 +290,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                 }
             ]
         });
-    }).factory("ProductPhaseForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,RegExpValidatorFactory) {
+    }).factory("ProductPhaseForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById) {
         return nptFormlyStore("productPhaseForm", {
             buttons: {
                 ok: true,
@@ -342,14 +314,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                     templateOptions: {
                         required: true,
                         label: '阶段名称:',
-                        maxlength: 25,
-                        validators: {
-                            format: {
-                                expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                                message: '"阶段名称不可以有特殊字符！"'
-                            }
-                        },
-                        modelOptions:{ updateOn: 'blur' }
+                        maxlength: 25
                     }
                 },
                 {
@@ -510,7 +475,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                 }
             ]
         });
-    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,QueryProductsGroup,RegExpValidatorFactory) {
+    }).factory("ProductClassifiesForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,QueryProductsGroup) {
         return nptFormlyStore("productClassifiesForm", {
             buttons: {
                 ok: true,
@@ -535,14 +500,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '分类名称:',
                         required: true,
                         maxlength: 25
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"分类名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'price',
@@ -623,7 +581,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                 }
             ]
         });
-    }).factory("ProductDescrsForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById,RegExpValidatorFactory) {
+    }).factory("ProductDescrsForm", function (nptFormlyStore, QueryCtrlCode, QueryUserInfoById) {
         return nptFormlyStore("productDescrsForm", {
             buttons: {
                 ok: true,
@@ -648,14 +606,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '标题:',
                         required: true,
                         maxlength:25
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"标题不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 },
                 {
                     key: 'type',

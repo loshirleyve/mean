@@ -40,12 +40,6 @@ angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: true,
                         label: '机构简称:'
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"机构简称不可以有特殊字符！"'
-                        }
                     }
                 },
                 {
@@ -89,7 +83,7 @@ angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
             ]
         });
     })
-    .factory("instSearchForm", function (nptFormlyStore,RegExpValidatorFactory) {
+    .factory("instSearchForm", function (nptFormlyStore) {
         return nptFormlyStore("instSearchForm", {
             options: {
 
@@ -101,14 +95,7 @@ angular.module("instApp.instForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         label: '机构名称:',
                         placeholder: "请输入机构名称"
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^([\u4e00-\u9fa5]|[a-zA-Z0-9])*$/),
-                            message: '"机构名称不可以有特殊字符！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
+                    }
                 }
             ],
             buttons: {
