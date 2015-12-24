@@ -48,7 +48,8 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                     type: 'input',
                     templateOptions: {
                         label: "密   码：",
-                        maxlength: 25
+                        type: 'password',
+                        maxlength: 10
                     }
                 }
             ]
@@ -98,7 +99,6 @@ angular.module("BindWxApp", ["ui.neptune", "ngRoute", "ui-notification"])
                     vm.userWx.userid = angular.copy(response.data.user.id);
                     vm.userWx.createby = angular.copy(response.data.user.id);
                     delete vm.userWx.privilege;
-                    delete vm.userWx.headimgurl;
                     addWx();
                 }, function (error) {
                     vm.isError = true;
