@@ -59,6 +59,14 @@ angular.module("orderApp.OrderListGrid", [])
                         }
                     ]
                 }
+            },
+            mobile: {
+                fields: {
+                    title: "buyerinstid|cacheFilter:'inst':'instname':'instid'",
+                    tip: "paystate|ctrlCodeFilter:'orderpaystate':'name':'no'",
+                    content: "(purchase|cacheFilter:'user':'name':'id')+'购买了：'+name",
+                    createDate: "createdate|timestampFilter"
+                }
             }
         });
     });
