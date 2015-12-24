@@ -28,6 +28,13 @@ angular.module("receivableApp.receivableListGrid", [])
                         }
                     ]
                 }
+            },mobile: {
+                fields: {
+                    title: "businessKey",
+                    tip: "'收款状态: '+(complete|yesOrNo)",
+                    content: "'应收金额: '+amount+'<br/>'+'已收金额: '+payamount+'<br/>'+'支付方式: '+paymodeName+'<br/>'+'确定日期: '+(expirydate|timestampFilter)",
+                    createDate: "createdate|timestampFilter"
+                }
             }
         });
     });

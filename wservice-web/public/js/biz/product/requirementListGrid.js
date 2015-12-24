@@ -14,6 +14,11 @@ angular.module("productApp.requirementListGrid", [])
                     {field: 'transfertype', displayName: "资料类型", width: 100,cellFilter: "ctrlCodeFilter:'transfertype':'name':'no'"},
                     {field: 'inputdesc', displayName: "要求描述", width: 100}
                 ]
+            },mobile: {
+                fields: {
+                    title: "attachname",
+                    content: "'交接类型: '+inputtype+'<br/>'+'资料类型: '+transfertype+'<br/>'+'要求描述: '+inputdesc"
+                }
             }
         });
     });
