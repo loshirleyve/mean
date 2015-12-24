@@ -11,6 +11,7 @@ block content
         script(type="text/ng-template",id="bind.html")
             div.well
                 h3 绑定微信
+                lable 请输入你的移办通账号和密码绑定微信账号
                 div#wxprofile.hidden #{wxprofile}
             div.alert.alert-warning.alert-dismissible(role="alert",ng-show="vm.isError")
                 button.close(type="button",data-dismiss="alert",aria-label="Close")
@@ -24,6 +25,8 @@ block content
                         img(src="/image/yun9logo.png",style="width:60px;")
                     div.col-xs-8
                         h3 绑定成功
+                        h3
+                            a(href="/auth/loginByWeixinClient") 登录
         script(type="text/ng-template",id="failed.html")
             div.jumbotron
                 h1 绑定失败

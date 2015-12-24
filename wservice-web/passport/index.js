@@ -45,13 +45,20 @@ module.exports = function (app) {
         , scope: 'snsapi_userinfo' //[公众平台-网页授权获取用户基本信息]的应用授权作用域 不同于[开放平台-网站应用微信登录]的授权URL
     }, function (accessToken, refreshToken, profile, done) {
         debug("微信客户端登录回调数据.", accessToken, refreshToken, profile);
+        //通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
+        proxy.post("QueryUserByWxInfo")
+            .params({unionid: profile.id})
+            .launch(function (response) {
+                done(null,response.data);
+            }, function (error) {
+                done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
+            });
 
-        //TODO 通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
 
         //TODO 缺少通过Openid查找用户的方法,暂时抛出错误
 
         //无法通过openid获取用户信息,表示用户还未绑定数据
-        done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
+
     }));
 
     //配置用户持久化策略
