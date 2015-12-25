@@ -44,7 +44,7 @@ angular.module('wservice.common.directive.discuss', ["ui-notification"])
                 var params = {};
                 params.msgcardid = vm.options.queryRepository.data.id;
                 params[vm.options.textProp] = vm.textareaValue;
-                vm.options.addRepository.post(params).then(function(data) {
+                vm.addPromise = vm.options.addRepository.post(params).then(function(data) {
                     Notification.info({message: '添加评论成功.', delay: 2000});
                     vm.loadComment();
                 },function(error) {

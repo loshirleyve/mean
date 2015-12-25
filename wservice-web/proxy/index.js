@@ -339,5 +339,10 @@ proxy.action("QueryActionList", {
 proxy.action("AddOrUpdateUserWx", {
     proxy:"Y9",
     action:"com.yun9.sys.user.service.AddOrUpdateUserWxService"
+}).action("QueryUserByWxInfo", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUserByWxInfoService"
 });
+
+
 module.exports = proxy;

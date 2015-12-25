@@ -1,9 +1,9 @@
-div
+div(ng-show="vm.options.queryRepository.data.id")
    div.page-header
       h4 {{vm.title}}
    div.page-body
       div.list-group.list-group-item
-         ul.media-list(ng-if="vm.options.queryRepository.data.id")
+         ul.media-list
             li.media(ng-repeat="comment in vm.options.queryRepository.data.comments",ng-init="cacheObj = vm.getCacheObj(comment.from)")
                div(ng-if="vm.currentUser.id != comment.from")
                   div.media-left
@@ -26,5 +26,5 @@ div
                   .media-body
                      textarea.form-control(rows="3",ng-model="vm.textareaValue",placeholder="说点什么吧..")
                   .media-right
-                     button.btn.btn-primary(style='width: 64px; height: 74px;',ng-click="vm.send()")
+                     button.btn.btn-primary(style='width: 64px; height: 74px;',ng-click="vm.send()",ng-disabled="vm.addPromise.$$state.status === 0")
                         |  发布
