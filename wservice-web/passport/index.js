@@ -86,7 +86,7 @@ module.exports = function (app) {
     app.get("/auth/loginByWeixinClient",
         passport.authenticate('loginByWeixinClient', {
             successRedirect: '/app/home',
-            failureRedirect: '/login'
+            failureRedirect: '/auth/login'
         })
     );
 
