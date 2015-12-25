@@ -87,7 +87,7 @@ html(ng-app='wservice.web.home')
                                 li.dropdown.tasks-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
                                         i.fa.fa-flag-o
-                                        span.label.label-danger {{vm.unStart + vm.inService}}
+                                        span.label.label-danger(ng-bind="vm.unStart + vm.inService")
                                     ul.dropdown-menu
                                         li.header 您有{{(vm.unStart + vm.inService) || 0}}个工单未完成
                                         li
@@ -96,17 +96,17 @@ html(ng-app='wservice.web.home')
                                                     a(href="javascript:void(0);")
                                                         h3
                                                             | 未开始
-                                                            small.label.label-danger.pull-right {{vm.unStart}}
+                                                            small.label.label-danger.pull-right(ng-bind="vm.unStart")
                                                 li
                                                     a(href="javascript:void(0);")
                                                         h3
                                                             | 处理中
-                                                            span.label.label-danger.pull-right {{vm.inService}}
+                                                            span.label.label-danger.pull-right(ng-bind="vm.inService")
                                                 li
                                                     a(href="javascript:void(0);")
                                                         h3
                                                             | 已完成
-                                                            small.label.label-danger.pull-right {{vm.complete}}
+                                                            small.label.label-danger.pull-right(ng-bind="vm.complete")
                                 li.dropdown.user.user-menu
                                     a.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown")
                                         //img.user-image(ng-src="{{session.user.iconPath}}", alt="User Image")
