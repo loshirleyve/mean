@@ -99,8 +99,8 @@ block content
                                     td(ng-if="!resParam.validates[0].label") &nbsp;
                                     td(ng-bind="resParam.desc")
 
-                        li 响应样例
-                            pre
+                        li 响应样例:
+                            pre(ng-if="action.outputs.paramsDefs !== null && action.outputs.paramsDefs.length !== 0")
                                 | {
                                 |    "data":{{action.outputs.paramsDefs|docDataFilter}},
                                 | }
