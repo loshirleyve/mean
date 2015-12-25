@@ -265,7 +265,11 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("AddUserByEmail", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.AddUserByEmailService"
+}).action("QueryCurrInstByUser", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryCurrInstByUserService"
 });
+
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
     proxy: "Y9",
