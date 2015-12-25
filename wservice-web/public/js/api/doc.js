@@ -9,6 +9,7 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
     .controller("ServiceDocController", function ($scope, QueryActionList, Notification) {
         $scope.queryActionList = QueryActionList;
         $scope.model = [];
+        $scope.inputParams=[];
         $scope.query = function(){
             $scope.queryActionList.post().then(function(response){
                 $scope.model = response.data;
@@ -20,4 +21,13 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
             });
         };
         $scope.query();
+    }).filter("docDataFilter",function() {
+        return function(input) {
+            if (!input) return input;
+            var output = "{\r\n";
+            angular.forEach(input,function(each) {
+                output += "      \""+ each.name +"\" : \"\",\r\n"
+            });
+            return output+"}";
+        };
     });

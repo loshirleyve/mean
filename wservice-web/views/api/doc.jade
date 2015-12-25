@@ -68,6 +68,16 @@ block content
                                     td(ng-if="!reqParam.validates[0].label") &nbsp;
                                     td(ng-bind="reqParam.desc")
 
+                        li 请求样例：
+                            pre
+                                | {
+                                |    "token": "8fc50dd14a951318ca168e40a9fa1ec78d1110e058700c9affdbe6ab5eb6b931",
+                                |    "action":"{{action.name}}",
+                                |    "header":{},
+                                |    "data":{{action.inputs.paramsDefs|docDataFilter}},
+                                | }
+
+
                         li 响应参数:
                             table.table.table-bordered.table-condensed(ng-if="action.outputs.paramsDefs.length > 0")
                                 thead
@@ -89,5 +99,10 @@ block content
                                     td(ng-if="!resParam.validates[0].label") &nbsp;
                                     td(ng-bind="resParam.desc")
 
+                        li 响应样例
+                            pre
+                                | {
+                                |    "data":{{action.inputs.paramsDefs|docDataFilter}},
+                                | }
 
 
