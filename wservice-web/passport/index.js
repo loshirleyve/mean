@@ -49,18 +49,16 @@ module.exports = function (app) {
         proxy.post("QueryUserByWxInfo")
             .params({unionid: profile.id})
             .launch(function (response) {
-                debug("通过微信Unionid获取的用户信息.", response.data)
-                done(null, response.data);
+                if (response.body.data) {
+                    debug("通过微信Unionid获取的用户信息.", response.body.data)
+                    done(null, response.data);
+                } else {
+                    done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
+                }
             }, function (error) {
                 debug("无法通过微信unionid获取用户信息.", error)
                 done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
             });
-
-
-        //TODO 缺少通过Openid查找用户的方法,暂时抛出错误
-
-        //无法通过openid获取用户信息,表示用户还未绑定数据
-
     }));
 
     //配置用户持久化策略
