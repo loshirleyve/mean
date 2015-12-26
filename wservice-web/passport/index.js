@@ -49,8 +49,10 @@ module.exports = function (app) {
         proxy.post("QueryUserByWxInfo")
             .params({unionid: profile.id})
             .launch(function (response) {
-                done(null,response.data);
+                debug("通过微信Unionid获取的用户信息.", response.data)
+                done(null, response.data);
             }, function (error) {
+                debug("无法通过微信unionid获取用户信息.", error)
                 done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
             });
 
@@ -93,6 +95,7 @@ module.exports = function (app) {
     //检查是否发生了微信认证错误
     app.use(function (err, req, res, next) {
         if (err.name === 'WxAuthenticationerror') {
+            debug("微信认证失败,转发到绑定微信页面", err);
             //微信认证失败,转发到绑定微信页面
             //将微信认证信息记录到Session
             if (err.wxprofile) {
