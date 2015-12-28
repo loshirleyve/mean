@@ -28,6 +28,7 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
             angular.forEach(input,function(each) {
                 output += "      \""+ each.name +"\" : \"\",\r\n"
             });
+            output = output.substring(0,output.Length-1);
             return output+"}";
         };
     });
