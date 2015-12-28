@@ -2,7 +2,7 @@
  * Created by leon on 15/12/28.
  */
 
-
+var service = require("y9-mars-service");
 var proxy = service.Proxy();
 
 exports = module.exports = function () {
