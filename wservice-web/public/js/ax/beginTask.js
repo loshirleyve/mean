@@ -22,17 +22,19 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
             }
         });
 
+    }).factory("KitActionQuery", function (nptRepository) {
+        return nptRepository("KitActionQuery");
     }).factory("QueryWorkorderInfo", function (nptRepository) {
         return nptRepository("queryWorkorderDetail");
     }).factory("UpdateWorkOrderInserviceById", function (nptRepository) {
         return nptRepository("updateWorkOrderInserviceById");
     })
-    .controller("AXBeginTaskController", function ($routeParams, QueryWorkorderInfo, UpdateWorkOrderInserviceById, StartWorkorderForm, nptSessionManager) {
+    .controller("AXBeginTaskController", function ($routeParams,KitActionQuery, QueryWorkorderInfo, UpdateWorkOrderInserviceById, StartWorkorderForm, nptSessionManager,Notification) {
         var vm = this;
         vm.code = $routeParams.code;
+        vm.model={};
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
-        vm.workorderid = "10000002387500";
         //表单配置
         vm.startWorkorderOptions = {
             store: StartWorkorderForm,
@@ -40,6 +42,24 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
                 vm.nptFormApi = nptFormApi;
             }
         };
+
+        if(vm.code)
+        {
+            KitActionQuery.post({
+                code: vm.code
+            }).then(function (response) {
+                vm.params = angular.fromJson(response.data.params);
+                vm.workorderid=vm.params.workorderid;
+                vm.query();
+            }, function (error) {
+                Notification.error({
+                    title: "获取工单id错误.",
+                    message: error.data.cause,
+                    dealy: 5000
+                });
+            });
+        }
+
         //查询工单
         vm.query = function () {
 
@@ -47,6 +67,7 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
                 vm.workorderInfo.post({
                     workorderid: vm.workorderid
                 }).then(function (response) {
+                    vm.model=response.data;
                 }, function (error) {
                     Notification.error({
                         title: '查询工单失败',
@@ -58,15 +79,22 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
             }
         };
 
+        vm.show=function()
+        {
+            if(vm.model && vm.model.workOrder.state==='unstart')
+            {
+                return true;
+            }
+            return false;
+        };
+
         vm.startWorkorder = function () {
             var params = {};
             var workorderids = [];
 
             workorderids.push(vm.workorderid);
 
-            console.info(vm.model);
-
-            params.postscript = vm.model.postscript;
+            params.postscript = vm.postscript;
             params.workorderids = workorderids;
             params.userid = nptSessionManager.getSession().getUser().id;
 
@@ -76,7 +104,7 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
                     replaceMessage: true,
                     delay: 2000
                 });
-
+                vm.query();
             }, function (error) {
                 Notification.error({
                     title: '工单开始失败',
@@ -88,7 +116,8 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
 
         };
 
-        vm.query();
+
+
     }).controller("AXTaskDetailController", function ($routeParams, QueryWorkorderInfo, WorkorderAttachmentGrid, WorkorderCommentGrid) {
         var vm = this;
         //工单信息资源库
