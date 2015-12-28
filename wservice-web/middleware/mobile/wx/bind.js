@@ -7,7 +7,7 @@ module.exports = function () {
 
         res.render("mobile/wx/bind", {
             "wxprofile": JSON.stringify(req.session.y9WxProfile),
-            "returnTo" : req.session.returnTo || "/auth/loginByWeixinClient"
+            "returnTo" : req.session.returnTo || "/app/home"
         });
 
 

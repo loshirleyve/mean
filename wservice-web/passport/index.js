@@ -81,14 +81,15 @@ module.exports = function (app) {
         successRedirect: "/app/frame",
         failureRedirect: "/auth/login",
         failureFlash: {},
-        "successReturnToOrRedirect": "/app/frame"
+        "successReturnToOrRedirect": "/"
     }));
 
     //在微信客户端登录，使用/auth/loginByWeixinClient
     app.get("/auth/loginByWeixinClient",
         passport.authenticate('loginByWeixinClient', {
             successRedirect: '/app/home',
-            failureRedirect: '/auth/login'
+            failureRedirect: '/auth/login',
+            "successReturnToOrRedirect": "/app/home"
         })
     );
 
