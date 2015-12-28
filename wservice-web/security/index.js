@@ -23,7 +23,10 @@ module.exports = function (app) {
                 done(false);
             }
         },
-        failureRedirect: "/auth/login"
+        failureRedirect: {
+            default:"/auth/login",
+            weixin:"/auth/loginByWeixinClient"
+        }
     }));
 
     //角色检查过滤器

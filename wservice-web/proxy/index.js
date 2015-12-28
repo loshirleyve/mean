@@ -274,6 +274,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 proxy.action("QueryInstRoleNaviService", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.QueryInstRoleNaviService"
+}).action("QueryInstRoleNaviByUseridAndInstid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstRoleNaviByUseridAndInstidService"
 });
 
 /*查询文件*/
