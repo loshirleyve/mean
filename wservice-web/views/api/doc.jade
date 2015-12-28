@@ -8,7 +8,7 @@ block titleContent
 block content
     script(src="/js/api/doc.js")
     div(ng-app="ServiceDocApp")
-        div(ng-controller="ServiceDocController")
+        div(ng-controller="ServiceDocController as vm")
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
                     div.navbar-header
@@ -82,10 +82,11 @@ block content
                                 div.form-group(ng-repeat="reqParam in action.inputs.paramsDefs")
                                     label.col-sm-2.control-label(ng-bind="reqParam.label")
                                     div.col-sm-9
-                                        input.form-control
+                                        input.form-control(ng-model="action.inputs.paramsDefs.model[reqParam.name]")
                                 div.col-sm-2
                                 div.col-sm-10
-                                    button.btn.btn-default.submit(ng-if="action.inputs.paramsDefs && action.inputs.paramsDefs.length") 提交
+                                    button.btn.btn-default(ng-if="action.inputs.paramsDefs && action.inputs.paramsDefs.length",ng-click="vm.invoke(action)") 测试服务
+                            pre(ng-if="action.inputs.paramsDefs.response") {{action.inputs.paramsDefs.response |json}}
 
 
                         li 响应参数:
