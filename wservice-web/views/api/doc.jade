@@ -77,6 +77,16 @@ block content
                                 |    "data":{{action.inputs.paramsDefs|docDataFilter}}
                                 | }
 
+                        li 请求测试：
+                            form.form-horizontal.row
+                                div.form-group(ng-repeat="reqParam in action.inputs.paramsDefs")
+                                    label.col-sm-2.control-label(ng-bind="reqParam.label")
+                                    div.col-sm-9
+                                        input.form-control
+                                div.col-sm-2
+                                div.col-sm-10
+                                    button.btn.btn-default.submit(ng-if="action.inputs.paramsDefs && action.inputs.paramsDefs.length") 提交
+
 
                         li 响应参数:
                             table.table.table-bordered.table-condensed(ng-if="action.outputs.paramsDefs.length > 0")
