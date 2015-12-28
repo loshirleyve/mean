@@ -27,7 +27,7 @@ module.exports = function (app) {
             proxy.post("QueryIdentificationByUsernoAndPasswd")
                 .params({userno: username, passwd: password})
                 .launch(function (response) {
-                    done(null, response.body.data);
+                    done(null, response.body.data.user);
                 }, function (error) {
                     done(null, false, {
                         message: error.message
@@ -49,16 +49,16 @@ module.exports = function (app) {
         proxy.post("QueryUserByWxInfo")
             .params({unionid: profile.id})
             .launch(function (response) {
-                done(null,response.data);
+                if (response.body.data) {
+                    debug("通过微信Unionid获取的用户信息.", response.body.data)
+                    done(null, response.body.data);
+                } else {
+                    done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
+                }
             }, function (error) {
+                debug("无法通过微信unionid获取用户信息.", error)
                 done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
             });
-
-
-        //TODO 缺少通过Openid查找用户的方法,暂时抛出错误
-
-        //无法通过openid获取用户信息,表示用户还未绑定数据
-
     }));
 
     //配置用户持久化策略
@@ -69,9 +69,11 @@ module.exports = function (app) {
     //配置用户读取策略
     passport.deserializeUser(function (user, done) {
         debug("登录获取用户数据.", user);
-        var dUser = y9MarsUtil.Merge({}, user.user);
-        dUser.insts = user.insts;
-        done(null, dUser);
+        //TODO 获取用户机构信息
+
+        //TODO 获取用户角色信息
+
+        done(null, user);
     });
 
     //配置登录访问路由,对应本地登录策略
@@ -93,6 +95,7 @@ module.exports = function (app) {
     //检查是否发生了微信认证错误
     app.use(function (err, req, res, next) {
         if (err.name === 'WxAuthenticationerror') {
+            debug("微信认证失败,转发到绑定微信页面", err);
             //微信认证失败,转发到绑定微信页面
             //将微信认证信息记录到Session
             if (err.wxprofile) {
