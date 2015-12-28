@@ -50,7 +50,7 @@ module.exports = function (app) {
             .params({unionid: profile.id})
             .launch(function (response) {
                 if (response.body.data) {
-                    debug("通过微信Unionid获取的用户信息.", response.body.data)
+                    debug("通过微信Unionid获取的用户信息.", response.body.data);
                     done(null, response.body.data);
                 } else {
                     done(new WxAuthenticationerror("无法获取用户信息", profile), profile);
