@@ -146,7 +146,7 @@ html(ng-app='wservice.web.home')
                                     span(style="font-weight:500") {{menu.name}}
                                     i.fa.fa-angle-left.pull-right
                                 ul.treeview-menu.menu-open
-                                    li(ng-repeat='item in menu.items',ng-class="{'active':item.selected}")
+                                    li(ng-repeat='item in menu.children',ng-class="{'active':item.selected}")
                                         a(id='mno_{{item.no}}',href="javascript:void(0);", ng-click='vm.navigateMenu.navigateTo(item)',style="font-weight:500")
                                             i.fa.fa-circle-o
                                             | {{item.name}}

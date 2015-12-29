@@ -24,7 +24,7 @@ exports = module.exports = function () {
         }
 
         if (userId && instId) {
-            proxy.post("QueryInstRoleNaviByUseridAndInstid")
+            proxy.post("QueryInstRoleNaviByUseridAndInstidAndDevice")
                 .params({
                     instid:instId,
                     userid:userId,
