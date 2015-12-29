@@ -48,7 +48,7 @@ module.exports = function (app) {
     //接入验证,Api中已经包括了验证
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
         var message = req.weixin;
-        if (message === '功能') {
+        if (message.Content === '功能') {
             res.wait('function');
         } else {
             res.reply('你好!欢迎使用移办通!');
