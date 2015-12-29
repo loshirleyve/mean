@@ -6,7 +6,7 @@
 
 module.exports = function () {
     return function (req, res, next) {
-        var path = req.body['path'];
+        var path = req.param('path');
         next(path);
     }
 };
