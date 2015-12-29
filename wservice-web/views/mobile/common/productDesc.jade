@@ -10,13 +10,14 @@ block content
     div(ng-app="ProductDescApp")
         div(ng-view)
         script(id="productDesc.html",type="text/ng-template")
-            H1 产品详情
+            H3 产品详情
             div(ng-repeat="product in vm.model")
-                div.page-header
-                    pre(ng-bind="product.descr", style="color:white;font-size:14px;border:0;background: -webkit-linear-gradient(left,rgba(217,83,79,1),rgba(217,83,79,0));" +
-                                                "background: -o-linear-gradient(right,rgba(217,83,79,1),rgba(217,83,79,0));" +
-                                                "background: -moz-linear-gradient(right,rgba(217,83,79,1),rgba(217,83,79,0));" +
-                                                "background: linear-gradient(to right, rgba(217,83,79,1), rgba(217,83,79,0));")
-                div.page-body
+                div
+                    h3(ng-bind="product.descr", style="line-height:200%;margin-left:-15px;padding-left:10px;color:white;font-size:16px;border:0;background: -webkit-linear-gradient(left,rgba(233, 75, 53,1),rgba(233, 75, 53,0));" +
+                                                "background: -o-linear-gradient(right,rgba(233, 75, 53,1),rgba(233, 75, 53,0));" +
+                                                "background: -moz-linear-gradient(right,rgba(233, 75, 53,1),rgba(233, 75, 53,0));" +
+                                                "background: linear-gradient(to right, rgba(233, 75, 53,1), rgba(233, 75, 53,0));")
+                div.page-body.row(style="padding-left:10px")
                     p(ng-if="product.type==='text'", ng-bind-html="product.descrvalue")
-                    img(ng-if="product.type==='img'", npt-image="product.descrvalue", npt-image-options="vm.imageOptions")
+                    div.col-sm-12.col-md-6
+                        img(style="width:100%",ng-if="product.type==='img'", npt-image="product.descrvalue", npt-image-options="vm.imageOptions")
