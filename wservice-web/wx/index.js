@@ -115,6 +115,9 @@ module.exports = function (app) {
 
     //接入验证,Api中已经包括了验证
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
+        if (!req.isAuthenticated()) {
+            return res.reply("请先<a href='http://www.yun9.com/biz/order' target='_blank'>登录</a><p></p>hello<br/>dddd");
+        }
         var message = req.weixin;
         var content = message.Content;
         if (content === '功能') {
