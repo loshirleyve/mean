@@ -22,17 +22,13 @@ module.exports = function (app) {
         var menus = [];
 
         menus.push({
-            title: '客户列表',
-            description: '查看客户列表.',
-            picurl: 'http://www.yun9.com/image/yun9logo.png',
-            url: BASE_URL + 'client'
+            type: 'text',
+            content: BASE_URL + 'client'
         });
 
         menus.push({
-            title: '产品列表',
-            description: '查看产品列表.',
-            picurl: 'http://www.yun9.com/image/yun9logo.png',
-            url: BASE_URL + 'product'
+            type: 'text',
+            content: BASE_URL + 'product'
         });
 
         return menus;
