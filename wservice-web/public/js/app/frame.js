@@ -79,8 +79,8 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
             findByName: function (name) {
                 var tempMenuItem;
                 angular.forEach(self.menus, function (menu) {
-                    if (menu.items) {
-                        angular.forEach(menu.items, function (menuItem) {
+                    if (menu.children) {
+                        angular.forEach(menu.children, function (menuItem) {
                             if (menuItem.no === name) {
                                 tempMenuItem = menuItem;
                             }
@@ -93,8 +93,8 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                 //将所有设置为非选择状态
                 angular.forEach(self.menus, function (menu) {
                     menu.selected = false;
-                    if (menu.items) {
-                        angular.forEach(menu.items, function (menuItem) {
+                    if (menu.children) {
+                        angular.forEach(menu.children, function (menuItem) {
                             menuItem.selected = false;
                         });
                     }
@@ -104,8 +104,8 @@ angular.module("wservice.web.home", ["ui.neptune", "ngRoute", "wservice.common"]
                     //设置当前选择项
                     angular.forEach(self.menus, function (menu) {
                         var parent = menu;
-                        if (menu.items) {
-                            angular.forEach(menu.items, function (menuItem) {
+                        if (menu.children) {
+                            angular.forEach(menu.children, function (menuItem) {
                                 if (item.no === menuItem.no) {
                                     parent.selected = true;
                                     menuItem.selected = true;
