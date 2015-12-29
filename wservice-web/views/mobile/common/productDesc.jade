@@ -17,6 +17,7 @@ block content
                                                 "background: -o-linear-gradient(right,rgba(233, 75, 53,1),rgba(233, 75, 53,0));" +
                                                 "background: -moz-linear-gradient(right,rgba(233, 75, 53,1),rgba(233, 75, 53,0));" +
                                                 "background: linear-gradient(to right, rgba(233, 75, 53,1), rgba(233, 75, 53,0));")
-                div.page-body
-                    p(style="line-height:200%", ng-if="product.type==='text'", ng-bind-html="product.descrvalue")
-                    img(ng-if="product.type==='img'", npt-image="product.descrvalue", npt-image-options="vm.imageOptions")
+                div.page-body.row
+                    p(ng-if="product.type==='text'", ng-bind-html="product.descrvalue")
+                    div.col-sm-12.col-md-6
+                        img(style="width:100%",ng-if="product.type==='img'", npt-image="product.descrvalue", npt-image-options="vm.imageOptions")
