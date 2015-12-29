@@ -13,6 +13,7 @@ exports = module.exports = function () {
         /** 获取请求参数*/
         var userId = req.body['userId'];
         var instId = req.body['instId'];
+        var device = req.body['device'] || "web";
 
         /**如果没有如此则使用当前登录用户信息*/
         if (!userId && req.isAuthenticated()) {
@@ -28,7 +29,7 @@ exports = module.exports = function () {
                 .params({
                     instid:instId,
                     userid:userId,
-                    device:"web"
+                    device:device
                 }).launch(function (response) {
                     res.send(response.body.data);
                 }, function (error) {

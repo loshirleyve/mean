@@ -6,7 +6,7 @@ var wxApi = require("y9-wx-api");
 var debug = require("debug")("y9-wservice-wx-gateway")
 module.exports = function (app) {
 
-    var BASE_URL = "http://www.yun9.com/biz/";
+    var BASE_URL = "http://www.yun9.com/mobile/wx/redirectMenu?path=/biz/";
 
     var config = {
         token: 'Sybase12',
@@ -115,9 +115,6 @@ module.exports = function (app) {
 
     //接入验证,Api中已经包括了验证
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
-        if (!req.isAuthenticated()) {
-            return res.reply("请先<a href='http://www.yun9.com/biz/order' target='_blank'>登录</a><p></p>hello<br/>dddd");
-        }
         var message = req.weixin;
         var content = message.Content;
         if (content === '功能') {
