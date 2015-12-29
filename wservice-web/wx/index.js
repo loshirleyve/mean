@@ -23,13 +23,11 @@ module.exports = function (app) {
 
         menus.push({
             title: '客户列表',
-            description: '查看客户列表.',
             url: BASE_URL + 'client'
         });
 
         menus.push({
             title: '产品列表',
-            description: '查看产品列表.',
             url: BASE_URL + 'product'
         });
 
@@ -45,25 +43,21 @@ module.exports = function (app) {
 
         menus.push({
             title: '素材管理',
-            description: '查看素材管理.',
             url: BASE_URL + 'file-material'
         });
 
         menus.push({
             title: '系统文件',
-            description: '查看系统文件.',
             url: BASE_URL + 'file-sys'
         });
 
         menus.push({
             title: '用户文件',
-            description: '查看客户列表.',
             url: BASE_URL + 'file-user'
         });
 
         menus.push({
             title: '机构列表',
-            description: '查看机构列表.',
             url: BASE_URL + 'inst'
         });
 
@@ -80,19 +74,16 @@ module.exports = function (app) {
 
         menus.push({
             title: '订单中心',
-            description: '查看订单中心.',
             url: BASE_URL + 'order'
         });
 
         menus.push({
             title: '工单中心',
-            description: '查看工单中心.',
             url: BASE_URL + 'workorder'
         });
 
         menus.push({
             title: '收款列表',
-            description: '查看收款列表.',
             url: BASE_URL + 'receivable'
         });
 
