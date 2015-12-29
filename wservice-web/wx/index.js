@@ -114,9 +114,9 @@ module.exports = function (app) {
      * @param dest
      */
     function copyArray(src, dest) {
-        src.forEach(function (item) {
-            dest.push(item);
-        });
+        for (var i = 0;i < src.length;i++) {
+            dest.push(src[i]);
+        }
     }
 
     /**
