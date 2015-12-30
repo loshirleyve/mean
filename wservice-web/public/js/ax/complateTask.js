@@ -25,7 +25,6 @@ angular.module("AXCompleteTaskApp", ["ui.neptune", "workorderApp.workorderForm",
         vm.code = $routeParams.code;
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
-        vm.workorderid = "10000002387500";
         //数据模型
         vm.model = {};
 
