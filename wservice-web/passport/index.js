@@ -27,7 +27,9 @@ module.exports = function (app) {
             proxy.post("QueryIdentificationByUsernoAndPasswd")
                 .params({userno: username, passwd: password})
                 .launch(function (response) {
-                    done(null, response.body.data.user);
+                    var user = response.body.data.user;
+                    user.insts = response.body.data.insts;
+                    done(null, user);
                 }, function (error) {
                     done(null, false, {
                         message: error.message

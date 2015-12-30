@@ -6,37 +6,64 @@ var instPassport = require("y9-mars-inst-passport");
 var proxy = require("../proxy");
 var express = require("express");
 var router = express.Router();
+var Q = require("q");
 
 module.exports = function (app) {
 
-    function loadInstRole(instData, user, done) {
+    function loadInstRole(inst, user) {
+        var defered = Q.defer();
         proxy.post("queryInstRolesByUseridAndInstid")
             .params({
-                instid: instData.id,
+                instid: inst,
                 userid: user.id
             }).launch(function (response) {
-                instData.roles = response.body.data;
-                done(null, instData);
+                defered.resolve(response.body.data);
             }, function (error) {
-                done(new Error("无法获取机构角色" + error));
+                defered.reject(new Error("无法获取机构角色：" + error.message));
             });
+        return defered.promise;
     }
 
-    instPassport.deserializeUser(function (inst, user, done) {
-        //读取机构信息
+    function updateCurrentInst(int, user) {
+        var defered = Q.defer();
+        proxy.post("UpdateUserByCurrinstid")
+            .params({
+                currinstid: int,
+                userid: user.id
+            }).launch(function (response) {
+                defered.resolve(response.body.data);
+            }, function (error) {
+                defered.reject(new Error("更新当前机构错误：" + error.message));
+            });
+        return defered.promise;
+    }
+
+    function queryInst(inst) {
+        var defered = Q.defer();
         proxy.post("queryInstDetail").params({
             "instid": inst
         }).launch(function (response) {
             var instData = response.body.data;
             if (instData) {
-                loadInstRole(instData, user, done);
+                defered.resolve(instData);
             } else {
-                done(new Error("不存在的机构:" + inst));
+                defered.reject(new Error("不存在的机构：" + inst));
             }
-
         }, function (error) {
-            done(new Error(error.message));
+            defered.reject(new Error("不存在的机构：" + error.message));
         });
+        return defered.promise;
+    }
+
+    instPassport.deserializeUser(function (inst, user, done) {
+        Q.all([queryInst(inst), loadInstRole(inst, user), updateCurrentInst(inst, user)])
+            .then(function (ress) {
+                var instData = ress[0];
+                instData.roles = ress[2];
+                done(null, instData);
+            }, function (error) {
+                done(error);
+            });
     });
 
     app.use(instPassport.initialize());

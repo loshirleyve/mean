@@ -226,6 +226,10 @@ proxy.action("updateInst", {
     proxy: "Y9",
     action: "com.yun9.sys.inst.serivce.UpdateInstService"
 });
+proxy.action("UpdateUserByCurrinstid", {
+    proxy: "Y9",
+    action: "com.yun9.sys.user.service.UpdateUserByCurrinstidService"
+});
 
 //收款
 proxy.action("QueryPayRegisters", {
