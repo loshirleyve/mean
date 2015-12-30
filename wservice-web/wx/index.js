@@ -124,7 +124,7 @@ module.exports = function (app) {
         } else if (content === '基础信息') {
             res.reply(getBaseinfoMenus());
         } else if (content === '通用设置') {
-            res.reply(getSetupMenus());auth/loginByWeixinClient
+            res.reply(getSetupMenus());
         } else if (content === '业务中心') {
             res.reply(getBaseinfoMenus());
         } else {
