@@ -352,4 +352,10 @@ proxy.action("AddOrUpdateUserWx", {
 });
 
 
+//合同
+proxy.action("queryContractsByInstid", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryContractsByProjectidService"
+});
+
 module.exports = proxy;
