@@ -68,25 +68,6 @@ block content
                                     td(ng-if="!reqParam.validates[0].label") &nbsp;
                                     td(ng-bind="reqParam.desc")
 
-                        li 请求样例：
-                            pre
-                                | {
-                                |    "token": "8fc50dd14a951318ca168e40a9fa1ec78d1110e058700c9affdbe6ab5eb6b931",
-                                |    "action":"{{action.name}}",
-                                |    "header":{},
-                                |    "data":{{action.inputs.paramsDefs|docDataFilter}}
-                                | }
-
-                        li 请求测试：
-                            form.form-horizontal.row
-                                div.form-group(ng-repeat="reqParam in action.inputs.paramsDefs")
-                                    label.col-sm-2.control-label(ng-bind="reqParam.label")
-                                    div.col-sm-9
-                                        input.form-control(ng-model="action.inputs.paramsDefs.model[reqParam.name]")
-                                div.col-sm-2
-                                div.col-sm-10
-                                    button.btn.btn-default(ng-if="action.inputs.paramsDefs && action.inputs.paramsDefs.length",ng-click="vm.invoke(action)") 测试服务
-                            pre(ng-if="action.inputs.paramsDefs.response") {{action.inputs.paramsDefs.response |json}}
 
 
                         li 响应参数:
@@ -116,4 +97,30 @@ block content
                                 |    "data":{{action.outputs.paramsDefs|docDataFilter}},
                                 | }
 
-
+                        li
+                            ul.nav.nav-tabs(role="tablist")
+                                li.active(role="presentation")
+                                    a(href="#{{action.desc +'example'}}", aria-controls="example", role="tab", data-toggle="tab", aria-expanded="true") 请求样例
+                                li(role="presentation")
+                                    a(href="#{{action.desc +'test'}}", aria-controls="test", role="tab", data-toggle="tab") 请求测试
+                            div.tab-content
+                                div.tab-pane.fade.in.active(role="tabpanel", aria-labelledby="example-tab", id="{{action.desc +'example'}}")
+                                    pre
+                                        | {
+                                        |    "token": "8fc50dd14a951318ca168e40a9fa1ec78d1110e058700c9affdbe6ab5eb6b931",
+                                        |    "action":"{{action.name}}",
+                                        |    "header":{},
+                                        |    "data":{{action.inputs.paramsDefs|docDataFilter}}
+                                        | }
+                                div.tab-pane.fade(role="tabpanel", aria-labelledby="test-tab", id="{{action.desc +'test'}}")
+                                    form.form-horizontal.row
+                                        div.form-group(ng-repeat="reqParam in action.inputs.paramsDefs")
+                                            label.col-sm-2.control-label(ng-bind="reqParam.label")
+                                            div.col-sm-9
+                                                input.form-control(ng-model="action.inputs.paramsDefs.model[reqParam.name]")
+                                        div.col-sm-2
+                                        div.col-sm-10(ng-if="!(vm.result && vm.result.$$state.status === 0)")
+                                            button.btn.btn-default(ng-if="action.inputs.paramsDefs && action.inputs.paramsDefs.length",ng-click="vm.invoke(action)") 测试服务
+                                        div.col-sm-10(ng-if="vm.result && vm.result.$$state.status === 0")
+                                            p 正在加载，请稍后...
+                                    pre(ng-if="action.inputs.paramsDefs.response") {{action.inputs.paramsDefs.response |json}}
