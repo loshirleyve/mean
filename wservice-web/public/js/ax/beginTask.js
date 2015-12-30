@@ -12,14 +12,6 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
                     return nptSession();
                 }
             }
-        }).when("/detail/:id", {
-            controller: "AXTaskDetailController as vm",
-            templateUrl: "detail.html",
-            resolve: {
-                sessionData: function (nptSession) {
-                    return nptSession();
-                }
-            }
         });
 
     }).factory("KitActionQuery", function (nptRepository) {
@@ -118,55 +110,4 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
 
 
 
-    }).controller("AXTaskDetailController", function ($routeParams, QueryWorkorderInfo, WorkorderAttachmentGrid, WorkorderCommentGrid) {
-        var vm = this;
-        //工单信息资源库
-        vm.workorderInfo = QueryWorkorderInfo;
-        vm.workorderid = "10000002387500";
-
-        //数据模型
-        vm.modelAttachment = [];
-        vm.modelComment = [];
-
-        //配置工单资料
-        vm.workorderAttachmentOptions = {
-            store: WorkorderAttachmentGrid,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-            }
-        };
-
-        //配置工单评价
-        vm.workorderCommentOptions = {
-            store: WorkorderCommentGrid,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-            }
-        };
-        //查询工单
-        vm.query = function () {
-
-            if (vm.workorderid) {
-                vm.workorderInfo.post({
-                    workorderid: vm.workorderid
-                }).then(function (response) {
-                    vm.modelAttachment = response.data.orderAttachments;
-                    vm.modelComment = response.data.workorderComment;
-
-                    //获取用户头像id
-                    if (vm.modelComment) {
-                        var commentUserId = vm.modelComment.senderid;
-                        vm.commentUserUrl = response.cache.user[commentUserId].url;
-                    }
-                }, function (error) {
-                    Notification.error({
-                        title: '查询工单失败',
-                        message: error.data.cause,
-                        replaceMessage: true,
-                        delay: 5000
-                    });
-                });
-            }
-        };
-        vm.query();
     });
