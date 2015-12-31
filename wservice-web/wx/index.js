@@ -118,7 +118,7 @@ module.exports = function (app) {
         for (var i = 0;i < menus.length;i++) {
             str += "点击<a href='"+menus[i].url+"'>这里</a>查看["+menus[i].title+"]";
             if (i != menus.length -1) {
-                str += "\n";
+                str += "\n\n";
             }
         }
         return str;
