@@ -3,7 +3,7 @@
 
 extends ../../layout/layout-bizpage
 block titleContent
-    title 工单管理
+    title 合同管理
 block content
     script(src="/js/biz/contract/contractListGrid.js")
     script(src="/js/biz/contract/addContractForm.js")
@@ -35,7 +35,7 @@ block content
                     div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li
-                                a(href="#") 新增合同
+                                a(href="#/addContract") 新增合同
             div(npt-grid="vm.contractListGridOptions",model="vm.queryListService.contractList.data")
 
 
@@ -79,4 +79,4 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.addClientFormOptions",model="vm.model")
+                div(npt-form="vm.addContractFormOptions",model="vm.model")

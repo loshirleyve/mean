@@ -2,7 +2,7 @@
  * Created by shirley on 15/11/3.
  */
 
-angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "wservice.common", "ngRoute", "ui-notification"])
+angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "contractApp.addContractForm", "wservice.common", "ngRoute", "ui-notification"])
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
@@ -16,7 +16,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "ws
                 }
             })
             .when("/addContract", {
-                controller: "contractListController as vm",
+                controller: "addContractController as vm",
                 templateUrl: "addContract.html",
                 resolve:{
                     sessionData:function(nptSession){
@@ -76,10 +76,10 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "ws
     .controller("addContractController", function($scope, $http, $location, AddContractForm, AddOrUpdateContract){
         var vm = this;
         vm.clientid = {};
-        vm.addClient = AddOrUpdateInstClients;
+        vm.addClient = AddOrUpdateContract;
 
         //新增客户表单配置
-        vm.addClientFormOptions = {
+        vm.addContractFormOptions = {
             store:AddContractForm,
             onRegisterApi: function(nptFormApi){
                 vm.nptFormApi = nptFormApi;
