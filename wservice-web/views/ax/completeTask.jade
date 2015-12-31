@@ -76,4 +76,4 @@ block content
                         dd {{vm.model.workOrder.duty | timestampFilter}}
                         dt 创建日期:
                         dd {{vm.model.workOrder.createdate | timestampFilter}}
-            div(npt-form="vm.completeWorkorderOptions",model="vm.postscript")
+            div(npt-form="vm.completeWorkorderOptions",model="vm.postscript",ng-show="vm.show();")

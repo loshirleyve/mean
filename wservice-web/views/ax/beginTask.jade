@@ -81,6 +81,6 @@ block content
                         dt 创建日期:
                         dd {{vm.model.workOrder.createdate | timestampFilter}}
 
-            div(npt-form="vm.startWorkorderOptions",model="vm.postscript")
+            div(npt-form="vm.startWorkorderOptions",model="vm.postscript",ng-show="vm.show();")
 
 
