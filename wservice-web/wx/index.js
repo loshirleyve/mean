@@ -118,7 +118,7 @@ module.exports = function (app) {
         var message = req.weixin;
         var content = message.Content;
         if (content == "登录") {
-            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
+            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>\r\n进行登录");
         }else if (content === '功能') {
             res.reply(getAllMenus());
         } else if (content === '基础信息') {
