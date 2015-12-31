@@ -6,7 +6,7 @@ var wxApi = require("y9-wx-api");
 var debug = require("debug")("y9-wservice-wx-gateway")
 module.exports = function (app) {
 
-    var BASE_URL = "http://www.yun9.com/mobile/wx/redirectMenu?path=/biz/";
+    var BASE_URL = "http://www.yun9.com/biz/";
 
     var config = {
         token: 'Sybase12',
