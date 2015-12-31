@@ -360,6 +360,9 @@ proxy.action("AddOrUpdateUserWx", {
 proxy.action("queryContractsByInstid", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryContractsByProjectidService"
+}).action("addOrUpdateContract", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateContractService"
 });
 
 module.exports = proxy;

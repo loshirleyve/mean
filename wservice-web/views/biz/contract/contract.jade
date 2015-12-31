@@ -6,6 +6,7 @@ block titleContent
     title 工单管理
 block content
     script(src="/js/biz/contract/contractListGrid.js")
+    script(src="/js/biz/contract/addContractForm.js")
     script(src="/js/biz/contract/contract.js")
     div(ng-app="contractApp")
         //通知区域
@@ -59,14 +60,14 @@ block content
                             span.icon-bar
                             span.icon-bar
                             span.icon-bar
-                        a.navbar-brand(href="") 新增客户
+                        a.navbar-brand(href="") 新增合同
                     div#navbar-collapse.collapse.navbar-collapse.navbar-right
-                        ul.nav.navbar-nav.navbar-right(ng-if="vm.addClient.loading()")
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.addContract.loading()")
                             li
                                 a(href="") 正在保存,请稍后...
-                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.addClient.loading()")
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.addContract.loading()")
                             li
-                                a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addClientSave(vm.model)") 保存
+                                a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addContractSave(vm.model)") 保存
                             li
                                 a(href="",ng-click="vm.reset()") 重置
                             li

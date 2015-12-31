@@ -15,9 +15,9 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "ws
                     }
                 }
             })
-            .when("/add", {
+            .when("/addContract", {
                 controller: "contractListController as vm",
-                templateUrl: "list.html",
+                templateUrl: "addContract.html",
                 resolve:{
                     sessionData:function(nptSession){
                         return nptSession();
@@ -34,6 +34,10 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "ws
             "userid":nptSessionManager.getSession().getUser().id,
             "instid":nptSessionManager.getSession().getInst().id,
             "projectid":"11111"
+        });
+    })
+    .factory("AddOrUpdateContract", function (nptRepository,nptSessionManager) {
+        return nptRepository("addOrUpdateContract").params({
         });
     })
     .service("ContractListQueryService", function(Notification, QueryContractsByInstid,QueryCtrlCode, $uibModal){
@@ -68,4 +72,62 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "ws
             }
         };
 
+    })
+    .controller("addContractController", function($scope, $http, $location, AddContractForm, AddOrUpdateContract){
+        var vm = this;
+        vm.clientid = {};
+        vm.addClient = AddOrUpdateInstClients;
+
+        //新增客户表单配置
+        vm.addClientFormOptions = {
+            store:AddContractForm,
+            onRegisterApi: function(nptFormApi){
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+        //新增客户
+        vm.addClientSave = function(contractInfo){
+            vm.nptFormApi.form.$commitViewValue();
+            if(vm.nptFormApi.form.$invalid){
+                var errorText = "";
+                angular.forEach(vm.nptFormApi.getErrorMessages(), function(value){
+                    errorText = errorText + value + "</br>";
+                });
+                Notification.error({
+                    title:"请输入正确的新增合同信息",
+                    message: errorText, delay:2000
+                });
+            }else{
+                var params = {
+                        "createby":nptSessionManager.getSession().getUser().id,
+                        "sn":contractInfo.sn,
+                        "fullname":contractInfo.fullname,
+                        "name":contractInfo.name,
+                        "type":contractInfo.type,
+                        "industry":contractInfo.industry,
+                        "scaleid":contractInfo.scaleid,
+                        "source":contractInfo.source,
+                        "region":contractInfo.region,
+                        "address":contractInfo.address,
+                        "contactman":contractInfo.contactman,
+                        "contactphone":contractInfo.contactphone,
+                        "contactposition":contractInfo.contactposition,
+                        "level":contractInfo.level,
+                        "remark":contractInfo.remark
+                    } || {};
+
+                vm.addClient.post(params)
+                    .then(function(response){
+                        clientid = response.data.id;
+                        $location.path("/detail/" + clientid);
+                        Notification.success({message: '新增客户成功!', delay: 2000});
+                    }, function(err){
+                        Notification.error({
+                            title: "新增客户失败.",
+                            message: err.data.cause, delay: 2000
+                        });
+                    });
+            }
+        };
     });
