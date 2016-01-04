@@ -54,7 +54,7 @@ block content
                             li(ng-if="vm.orderUnreadService.hasNewOrders")
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
 
-            div(npt-grid="vm.orderListGridOptions",model="vm.queryService.orderList.data")
+            div(npt-grid="vm.orderListGridOptions",model="vm.queryService.orderList.data",npt-loading="vm.queryService.orderList.loading()")
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域
