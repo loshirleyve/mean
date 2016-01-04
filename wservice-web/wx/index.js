@@ -6,7 +6,7 @@ var wxApi = require("y9-wx-api");
 var debug = require("debug")("y9-wservice-wx-gateway")
 module.exports = function (app) {
 
-    var BASE_URL = "http://www.yun9.com/mobile/wx/redirectMenu?path=/biz/";
+    var BASE_URL = "http://www.yun9.com/biz/";
 
     var config = {
         token: 'Sybase12',
@@ -113,6 +113,17 @@ module.exports = function (app) {
         return menus;
     }
 
+    function toDescription(menus) {
+        var str = "";
+        for (var i = 0;i < menus.length;i++) {
+            str += "点击<a href='"+menus[i].url+"'>这里</a>查看["+menus[i].title+"]";
+            if (i != menus.length -1) {
+                str += "\n\n";
+            }
+        }
+        return str;
+    }
+
     //接入验证,Api中已经包括了验证
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
         var message = req.weixin;
@@ -120,13 +131,13 @@ module.exports = function (app) {
         if (content == "登录") {
             res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
         }else if (content === '功能') {
-            res.reply(getAllMenus());
+            res.reply(toDescription(getAllMenus()));
         } else if (content === '基础信息') {
-            res.reply(getBaseinfoMenus());
+            res.reply(toDescription(getBaseinfoMenus()));
         } else if (content === '通用设置') {
-            res.reply(getSetupMenus());auth/loginByWeixinClient
+            res.reply(toDescription(getSetupMenus()));
         } else if (content === '业务中心') {
-            res.reply(getBaseinfoMenus());
+            res.reply(toDescription(getBaseinfoMenus()));
         } else {
             res.reply('你好!欢迎使用移办通!');
         }
