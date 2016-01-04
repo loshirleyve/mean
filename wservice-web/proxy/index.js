@@ -366,6 +366,9 @@ proxy.action("queryContractsByInstid", {
 }).action("queryContractById", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryContractByIdService"
+}).action("updateContractState", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.UpdateContractStateService"
 });
 
 module.exports = proxy;

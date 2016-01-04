@@ -8,7 +8,7 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune"])
-    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager) {
+    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
@@ -124,6 +124,14 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                         required: true,
                         label: '补充条款:',
                         placeholder: "请输入补充条款"
+                    }
+                },
+                {
+                    key: 'attachmentsn',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        required: true,
+                        label: '合同附件:'
                     }
                 }
 
