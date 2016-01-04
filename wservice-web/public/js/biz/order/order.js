@@ -75,7 +75,7 @@ angular.module("orderApp", [
         return nptRepository("queryOrderList").params({
             instid: nptSessionManager.getSession().getInst().id
             //userid: nptSessionManager.getSession().getUser().id
-        });
+        }).header("limitrow","1000");
     })
     .factory("QueryOrderInfo", function (nptRepository) {
         return nptRepository("queryOrderInfo");

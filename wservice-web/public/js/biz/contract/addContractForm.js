@@ -12,216 +12,121 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
-                    key: 'fullname',
+                    key: 'shoppename',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
-                        label: '客户公司名称:',
-                        placeholder: "请输入客户公司名称",
-                        reversal: true,
-                        searchProp:"fullname",
-                        repository: QueryInstClients
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '"客户公司名称必须是汉字!"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-                },
-                {
-                    key: 'name',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
-                    templateOptions: {
-                        required: true,
-                        label: '客户公司简称:',
-                        placeholder: "请输入客户公司简称",
-                        reversal: true,
-                        searchProp:"name",
-                        repository: QueryInstClients
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[\u2E80-\u9FFF]+$/i),
-                            message: '"客户公司简称必须是汉字！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-                },
-                {
-                    key: 'sn',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
-                    templateOptions: {
-                        required: true,
-                        label: '编号:',
-                        placeholder: "请输入4至8位由字母或数字组成的客户编号",
-                        reversal: true,
-                        searchProp:"sn",
-                        repository: QueryInstClients
-                    },
-                    validators: {
-                        format: {
-                            expression: RegExpValidatorFactory.createRegExpValidator(/^[a-z0-9A-Z]{4,8}$/i),
-                            message: '"请输入4至8位由字母或数字组成的客户编号！"'
-                        }
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-                },
-                {
-                    key: 'industry',
-                    type: 'ui-select',
-                    templateOptions: {
-                        optionsAttr: "bs-options",
-                        label:'行业',
-                        required: true,
-                        selectIndex:0,
-                        valueProp:'no',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "clientindustry"}
+                        label: '专柜名称:',
+                        placeholder: "请输入专柜名称"
                     }
                 },
                 {
-                    key: 'type',
+                    key: 'trademark',
+                    type: 'input',
+                    templateOptions: {
+                        required: true,
+                        label: '经营品牌:',
+                        placeholder: "请输入经营品牌"
+                    }
+                },
+                {
+                    key: 'isbase',
                     type: 'ui-select',
                     templateOptions: {
                         optionsAttr: "bs-options",
                         required: true,
-                        selectIndex:0,
-                        label: '类型:',
-                        valueProp:'no',
+                        label: '是否保底:',
+                        valueProp:'id',
                         labelProp:'name',
                         placeholder:'请选择',
-                        options:[],
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "clienttype"}
+                        options:[{
+                            id:"0",
+                            name:"是"
+                            },
+                            {
+                                id:"1",
+                                name:"否"
+                            }]
                     }
                 },
                 {
-                    key: 'level',
-                    type: 'ui-select',
+                    key: 'rent',
+                    type: 'numberInput',
                     templateOptions: {
-                        optionsAttr: "bs-options",
                         required: true,
-                        label: '级别:',
-                        selectIndex:0,
-                        valueProp:'no',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "clientlevel"}
+                        label: '租金:',
+                        placeholder: "请输入租金",
+                        "min": 0.00,
+                        "max": 99999
+
                     }
                 },
                 {
-                    key: 'source',
-                    type: 'ui-select',
+                    key: 'baseamount',
+                    type: 'numberInput',
                     templateOptions: {
-                        optionsAttr: "bs-options",
                         required: true,
-                        label: '来源:',
-                        selectIndex:0,
-                        valueProp:'no',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "clientsource"}
+                        label: '保底金额:',
+                        placeholder: "请输入保底金额",
+                        "min": 0.00,
+                        "max": 99999
                     }
                 },
                 {
-                    key: 'scaleid',
-                    type: 'ui-select',
-                    templateOptions: {
-                        optionsAttr: "bs-options",
-                        required: true,
-                        selectIndex:0,
-                        label: '规模:',
-                        valueProp:'type',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryMdInstScale,
-                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
-                    }
-                },
-                {
-                    key: 'contactman',
+                    key: 'baserate',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '联系人:',
-                        placeholder:'请输入联系人，联系人保存后不可更改'
+                        label: '基本扣率:',
+                        placeholder: "请输入基本扣率(若为1%,输入1)"
                     }
                 },
                 {
-                    key: 'contactphone',
-                    type: 'maskedInput',
-                    optionsTypes: ['bizValidator'],
-                    templateOptions: {
-                        required: true,
-                        label: '手机号:',
-                        placeholder:'请输入手机号',
-                        "mask":"999 9999 9999",
-                        reversal: true,
-                        searchProp:"contactphone",
-                        repository: QueryInstClients
-                    },
-                    modelOptions:{ updateOn: 'blur' }
-                },
-                {
-                    key: 'contactposition',
-                    type: 'ui-select',
-                    templateOptions: {
-                        optionsAttr: "bs-options",
-                        required: true,
-                        selectIndex:0,
-                        label: '职位:',
-                        valueProp:'no',
-                        labelProp:'name',
-                        placeholder:'请选择',
-                        options:[],
-                        repository: QueryCtrlCode,
-                        repositoryParams: {"defno": "contactposition"}
-                    }
-                },
-                {
-                    key: 'region',
+                    key: 'extralbaserate',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地区:',
-                        placeholder:'请输入地区'
+                        label: '超额扣率:',
+                        placeholder: "请输入超额扣率(若为1%,输入1)"
                     }
                 },
                 {
-                    key: 'address',
+                    key: 'slottingfee',
+                    type: 'numberInput',
+                    templateOptions: {
+                        required: true,
+                        label: '进场费:',
+                        placeholder: "请输入进场费"
+                    }
+                },
+                {
+                    key: 'deposit',
+                    type: 'numberInput',
+                    templateOptions: {
+                        required: true,
+                        label: '保证金:',
+                        placeholder: "请输入保证金"
+                    }
+                },
+                {
+                    key: 'other',
+                    type: 'numberInput',
+                    templateOptions: {
+                        required: true,
+                        label: '其他费用:',
+                        placeholder: "请输入其他费用"
+                    }
+                },
+                {
+                    key: 'clause',
                     type: 'input',
                     templateOptions: {
                         required: true,
-                        label: '地址:',
-                        placeholder:'请输入地址'
-                    }
-                },
-                {
-                    key: 'remark',
-                    type: 'textarea',
-                    templateOptions: {
-                        label: '备注:'
+                        label: '补充条款:',
+                        placeholder: "请输入补充条款"
                     }
                 }
+
             ]
-        });
-    })
-    .factory("QueryMdInstScale",function(nptRepository){
-        return nptRepository("queryMdInstScale").addResponseInterceptor(function (response) {
-            response.data = response.data.bizMdInstScales;
-            return response;
         });
     });

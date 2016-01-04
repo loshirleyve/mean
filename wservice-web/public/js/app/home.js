@@ -202,15 +202,12 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
             });
         }
 
-    }).controller("SendToMeController", function ($routeParams, $location, QueryMsgByScene, Notification, QueryUserInfo, queryInstDetail) {
+    }).controller("SendToMeController", function ($routeParams, $location,nptCache, QueryMsgByScene, Notification) {
         var vm = this;
         vm.fromuserid = angular.copy($routeParams.fromuserid);
         vm.fromusertype = $routeParams.fromusertype;
         vm.frominstid = $routeParams.frominstid;
         vm.reposMsgByScene = QueryMsgByScene;
-        vm.reposUserInfo = QueryUserInfo;
-        vm.queryInstInfo = queryInstDetail;
-        vm.currUserName=angular.copy("");
         vm.model = [];
 
         vm.query = function () {
@@ -222,6 +219,8 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         instid:vm.frominstid
                     }).then(function (response) {
                         vm.model = response.data;
+                        vm.msgUser= angular.copy(nptCache.get("user", vm.fromuserid));
+                        vm.msgUserName=angular.copy(vm.msgUser.name);
                     }, function (error) {
                         Notification.error({
                             title: "获取消息错误",
@@ -229,6 +228,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                             delay: 2000
                         });
                     });
+
                 }
                 else if (vm.fromusertype == 'inst') {
                     vm.reposMsgByScene.post({
@@ -237,6 +237,8 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                         instid:vm.frominstid
                     }).then(function (response) {
                         vm.model = response.data;
+                        vm.msgUser = angular.copy(nptCache.get("inst", vm.frominstid));
+                        vm.msgUserName=angular.copy(vm.msgUser.simplename);
                     }, function (error) {
                         Notification.error({
                             title: "获取消息出错",
@@ -244,49 +246,16 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                             delay: 2000
                         });
                     });
+
                 }
             }
         };
-
-        vm.queryFormUser = function () {
-            if (vm.fromuserid) {
-                if (vm.fromusertype == 'person') {
-                    vm.reposUserInfo.post({
-                        userid: vm.fromuserid
-                    }).then(function (response) {
-                        vm.currUserName = angular.copy(response.data.name);
-                    }, function (error) {
-                        Notification.error({
-                            title: "获取用户信息出错",
-                            message: error.data.cause,
-                            delay: 2000
-                        });
-                    });
-                }
-                else if (vm.fromusertype == 'inst') {
-
-                    vm.queryInstInfo.post({
-                        instid: vm.frominstid
-                    }).then(function (response) {
-                        vm.currUserName = angular.copy(response.data.simplename);
-                    }, function (error) {
-                        Notification.error({
-                            title: "获取机构信息出错",
-                            message: error.data.cause,
-                            delay: 2000
-                        });
-                    });
-                }
-            }
-        };
-
-        vm.queryFormUser();
         vm.query();
 
         vm.toDetail = function (item) {
             $location.path("/dynamicInfo/" + item.id);
         };
-    }).controller("MsgCardInfoController", function ($routeParams, $location, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, UpdateMsgCardState, nptCache, nptSessionManager) {
+    }).controller("MsgCardInfoController", function ($routeParams, $location,nptCache, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, UpdateMsgCardState, nptCache, nptSessionManager) {
         var vm = this;
         vm.msgcardid = $routeParams.msgcardid;
         vm.queryMsgCardInfo = QueryMsgCardInfoById;
@@ -302,6 +271,14 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
                     msgcardid: vm.msgcardid
                 }).then(function (response) {
                     vm.model = response.data;
+
+                    if(vm.model.fromtype==='person') {
+                        vm.msgUser= angular.copy(nptCache.get("user", vm.model.from));
+                        vm.msgUserName=angular.copy(vm.msgUser.name);
+                    }else if(vm.model.fromtype==='inst') {
+                        vm.msgUser = angular.copy(nptCache.get("inst", vm.model.instid));
+                        vm.msgUserName=angular.copy(vm.msgUser.simplename);
+                    }
 
                     angular.forEach(vm.model.comments, function (value) {
                         value.fromUser = nptCache.get("user", value.from);
@@ -376,6 +353,39 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
             }).then(function (response) {
             }, function (error) {
             });
+        };
+
+
+        vm.queryFormUser = function () {
+            if (vm.fromuserid) {
+                if (vm.fromusertype == 'person') {
+                    vm.reposUserInfo.post({
+                        userid: vm.fromuserid
+                    }).then(function (response) {
+                        vm.currUserName = angular.copy(response.data.name);
+                    }, function (error) {
+                        Notification.error({
+                            title: "获取用户信息出错",
+                            message: error.data.cause,
+                            delay: 2000
+                        });
+                    });
+                }
+                else if (vm.fromusertype == 'inst') {
+
+                    vm.queryInstInfo.post({
+                        instid: vm.frominstid
+                    }).then(function (response) {
+                        vm.currUserName = angular.copy(response.data.simplename);
+                    }, function (error) {
+                        Notification.error({
+                            title: "获取机构信息出错",
+                            message: error.data.cause,
+                            delay: 2000
+                        });
+                    });
+                }
+            }
         };
 
         vm.query();

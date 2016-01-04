@@ -60,7 +60,7 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         return nptRepository("queryWorkorderList").params({
             instid: nptSessionManager.getSession().getInst().id,
             processid: nptSessionManager.getSession().getUser().id
-        });
+        }).header("limitrow","1000");
     })
     .factory("QueryWorkorderInfo",function(nptRepository) {
         return nptRepository("queryWorkorderDetail");
@@ -292,31 +292,6 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
         vm.modelAttachment = [];
         vm.modelComment = [];
 
-        //配置表单
-        vm.workorderFormOptions = {
-            store: WorkorderForm,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-
-            }
-        };
-
-        //配置工单资料
-        vm.workorderAttachmentOptions = {
-            store: WorkorderAttachmentGrid,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-            }
-        };
-
-        //配置工单评价
-        vm.workorderCommentOptions = {
-            store: WorkorderCommentGrid,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptFormApi = nptFormApi;
-            }
-        };
-
         //转到下一单
         vm.next = function (workorder) {
             var nextWorkorder = vm.workorderList.next(workorder);
@@ -363,7 +338,11 @@ angular.module("workorderApp", ["ui.neptune", "workorderApp.WorkorderListGrid", 
 
         //工单开始标识
         vm.isUnstart = function() {
-            if (vm.workorderInfo.data && vm.workorderInfo.data.workOrder.state === "unstart") {
+
+            //获取当前时间
+            var timestamp=new Date().getTime();
+
+            if (vm.workorderInfo.data && vm.workorderInfo.data.workOrder.state === "unstart" && timestamp >= vm.workorderInfo.data.workOrder.processdate) {
                 return true;
             } else {
                 return false;

@@ -37,7 +37,7 @@ angular.module("ServiceDocApp", ["ui.neptune", "ngRoute", "ui-notification"])
             vm.result = $http.post('/api/test',data).then(function(response) {
                 action.inputs.paramsDefs.response = response.data;
             });
-            return result;
+            return vm.result;
         };
 
     }).filter("docDataFilter",function() {
