@@ -52,7 +52,7 @@ angular.module("productApp.productForm", ["ui.neptune", 'ui.bootstrap',"wservice
                         label: '产品价格:',
                         required: true,
                         "min": 0.00,
-                        "max": 99999
+                        "max": 9999999
                     }
                 },
                 {
