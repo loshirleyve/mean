@@ -107,8 +107,8 @@ module.exports = function (app) {
      */
     function getAllMenus() {
         var menus = [];
-        copyArray(getBaseinfoMenus, menus);
-        copyArray(getSetupMenus(), menus);
+        //copyArray(getBaseinfoMenus, menus);
+        //copyArray(getSetupMenus(), menus);
         copyArray(getBusinesscenterMenus(), menus);
         return menus;
     }
