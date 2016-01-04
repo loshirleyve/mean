@@ -151,6 +151,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                         "updateby":nptSessionManager.getSession().getUser().id,
                         "readstate":contractInfo.readstate,
                         "state":contractInfo.state,
+                        //"bizContractAttachments":contractInfo.attachmentsn,
                         "createdate":contractInfo.createdate
                     } || {};
 

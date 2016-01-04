@@ -7,8 +7,8 @@
  * MIT Licensed
  */
 
-angular.module("contractApp.addContractForm", ["ui.neptune"])
-    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, AddOrUpdateFileRepo) {
+angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
+    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
@@ -121,7 +121,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                     key: 'clause',
                     type: 'input',
                     templateOptions: {
-                        required: true,
+                        required: false,
                         label: '补充条款:',
                         placeholder: "请输入补充条款"
                     }
@@ -130,8 +130,14 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                     key: 'attachmentsn',
                     type: 'npt-select-image',
                     templateOptions: {
-                        required: true,
-                        label: '合同附件:'
+                        required: false,
+                        label: '合同附件:',
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 }
 
