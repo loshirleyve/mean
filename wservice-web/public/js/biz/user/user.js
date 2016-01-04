@@ -2,8 +2,7 @@
  * Created by Shirley on 2015/12/5.
  */
 
-angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm",
-    "wservice.common"])
+angular.module("userApp",["ui.neptune","wservice.common","ngRoute","ui-notification","userApp.userPwdForm"])
     .config(function($routeProvider){
         //注册用户路由
         $routeProvider.when("/userInfo",{
