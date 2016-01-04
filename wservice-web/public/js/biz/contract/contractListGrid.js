@@ -6,19 +6,19 @@ angular.module("contractApp.ContractListGrid", [])
         return nptGridStore("ContractListGrid", {
             gridOptions: {
                 columnDefs: [
-                    {field: 'instid', displayName: "机构", width: 100,cellFilter: "cacheFilter:'inst':'name':'id'"},
+                    {field: 'instid', displayName: "机构", width: 100,cellFilter: "cacheFilter:'inst':'instname':'instid'"},
                     {field: 'projectid', displayName: "项目", width: 100},
                     {field: 'shoppename', displayName: "专柜名称", width: 200},
                     {field: 'trademark', displayName: "经营品牌", width: 120},
-                    {field: 'isbase', displayName: "是否保底", width: 120},
+                    {field: 'isbase', displayName: "是否保底", width: 100},
                     {field: 'rent', displayName: "租金", width: 100},
-                    {field: 'baseamount', displayName: "保底金额", width: 150},
+                    {field: 'baseamount', displayName: "保底金额", width: 120},
                     {field: 'baserate', displayName: "基本扣率", width: 100},
+                    {field: 'extralbaserate', displayName: "超额扣率", width: 100},
                     {field: 'slottingfee', displayName: "进场费", width: 100},
                     {field: 'deposit', displayName: "保证金", width: 100},
                     {field: 'other', displayName: "其他费用", width: 100},
                     {field: 'clause', displayName: "补充条款", width: 100},
-                    {field: 'extralbaserate', displayName: "超额扣率", width: 100},
                     {field: 'state', displayName: "审核状态", width: 100},
                     {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"}
                 ]
