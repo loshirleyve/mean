@@ -107,8 +107,8 @@ module.exports = function (app) {
      */
     function getAllMenus() {
         var menus = [];
-        copyArray(getBaseinfoMenus, menus);
-        copyArray(getSetupMenus(), menus);
+        //copyArray(getBaseinfoMenus, menus);
+        //copyArray(getSetupMenus(), menus);
         copyArray(getBusinesscenterMenus(), menus);
         return menus;
     }
@@ -127,7 +127,7 @@ module.exports = function (app) {
     //接入验证,Api中已经包括了验证
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
         var message = req.weixin;
-        var content = message.Content;
+        var content = message.Content || message.EventKey;
         if (content == "登录") {
             res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
         }else if (content === '功能') {

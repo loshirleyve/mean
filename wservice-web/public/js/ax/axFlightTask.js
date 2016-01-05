@@ -2,10 +2,10 @@
  * Created by leon on 15/12/17.
  */
 
-angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "workorderApp.WorkorderAttachmentGrid", "workorderApp.WorkorderCommentGrid", "wservice.common", "ngRoute"])
+angular.module("AXflightTaskApp", ["ui.neptune", "workorderApp.workorderForm","wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         $routeProvider.when("/form/:code", {
-            controller: "AXBeginTaskController as vm",
+            controller: "AXflightTaskController as vm",
             templateUrl: "form.html",
             resolve: {
                 sessionData: function (nptSession) {
@@ -20,16 +20,22 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
         return nptRepository("queryWorkorderDetail");
     }).factory("UpdateWorkOrderInserviceById", function (nptRepository) {
         return nptRepository("updateWorkOrderInserviceById");
-    })
-    .controller("AXBeginTaskController", function ($routeParams,KitActionQuery, QueryWorkorderInfo, UpdateWorkOrderInserviceById, StartWorkorderForm, nptSessionManager,Notification) {
+    }).factory("UpdateWorkOrderCompleteById", function(nptRepository) {
+        return nptRepository("updateWorkOrderCompleteById");
+    }).factory("QueryAirline", function(nptRepository) {
+        return nptRepository("QueryAirline");
+    }).controller("AXflightTaskController", function ($routeParams,KitActionQuery,QueryWorkorderInfo,QueryAirline,UpdateWorkOrderInserviceById, UpdateWorkOrderCompleteById, CompleteWorkorderForm, nptSessionManager,Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        vm.model={};
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
+        vm.queryAirline=QueryAirline;
+        //数据模型
+        vm.model = {};
+
         //表单配置
-        vm.startWorkorderOptions = {
-            store: StartWorkorderForm,
+        vm.completeWorkorderOptions = {
+            store: CompleteWorkorderForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
@@ -54,12 +60,13 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
 
         //查询工单
         vm.query = function () {
-
             if (vm.workorderid) {
                 vm.workorderInfo.post({
                     workorderid: vm.workorderid
                 }).then(function (response) {
                     vm.model=response.data;
+                    if(vm.model && vm.model.workOrder.state==='inservice')
+                        vm.queryLine();
                 }, function (error) {
                     Notification.error({
                         title: '查询工单失败',
@@ -71,9 +78,44 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
             }
         };
 
-        vm.show=function()
+        vm.queryLine=function()
+        {
+            vm.queryAirline.post({
+                sourceid: vm.workorderid
+            }).then(function (response) {
+                vm.modelLine=response.data;
+            }, function (error) {
+                Notification.error({
+                    title: '查询飞行航线失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+
+        vm.showStart=function()
         {
             if(vm.model && vm.model.workOrder.state==='unstart')
+            {
+                return true;
+            }
+            return false;
+        };
+
+        vm.showComplete=function()
+        {
+            if(vm.model && vm.model.workOrder.state==='inservice')
+            {
+                return true;
+            }
+            return false;
+        };
+
+        vm.show=function()
+        {
+            if(vm.model && vm.model.workOrder.state !='complete')
             {
                 return true;
             }
@@ -108,6 +150,32 @@ angular.module("AXBeginTaskApp", ["ui.neptune", "workorderApp.workorderForm", "w
 
         };
 
+        vm.completeWorkorder = function () {
 
+            var params = {};
+            var workorderids = [];
+
+            workorderids.push(vm.workorderid);
+
+            params.postscript = vm.postscript;
+            params.workorderids = workorderids;
+            params.userid = nptSessionManager.getSession().getUser().id;
+
+            UpdateWorkOrderCompleteById.post(params).then(function (response) {
+                Notification.success({
+                    message: '完成工单成功',
+                    replaceMessage: true,
+                    delay: 2000
+                });
+                vm.query();
+            }, function (error) {
+                Notification.error({
+                    title: '完成工单失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
 
     });
