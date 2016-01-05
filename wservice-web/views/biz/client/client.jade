@@ -47,7 +47,8 @@ block content
                                 ul.dropdown-menu
                                     li(ng-repeat="queryItem in vm.queryService.queryList")
                                         a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
-            div(npt-grid="vm.clientListGridOptions",model="vm.queryService.clientList.data")
+            div(npt-grid="vm.clientListGridOptions",model="vm.queryService.clientList.data",npt-loading="vm.queryService.clientList.loading()"
+)
 
         script(type="text/ng-template",id="query.html")
             //弹出层，客户条件查询表单
