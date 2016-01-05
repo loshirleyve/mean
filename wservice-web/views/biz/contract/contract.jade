@@ -7,9 +7,9 @@ block titleContent
 block content
     script(src="/js/biz/contract/contractListGrid.js")
     script(src="/js/biz/contract/addContractForm.js")
+    script(src="/vendor/plupload-2.1.2/js/plupload.full.min.js")
     script(src="/js/biz/contract/contract.js")
     div(ng-app="contractApp")
-        //通知区域
         //内容区域
         div(ng-view)
 
@@ -31,7 +31,7 @@ block content
                             span.icon-bar
                             span.icon-bar
                             span.icon-bar
-                        a.navbar-brand(href="#/addContract") 合同列表
+                        a.navbar-brand(href="#/list") 合同列表
                     div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
                             li
@@ -60,14 +60,14 @@ block content
                             span.icon-bar
                             span.icon-bar
                             span.icon-bar
-                        a.navbar-brand(href="") 新增合同
+                        a.navbar-brand(href="") 新增/编辑合同
                     div#navbar-collapse.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-right(ng-if="vm.addContract.loading()")
                             li
                                 a(href="") 正在保存,请稍后...
                         ul.nav.navbar-nav.navbar-right(ng-if="!vm.addContract.loading()")
                             li
-                                a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addContractSave(vm.model)") 保存
+                                a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.addContractSave(vm.contract)") 保存
                             li
                                 a(href="",ng-click="vm.reset()") 重置
                             li
@@ -79,4 +79,100 @@ block content
             div.page-header
                 h4 基本信息
             div.page-body
-                div(npt-form="vm.addContractFormOptions",model="vm.model")
+                div(npt-form="vm.addContractFormOptions",model="vm.contract")
+
+        //详情模版
+        script(type="text/ng-template",id="detail.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#/list")
+                        span 合同列表
+                li.active 合同详情
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href="") 合同详情
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.contractInfo.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.contractInfo.loading()")
+                            li(ng-if="!vm.workorderInfo.loading()")
+                                a(href="",ng-click="vm.previous(vm.contractInfo.data)",ng-show="vm.contractList.previous(vm.workorderInfo.data)") 上一
+                            li(ng-if="!vm.orderInfo.loading()")
+                                a(href="",ng-click="vm.next(vm.contractInfo.data)",ng-show="vm.contractList.next(vm.contractInfo.data)") 下一单
+                            li
+                                a(href="",ng-click="vm.isSend(vm.contractInfo.data.id)",ng-show="vm.isShowSend()") 送审
+                            li
+                                a(href="",ng-click="vm.isPass(vm.contractInfo.data.id)",ng-show="vm.isShowPass()") 通过
+                            li
+                                a(href="",ng-click="vm.isCancle(vm.contractInfo.data.id)",ng-show="vm.isShowCancle()") 作废
+                            li
+                                a(href="",ng-click="vm.isSendBack(vm.contractInfo.data.id)",ng-show="vm.isShowSendBack()") 驳回
+                            li
+                                a(href="#/edit/{{vm.contractInfo.data.id}}",ng-show="vm.isShowEdit()") 编辑
+                            li
+                                a(href="#/list") 返回
+            div.page-header
+                h4 基本信息
+            div.page-body
+                dl.dl-horizontal
+                    dt 机构:
+                    dd {{vm.contractInfo.data.instid | cacheFilter:'inst':'instname':'instid'}}
+                    dt 项目:
+                    dd {{vm.contractInfo.data.projectid}}
+                    dt 专柜名称:
+                    dd {{vm.contractInfo.data.shoppename}}
+                    dt 经营品牌:
+                    dd {{vm.contractInfo.data.trademark}}
+                    dt 是否保底:
+                    dd
+                        span(ng-if="vm.contractInfo.data.isbase == 0") 是
+                        span(ng-if="vm.contractInfo.data.isbase == 1") 否
+                    dt 审核状态:
+                    dd
+                        strong {{vm.contractInfo.data.state}}
+                    dt 租金:
+                    dd {{vm.contractInfo.data.rent}}
+                    dt 保底金额:
+                    dd {{vm.contractInfo.data.baseamount}}
+                    dt 基本扣率:
+                    dd {{vm.contractInfo.data.baserate}}%
+                    dt 超额扣率:
+                    dd {{vm.contractInfo.data.extralbaserate}}%
+                    dt 进场费:
+                    dd {{vm.contractInfo.data.slottingfee}}
+                    dt 保证金:
+                    dd {{vm.contractInfo.data.deposit}}
+                    dt 其他费用:
+                    dd {{vm.contractInfo.data.other}}
+                    dt 补充条款:
+                    dd {{vm.contractInfo.data.clause}}
+                    dt 创建日期:
+                    dd {{vm.contractInfo.data.createdate | timestampFilter}}
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 合同附件
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.contractAttachment")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-3
+                                    //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
+                                    div(if="item.attachmentsn | cacheFilter:'file':'name':'id' === 'image'")
+                                        a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
+                                        div.thumbnail
+                                            div(npt-image="item.attachmentsn" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
+                                    //a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}

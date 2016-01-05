@@ -7,14 +7,13 @@
  * MIT Licensed
  */
 
-angular.module("contractApp.addContractForm", ["ui.neptune"])
-    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager) {
+angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
+    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
                     key: 'shoppename',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '专柜名称:',
@@ -24,7 +23,6 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 {
                     key: 'trademark',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '经营品牌:',
@@ -34,7 +32,6 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 {
                     key: 'isbase',
                     type: 'ui-select',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         optionsAttr: "bs-options",
                         required: true,
@@ -54,47 +51,48 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 },
                 {
                     key: 'rent',
-                    type: 'input',
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '租金:',
-                        placeholder: "请输入租金"
+                        placeholder: "请输入租金",
+                        "min": 0.00,
+                        "max": 99999
+
                     }
                 },
                 {
                     key: 'baseamount',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '保底金额:',
-                        placeholder: "请输入保底金额"
+                        placeholder: "请输入保底金额",
+                        "min": 0.00,
+                        "max": 99999
                     }
                 },
                 {
                     key: 'baserate',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '基本扣率:',
-                        placeholder: "请输入基本扣率"
+                        placeholder: "请输入基本扣率(若为1%,输入1)"
                     }
                 },
                 {
                     key: 'extralbaserate',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
                         required: true,
                         label: '超额扣率:',
-                        placeholder: "请输入超额扣率"
+                        placeholder: "请输入超额扣率(若为1%,输入1)"
                     }
                 },
                 {
                     key: 'slottingfee',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '进场费:',
@@ -103,8 +101,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 },
                 {
                     key: 'deposit',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '保证金:',
@@ -113,8 +110,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 },
                 {
                     key: 'other',
-                    type: 'input',
-                    optionsTypes: ['bizValidator'],
+                    type: 'numberInput',
                     templateOptions: {
                         required: true,
                         label: '其他费用:',
@@ -124,11 +120,24 @@ angular.module("contractApp.addContractForm", ["ui.neptune"])
                 {
                     key: 'clause',
                     type: 'input',
-                    optionsTypes: ['bizValidator'],
                     templateOptions: {
-                        required: true,
+                        required: false,
                         label: '补充条款:',
                         placeholder: "请输入补充条款"
+                    }
+                },
+                {
+                    key: 'attachmentsn',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        required: false,
+                        label: '合同附件:',
+                        imageRepository: QueryImageByMaterialLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"material"}
+                        }
                     }
                 }
 

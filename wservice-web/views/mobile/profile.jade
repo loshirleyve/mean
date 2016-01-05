@@ -1,0 +1,18 @@
+//
+   Created by Shirley on 2016/1/4.
+
+extends ../layout/layout-bizpage
+block title
+    p 我
+block content
+    script(src="/js/mobile/profile.js")
+    div(ng-app="userProfileApp")
+        div(ng-controller="UserProfileController as vm")
+            h1 我
+            div.row.btn-danger
+                div.col-sm-4.col-md-4
+                    p 头像
+                    div.thumbnail.btn-danger(style="width:150px;height:150px;", href="")
+                        img(npt-image="$scope.headerfileid", npt-image-option="$scope.imageOptions")
+                div.col-sm-8.col-md-8
+                    p 个人信息
