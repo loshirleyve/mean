@@ -344,6 +344,9 @@ proxy.action("QueryMsgsGroup", {
 proxy.action("QueryActionList", {
     proxy:"Y9",
     action:"com.yun9.common.sr.service.QueryActionListService"
+}).action("QueryAirline", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryAirlineBySourceIdService"
 });
 
 //微信

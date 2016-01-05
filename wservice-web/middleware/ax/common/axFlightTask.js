@@ -4,6 +4,6 @@
 
 module.exports = function () {
     return function (req, res, next) {
-        res.render("ax/completeTask");
+        res.render("ax/axFlightTask");
     }
 };
