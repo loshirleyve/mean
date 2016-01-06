@@ -9,7 +9,7 @@ block titleContent
 block content
     script(src="/js/mobile/profile.js")
     div(ng-app="UserProfileApp")
-        div(ng-controller="UserProfileController as vm")
+        div#client(ng-controller="UserProfileController as vm")
             div.row.headerdiv
                 div.col-md-2
                     img(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
@@ -37,7 +37,7 @@ block content
                 div.col-sm-3.text-center
                     img.imgcol(src="/image/contact@3x.png")
                     p.lead 联系人/小组
-            div#item.row.container-style
+            div#item.row
                 div.row.container-item
                     div.col-md-2
                         img.imgcol(src="/image/analysis@3x.png")
@@ -66,12 +66,11 @@ block content
                             span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                             span.sr-only
                 div.row.container-item
-                    div.col-md-2
+                    div.col-sm-2.col-md-2
                         img.imgcol(src="/image/setting@3x.png")
-                    div.col-md-9
+                    div.col-sm-9.col-md-9
                         h3 设置
-                    div.col-md-1.vertical-center
+                    div.col-sm-1.col-md-1.vertical-center
                         a.right(href="", role="button")
                             span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                             span.sr-only
-
