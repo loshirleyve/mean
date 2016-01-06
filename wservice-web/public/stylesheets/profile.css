@@ -34,9 +34,8 @@ img{
     margin-left: 40px;
     margin-right: 40px;
 }
-.container-style{
+div#item{
     background-color: lightgray;
-    height: 500px;
 }
 .container-item{
     background-color: #ffffff;
