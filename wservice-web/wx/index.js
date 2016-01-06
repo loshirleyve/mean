@@ -29,7 +29,8 @@ module.exports = function (app) {
         } else {
             queryWxUser(openID, req, res, function (menus) {
                 req.wxsession.menus = menus;
-                res.reply(selectMenus(content, req.wxsession.menus));
+                var msg = selectMenus(content, req.wxsession.menus) || "欢迎使用移办通";
+                res.reply(msg);
             });
         }
     }));
