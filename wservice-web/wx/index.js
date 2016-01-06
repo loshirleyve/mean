@@ -4,9 +4,10 @@
 
 var wxApi = require("y9-wx-api");
 var debug = require("debug")("y9-wservice-wx-gateway")
+var proxy = require("../proxy");
 module.exports = function (app) {
 
-    var BASE_URL = "http://www.yun9.com/biz/";
+    var BASE_URL = "http://www.yun9.com";
 
     var config = {
         token: 'Sybase12',
@@ -14,132 +15,96 @@ module.exports = function (app) {
         encodingAESKey: 'oBUm0JaR3RcM5GcZX2V5NqQwZ5G0T31JMzAiLi9260X'
     };
 
-    /**
-     * 获取基础信息所有菜单
-     * @returns {Array}
-     */
-    function getBaseinfoMenus() {
-        var menus = [];
 
-        menus.push({
-            title: '客户列表',
-            url: BASE_URL + 'client'
-        });
+    //接入验证,Api中已经包括了验证
+    app.use("/wx/gateway", wxApi(config, function (req, res, next) {
+        var message = req.weixin;
+        var content = message.Content || message.EventKey;
+        var openID = message.OpenID;
 
-        menus.push({
-            title: '产品列表',
-            url: BASE_URL + 'product'
-        });
-
-        return menus;
-    }
-
-    /**
-     * 获取通用设置所有菜单
-     * @returns {Array}
-     */
-    function getSetupMenus() {
-        var menus = [];
-
-        menus.push({
-            title: '素材管理',
-            url: BASE_URL + 'file-material'
-        });
-
-        menus.push({
-            title: '系统文件',
-            url: BASE_URL + 'file-sys'
-        });
-
-        menus.push({
-            title: '用户文件',
-            url: BASE_URL + 'file-user'
-        });
-
-        menus.push({
-            title: '机构列表',
-            url: BASE_URL + 'inst'
-        });
-
-
-        return menus;
-    }
-
-    /**
-     * 获取业务中心所有菜单
-     * @returns {Array}
-     */
-    function getBusinesscenterMenus() {
-        var menus = [];
-
-        menus.push({
-            title: '订单中心',
-            url: BASE_URL + 'order'
-        });
-
-        menus.push({
-            title: '工单中心',
-            url: BASE_URL + 'workorder'
-        });
-
-        menus.push({
-            title: '收款列表',
-            url: BASE_URL + 'receivable'
-        });
-
-        return menus;
-    }
-
-    /**
-     * 拷贝数组
-     * @param src
-     * @param dest
-     */
-    function copyArray(src, dest) {
-        for (var i = 0;i < src.length;i++) {
-            dest.push(src[i]);
+        if (content == "登录") {
+            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
+        } else if (!content) {
+            res.reply("");
+        } else if (req.wxsession.menus) {
+            res.reply(selectMenus(content, req.wxsession.menus));
+        } else {
+            queryWxUser(openID, res, function (menus) {
+                req.wxsession.menus = buildMenusAsStruct(menus);
+                res.reply(selectMenus(content, req.wxsession.menus));
+            });
         }
-    }
+    }));
 
-    /**
-     * 获取所有微信菜单
-     * @returns {Array}
-     */
-    function getAllMenus() {
-        var menus = [];
-        //copyArray(getSetupMenus(), menus);
-        copyArray(getBusinesscenterMenus(), menus);
-        copyArray(getBaseinfoMenus, menus);
-        return menus;
-    }
-
+    // 将菜单项转为文本
     function toDescription(menus) {
         var str = "";
-        for (var i = 0;i < menus.length;i++) {
-            str += "点击<a href='"+menus[i].url+"'>这里</a>查看["+menus[i].title+"]";
-            if (i != menus.length -1) {
+        for (var i = 0; i < menus.length; i++) {
+            str += "点击<a href='" + BASE_URL + menus[i].actionvalue + "'>这里</a>查看[" + menus[i].name + "]";
+            if (i != menus.length - 1) {
                 str += "\n\n";
             }
         }
         return str;
     }
 
-    //接入验证,Api中已经包括了验证
-    app.use("/wx/gateway", wxApi(config, function (req, res, next) {
-        var message = req.weixin;
-        var content = message.Content || message.EventKey;
-        if (content == "登录") {
-            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
-        }else if (content === '功能') {
-            res.reply(toDescription(getAllMenus()));
-        } else if (content === '基础信息') {
-            res.reply(toDescription(getBaseinfoMenus()));
-        } else if (content === '通用设置') {
-            res.reply(toDescription(getSetupMenus()));
-        } else if (content === '业务中心') {
-            res.reply(toDescription(getBaseinfoMenus()));
-        } else {
-            res.reply('你好!欢迎使用移办通!');
+
+    // 查询用户机构的菜单信息
+    function queryMenus(userInfo, res, done) {
+        proxy.post("QueryInstRoleNaviByUseridAndInstidAndDevice")
+            .params({
+                instid: userInfo.currinstid,
+                userid: currinstid.id,
+                device: "web"
+            }).launch(function (response) {
+                done(response.body.data);
+            }, function (error) {
+                debug(error.message);
+                res.reply("无法获取当前用户的菜单信息，请稍后重试。");
+            });
+    }
+
+    // 根据openId查询微信用户信息
+    function queryWxUser(openId, res, done) {
+        //通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
+        proxy.post("QueryUserByWxInfo")
+            .params({openid: openID})
+            .launch(function (response) {
+                var userInfo = response.body.data;
+                if (userInfo) {
+                    if (!userInfo.currinstid) {
+                        res.reply("请点击<a href='http://www.yun9.com/inst/select'>这里</a>选择机构");
+                    } else {
+                        queryMenus(userInfo, res, done);
+                    }
+                } else {
+                    res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
+                }
+            }, function (error) {
+                debug(error.message);
+                res.reply("查询微信用户出现错误，请稍后重试。");
+            });
+    }
+
+    // 重新组织菜单列表
+    function buildMenusAsStruct(menus) {
+        var nMenus = {};
+        for (var i = 0; i < menus.length; i++) {
+            nMenus[menus[i].name] = menus.children;
         }
-    }));
+        return nMenus;
+    }
+
+    // 选择菜单
+    function selectMenus(content, menus) {
+        var sMenus = "";
+        if (content == "功能") {
+            for (var key in menus) {
+                sMenus += toDescription(menus[key]);
+            }
+        } else if (menus[content]) {
+            sMenus += toDescription(menus[content]);
+        }
+        return sMenus;
+    }
 };
