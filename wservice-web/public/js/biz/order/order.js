@@ -106,7 +106,7 @@ angular.module("orderApp", [
     .factory("UpdateWorkorderByProcessid", function(nptRepository) {
         return nptRepository("updateWorkorderByProcessid");
     })
-    .service("OrderListQueryService", function (Notification, QueryOrderList) {
+    .service("OrderListQueryService", function (Notification, QueryOrderList,$uibModal) {
         var self = this;
 
         self.orderList = QueryOrderList;
@@ -169,6 +169,21 @@ angular.module("orderApp", [
                 self.query({
                     sourcevalue: "none"
                 });
+            }
+        },{
+            label: "条件查询",
+            callback: function () {
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'query.html',
+                    controller: 'orderListQueryController',
+                    controllerAs: 'vm'
+                }).result.then(function (response) {
+                        //查询
+                        self.query(response);
+                    }, function () {
+                        //用户关闭
+                    });
             }
         }];
 
@@ -327,6 +342,19 @@ angular.module("orderApp", [
         $scope.$on("$destroy", function () {
             vm.orderUnreadService.stopCheck();
         });
+    })
+    .controller("orderListQueryController", function ($uibModalInstance) {
+        var vm = this;
+
+        vm.model = {};
+
+        vm.ok = function () {
+            $uibModalInstance.close(vm.model);
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
     })
     .controller("OrderDetailController",
     function ($scope, $location, $routeParams, nptSessionManager,
