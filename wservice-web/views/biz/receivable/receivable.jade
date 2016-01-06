@@ -39,7 +39,7 @@ block content
                                     li(ng-repeat="queryItem in vm.queryService.queryList")
                                         a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
 
-            div(npt-grid="vm.receivableListGridOptions",model="vm.queryService.receivableList.data")
+            div(npt-grid="vm.receivableListGridOptions",model="vm.queryService.receivableList.data",npt-loading="vm.queryService.receivableList.loading()")
 
         script(type="text/ng-template",id="query.html")
             //弹出层，客户条件查询表单

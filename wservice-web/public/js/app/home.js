@@ -255,7 +255,7 @@ angular.module("HomeApp", ["ui.neptune", "homeApp.homeForm", "wservice.common", 
         vm.toDetail = function (item) {
             $location.path("/dynamicInfo/" + item.id);
         };
-    }).controller("MsgCardInfoController", function ($routeParams, $location,nptCache, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, UpdateMsgCardState, nptCache, nptSessionManager) {
+    }).controller("MsgCardInfoController", function ($routeParams, $location,nptCache, Notification, QueryMsgCardInfoById, AddPraiseLikeByMsgCardId, UpdateMsgCardState, nptSessionManager) {
         var vm = this;
         vm.msgcardid = $routeParams.msgcardid;
         vm.queryMsgCardInfo = QueryMsgCardInfoById;
