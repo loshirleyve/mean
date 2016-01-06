@@ -1,18 +1,77 @@
 //
    Created by Shirley on 2016/1/4.
 
-extends ../layout/layout-bizpage
-block title
-    p 我
+extends ../layout/layout-mobile
+
+block titleContent
+    link(rel='stylesheet', href='/stylesheets/profile.css')
+    title 我
 block content
     script(src="/js/mobile/profile.js")
-    div(ng-app="userProfileApp")
+    div(ng-app="UserProfileApp")
         div(ng-controller="UserProfileController as vm")
-            h1 我
-            div.row.btn-danger
-                div.col-sm-4.col-md-4
-                    p 头像
-                    div.thumbnail.btn-danger(style="width:150px;height:150px;", href="")
-                        img(npt-image="$scope.headerfileid", npt-image-option="$scope.imageOptions")
-                div.col-sm-8.col-md-8
-                    p 个人信息
+            div.row.headerdiv
+                div.col-md-2
+                    img(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
+                div.col-md-1
+                div#desc.col-md-8
+                    dl
+                        dd.h3(ng-bind="vm.userInfo.data.name")
+                        dd.h4(ng-bind="vm.instName")
+                        dd.h4(ng-bind="vm.userInfo.data.orgNames")
+                        dd.h4(ng-bind="vm.userInfo.data.signature")
+                div.col-md-1.vertical-center
+                    a.right(href="", role="button")
+                        span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                        span.sr-only
+            div.row
+                div.col-sm-3.text-center
+                    img.imgcol(src="/image/money@3x.png")
+                    p.lead 我的钱包
+                div.col-sm-3.text-center
+                    img.imgcol(src="/image/order@3x.png")
+                    p.lead 我的订单
+                div.col-sm-3.text-center
+                    img.imgcol(src="/image/file@3x.png")
+                    p.lead 我的文件
+                div.col-sm-3.text-center
+                    img.imgcol(src="/image/contact@3x.png")
+                    p.lead 联系人/小组
+            div#item.row.container-style
+                div.row.container-item
+                    div.col-md-2
+                        img.imgcol(src="/image/analysis@3x.png")
+                    div.col-md-9
+                        h3 销售分析
+                    div.col-md-1.vertical-center
+                        a.right(href="", role="button")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                div.row.container-item
+                    div.col-md-2
+                        img.imgcol(src="/image/contact@3x.png")
+                    div.col-md-9
+                        h3 我的客户
+                    div.col-md-1.vertical-center
+                        a.right(href="", role="button")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                div.row.container-item
+                    div.col-md-2
+                        img.imgcol(src="/image/switchAcc@3x.png")
+                    div.col-md-9
+                        h3 切换机构
+                    div.col-md-1.vertical-center
+                        a.right(href="", role="button")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                div.row.container-item
+                    div.col-md-2
+                        img.imgcol(src="/image/setting@3x.png")
+                    div.col-md-9
+                        h3 设置
+                    div.col-md-1.vertical-center
+                        a.right(href="", role="button")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+
