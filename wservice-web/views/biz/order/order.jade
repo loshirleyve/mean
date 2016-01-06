@@ -55,6 +55,21 @@ block content
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewOrders()") 显示新订单
 
             div(npt-grid="vm.orderListGridOptions",model="vm.queryService.orderList.data",npt-loading="vm.queryService.orderList.loading()")
+
+        script(type="text/ng-template",id="query.html")
+            //弹出层，客户条件查询
+            div.modal-header
+                button.close(type="button",ng-click="vm.cancel()")
+                    span(aria-hidden="ture")&times;
+                h4.modal-title 订单查询
+            div.modal-body
+                div.row
+                    div.col-md-12
+                        label.control-label 客户名称(订单内容)：
+                        input.form-control(ng-model="vm.model.groupqueryname")
+            div.modal-footer
+                button.btn.btn-default(type="button",data-dismiss="vm.cancel()") 关闭
+                button.btn.btn-primary(type="button",data-dismiss="modal", ng-click="vm.ok()") 确认
         //详情模板
         script(type="text/ng-template",id="detail.html")
             //功能导航区域

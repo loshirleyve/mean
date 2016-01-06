@@ -94,6 +94,7 @@ block content
                                     h5 {{item.createdate | timestampFilter}}
                                     span {{item.createby | cacheFilter:'user':'name':'id'}}
                         div.list-group-item-text
+                             h5 {{item.state}}
                             span {{item.remark}}
 
             div(npt-form="vm.startWorkorderOptions",model="vm.postscript",ng-show="vm.show();")
