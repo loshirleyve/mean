@@ -103,7 +103,7 @@ module.exports = function (app) {
         var sMenus = "";
         if (content == "功能") {
             for (var key in menus) {
-                sMenus += toDescription(menus[key]) + "\n";
+                sMenus += toDescription(menus[key]) + "\n\n";
             }
         } else if (menus[content]) {
             sMenus += toDescription(menus[content]);
