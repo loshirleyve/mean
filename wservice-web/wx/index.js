@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.use("/wx/gateway", wxApi(config, function (req, res, next) {
         var message = req.weixin;
         var content = message.Content || message.EventKey;
-        var openID = message.OpenID;
+        var openID = message.FromUserName;
 
         if (content == "登录") {
             res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
