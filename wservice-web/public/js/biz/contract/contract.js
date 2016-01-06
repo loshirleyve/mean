@@ -260,27 +260,62 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //合同送审标识
         vm.isShowSend = function() {
-            return true;
+
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同通过标识
         vm.isShowPass = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同作废标识
         vm.isShowCancle = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit" || vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
         };
 
-        //合同作废标识
+        //合同驳回
         vm.isShowSendBack = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同编辑标识
         vm.isShowEdit = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        vm.isNeedAtta = function() {
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data) {
+                    return false;
+                }
+            }
+            return false;
         };
 
         vm.query();

@@ -140,7 +140,8 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                         label: '补充条款:',
                         placeholder: "请输入补充条款"
                     }
-                },
+                }
+                ,
                 {
                     key: 'attachmentsns',
                     type: 'npt-select-image',

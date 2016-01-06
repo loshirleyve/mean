@@ -36,7 +36,7 @@ block content
                         ul.nav.navbar-nav.navbar-right
                             li
                                 a(href="#/addContract") 新增合同
-            div(npt-grid="vm.contractListGridOptions",model="vm.queryListService.contractList.data")
+            div(npt-grid="vm.contractListGridOptions",model="vm.queryListService.contractList.data", npt-loading="vm.queryListService.contractList.loading()")
 
 
         //新增客户模板
@@ -108,9 +108,9 @@ block content
                                 a(href="") 正在查询,请稍后...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.contractInfo.loading()")
                             li(ng-if="!vm.workorderInfo.loading()")
-                                a(href="",ng-click="vm.previous(vm.contractInfo.data)",ng-show="vm.contractList.previous(vm.workorderInfo.data)") 上一
+                                a(href="",ng-click="vm.previous(vm.contractInfo.data)",ng-show="vm.contractList.previous(vm.contractInfo.data)") 上一个
                             li(ng-if="!vm.orderInfo.loading()")
-                                a(href="",ng-click="vm.next(vm.contractInfo.data)",ng-show="vm.contractList.next(vm.contractInfo.data)") 下一单
+                                a(href="",ng-click="vm.next(vm.contractInfo.data)",ng-show="vm.contractList.next(vm.contractInfo.data)") 下一个
                             li
                                 a(href="",ng-click="vm.isSend(vm.contractInfo.data.id)",ng-show="vm.isShowSend()") 送审
                             li
