@@ -34,22 +34,25 @@ img{
     margin-left: 40px;
     margin-right: 40px;
 }
-.container-style{
+div#item{
     background-color: lightgray;
-    height: 500px;
 }
 .container-item{
     background-color: #ffffff;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-left: 100px;
 }
 .container-item h3{
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 #item .vertical-center{
-    margin: 50px 0;
+    margin: 30px 0;
 }
 #item a{
     color: darkgray;
+}
+#item .imgcol{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

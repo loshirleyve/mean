@@ -3,10 +3,10 @@
  */
 
 angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
-    .factory("queryUserInfoById", function(nptRepository){
+    .factory("queryUserInfoById", function(nptRepository, nptSessionManager){
         return nptRepository("QueryUserInfoById").params({
-           //"userid":nptSessionManager.getSession().getUser().id
-           //"userid":"10000001519114"
+//            "userid":nptSessionManager.getSession().getUser().id,
+//            "instid":nptSessionManager.getSession().getInst().id
            "userid":"10000001498059",
            "instid":"10000001463017"
         });
