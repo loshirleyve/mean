@@ -127,7 +127,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     }
                 },
                 {
-                    key: 'attachmentsn',
+                    key: 'attachmentsns',
                     type: 'npt-select-image',
                     templateOptions: {
                         required: false,

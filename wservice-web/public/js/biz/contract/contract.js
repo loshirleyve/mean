@@ -132,6 +132,18 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                     message: errorText, delay:2000
                 });
             }else{
+                //构造附件参数
+                var attachmentsns = contractInfo.attachmentsns;
+                var bizContractAttachments = [];
+
+                if(attachmentsns) {
+                    for(var i= 0;i<attachmentsns.length;i++) {
+                        bizContractAttachments[i] = {
+                            "attachmentsn":attachmentsns[i]
+                        };
+                    }
+                }
+
                 var params = {
                         "id":contractInfo.id,
                         "createby":nptSessionManager.getSession().getUser().id,
@@ -151,7 +163,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                         "updateby":nptSessionManager.getSession().getUser().id,
                         "readstate":contractInfo.readstate,
                         "state":contractInfo.state,
-                        //"bizContractAttachments":contractInfo.attachmentsn,
+                        "bizContractAttachments":bizContractAttachments,
                         "createdate":contractInfo.createdate
                     } || {};
 
