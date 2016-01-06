@@ -147,7 +147,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 var params = {
                         "id":contractInfo.id,
                         "createby":nptSessionManager.getSession().getUser().id,
-                        "projectid":"111111",
+                        "projectid":contractInfo.projectid,
                         "instid":nptSessionManager.getSession().getInst().id,
                         "shoppename":contractInfo.shoppename,
                         "trademark":contractInfo.trademark,
@@ -232,7 +232,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //转到上一单
         vm.previous = function (contract) {
-            var previousContract = vm.workorderList.previous(contract);
+            var previousContract = vm.contractList.previous(contract);
             if (previousContract) {
                 $location.path("/detail/" + previousContract.id);
             }

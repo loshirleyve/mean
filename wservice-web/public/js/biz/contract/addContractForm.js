@@ -8,9 +8,24 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
-    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
+    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
+                {
+                    key: 'projectid',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        required: true,
+                        label: '项目:',
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryInstClients,
+                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
+                    }
+                },
                 {
                     key: 'shoppename',
                     type: 'input',
@@ -143,4 +158,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
 
             ]
         });
+    })
+    .factory("QueryInstClients",function(nptRepository){
+        return nptRepository("queryInstClients");
     });

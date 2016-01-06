@@ -49,8 +49,8 @@ block content
                         span 首页
                 li
                     a(href="#list")
-                        span 客户列表
-                li.active 新增客户
+                        span 合同列表
+                li.active 新增/编辑合同
 
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
@@ -130,7 +130,7 @@ block content
                     dt 机构:
                     dd {{vm.contractInfo.data.instid | cacheFilter:'inst':'instname':'instid'}}
                     dt 项目:
-                    dd {{vm.contractInfo.data.projectid}}
+                    dd {{vm.contractInfo.data.projectName}}
                     dt 专柜名称:
                     dd {{vm.contractInfo.data.shoppename}}
                     dt 经营品牌:
@@ -141,7 +141,7 @@ block content
                         span(ng-if="vm.contractInfo.data.isbase == 1") 否
                     dt 审核状态:
                     dd
-                        strong {{vm.contractInfo.data.state}}
+                        strong {{vm.contractInfo.data.state | ctrlCodeFilter:'contractstate':'name':'no'}}
                     dt 租金:
                     dd {{vm.contractInfo.data.rent}}
                     dt 保底金额:
