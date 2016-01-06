@@ -45,7 +45,7 @@ block content
                             li
                                 a(href="",ng-click="vm.upload()") 上传文件
 
-            div.row(ng-if="vm.fileType === 'image'")
+            div.row(ng-if="vm.fileType === 'image'",npt-loading="vm.queryFile.loading()")
                 div(npt-upload-custom="vm.uploadOptions")
                 div.col-xs-6.col-md-3(ng-repeat="image in vm.queryFile.data")
                     div.thumbnail(href="")
