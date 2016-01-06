@@ -147,7 +147,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     type: 'npt-select-image',
                     templateOptions: {
                         required: false,
-                        label: '合同附件:',
+                        label: '添加附件:',
                         imageRepository: QueryFileByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,

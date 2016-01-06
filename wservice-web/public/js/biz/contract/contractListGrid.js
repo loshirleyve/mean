@@ -39,8 +39,8 @@ angular.module("contractApp.ContractListGrid", [])
             },
             mobile: {
                 fields: {
-                    title: "name",
-                    content:"'<div class=\"row\"><div class=\"col-xs-4\"><span class=\"glyphicon glyphicon-user\"></span>' + '&nbsp;' + contactman + '</div><div class=\"col-xs-6\"><span class=\"glyphicon glyphicon-phone\"></span>' + '&nbsp;' + contactphone + '</div></div>'",
+                    title: "projectName",
+                    tip: "state|ctrlCodeFilter:'contractstate':'name':'no'",
                     createDate: "createdate|timestampFilter"
                 }
             }
