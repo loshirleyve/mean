@@ -54,7 +54,7 @@ module.exports = function (app) {
         proxy.post("QueryInstRoleNaviByUseridAndInstidAndDevice")
             .params({
                 instid: userInfo.currinstid,
-                userid: currinstid.id,
+                userid: userInfo.id,
                 device: "web"
             }).launch(function (response) {
                 done(response.body.data);
