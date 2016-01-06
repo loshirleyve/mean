@@ -65,7 +65,7 @@ module.exports = function (app) {
     }
 
     // 根据openId查询微信用户信息
-    function queryWxUser(openId, res, done) {
+    function queryWxUser(openID, res, done) {
         //通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
         proxy.post("QueryUserByWxInfo")
             .params({openid: openID})
