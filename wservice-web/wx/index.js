@@ -26,11 +26,9 @@ module.exports = function (app) {
             res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
         } else if (!content) {
             res.reply("");
-        } else if (req.wxsession.menus) {
-            res.reply(selectMenus(content, req.wxsession.menus));
         } else {
-            queryWxUser(openID, res, function (menus) {
-                req.wxsession.menus = buildMenusAsStruct(menus);
+            queryWxUser(openID, req, res, function (menus) {
+                req.wxsession.menus = menus;
                 res.reply(selectMenus(content, req.wxsession.menus));
             });
         }
@@ -57,7 +55,7 @@ module.exports = function (app) {
                 userid: userInfo.id,
                 device: "web"
             }).launch(function (response) {
-                done(response.body.data);
+                done(buildMenusAsStruct(response.body.data));
             }, function (error) {
                 debug(error.message);
                 res.reply("无法获取当前用户的菜单信息，请稍后重试。");
@@ -65,16 +63,21 @@ module.exports = function (app) {
     }
 
     // 根据openId查询微信用户信息
-    function queryWxUser(openID, res, done) {
+    function queryWxUser(openID, req, res, done) {
         //通过openid查找用户信息,如果找不到用户信息,则抛出异常,需要用户绑定微信.
         proxy.post("QueryUserByWxInfo")
             .params({openid: openID})
             .launch(function (response) {
                 var userInfo = response.body.data;
                 if (userInfo) {
-                    if (!userInfo.currinstid) {
+                    if (req.wxsession.menus && req.wxsession.y9User &&
+                        req.wxsession.y9User.id == userInfo.id &&
+                        req.wxsession.y9User.currinstid == userInfo.currinstid) {
+                        done(req.wxsession.menus);
+                    } else if (!userInfo.currinstid) {
                         res.reply("请点击<a href='http://www.yun9.com/inst/select'>这里</a>选择机构");
                     } else {
+                        req.wxsession.y9User = userInfo;
                         queryMenus(userInfo, res, done);
                     }
                 } else {
@@ -100,7 +103,7 @@ module.exports = function (app) {
         var sMenus = "";
         if (content == "功能") {
             for (var key in menus) {
-                sMenus += toDescription(menus[key]);
+                sMenus += toDescription(menus[key]) + "\n";
             }
         } else if (menus[content]) {
             sMenus += toDescription(menus[content]);
