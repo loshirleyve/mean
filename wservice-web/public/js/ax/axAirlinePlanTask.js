@@ -120,6 +120,7 @@ angular.module("AXairlinePlanTaskApp", ["ui.neptune", "workorderApp.workorderFor
         };
 
         vm.startWorkorder = function () {
+
             var params = {};
             var workorderids = [];
 
@@ -148,30 +149,45 @@ angular.module("AXairlinePlanTaskApp", ["ui.neptune", "workorderApp.workorderFor
         };
 
         vm.completeWorkorder = function () {
-
-            var params = {};
-            var workorderids = [];
-
-            workorderids.push(vm.workorderid);
-
-            params.postscript = vm.postscript;
-            params.workorderids = workorderids;
-            params.userid = nptSessionManager.getSession().getUser().id;
-
-            UpdateWorkOrderCompleteById.post(params).then(function (response) {
-                Notification.success({
-                    message: '完成工单成功',
-                    replaceMessage: true,
-                    delay: 2000
+            var a=false;
+            if(vm.modelLine) {
+                angular.forEach(vm.modelLine, function (value) {
+                    if (value.state === 'inservice') {
+                        a = true;
+                    }
                 });
-                vm.query();
-            }, function (error) {
-                Notification.error({
-                    title: '完成工单失败',
-                    message: error.data.cause,
-                    replaceMessage: true,
-                    delay: 5000
-                });
-            });
+                if (a === true) {
+                    Notification.error({
+                        message: '航线没有全部完成，所以不可以完成任务！',
+                        delay: 5000
+                    });
+                }
+                else {
+                    var params = {};
+                    var workorderids = [];
+
+                    workorderids.push(vm.workorderid);
+
+                    params.postscript = vm.postscript;
+                    params.workorderids = workorderids;
+                    params.userid = nptSessionManager.getSession().getUser().id;
+
+                    UpdateWorkOrderCompleteById.post(params).then(function (response) {
+                        Notification.success({
+                            message: '完成工单成功',
+                            replaceMessage: true,
+                            delay: 2000
+                        });
+                        vm.query();
+                    }, function (error) {
+                        Notification.error({
+                            title: '完成工单失败',
+                            message: error.data.cause,
+                            replaceMessage: true,
+                            delay: 5000
+                        });
+                    });
+                }
+            }
         };
     });
