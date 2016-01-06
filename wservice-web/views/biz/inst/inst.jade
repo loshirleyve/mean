@@ -38,7 +38,7 @@ block content
                             li(ng-if="!vm.queryService.loading()")
                                 a(data-toggle="modal", data-target="#instSearch") 机构查询
 
-            div(npt-grid="vm.instListGridOptions",model="vm.queryService.instList.data")
+            div(npt-grid="vm.instListGridOptions",model="vm.queryService.instList.data" ,npt-loading="vm.queryService.instList.loading()")
             //弹出层，客户条件查询表单
             div#instSearch.modal.fade(tabindex="-1",role="dialog")
                 div.modal-dialog(role="document")
