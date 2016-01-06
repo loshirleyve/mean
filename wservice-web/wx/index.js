@@ -22,8 +22,8 @@ module.exports = function (app) {
         var content = message.Content || message.EventKey;
         var openID = message.FromUserName;
 
-        if (content == "登录") {
-            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
+        if (content == "绑定") {
+            res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行微信绑定");
         } else if (!content) {
             res.reply("");
         } else {
@@ -81,7 +81,7 @@ module.exports = function (app) {
                         queryMenus(userInfo, res, done);
                     }
                 } else {
-                    res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行登录");
+                    res.reply("请点击<a href='http://www.yun9.com/auth/loginByWeixinClient'>这里</a>进行微信绑定");
                 }
             }, function (error) {
                 debug(error.message);
@@ -98,13 +98,22 @@ module.exports = function (app) {
         return nMenus;
     }
 
+    function copyArray(src, dest) {
+        for (var i = 0; i < src.length; i++) {
+            dest.push(src[i]);
+        }
+    }
+
+
     // 选择菜单
     function selectMenus(content, menus) {
         var sMenus = "";
         if (content == "功能") {
+            var allmenus = [];
             for (var key in menus) {
-                sMenus += toDescription(menus[key]) + "\n\n";
+                copyArray(menus[key], allmenus);
             }
+            sMenus += toDescription(allmenus);
         } else if (menus[content]) {
             sMenus += toDescription(menus[content]);
         }
