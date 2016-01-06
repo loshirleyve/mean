@@ -191,6 +191,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 }).then(function (response) {
                     vm.contract = response.data;
                     vm.contractAttachment = response.data.bizContractAttachments;
+                    //vm.contract.attachmentsns = ["10000001445004"];
                     vm.backup = angular.copy(response.data);
                 }, function (error) {
                     Notification.error({

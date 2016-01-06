@@ -8,7 +8,7 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
-    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
+    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
@@ -148,11 +148,11 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: false,
                         label: '合同附件:',
-                        imageRepository: QueryImageByMaterialLevel,
+                        imageRepository: QueryFileByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo,
-                            repositoryParams:{"level":"material"}
+                            repositoryParams:{"level":"user"}
                         }
                     }
                 }
@@ -162,4 +162,10 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
     })
     .factory("QueryInstClients",function(nptRepository){
         return nptRepository("queryInstClients");
+    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "instid": nptSessionManager.getSession().getInst().id,
+            "filetype":"image"
+        });
     });
