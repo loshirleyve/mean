@@ -90,7 +90,7 @@ module.exports = function (app) {
     function buildMenusAsStruct(menus) {
         var nMenus = {};
         for (var i = 0; i < menus.length; i++) {
-            nMenus[menus[i].name] = menus.children;
+            nMenus[menus[i].name] = menus[i].children;
         }
         return nMenus;
     }
