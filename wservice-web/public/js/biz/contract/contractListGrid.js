@@ -7,9 +7,10 @@ angular.module("contractApp.ContractListGrid", [])
             gridOptions: {
                 columnDefs: [
                     {field: 'instid', displayName: "机构", width: 100,cellFilter: "cacheFilter:'inst':'instname':'instid'"},
-                    {field: 'projectid', displayName: "项目", width: 100},
+                    {field: 'projectName', displayName: "项目", width: 100},
                     {field: 'shoppename', displayName: "专柜名称", width: 200},
                     {field: 'trademark', displayName: "经营品牌", width: 120},
+                    {field: 'state', displayName: "审核状态", width: 100,cellFilter: "ctrlCodeFilter:'contractstate':'name':'no'"},
                     {field: 'isbase', displayName: "是否保底", width: 100},
                     {field: 'rent', displayName: "租金", width: 100},
                     {field: 'baseamount', displayName: "保底金额", width: 120},
@@ -19,7 +20,6 @@ angular.module("contractApp.ContractListGrid", [])
                     {field: 'deposit', displayName: "保证金", width: 100},
                     {field: 'other', displayName: "其他费用", width: 100},
                     {field: 'clause', displayName: "补充条款", width: 100},
-                    {field: 'state', displayName: "审核状态", width: 100},
                     {field: 'createdate', displayName: "创建日期", width: 150, cellFilter: "timestampFilter"}
                 ]
             },
@@ -39,8 +39,8 @@ angular.module("contractApp.ContractListGrid", [])
             },
             mobile: {
                 fields: {
-                    title: "name",
-                    content:"'<div class=\"row\"><div class=\"col-xs-4\"><span class=\"glyphicon glyphicon-user\"></span>' + '&nbsp;' + contactman + '</div><div class=\"col-xs-6\"><span class=\"glyphicon glyphicon-phone\"></span>' + '&nbsp;' + contactphone + '</div></div>'",
+                    title: "projectName",
+                    tip: "state|ctrlCodeFilter:'contractstate':'name':'no'",
                     createDate: "createdate|timestampFilter"
                 }
             }

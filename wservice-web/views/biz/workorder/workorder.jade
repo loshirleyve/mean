@@ -53,7 +53,7 @@ block content
                                         a(href="",ng-click="vm.workorderUnreadService.selectSchedule(schedule)") {{schedule.label}}
                             li(ng-if="vm.workorderUnreadService.hasNewWorkorders && !vm.queryService.workorderList.loading()")
                                 button.btn.btn-primary.navbar-btn(type="button",ng-click="vm.showNewWorkorders()") 显示新工单
-            div(npt-grid="vm.workorderListGridOptions",model="vm.queryService.workorderList.data")
+            div(npt-grid="vm.workorderListGridOptions",model="vm.queryService.workorderList.data", npt-loading="vm.queryService.workorderList.loading()")
         //详情模版
         script(type="text/ng-template",id="detail.html")
             //功能导航区域

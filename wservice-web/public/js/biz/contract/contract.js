@@ -147,7 +147,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 var params = {
                         "id":contractInfo.id,
                         "createby":nptSessionManager.getSession().getUser().id,
-                        "projectid":"111111",
+                        "projectid":contractInfo.projectid,
                         "instid":nptSessionManager.getSession().getInst().id,
                         "shoppename":contractInfo.shoppename,
                         "trademark":contractInfo.trademark,
@@ -191,6 +191,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 }).then(function (response) {
                     vm.contract = response.data;
                     vm.contractAttachment = response.data.bizContractAttachments;
+                    //vm.contract.attachmentsns = ["10000001445004"];
                     vm.backup = angular.copy(response.data);
                 }, function (error) {
                     Notification.error({
@@ -232,7 +233,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //转到上一单
         vm.previous = function (contract) {
-            var previousContract = vm.workorderList.previous(contract);
+            var previousContract = vm.contractList.previous(contract);
             if (previousContract) {
                 $location.path("/detail/" + previousContract.id);
             }
@@ -260,27 +261,62 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //合同送审标识
         vm.isShowSend = function() {
-            return true;
+
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同通过标识
         vm.isShowPass = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同作废标识
         vm.isShowCancle = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit" || vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
         };
 
-        //合同作废标识
+        //合同驳回
         vm.isShowSendBack = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "waitaudit") {
+                    return true;
+                }
+            }
+            return false;
         };
 
         //合同编辑标识
         vm.isShowEdit = function() {
-            return true;
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data.state == "draft") {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        vm.isNeedAtta = function() {
+            if(vm.contractInfo) {
+                if (vm.contractInfo.data) {
+                    return false;
+                }
+            }
+            return false;
         };
 
         vm.query();

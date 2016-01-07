@@ -8,9 +8,24 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
-    .factory("AddContractForm", function (nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryImageByMaterialLevel,UploadSignature, AddOrUpdateFileRepo) {
+    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
+                {
+                    key: 'projectid',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        required: true,
+                        label: '项目:',
+                        valueProp:'id',
+                        labelProp:'name',
+                        placeholder:'请选择',
+                        options:[],
+                        repository: QueryInstClients,
+                        repositoryParams: {"instid":nptSessionManager.getSession().getInst().id}
+                    }
+                },
                 {
                     key: 'shoppename',
                     type: 'input',
@@ -125,22 +140,32 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                         label: '补充条款:',
                         placeholder: "请输入补充条款"
                     }
-                },
+                }
+                ,
                 {
                     key: 'attachmentsns',
                     type: 'npt-select-image',
                     templateOptions: {
                         required: false,
-                        label: '合同附件:',
-                        imageRepository: QueryImageByMaterialLevel,
+                        label: '添加附件:',
+                        imageRepository: QueryFileByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo,
-                            repositoryParams:{"level":"material"}
+                            repositoryParams:{"level":"user"}
                         }
                     }
                 }
 
             ]
+        });
+    })
+    .factory("QueryInstClients",function(nptRepository){
+        return nptRepository("queryInstClients");
+    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "instid": nptSessionManager.getSession().getInst().id,
+            "filetype":"image"
         });
     });
