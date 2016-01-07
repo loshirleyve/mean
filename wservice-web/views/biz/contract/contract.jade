@@ -206,5 +206,7 @@ block content
                                 dd {{item.createby | cacheFilter:'user':'name':'id'}}
                                 dt 附言:
                                 dd {{item.remark}}
+                                dt 处理时间:
+                                dd {{item.createdate | timestampFilter}}
 
 
