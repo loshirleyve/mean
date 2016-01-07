@@ -11,12 +11,15 @@ store.use("/app*", {
     //role: ["user"]
 }).use("/admin*", {
     needLogin: true,
-    needInst: true,
-    role: ["admin"]
+    needInst: true
+    //role: ["admin"]
 }).use("/biz*", {
     needLogin: true,
     needInst: true
 }).use("/", {
+    needLogin: true,
+    needInst: true
+}).use("/mobile/profile", {
     needLogin: true,
     needInst: true
 });

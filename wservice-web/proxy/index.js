@@ -344,9 +344,6 @@ proxy.action("QueryMsgsGroup", {
 proxy.action("QueryActionList", {
     proxy:"Y9",
     action:"com.yun9.common.sr.service.QueryActionListService"
-}).action("QueryAirline", {
-    proxy:"Y9",
-    action:"com.yun9.ws.biz.service.QueryAirlineBySourceIdService"
 });
 
 //微信
@@ -374,4 +371,22 @@ proxy.action("queryContractsByInstid", {
     action:"com.yun9.ws.biz.service.UpdateContractStateService"
 });
 
+
+//任务
+proxy.action("QueryAirline", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryAirlineBySourceIdService"
+}).action("StartFlightTask", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.StartFlightTaskService"
+}).action("CompleteFlightTask", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.CompleteFlightTaskService"
+}).action("StartAirlinePlanTask", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.StartAirlinePlanTaskService"
+}).action("CompleteAirlinePlanTask", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
+});
 module.exports = proxy;
