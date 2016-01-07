@@ -33,6 +33,16 @@ block content
                             span.icon-bar
                         a.navbar-brand(href="#/list") 合同列表
                     div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.queryListService.contractList.loading()")
+                            li
+                                a(href="") 正在查询,请稍后...
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryListService.contractList.loading()")
+                            li.dropdown
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryListService.currQuery.label}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li(ng-repeat="queryItem in vm.queryListService.queryList")
+                                        a(href="",ng-click="vm.queryListService.selectQuery(queryItem)") {{queryItem.label}}
                         ul.nav.navbar-nav.navbar-left
                             li
                                 a(href="#/addContract") 新增合同
@@ -160,6 +170,8 @@ block content
                     dd {{vm.contractInfo.data.clause}}
                     dt 创建日期:
                     dd {{vm.contractInfo.data.createdate | timestampFilter}}
+                    dt 创建人:
+                    dd {{vm.contractInfo.data.createby | cacheFilter:'user':'name':'id'}}
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
@@ -176,3 +188,23 @@ block content
                                         div.thumbnail
                                             div(npt-image="item.attachmentsn" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
                                     //a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 处理日志
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.bizContractLogs")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
+                        div.list-group-item-text
+                            dl.dl-horizontal
+                                dt 操作人:
+                                dd {{item.createby | cacheFilter:'user':'name':'id'}}
+                                dt 附言:
+                                dd {{item.remark}}
+
+
