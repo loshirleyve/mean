@@ -144,11 +144,11 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 ,
                 {
                     key: 'attachmentsns',
-                    type: 'npt-select-image',
+                    type: 'npt-select-file',
                     templateOptions: {
                         required: false,
                         label: '添加附件:',
-                        imageRepository: QueryFileByUserLevel,
+                        fileRepository: QueryFileByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo,

@@ -183,10 +183,9 @@ block content
                             div.row
                                 div.col-xs-6.col-md-3
                                     //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
-                                    div(if="item.attachmentsn | cacheFilter:'file':'name':'id' === 'image'")
-                                        a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
-                                        div.thumbnail
-                                            div(npt-image="item.attachmentsn" onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
+                                    a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
+                                    div.thumbnail(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === 'image'")
+                                        div(npt-image="item.attachmentsn" ,onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
                                     //a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
 
             div.page-header
