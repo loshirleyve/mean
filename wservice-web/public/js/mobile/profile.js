@@ -4,17 +4,16 @@
 
 angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
     .factory("queryUserInfoById", function(nptRepository, nptSessionManager){
-        return nptRepository("QueryUserInfoById").params({
-//            "userid":nptSessionManager.getSession().getUser().id,
-//            "instid":nptSessionManager.getSession().getInst().id
-           "userid":"10000001498059",
-           "instid":"10000001463017"
+        return nptRepository("QueryUserInfoById").addRequestInterceptor(function(request){
+            request.params.userid=nptSessionManager.getSession().getUser().id;
+            request.params.instid=nptSessionManager.getSession().getInst().id;
+            return request;
         });
     })
     .factory("queryFileById", function(nptRepository){
         return nptRepository("QueryFileById");
     })
-    .controller("UserProfileController", function(queryUserInfoById, Notification, queryFileById){
+    .controller("UserProfileController", function(queryUserInfoById, Notification, queryFileById, nptSession){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.queryUserInfo = function() {
@@ -37,5 +36,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
             searchProp:"fileid",
             labelProp:"fileUrl"
         };
-        vm.queryUserInfo();
+        nptSession().then(function(){
+            vm.queryUserInfo();
+        });
     });

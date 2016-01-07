@@ -19,6 +19,9 @@ store.use("/app*", {
 }).use("/", {
     needLogin: true,
     needInst: true
+}).use("/mobile/profile", {
+    needLogin: true,
+    needInst: true
 });
 
 module.exports = store;
