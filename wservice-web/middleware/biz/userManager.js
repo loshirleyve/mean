@@ -3,6 +3,7 @@
  */
 
 module.exports = function () {
+
     return function (req, res, next) {
         res.render("admin/user/userManager");
     };
