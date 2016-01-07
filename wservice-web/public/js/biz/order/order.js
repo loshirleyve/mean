@@ -472,7 +472,7 @@ angular.module("orderApp", [
                             targetprocessid: response[0].id,
                             assignedid: nptSessionManager.getSession().getUser().id
                         }).then(function () {
-                            Notification.error({message: '分配工单员成功.', delay: 2000});
+                            Notification.success({message: '分配工单员成功.', delay: 2000});
                             //分配完成后需要刷新单据
                             vm.query();
                         }, function (error) {
