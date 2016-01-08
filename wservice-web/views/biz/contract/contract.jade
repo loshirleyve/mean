@@ -198,14 +198,9 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    h5 {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
+                                    label {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
                         div.list-group-item-text
-                            dl.dl-horizontal
-                                dt 操作人:
-                                dd {{item.createby | cacheFilter:'user':'name':'id'}}
-                                dt 附言:
-                                dd {{item.remark}}
-                                dt 处理时间:
-                                dd {{item.createdate | timestampFilter}}
+                            p 附言:{{item.remark}}
+                            p 操作人:{{item.createby | cacheFilter:'user':'name':'id'}}; &nbsp;&nbsp; 处理时间:{{item.createdate | timestampFilter}}
 
 
