@@ -89,7 +89,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'baserate',
-                    type: 'input',
+                    type: 'maskedPercentInput',
                     templateOptions: {
                         required: true,
                         label: '基本扣率:',
@@ -98,11 +98,12 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'extralbaserate',
-                    type: 'input',
+                    type: 'maskedPercentInput',
                     templateOptions: {
                         required: true,
                         label: '超额扣率:',
-                        placeholder: "请输入超额扣率"
+                        placeholder: "请输入超额扣率",
+                        percentMask:2
                     }
                 },
                 {
@@ -111,7 +112,8 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: true,
                         label: '进场费:',
-                        placeholder: "请输入进场费"
+                        placeholder: "请输入进场费",
+                        percentMask:2
                     }
                 },
                 {

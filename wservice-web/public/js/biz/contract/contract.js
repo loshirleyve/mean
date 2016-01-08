@@ -3,6 +3,15 @@
  */
 
 angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "contractApp.addContractForm", "wservice.common", "ngRoute", "ui-notification"])
+    .filter("percent",function() {
+        return function(input) {
+            var out;
+            if(input) {
+                out = (input*100)+"%";
+            }
+            return out
+        };
+    })
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
@@ -46,15 +55,6 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 redirectTo: "/list"
             });
 
-    })
-    .filter(percent,function() {
-        return function(input) {
-            var out;
-            if(input) {
-                out = (input*100)+"%";
-            }
-            return out
-        };
     })
     .factory("QueryContractsByInstid", function (nptRepository,nptSessionManager) {
         return nptRepository("queryContractsByInstid").params({
@@ -277,6 +277,8 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                         delay: 5000
                     });
                 });
+            }else {
+                vm.backup = [];
             }
 
         };
