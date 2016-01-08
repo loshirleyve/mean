@@ -130,6 +130,8 @@ block content
                             li
                                 a(href="",ng-click="vm.isSendBack(vm.contractInfo.data.id)",ng-show="vm.isShowSendBack()") 驳回
                             li
+                                a(href="#/addContract") 新增
+                            li
                                 a(href="#/edit/{{vm.contractInfo.data.id}}",ng-show="vm.isShowEdit()") 编辑
                             li
                                 a(href="#/list") 返回
@@ -170,23 +172,27 @@ block content
                     dd {{vm.contractInfo.data.clause}}
                     dt 创建日期:
                     dd {{vm.contractInfo.data.createdate | timestampFilter}}
-                    dt 创建人:
-                    dd {{vm.contractInfo.data.createby | cacheFilter:'user':'name':'id'}}
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
                         h4 合同附件
+            nav.navbar.navbar-default
+                div#navbar-collapse.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li(ng-class="{'active':vm.fileType === 'image'}")
+                            a(href="",ng-click="vm.switch('image')") 图片
+                        li(ng-class="{'active':vm.fileType === 'doc'}")
+                            a(href="",ng-click="vm.switch('doc')") 文档
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.contractAttachment")
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-3
-                                    //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
-                                    a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
-                                    div.thumbnail(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === 'image'")
-                                        div(npt-image="item.attachmentsn" ,onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
-                                    //a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
+                    div(ng-repeat="item in vm.contractAttachment")
+                        div.list-group-item(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === vm.fileType")
+                            div.list-group-item-heading
+                                div.row
+                                    div.col-xs-6.col-md-3
+                                        a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
+                                        div.thumbnail(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === 'image'")
+                                            div(npt-image="item.attachmentsn" ,onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
 
             div.page-header
                 div.row

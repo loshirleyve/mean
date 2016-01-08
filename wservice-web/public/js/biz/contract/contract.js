@@ -185,8 +185,18 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 });
             }else{
                 //构造附件参数
-                var attachmentsns = contractInfo.attachmentsns;
+                var attachmentsnFiles = contractInfo.attachmentsnFiles;
+                var attachmentsnImages = contractInfo.attachmentsnImages;
+                var attachmentsns = [];
                 var bizContractAttachments = [];
+
+                if(attachmentsnFiles) {
+                    attachmentsns = attachmentsns.concat(attachmentsnFiles);
+                }
+
+                if(attachmentsnImages) {
+                    attachmentsns = attachmentsns.concat(attachmentsnImages);
+                }
 
                 if(attachmentsns) {
                     for(var i= 0;i<attachmentsns.length;i++) {
@@ -279,6 +289,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //数据模型
         vm.contractAttachment = [];
+        vm.fileType = 'image';
 
         //转到下一单
         vm.next = function (contract) {
@@ -384,7 +395,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定将该合同送往审批?</label>'+
-                "<br/><label>附言:</label><input type='text' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 scope:{
 
@@ -430,7 +441,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定审批通过该合同?</label>'+
-                "<br/><label>附言:</label><input type='text' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
@@ -473,7 +484,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定废除该合同?</label>'+
-                "<br/><label>附言:</label><input type='text' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
@@ -515,7 +526,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定驳回该合同?</label>'+
-                "<br/><label>附言:</label><input type='text' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
@@ -551,6 +562,10 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                     delay: 5000
                 });
             });
+        };
+
+        vm.switch = function(fileType) {
+            vm.fileType = fileType;
         };
 
 

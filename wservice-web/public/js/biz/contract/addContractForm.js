@@ -8,7 +8,7 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
-    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
+    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,QueryImageByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
@@ -134,7 +134,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'clause',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         required: false,
                         label: '补充条款:',
@@ -143,12 +143,27 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 }
                 ,
                 {
-                    key: 'attachmentsns',
+                    key: 'attachmentsnFiles',
                     type: 'npt-select-file',
                     templateOptions: {
                         required: false,
-                        label: '添加附件:',
+                        label: '添加文档:',
                         fileRepository: QueryFileByUserLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"user"}
+                        }
+                    }
+                }
+                ,
+                {
+                    key: 'attachmentsnImages',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        required: false,
+                        label: '添加图片:',
+                        imageRepository: QueryImageByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo,
