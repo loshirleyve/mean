@@ -47,6 +47,15 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             });
 
     })
+    .filter(percent,function() {
+        return function(input) {
+            var out;
+            if(input) {
+                out = (input*100)+"%";
+            }
+            return out
+        };
+    })
     .factory("QueryContractsByInstid", function (nptRepository,nptSessionManager) {
         return nptRepository("queryContractsByInstid").params({
             "userid":nptSessionManager.getSession().getUser().id,

@@ -93,7 +93,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: true,
                         label: '基本扣率:',
-                        placeholder: "请输入基本扣率(若为1%,输入1)"
+                        placeholder: "请输入基本扣率"
                     }
                 },
                 {
@@ -102,7 +102,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: true,
                         label: '超额扣率:',
-                        placeholder: "请输入超额扣率(若为1%,输入1)"
+                        placeholder: "请输入超额扣率"
                     }
                 },
                 {
