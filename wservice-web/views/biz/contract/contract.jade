@@ -38,7 +38,7 @@ block content
                                 a(href="") 正在查询,请稍后...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryListService.contractList.loading()")
                             li.dropdown
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryListService.currQuery.label}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 合同查询 - {{vm.queryListService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
                                     li(ng-repeat="queryItem in vm.queryListService.queryList")
