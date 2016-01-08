@@ -183,6 +183,12 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
         return nptRepository("QueryFile").params({
             "level": "user",
             "instid": nptSessionManager.getSession().getInst().id,
+            "filetype":"doc"
+        });
+    }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "instid": nptSessionManager.getSession().getInst().id,
             "filetype":"image"
         });
     });
