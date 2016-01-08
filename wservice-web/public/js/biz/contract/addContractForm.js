@@ -8,7 +8,7 @@
  */
 
 angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
-    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
+    .factory("AddContractForm", function (QueryInstClients, nptFormlyStore, RegExpValidatorFactory, nptSessionManager, QueryFileByUserLevel,QueryImageByUserLevel,UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("AddContractForm", {
             fields: [
                 {
@@ -89,20 +89,22 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'baserate',
-                    type: 'input',
+                    type: 'maskedPercentInput',
                     templateOptions: {
                         required: true,
                         label: '基本扣率:',
-                        placeholder: "请输入基本扣率(若为1%,输入1)"
+                        placeholder: "请输入基本扣率",
+                        percentMask:2
                     }
                 },
                 {
                     key: 'extralbaserate',
-                    type: 'input',
+                    type: 'maskedPercentInput',
                     templateOptions: {
                         required: true,
                         label: '超额扣率:',
-                        placeholder: "请输入超额扣率(若为1%,输入1)"
+                        placeholder: "请输入超额扣率",
+                        percentMask:2
                     }
                 },
                 {
@@ -134,7 +136,7 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 },
                 {
                     key: 'clause',
-                    type: 'input',
+                    type: 'textarea',
                     templateOptions: {
                         required: false,
                         label: '补充条款:',
@@ -143,12 +145,27 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                 }
                 ,
                 {
-                    key: 'attachmentsns',
+                    key: 'attachmentsnFiles',
                     type: 'npt-select-file',
                     templateOptions: {
                         required: false,
-                        label: '添加附件:',
+                        label: '添加文档:',
                         fileRepository: QueryFileByUserLevel,
+                        uploadOptions : {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo,
+                            repositoryParams:{"level":"user"}
+                        }
+                    }
+                }
+                ,
+                {
+                    key: 'attachmentsnImages',
+                    type: 'npt-select-image',
+                    templateOptions: {
+                        required: false,
+                        label: '添加图片:',
+                        imageRepository: QueryImageByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo,
@@ -163,6 +180,12 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
     .factory("QueryInstClients",function(nptRepository){
         return nptRepository("queryInstClients");
     }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "instid": nptSessionManager.getSession().getInst().id,
+            "filetype":"doc"
+        });
+    }).factory("QueryImageByUserLevel", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryFile").params({
             "level": "user",
             "instid": nptSessionManager.getSession().getInst().id,

@@ -38,7 +38,7 @@ block content
                                 a(href="") 正在查询,请稍后...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryListService.contractList.loading()")
                             li.dropdown
-                                a.dropdown-toggle(href="",data-toggle="dropdown") 订单查询 - {{vm.queryListService.currQuery.label}}
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 合同查询 - {{vm.queryListService.currQuery.label}}
                                     span.caret
                                 ul.dropdown-menu
                                     li(ng-repeat="queryItem in vm.queryListService.queryList")
@@ -130,6 +130,8 @@ block content
                             li
                                 a(href="",ng-click="vm.isSendBack(vm.contractInfo.data.id)",ng-show="vm.isShowSendBack()") 驳回
                             li
+                                a(href="#/addContract") 新增
+                            li
                                 a(href="#/edit/{{vm.contractInfo.data.id}}",ng-show="vm.isShowEdit()") 编辑
                             li
                                 a(href="#/list") 返回
@@ -157,9 +159,9 @@ block content
                     dt 保底金额:
                     dd {{vm.contractInfo.data.baseamount}}
                     dt 基本扣率:
-                    dd {{vm.contractInfo.data.baserate}}%
+                    dd {{vm.contractInfo.data.baserate | percent}}
                     dt 超额扣率:
-                    dd {{vm.contractInfo.data.extralbaserate}}%
+                    dd {{vm.contractInfo.data.extralbaserate | percent}}
                     dt 进场费:
                     dd {{vm.contractInfo.data.slottingfee}}
                     dt 保证金:
@@ -170,23 +172,27 @@ block content
                     dd {{vm.contractInfo.data.clause}}
                     dt 创建日期:
                     dd {{vm.contractInfo.data.createdate | timestampFilter}}
-                    dt 创建人:
-                    dd {{vm.contractInfo.data.createby | cacheFilter:'user':'name':'id'}}
             div.page-header
                 div.row
                     div.col-xs-6.col-md-6
                         h4 合同附件
+            nav.navbar.navbar-default
+                div#navbar-collapse.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li(ng-class="{'active':vm.fileType === 'image'}")
+                            a(href="",ng-click="vm.switch('image')") 图片
+                        li(ng-class="{'active':vm.fileType === 'doc'}")
+                            a(href="",ng-click="vm.switch('doc')") 文档
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.contractAttachment")
-                        div.list-group-item-heading
-                            div.row
-                                div.col-xs-6.col-md-3
-                                    //h5(ng-if="item.inputtype != 'file'") {{item.attachname}}
-                                    a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
-                                    div.thumbnail(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === 'image'")
-                                        div(npt-image="item.attachmentsn" ,onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
-                                    //a(ng-if="item.inputtype === 'file'",href = "{{item.inputvalue | cacheFilter:'file':'url':'id'}}") {{item.attachname}}
+                    div(ng-repeat="item in vm.contractAttachment")
+                        div.list-group-item(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === vm.fileType")
+                            div.list-group-item-heading
+                                div.row
+                                    div.col-xs-6.col-md-3
+                                        a(href = "{{item.attachmentsn | cacheFilter:'file':'url':'id'}}" target="_blank") {{item.attachmentsn | cacheFilter:'file':'name':'id'}}
+                                        div.thumbnail(ng-if="(item.attachmentsn | cacheFilter:'file':'filetype':'id') === 'image'")
+                                            div(npt-image="item.attachmentsn" ,onload='if (this.width>160 || this.height>226) if (this.width/this.height>160/226) this.width=160; else this.height=226;')
 
             div.page-header
                 div.row
@@ -198,14 +204,9 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    h5 {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
+                                    label {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
                         div.list-group-item-text
-                            dl.dl-horizontal
-                                dt 操作人:
-                                dd {{item.createby | cacheFilter:'user':'name':'id'}}
-                                dt 附言:
-                                dd {{item.remark}}
-                                dt 处理时间:
-                                dd {{item.createdate | timestampFilter}}
+                            p 附言:{{item.remark}}
+                            p 操作人:{{item.createby | cacheFilter:'user':'name':'id'}}; &nbsp;&nbsp; 处理时间:{{item.createdate | timestampFilter}}
 
 
