@@ -3,6 +3,27 @@
  */
 
 angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
+    .config(function($routeProvider){
+        $routeProvider
+        .when("/", {
+            controller:"UserProfileController as vm",
+            templateUrl:"profile.html",
+            resolve:{
+                sessionData:function(nptSession){
+                    return nptSession();
+                }
+            }
+        })
+        .when("/userInfo", {
+            controller:"UserProfileController as vm",
+            templateUrl:"userInfo.html",
+            resolve:{
+                sessionData:function(nptSession){
+                    return nptSession();
+                }
+            }
+        });
+    })
     .factory("queryUserInfoById", function(nptRepository, nptSessionManager){
         return nptRepository("QueryUserInfoById").addRequestInterceptor(function(request){
             request.params.userid=nptSessionManager.getSession().getUser().id;
@@ -13,7 +34,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
     .factory("queryFileById", function(nptRepository){
         return nptRepository("QueryFileById");
     })
-    .controller("UserProfileController", function(queryUserInfoById, Notification, queryFileById, nptSession){
+    .controller("UserProfileController", function(queryUserInfoById, $location, Notification, queryFileById, nptSession){
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.queryUserInfo = function() {
@@ -39,4 +60,13 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
         nptSession().then(function(){
             vm.queryUserInfo();
         });
+        vm.toClient = function(){
+            location.href="/biz/client";
+        };
+        vm.transInst = function(){
+            location.href="/inst/select?focus=1"
+        };
+        vm.toUserInfo = function(){
+            $location.path("/userInfo");
+        }
     });
