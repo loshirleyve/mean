@@ -38,6 +38,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         vm.queryAirline = QueryAirline;
         //数据模型
         vm.model = {workOrder: {state: ""}};
+        vm.airLinePlan = {userid: userid};
 
         //表单配置
         vm.aXAirlinePlanTaskOptions = {
@@ -126,8 +127,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
 
             workorderids.push(vm.workorderid);
             vm.airLinePlan.workorderids = workorderids;
-            vm.airLinePlan.userid = userid;
-
+            delete vm.airLinePlan.fileId;
             StartAirlinePlanTask.post(vm.airLinePlan).then(function (response) {
                 Notification.success({
                     message: '航线规划开始成功',
@@ -155,9 +155,11 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             if (vm.airLinePlan.fileId) {
                 vm.airLinePlan.requirementId = "3";
                 vm.airLinePlan.attachmentValue = vm.airLinePlan.fileId;
+            }else
+            {
+                delete vm.airLinePlan.fileId;
             }
             vm.airLinePlan.workorderids = workorderids;
-            vm.airLinePlan.userid = userid;
 
             CompleteAirlinePlanTask.post(vm.airLinePlan).then(function (response) {
                 Notification.success({

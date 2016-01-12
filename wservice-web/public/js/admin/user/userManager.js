@@ -49,7 +49,7 @@ angular.module("userManagerApp", ["ui.neptune",
                   {name: "东永裴",sex: "男",tel: "424171203",occupation: "歌手",hobby: "唱歌，跳舞",address: "韩国首尔"},
                   {name: "崔胜贤",sex: "男",tel: "1690107228",occupation: "歌手，rap",hobby: "唱歌，收藏艺术品",address: "韩国首尔"},
                   {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
-                  {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}]
+                  {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}];
 
     }).controller("detailController", function ($routeParams) {
         var vm = this;
@@ -60,6 +60,6 @@ angular.module("userManagerApp", ["ui.neptune",
             {name: "东永裴",sex: "男",tel: "424171203",occupation: "歌手",hobby: "唱歌，跳舞",address: "韩国首尔"},
             {name: "崔胜贤",sex: "男",tel: "1690107228",occupation: "歌手，rap",hobby: "唱歌，收藏艺术品",address: "韩国首尔"},
             {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
-            {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}]
+            {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}];
 
     });

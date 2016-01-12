@@ -123,7 +123,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
 
             workorderids.push(vm.workorderid);
             vm.flight.workorderids = workorderids;
-
+            delete vm.airLinePlan.fileId;
             StartFlightTask.post(vm.flight).then(function (response) {
                 Notification.success({
                     message: '飞行计划开始成功',
@@ -169,6 +169,9 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                         if (vm.flight.fileId) {
                             vm.flight.requirementId = "3";
                             vm.flight.attachmentValue = vm.flight.fileId;
+                        }else
+                        {
+                            delete vm.flight.fileId;
                         }
                         vm.flight.workorderids = workorderids;
                         vm.nptFormApi.form.$commitViewValue();
