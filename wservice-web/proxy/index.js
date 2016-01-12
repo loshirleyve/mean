@@ -389,4 +389,11 @@ proxy.action("QueryAirline", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
 });
+
+
+//导航
+proxy.action("QueryMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdNaviService"
+})
 module.exports = proxy;
