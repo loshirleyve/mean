@@ -23,34 +23,41 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         return nptRepository("queryWorkorderDetail");
     }).factory("StartFlightTask", function (nptRepository) {
         return nptRepository("StartFlightTask");
-    }).factory("CompleteFlightTask", function(nptRepository) {
+    }).factory("CompleteFlightTask", function (nptRepository) {
         return nptRepository("CompleteFlightTask");
-    }).factory("QueryAirline", function(nptRepository) {
+    }).factory("QueryAirline", function (nptRepository) {
         return nptRepository("QueryAirline");
-    }).controller("AXFlightTaskController", function ($routeParams,$location,KitActionQuery, QueryWorkorderInfo,QueryAirline, StartFlightTask,CompleteFlightTask, aXFlightTaskForm, nptSessionManager,Notification) {
+    }).controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask, aXFlightTaskForm, aXFlightTask2Form, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        vm.model={};
+        var userid = nptSessionManager.getSession().getUser().id;
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
-        vm.queryAirline=QueryAirline;
+        vm.queryAirline = QueryAirline;
+
+        vm.model = {workOrder: {state: ""}};
+        vm.flight = {createby: userid, userid: userid};
         //表单配置
-        vm.startWorkorderOptions = {
+        vm.aXFlightTaskOptions = {
             store: aXFlightTaskForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
         };
+        vm.aXFlightTask2Options = {
+            store: aXFlightTask2Form,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptForm2Api = nptFormApi;
+            }
+        };
 
-        if(vm.code)
-        {
+        if (vm.code) {
             KitActionQuery.post({
                 code: vm.code
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
-                vm.workorderid=vm.params.workorderid;
+                vm.workorderid = vm.params.workorderid;
                 vm.query();
-                vm.queryLine();
             }, function (error) {
                 Notification.error({
                     title: "获取飞行计划出错.",
@@ -68,7 +75,10 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                 vm.workorderInfo.post({
                     workorderid: vm.workorderid
                 }).then(function (response) {
-                    vm.model=response.data;
+                    vm.model = response.data;
+                    vm.getFile(vm.model.orderAttachments);
+                    if (vm.model && vm.model.workOrder.state != 'unstart')
+                        vm.queryLine();
                 }, function (error) {
                     Notification.error({
                         title: '获取飞行计划出错',
@@ -81,12 +91,11 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             }
         };
 
-        vm.queryLine=function()
-        {
+        vm.queryLine = function () {
             vm.queryAirline.post({
                 sourceid: vm.workorderid
             }).then(function (response) {
-                vm.modelLine=response.data;
+                vm.modelLine = response.data;
             }, function (error) {
                 Notification.error({
                     title: '获取航线出错',
@@ -97,31 +106,14 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             });
         };
 
-        vm.showStart=function()
-        {
-            if(vm.model && vm.model.workOrder.state==='unstart')
-            {
-                return true;
+        vm.getFile = function (model) {
+            if (model) {
+                vm.temp = [];
+                angular.forEach(model, function (value) {
+                    vm.temp.push(value.inputvalue);
+                });
+                vm.airLinePlan.fileId=angular.copy(vm.temp);
             }
-            return false;
-        };
-
-        vm.showComplete=function()
-        {
-            if(vm.model && vm.model.workOrder.state==='inservice')
-            {
-                return true;
-            }
-            return false;
-        };
-
-        vm.show=function()
-        {
-            if(vm.model && vm.model.workOrder.state !='complete')
-            {
-                return true;
-            }
-            return false;
         };
 
         vm.startWorkorder = function () {
@@ -130,18 +122,16 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             var workorderids = [];
 
             workorderids.push(vm.workorderid);
+            vm.flight.workorderids = workorderids;
 
-            params.postscript = vm.postscript;
-            params.workorderids = workorderids;
-            params.userid = nptSessionManager.getSession().getUser().id;
-
-            StartFlightTask.post(params).then(function (response) {
+            StartFlightTask.post(vm.flight).then(function (response) {
                 Notification.success({
                     message: '飞行计划开始成功',
                     replaceMessage: true,
                     delay: 2000
                 });
                 vm.query();
+                vm.flight = {createby: userid, userid: userid};
             }, function (error) {
                 Notification.error({
                     title: '飞行计划开始失败',
@@ -154,8 +144,8 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         };
 
         vm.completeWorkorder = function () {
-            var a=false;
-            if(vm.modelLine) {
+            if (vm.modelLine) {
+                var a = false;
                 angular.forEach(vm.modelLine, function (value) {
                     if (value.state === 'inservice') {
                         a = true;
@@ -168,32 +158,75 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                     });
                 }
                 else {
-                    var params = {};
-                    var workorderids = [];
+                    if (vm.nptFormApi.form.$invalid) {
+                        Notification.error({message: '请输入正确的飞行任务信息.', delay: 2000});
+                    }
+                    else {
+                        var params = {};
+                        var workorderids = [];
 
-                    workorderids.push(vm.workorderid);
-
-                    params.postscript = vm.postscript;
-                    params.workorderids = workorderids;
-                    params.userid = nptSessionManager.getSession().getUser().id;
-
-                    CompleteFlightTask.post(params).then(function (response) {
-                        Notification.success({
-                            message: '完成飞行计划成功',
-                            replaceMessage: true,
-                            delay: 2000
+                        workorderids.push(vm.workorderid);
+                        if (vm.flight.fileId) {
+                            vm.flight.requirementId = "3";
+                            vm.flight.attachmentValue = vm.flight.fileId;
+                        }
+                        vm.flight.workorderids = workorderids;
+                        vm.nptFormApi.form.$commitViewValue();
+                        CompleteFlightTask.post(vm.flight).then(function (response) {
+                            Notification.success({
+                                message: '完成飞行计划成功',
+                                replaceMessage: true,
+                                delay: 2000
+                            });
+                            vm.query();
+                            vm.flight = {createby: userid, userid: userid};
+                        }, function (error) {
+                            Notification.error({
+                                title: '完成飞行计划失败',
+                                message: error.data.cause,
+                                replaceMessage: true,
+                                delay: 2000
+                            });
                         });
-                        vm.query();
-                    }, function (error) {
-                        Notification.error({
-                            title: '完成飞行计划失败',
-                            message: error.data.cause,
-                            replaceMessage: true,
-                            delay: 5000
-                        });
-                    });
+                    }
                 }
             }
+            else {
+                Notification.error({
+                    message: '请先制定航线规划',
+                    delay: 2000
+                });
+            }
+        };
+
+
+        vm.showStart = function () {
+            if (vm.model && vm.model.workOrder.state === 'unstart') {
+                return true;
+            }
+            return false;
+        };
+
+        vm.showComplete = function () {
+            if (vm.model && vm.model.workOrder.state === 'inservice') {
+                return true;
+            }
+            return false;
+        };
+
+        vm.show = function () {
+            if (vm.model && vm.model.workOrder.state != 'unstart') {
+                return true;
+            }
+            return false;
+        };
+
+
+        vm.showAireLine = function () {
+            if (vm.modelLine && vm.modelLine.length>0 ) {
+                return true;
+            }
+            return false;
         };
     }).controller("errorController", function () {
 
