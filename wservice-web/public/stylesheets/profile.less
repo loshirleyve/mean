@@ -1,14 +1,16 @@
 @screen-md-min :992px;
 @background-grey:#EEF0EF;
+@background-red:#E94B35;
+@white:#fff;
 div#client-head{
-  background-color: #E94B35;
+  background-color: @background-red;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 div#client-head>div{
   padding-left: 10px;
   padding-right: 0;
-  color: #ffffff;
+  color: @white;
 }
 dd#client-name{
   font-size: 18px;
@@ -17,17 +19,17 @@ dd#client-name{
   margin-top: 60px;
 }
 .link-small a:visited{
-  color: #ffffff;
+  color: @white;
 }
 #ul-item a{
   color: darkgray;
 }
 #ul-item{
-  background-color: #EEF0EF;
+  background-color: @background-grey;
 }
 #ul-item ul li{
   margin-top: 10px;
-  background-color: #ffffff;
+  background-color: @white;
 }
 img.img-small{
   width: 30px;
@@ -53,12 +55,12 @@ img.img-small{
   padding-top: 5px;
 }
 #user-header{
-  background-color: #E94B35;
-  color: #ffffff;
+  background-color: @background-red;
+  color: @white;
   padding-top: 5px;
 }
 #user-header a{
-  color: #ffffff;
+  color: inherit;
 }
 #user-head{
   padding-top: 10px;
@@ -103,4 +105,7 @@ img.img-small{
 }
 .disp-block{
   display: block;
+}
+#traInst:focus, #myclient:focus{
+  background-color: @background-red;
 }

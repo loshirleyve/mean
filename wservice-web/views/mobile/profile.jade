@@ -65,7 +65,7 @@ block content
                             li.col-xs-2.col-sm-2.col-md-1.col-lg-1
                                 img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/contact@3x.png")
                                 img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/contact@3x.png")
-                            li.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.toClient()")
+                            li#myclient.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.toClient()")
                                 p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 我的客户
                                 p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 我的客户
                             li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
@@ -81,7 +81,7 @@ block content
                             li.col-xs-2.col-sm-2.col-md-1.col-lg-1
                                 img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/switchAcc@3x.png")
                                 img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/switchAcc@3x.png")
-                            li.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.transInst()")
+                            li#traInst.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.transInst()")
                                 p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 切换机构
                                 p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 切换机构
                             li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
@@ -112,7 +112,7 @@ block content
         script(type="text/ng-template", id="userInfo.html")
             div#user-header.row
                 div.col-xs-1.col-sm-1
-                    a(href="", role="button")
+                    a(href="#/", role="button")
                         span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                         span.sr-only
                 div.col-xs-10.col-sm-10.text-center
