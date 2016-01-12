@@ -135,7 +135,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
                     delay: 2000
                 });
                 vm.query();
-                vm.airLinePlan = {};
+                vm.airLinePlan = {userid: userid};
             }, function (error) {
                 Notification.error({
                     title: '航线规划开始失败',
@@ -166,7 +166,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
                     delay: 2000
                 });
                 vm.query();
-                vm.airLinePlan = {};
+                vm.airLinePlan = {userid: userid};
             }, function (error) {
                 Notification.error({
                     title: '完成航线规划失败',
