@@ -2,10 +2,11 @@
 
 extends ../layout/layout-bizpage
 block titleContent
-    title 完成任务
+    title 航线规划
 block content
     script(src="/js/ax/axAirlinePlanTask.js")
-    script(src="/js/biz/workorder/workorderForm.js")
+    script(src="/js/ax/axAirlinePlanTaskForm.js")
+    script(src="/vendor/plupload-2.1.2/js/plupload.full.min.js")
     div(ng-app="AXAirlinePlanTaskApp")
         //内容区域
         div(ng-view)
@@ -37,8 +38,6 @@ block content
                                 a(ng-click="vm.startWorkorder()",ng-show="vm.showStart();") 开始任务
                             li
                                 a(ng-click="vm.completeWorkorder()",ng-show="vm.showComplete();") 完成任务
-                            li
-                                a(ng-click="vm.nptFormApi.reset()",ng-show="vm.show();") 重置
                             li
                                 a(ng-click="vm.query()") 刷新任务
             div.panel.panel-default
@@ -75,7 +74,8 @@ block content
                         dd {{vm.model.workOrder.duty | timestampFilter}}
                         dt 创建日期:
                         dd {{vm.model.workOrder.createdate | timestampFilter}}
-            div.page-header
+
+            div.page-header(ng-show="vm.showAireLine();")
                 div.row
                     div.col-xs-6.col-md-6
                         h4 航线列表
@@ -85,11 +85,14 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    h5 {{item.createdate | timestampFilter}}
-                                    span {{item.createby | cacheFilter:'user':'name':'id'}}
+                                    h5 {{item.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                                    h5 {{item.data}}
                         div.list-group-item-text
+                            h5 {{item.createdate | timestampFilter}}
                             span {{item.remark}}
-            div(npt-form="vm.completeWorkorderOptions",model="vm.postscript",ng-show="vm.show();")
+
+            div(npt-form="vm.aXAirlinePlanTaskOptions",model="vm.airLinePlan",ng-show="vm.show();")
+            div(npt-form="vm.aXAirlinePlanTask2Options",model="vm.airLinePlan",ng-show="vm.showStart();")
 
 
         script(type="text/ng-template",id="error.html")

@@ -19,7 +19,7 @@ block content
                 div.col-md-12
                     ul.breadcrumb
                         li
-                            a(href="home")
+                            a(href="/app/home")
                                 span.glyphicon.glyphicon-home
                                 span 首页
                         li.active 用户列表
@@ -41,3 +41,53 @@ block content
                                 a 用户查询
 
             div(npt-grid="vm.userListGridOptions",model="vm.users")
+
+
+        script(type="text/ng-template",id="detail.html")
+            //功能导航区
+            div.row
+                div.col-md-12
+                    ul.breadcrumb
+                        li
+                            a(href="/app/home")
+                                span.glyphicon.glyphicon-home
+                                span 首页
+                        li
+                            a(href="#/list")
+                                用户列表
+                        li.active 用户详情
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top
+                div.container-fluid
+                    div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href="#") 用户详情
+                    div#navbar-collapse.collapse.navbar-collapse
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href="") 正在查询,请稍后...
+                            li
+                                a(href="#/list") 返回
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户导航
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.users")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-6.col-md-6
+                                    h5 {{item.name}}
+                        div.list-group-item-text
+                            span {{item.sex}}
+                            span {{item.tel}}
+                            span {{item.occupation}}
+                            span {{item.hobby}}
+                            span {{item.address}}
+
