@@ -3,6 +3,15 @@
  */
 
 angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "contractApp.addContractForm", "wservice.common", "ngRoute", "ui-notification"])
+    .filter("percent",function() {
+        return function(input) {
+            var out;
+            if(input) {
+                out = (input*100)+"%";
+            }
+            return out
+        };
+    })
     .config(function ($routeProvider) {
         //注册客户路由
         $routeProvider
@@ -71,7 +80,6 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         self.query = function (params) {
             params = params || {};
             self.contractList.post(params).then(function(response){
-                self.contractList._lastParams = angular.copy(params);
             }, function(error){
                 Notification.error({
                     title: "查询合同列表失败.",
@@ -80,7 +88,60 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             });
         };
 
-        self.query();
+        //建立待查询列表
+        self.queryList = [{
+            label: "全部",
+            type: "all",
+            callback: function () {
+                self.query();
+            }
+        }, {
+            label: "草稿",
+            type: "draft",
+            callback: function () {
+                self.query({
+                    state: "draft"
+                });
+            }
+        }, {
+            label: "待审核",
+            type: "waitaudit",
+            callback: function () {
+                self.query({
+                    state: "waitaudit"
+                });
+            }
+        }, {
+            label: "已审核",
+            type: "audit",
+            callback: function () {
+                self.query({
+                    state: "audit"
+                });
+            }
+        }, {
+            label: "作废",
+            type: "close",
+            callback: function () {
+                self.query({
+                    state: "close"
+                });
+            }
+        }];
+
+        //选择查询列表
+        self.selectQuery = function (query) {
+            if (query) {
+                self.currQuery = query;
+                if (query.callback) {
+                    query.callback();
+                }
+            }
+        };
+
+        //选择一个默认查询
+        self.selectQuery(self.queryList[1]);
+
     })
     .controller("contractListController", function ($scope, $http, $location,ContractListQueryService, ContractListGrid) {
         var vm = this;
@@ -133,8 +194,18 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                 });
             }else{
                 //构造附件参数
-                var attachmentsns = contractInfo.attachmentsns;
+                var attachmentsnFiles = contractInfo.attachmentsnFiles;
+                var attachmentsnImages = contractInfo.attachmentsnImages;
+                var attachmentsns = [];
                 var bizContractAttachments = [];
+
+                if(attachmentsnFiles) {
+                    attachmentsns = attachmentsns.concat(attachmentsnFiles);
+                }
+
+                if(attachmentsnImages) {
+                    attachmentsns = attachmentsns.concat(attachmentsnImages);
+                }
 
                 if(attachmentsns) {
                     for(var i= 0;i<attachmentsns.length;i++) {
@@ -146,7 +217,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
                 var params = {
                         "id":contractInfo.id,
-                        "createby":nptSessionManager.getSession().getUser().id,
+                        //"createby":nptSessionManager.getSession().getUser().id,
                         "projectid":contractInfo.projectid,
                         "instid":nptSessionManager.getSession().getInst().id,
                         "shoppename":contractInfo.shoppename,
@@ -166,6 +237,11 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                         "bizContractAttachments":bizContractAttachments,
                         "createdate":contractInfo.createdate
                     } || {};
+                if(contractInfo.id) {
+                    params.createby = contractInfo.createby;
+                }else {
+                    params.createby = nptSessionManager.getSession().getUser().id;
+                }
 
                 vm.addContract.post(params)
                     .then(function(response){
@@ -201,6 +277,8 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                         delay: 5000
                     });
                 });
+            }else {
+                vm.backup = [];
             }
 
         };
@@ -222,6 +300,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         //数据模型
         vm.contractAttachment = [];
+        vm.fileType = 'image';
 
         //转到下一单
         vm.next = function (contract) {
@@ -247,6 +326,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                     contractid: vm.contractid
                 }).then(function (response) {
                     vm.contractAttachment = response.data.bizContractAttachments;
+                    vm.bizContractLogs = response.data.bizContractLogs;
                 }, function (error) {
                     Notification.error({
                         title: '查询合同详情失败',
@@ -325,28 +405,31 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         vm.isSend = function(contractid) {
             nptMessageBox.open({
                 title:"提示",
-                content: '确定将该合同送往审批?',
+                content: '<label>确定将该合同送往审批?</label>'+
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
+                scope:{
+
+                },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.send(contractid);
+                            vm.send(contractid, modalResult.scope.remark);
+
                         }]
                     }
-                },
-                modal:{
-                    size:"sm"
                 }
             });
         };
 
         //送审
-        vm.send = function(contractid) {
+        vm.send = function(contractid, remark) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"waitaudit",
-                "userid":nptSessionManager.getSession().getUser().id
+                "userid":nptSessionManager.getSession().getUser().id,
+                "remark":remark
             }).then(function (response) {
                 vm.query();
 
@@ -368,28 +451,28 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         vm.isPass = function(contractid) {
             nptMessageBox.open({
                 title:"提示",
-                content: '确定审批通过该合同?',
+                content: '<label>确定审批通过该合同?</label>'+
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.pass(contractid);
+
+                            vm.pass(contractid, modalResult.scope.remark);
                         }]
                     }
-                },
-                modal:{
-                    size:"sm"
                 }
             });
         };
 
         //审批通过
-        vm.pass = function(contractid) {
+        vm.pass = function(contractid, remark) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"audit",
-                "userid":nptSessionManager.getSession().getUser().id
+                "userid":nptSessionManager.getSession().getUser().id,
+                "remark":remark
             }).then(function (response) {
                 vm.query();
 
@@ -411,28 +494,27 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         vm.isCancle = function(contractid) {
             nptMessageBox.open({
                 title:"提示",
-                content: '确定废除该合同?',
+                content: '<label>确定废除该合同?</label>'+
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.cancle(contractid);
+                            vm.cancle(contractid, modalResult.scope.remark);
                         }]
                     }
-                },
-                modal:{
-                    size:"sm"
                 }
             });
         };
 
         //作废
-        vm.cancle = function(contractid) {
+        vm.cancle = function(contractid, remark) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"close",
-                "userid":nptSessionManager.getSession().getUser().id
+                "userid":nptSessionManager.getSession().getUser().id,
+                "remark":remark
             }).then(function (response) {
                 vm.query();
 
@@ -454,28 +536,27 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         vm.isSendBack = function(contractid) {
             nptMessageBox.open({
                 title:"提示",
-                content: '确定驳回该合同?',
+                content: '<label>确定驳回该合同?</label>'+
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.sendBack(contractid);
+                            vm.sendBack(contractid, modalResult.scope.remark);
                         }]
                     }
-                },
-                modal:{
-                    size:"sm"
                 }
             });
         };
 
         //作废
-        vm.sendBack = function(contractid) {
+        vm.sendBack = function(contractid,remark) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"draft",
-                "userid":nptSessionManager.getSession().getUser().id
+                "userid":nptSessionManager.getSession().getUser().id,
+                "remark":remark
             }).then(function (response) {
                 vm.query();
 
@@ -492,6 +573,10 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
                     delay: 5000
                 });
             });
+        };
+
+        vm.switch = function(fileType) {
+            vm.fileType = fileType;
         };
 
 

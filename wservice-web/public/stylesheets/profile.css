@@ -14,22 +14,17 @@ dd#client-name{
 .link-small{
     margin-top: 60px;
 }
-.link-small a{
+.link-small a:visited{
     color: #ffffff;
 }
 #ul-item a{
     color: darkgray;
 }
-ul>li{
-    padding-top: 3px;
-    padding-bottom: 2px;
-}
-ul#ul-item{
+#ul-item{
     background-color: #EEF0EF;
 }
-ul#ul-item>li{
+#ul-item ul li{
     margin-top: 10px;
-    margin-bottom: 10px;
     background-color: #ffffff;
 }
 img.img-small{
