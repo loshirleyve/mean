@@ -155,10 +155,8 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             if (vm.airLinePlan.fileId) {
                 vm.airLinePlan.requirementId = "3";
                 vm.airLinePlan.attachmentValue = vm.airLinePlan.fileId;
-            }else
-            {
-                delete vm.airLinePlan.fileId;
             }
+            delete vm.airLinePlan.fileId;
             vm.airLinePlan.workorderids = workorderids;
 
             CompleteAirlinePlanTask.post(vm.airLinePlan).then(function (response) {
