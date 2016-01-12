@@ -17,6 +17,14 @@ angular.module("userManagerApp", ["ui.neptune",
                         return nptSession();
                     }
                 }
+            }).when("/detail/:id", {
+                controller: "detailController as vm",
+                templateUrl: "detail.html",
+                resolve: {
+                    sessionData: function (nptSession) {
+                        return nptSession();
+                    }
+                }
             })
             .otherwise({
                 redirectTo: "/list"
@@ -43,5 +51,15 @@ angular.module("userManagerApp", ["ui.neptune",
                   {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
                   {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}]
 
+    }).controller("detailController", function ($routeParams) {
+        var vm = this;
+        //记录当前编辑的用户id
+        vm.userid = $routeParams.id;
+
+        vm.users=[{name: "权志龙",sex: "男",tel: "1369101459",occupation: "歌手，制作人",hobby: "唱歌，作词作曲",address: "韩国首尔"},
+            {name: "东永裴",sex: "男",tel: "424171203",occupation: "歌手",hobby: "唱歌，跳舞",address: "韩国首尔"},
+            {name: "崔胜贤",sex: "男",tel: "1690107228",occupation: "歌手，rap",hobby: "唱歌，收藏艺术品",address: "韩国首尔"},
+            {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
+            {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}]
 
     });

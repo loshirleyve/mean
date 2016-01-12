@@ -2,7 +2,7 @@
  * Created by leon on 15/12/17.
  */
 
-angular.module("AXFlightTaskApp", ["ui.neptune", "workorderApp.workorderForm", "wservice.common", "ngRoute"])
+angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskForm", "wservice.common", "ngRoute"])
     .config(function ($routeProvider) {
         $routeProvider.when("/form/:code", {
             controller: "AXFlightTaskController as vm",
@@ -27,7 +27,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "workorderApp.workorderForm", "
         return nptRepository("CompleteFlightTask");
     }).factory("QueryAirline", function(nptRepository) {
         return nptRepository("QueryAirline");
-    }).controller("AXFlightTaskController", function ($routeParams,$location,KitActionQuery, QueryWorkorderInfo,QueryAirline, StartFlightTask,CompleteFlightTask, StartWorkorderForm, nptSessionManager,Notification) {
+    }).controller("AXFlightTaskController", function ($routeParams,$location,KitActionQuery, QueryWorkorderInfo,QueryAirline, StartFlightTask,CompleteFlightTask, aXFlightTaskForm, nptSessionManager,Notification) {
         var vm = this;
         vm.code = $routeParams.code;
         vm.model={};
@@ -36,7 +36,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "workorderApp.workorderForm", "
         vm.queryAirline=QueryAirline;
         //表单配置
         vm.startWorkorderOptions = {
-            store: StartWorkorderForm,
+            store: aXFlightTaskForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
             }
