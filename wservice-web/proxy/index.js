@@ -391,6 +391,12 @@ proxy.action("QueryAirline", {
 }).action("CompleteAirlinePlanTask", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
+}).action("AddOrUpdateAirline", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineService"
+}).action("AddOrUpdateAirlineLog", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
 });
 
 

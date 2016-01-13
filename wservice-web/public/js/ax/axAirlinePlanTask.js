@@ -192,13 +192,6 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             return false;
         };
 
-        vm.show = function () {
-            if (vm.model && vm.model.workOrder.state != 'unstart') {
-                return true;
-            }
-            return false;
-        };
-
         vm.showAireLine = function () {
             if (vm.modelLine && vm.modelLine.length > 0) {
                 return true;
