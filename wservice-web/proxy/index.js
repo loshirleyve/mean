@@ -140,6 +140,9 @@ proxy.action("queryCities", {
 }).action("QueryRequirementsByInstid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
+}).action("QueryRequirementById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryRequirementByIdService"
 });
 
 //工单
