@@ -389,4 +389,15 @@ proxy.action("QueryAirline", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
 });
+
+//余额
+proxy.action("QueryBalanceByOwner", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.member.service.QueryBalanceByOwnerService"
+});
+//充值
+proxy.action("QueryRechargeGroupsByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
+});
 module.exports = proxy;
