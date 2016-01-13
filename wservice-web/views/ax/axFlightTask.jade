@@ -6,6 +6,7 @@ block titleContent
 block content
     script(src="/js/ax/axFlightTask.js")
     script(src="/js/ax/axFlightTaskForm.js")
+    script(src="/vendor/plupload-2.1.2/js/plupload.full.min.js")
     div(ng-app="AXFlightTaskApp")
         //内容区域
         div(ng-view)
@@ -37,8 +38,6 @@ block content
                                 a(ng-click="vm.startWorkorder()",ng-show="vm.showStart();") 开始任务
                             li
                                 a(type="button",ng-click="vm.completeWorkorder()",ng-show="vm.showComplete();",ng-disabled="vm.nptFormApi.form.$invalid") 完成任务
-                            li
-                                a(ng-click="vm.nptFormApi.reset()",ng-show="vm.showComplete();") 重置
                             li
                                 a(ng-click="vm.query()") 刷新任务
             div.panel.panel-default
@@ -87,15 +86,50 @@ block content
                                 div.col-xs-6.col-md-6
                                     h5 {{item.state | ctrlCodeFilter:'workstate':'name':'no'}}
                                     h5 {{item.data}}
+                                div.col-xs-6.col-md-6
+                                    button.btn.btn-primary.btn-sm.pull-right(type="button",ng-show="vm.unstartShow(item.state);",ng-click="vm.startAirLine(item.id);") 开始飞行
+                                    button.btn.btn-primary.btn-sm.pull-right(type="button",ng-show="vm.inserviceShow(item.state);",ng-click="vm.completeAirLine(item.id);") 完成飞行
                         div.list-group-item-text
                             h5 {{item.createdate | timestampFilter}}
                             span {{item.remark}}
-            div.page-header(ng-show="vm.showComplete();")
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 附件
+            div(npt-form="vm.aXFlightTaskOptions",model="vm.flight")
+
+        script(type="text/ng-template",id="completeAirLine.html")
+            //功能导航区域
+            ul.breadcrumb
+                li
+                    a(href="/app/home")
+                        span.glyphicon.glyphicon-home
+                        span 首页
+                li
+                    a(href="#/form/{{vm.code}}") 飞行任务
+                li.active 完成飞行
+            //功能导航
+            nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+                div.container-fluid
+                    div.navbar-header
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar-collapse', aria-expanded='false')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href="#") 飞行任务-完成飞行
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left
+                            li
+                                a(ng-click="vm.completeAirLine();") 完成飞行
+                            li
+                                a(href="#/form") 返回
+            div.page-header
                 div.row
                     div.col-xs-6.col-md-6
                         h4 飞行日志
-            div(npt-form="vm.aXFlightTaskOptions",model="vm.flight",ng-show="vm.show();")
-            div(npt-form="vm.aXFlightTask2Options",model="vm.flight",ng-show="vm.showStart();")
+            div(npt-form="vm.aXAirLineLogOptions",model="vm.log")
+
         script(type="text/ng-template",id="error.html")
             div.jumbotron
                 h1 飞行计划不存在

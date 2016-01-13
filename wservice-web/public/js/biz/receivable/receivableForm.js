@@ -100,18 +100,18 @@ angular.module("receivableApp.receivableForm", ["ui.neptune"])
                 },
                 {
                     key: 'begindate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         label: '开始日期:',
-                        placeholder: '日期格式为:20150101'
+                        "formateType": "short"
                     }
                 },
                 {
                     key: 'enddate',
-                    type: 'input',
+                    type: 'dateInput',
                     templateOptions: {
                         label: '结束日期:',
-                        placeholder: '日期格式为:20150101'
+                        "formateType": "short"
                     }
                 },
                 {
