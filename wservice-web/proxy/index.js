@@ -140,6 +140,9 @@ proxy.action("queryCities", {
 }).action("QueryRequirementsByInstid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
+}).action("QueryRequirementById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryRequirementByIdService"
 });
 
 //工单
@@ -388,8 +391,15 @@ proxy.action("QueryAirline", {
 }).action("CompleteAirlinePlanTask", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
+}).action("AddOrUpdateAirline", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineService"
+}).action("AddOrUpdateAirlineLog", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
 });
 
+<<<<<<< HEAD
 //余额
 proxy.action("QueryBalanceByOwner", {
     proxy:"Y9",
@@ -400,4 +410,16 @@ proxy.action("QueryRechargeGroupsByUserId", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
 });
+=======
+
+//导航
+proxy.action("QueryMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdNaviService"
+}).action("AddOrUPdateMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
+});
+
+>>>>>>> e5c7b4f7a9972b0cc677aaac52d3fdc3be5fa4a3
 module.exports = proxy;
