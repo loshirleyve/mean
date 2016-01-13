@@ -21,7 +21,7 @@ block content
                 div
                     span 账户余额
                     span.font.item-padding(ng-bind="vm.queryBalance.data.balance+'元'")
-                    button.btn.btn-xs.pull-right 充值
+                    button.btn.btn-xs.pull-right(ng-click="vm.toRecharge()") 充值
                 p.small 充值记录
                 div
                     span 充值成功
@@ -35,3 +35,33 @@ block content
                         span.glyphicon.glyphicon-chevron-right
                         span.sr-only
                     span.font.pull-right(ng-bind="vm.rechargeGroup.unarrive")
+        script(type="text/ng-template", id="recharge.html")
+            div#title.text-center
+                div
+                    span 充值
+                div
+                    a(href="", type="button")
+                        span.glyphicon.glyphicon-chevron-left
+                        span.sr-only
+            div#body
+                div
+                    span 支付方式
+                    a.pull-right(href="#/payMode", type="button")
+                        span.font.small 请选择支付方式
+                        span.glyphicon.glyphicon-chevron-right
+                        span.sr-only
+                div
+                    span 充值金额
+                    input.text.pull-right.text-right(placeholder="请输入你要充值的金额")
+            div#foot.text-center
+                div
+                    span 确定充值
+        script(type="text/ng-template", id="payMode.html")
+            div#title.text-center
+                div
+                    span 支付方式
+                div
+                    a(href="", type="button")
+                        span.glyphicon.glyphicon-chevron-left
+                        span.sr-only
+            div#body

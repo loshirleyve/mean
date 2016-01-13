@@ -409,6 +409,11 @@ proxy.action("QueryRechargeGroupsByUserId", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
 });
+//查询支付方式
+proxy.action("QueryPayModeTypeByType", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.pay.service.QueryPayModeTypeByTypeService"
+});
 
 
 //导航

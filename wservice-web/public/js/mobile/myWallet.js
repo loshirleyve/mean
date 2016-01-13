@@ -1,7 +1,7 @@
 /**
  * Created by Shirley on 2016/1/13.
  */
-angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification", "wservice.common"])
+angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification"])
     .config(function($routeProvider){
         $routeProvider
             .when("/",{
@@ -13,6 +13,24 @@ angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification", "wser
                     }
                 }
             })
+            .when("/recharge",{
+                controller:"MyWalletController as vm",
+                templateUrl:"recharge.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession();
+                    }
+                }
+            })
+            .when("/payMode",{
+                controller:"MyWalletController as vm",
+                templateUrl:"payMode.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession();
+                    }
+                }
+            });
     })
     .factory("QueryBalanceByOwner", function(nptRepository, nptSessionManager){
         return nptRepository("QueryBalanceByOwner").params({
@@ -24,7 +42,14 @@ angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification", "wser
             "userid":nptSessionManager.getSession().getUser().id
         });
     })
-    .controller("MyWalletController", function(QueryBalanceByOwner, Notification, QueryRechargeGroupsByUserId){
+    .factory("QueryPayModeTypeByType", function(nptRepository){
+        return nptRepository("QueryPayModeTypeByType").addRequestInterceptor(function(request){
+            request.params.paymodetype="online";
+            request.params.type="3rdparty";
+            return request;
+        });
+    })
+    .controller("MyWalletController", function(QueryBalanceByOwner, $location, Notification, QueryRechargeGroupsByUserId, QueryPayModeTypeByType){
         $(window.document.body).css("background-color","#EEF0EF");
         var vm = this;
         vm.rechargeGroup={};
@@ -46,6 +71,17 @@ angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification", "wser
                     vm.rechargeGroup.unarrive=recharge.nums;
                 }
             })
+        }, function(err){
+            Notification.error({
+                message:err.data.cause,
+                delay:2000
+            });
+        });
+        vm.toRecharge = function(){
+            $location.path("/recharge");
+        };
+        vm.queryPayMode = QueryPayModeTypeByType;
+        vm.queryPayMode.post().then(function(res){
         }, function(err){
             Notification.error({
                 message:err.data.cause,

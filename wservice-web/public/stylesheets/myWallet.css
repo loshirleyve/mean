@@ -47,3 +47,22 @@
   background-color: #fff;
   color: #E94B35;
 }
+#body .small {
+  padding-top: 2px;
+}
+#body input {
+  padding-left: 5px;
+  border: 0;
+}
+#foot {
+  position: fixed;
+  background-color: #E94B35;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
+  height: 38px;
+  line-height: 2.6;
+  color: #fff;
+  font-weight: bold;
+}
