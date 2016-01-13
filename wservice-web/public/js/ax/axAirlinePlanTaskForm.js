@@ -4,8 +4,8 @@
  * MIT Licensed
  */
 
-angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune","wservice.common"])
-    .factory("aXAirlinePlanTaskForm", function(nptFormlyStore,nptSessionManager,QueryFileByUserLevel,UploadSignature,AddOrUpdateFileRepo) {
+angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wservice.common"])
+    .factory("aXAirlinePlanTaskForm", function (nptFormlyStore, nptSessionManager, QueryFileByUserLevel, UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("aXAirlinePlanTaskForm", {
             fields: [
                 {
@@ -16,7 +16,7 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune","wser
                         label: '添加文档附件:',
                         single: true,
                         fileRepository: QueryFileByUserLevel,
-                        uploadOptions : {
+                        uploadOptions: {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo
                         }
@@ -32,7 +32,7 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune","wser
                 }
             ]
         });
-    }).factory("aXAirlinePlanTask2Form", function(nptFormlyStore) {
+    }).factory("aXAirlinePlanTask2Form", function (nptFormlyStore) {
         return nptFormlyStore("aXAirlinePlanTask2Form", {
             fields: [
                 {
@@ -49,6 +49,6 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune","wser
         return nptRepository("QueryFile").params({
             "level": "user",
             "instid": nptSessionManager.getSession().getInst().id,
-            "filetype":"doc"
+            "filetype": "doc"
         });
     });

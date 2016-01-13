@@ -14,13 +14,57 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
             },
             fields: [
                 {
+                    key: 'fileId',
+                    type: 'npt-select-file',
+                    templateOptions: {
+                        required: false,
+                        label: '添加文档附件:',
+                        single: true,
+                        fileRepository: QueryFileByUserLevel,
+                        uploadOptions: {
+                            getSignature: UploadSignature.query,
+                            repository: AddOrUpdateFileRepo
+                        }
+                    }
+                },
+                {
+                    key: 'postscript',
+                    type: 'textarea',
+                    templateOptions: {
+                        label: '备注:',
+                        required: false
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
+        });
+    })
+    .factory("aXAirLineLogForm", function (nptFormlyStore, QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree) {
+        return nptFormlyStore("aXAirLineLogForm", {
+            fields: [
+                {
                     key: 'operatingtime',
                     type: 'dateInput',
                     templateOptions: {
                         "formateType": "short",
                         label: '作业时间:',
                         required: true
-                    }
+                    },
+                    defaultValue:new Date().getTime()
                 },
                 {
                     key: 'operatingaddr',
@@ -32,10 +76,14 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                 },
                 {
                     key: 'operator',
-                    type: 'input',
+                    type: 'npt-select-tree-single',
                     templateOptions: {
                         label: '飞控员:',
-                        required: true
+                        required: true,
+                        viewvalueQueryProp: "userid",
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree,
+                        viewvalueRepository: QueryUserInfoById
                     }
                 },
                 {
@@ -249,6 +297,20 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                     }
                 },
                 {
+                    key: 'createby',
+                    type: 'ui-select',
+                    templateOptions: {
+                        optionsAttr: "bs-options",
+                        label: '创建人:',
+                        valueProp: "id",
+                        labelProp: "name",
+                        options: [],
+                        search: ["userid"],
+                        repository: QueryUserInfoById,
+                        allowClear: false
+                    }
+                },
+                {
                     key: 'powerconsumption',
                     type: 'input',
                     templateOptions: {
@@ -301,57 +363,6 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                         search: ["userid"],
                         repository: QueryUserInfoById,
                         allowClear: false
-                    }
-                },
-                {
-                    key: 'fileId',
-                    type: 'npt-select-file',
-                    templateOptions: {
-                        required: false,
-                        label: '添加文档附件:',
-                        single: true,
-                        fileRepository: QueryFileByUserLevel,
-                        uploadOptions: {
-                            getSignature: UploadSignature.query,
-                            repository: AddOrUpdateFileRepo
-                        }
-                    }
-                },
-                {
-                    key: 'postscript',
-                    type: 'textarea',
-                    templateOptions: {
-                        label: '备注:',
-                        required: false
-                    }
-                }
-            ],
-            buttons: {
-                ok: false,
-                reset: false
-            },
-            onSubmitListens: [
-                function (model, $timeout, $q) {
-                    var deferd = $q.defer();
-
-                    $timeout(function () {
-                        deferd.resolve();
-                    }, 1000);
-
-                    return deferd.promise;
-                }
-            ]
-        });
-    })
-    .factory("aXFlightTask2Form", function (nptFormlyStore) {
-        return nptFormlyStore("aXFlightTask2Form", {
-            fields: [
-                {
-                    key: 'postscript',
-                    type: 'textarea',
-                    templateOptions: {
-                        label: '备注:',
-                        required: false
                     }
                 }
             ]

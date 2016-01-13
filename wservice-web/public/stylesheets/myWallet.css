@@ -1,0 +1,49 @@
+#title {
+  color: #fff;
+  margin: 0 -15px;
+  background-color: #E94B35;
+  font-weight: bold;
+}
+#title div {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#title div:first-child {
+  background-color: #E94B35;
+  width: 100%;
+  line-height: 2.6;
+}
+#title div:nth-child(2) {
+  padding: 10px;
+}
+#title div:nth-child(2) a {
+  color: #fff;
+}
+#body {
+  margin: 36px -15px 0 -15px;
+}
+#body .item-padding {
+  padding: 10px 10px 10px 20px;
+}
+#body .font {
+  color: #E94B35;
+}
+#body div {
+  background-color: #fff;
+  padding: 10px 10px 10px 20px;
+  margin-bottom: 1px;
+}
+#body p {
+  padding: 10px 0 0 10px;
+  margin: 0;
+}
+#body a {
+  color: #EEF0EF;
+  padding-left: 5px;
+}
+#body button {
+  border-color: #E94B35;
+  background-color: #fff;
+  color: #E94B35;
+}

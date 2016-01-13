@@ -6,7 +6,7 @@ div#client-head {
 div#client-head > div {
   padding-left: 10px;
   padding-right: 0;
-  color: #ffffff;
+  color: #fff;
 }
 dd#client-name {
   font-size: 18px;
@@ -15,7 +15,7 @@ dd#client-name {
   margin-top: 60px;
 }
 .link-small a:visited {
-  color: #ffffff;
+  color: #fff;
 }
 #ul-item a {
   color: darkgray;
@@ -25,7 +25,7 @@ dd#client-name {
 }
 #ul-item ul li {
   margin-top: 10px;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 img.img-small {
   width: 30px;
@@ -52,11 +52,11 @@ img.img-small {
 }
 #user-header {
   background-color: #E94B35;
-  color: #ffffff;
+  color: #fff;
   padding-top: 5px;
 }
 #user-header a {
-  color: #ffffff;
+  color: inherit;
 }
 #user-head {
   padding-top: 10px;
@@ -97,4 +97,8 @@ img.img-small {
 }
 .disp-block {
   display: block;
+}
+#traInst:focus,
+#myclient:focus {
+  background-color: #E94B35;
 }

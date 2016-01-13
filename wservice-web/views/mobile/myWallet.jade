@@ -1,0 +1,37 @@
+//
+   Created by Shirley on 2016/1/12.
+
+extends ../layout/layout-mobile
+block titleContent
+    link(rel='stylesheet', href='/stylesheets/myWallet.css')
+    title 我的钱包
+block content
+    script(src="/js/mobile/myWallet.js")
+    div(ng-app="MyWalletApp")
+        div(ng-view)
+        script(type="text/ng-template", id="myWallet.html")
+            div#title.text-center
+                div
+                    span 我的钱包
+                div
+                    a(href="", type="button")
+                        span.glyphicon.glyphicon-chevron-left
+                        span.sr-only
+            div#body
+                div
+                    span 账户余额
+                    span.font.item-padding(ng-bind="vm.queryBalance.data.balance+'元'")
+                    button.btn.btn-xs.pull-right 充值
+                p.small 充值记录
+                div
+                    span 充值成功
+                    a.pull-right(href="", type="button")
+                        span.glyphicon.glyphicon-chevron-right
+                        span.sr-only
+                    span.font.pull-right(ng-bind="vm.rechargeGroup.arrive")
+                div
+                    span 未支付
+                    a.pull-right(href="", type="button")
+                        span.glyphicon.glyphicon-chevron-right
+                        span.sr-only
+                    span.font.pull-right(ng-bind="vm.rechargeGroup.unarrive")

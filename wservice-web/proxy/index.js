@@ -391,6 +391,23 @@ proxy.action("QueryAirline", {
 }).action("CompleteAirlinePlanTask", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
+}).action("AddOrUpdateAirline", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineService"
+}).action("AddOrUpdateAirlineLog", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
+});
+
+//余额
+proxy.action("QueryBalanceByOwner", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.member.service.QueryBalanceByOwnerService"
+});
+//充值
+proxy.action("QueryRechargeGroupsByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
 });
 
 
@@ -402,5 +419,6 @@ proxy.action("QueryMdNavi", {
     proxy:"Y9",
     action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
 });
+
 
 module.exports = proxy;
