@@ -6,6 +6,7 @@ block titleContent
     title 导航管理
 block content
     script(src="/js/biz/navi/navi.js")
+    script(src="/js/biz/navi/addNaviForm.js")
     div(ng-app="naviApp")
         //通知区域
         //内容区域
@@ -29,6 +30,10 @@ block content
                             span.icon-bar
                             span.icon-bar
                         a.navbar-brand(href="#") 导航管理
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-left
+                            li
+                                a(href="#/add/0") 新增顶级导航
             div.page-body(ng-if="vm.navis")
                 ul.media.media-list
                     li.media(ng-repeat="navi in vm.navis")
@@ -38,19 +43,13 @@ block content
                                     div.col-xs-6.col-md-6
                                         span {{navi.name}}
                                     div.col-xs-6.col-md-6
-                                        button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(navi.id);") 查看
                                         button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(navi.id);") 添加子导航
                             ul.media.media-list
                                 li.media(ng-repeat="child in navi.children")
                                     div.media-left(style="padding-right: 50px")
                                     div.media-body
                                         a.list-group-item
-                                            div.row
-                                                div.col-xs-6.col-md-6
-                                                    span {{child.name}}
-                                                div.col-xs-6.col-md-6
-                                                    button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(child.id);") 查看
-                                                    button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(child.id);") 添加子导航
+                                            span {{child.name}}
         script(type="text/ng-template",id="add.html")
             //功能导航区域
             ul.breadcrumb
@@ -58,7 +57,10 @@ block content
                     a(href="app/home")
                         span.glyphicon.glyphicon-home
                         span 首页
-                li.active 导航列表
+                li
+                    a(href="#/list")
+                        span 合同管理
+                li.active 新增导航
             //功能按钮区域
             nav.navbar.navbar-default.navbar-fixed-top
                 div.container-fluid
@@ -69,4 +71,20 @@ block content
                             span.icon-bar
                             span.icon-bar
                         a.navbar-brand(href="#") 导航管理
-            div.page-body(ng-if="vm.navis")
+
+                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
+                        ul.nav.navbar-nav.navbar-right(ng-if="vm.addContract.loading()")
+                            li
+                                a(href="") 正在保存,请稍后...
+                        ul.nav.navbar-nav.navbar-right(ng-if="!vm.addContract.loading()")
+                            li
+                                a(href="",ng-disabled="vm.nptFormApi.form.$invalid", ng-click="vm.save(vm.navi)") 保存
+                            li
+                                a(href="",ng-click="vm.reset()") 重置
+                            li
+                                a(href="#/list") 返回
+                            li
+                                | &nbsp &nbsp &nbsp &nbsp
+            div.page-body
+                div(npt-form="vm.addNaviOptions",model="vm.navi")
+

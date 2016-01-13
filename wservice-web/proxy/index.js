@@ -395,5 +395,9 @@ proxy.action("QueryAirline", {
 proxy.action("QueryMdNavi", {
     proxy:"Y9",
     action:"com.yun9.sys.md.service.QueryMdNaviService"
-})
+}).action("AddOrUPdateMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
+});
+
 module.exports = proxy;

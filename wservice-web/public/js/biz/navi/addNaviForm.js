@@ -9,7 +9,6 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
         return nptFormlyStore("NaviForm", {
             options: {
                 formState: {
-                    disabled: true
                 }
 
             },
@@ -18,6 +17,7 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'name',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '导航名称:'
                     }
                 },
@@ -25,6 +25,7 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'no',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '编号:'
                     }
                 },
@@ -32,6 +33,7 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'type',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '类型:'
                     }
                 },
@@ -39,6 +41,7 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'actionvalue',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '路由值:'
                     }
                 },
@@ -46,6 +49,7 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'sort',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '序号:'
                     }
                 },
@@ -53,13 +57,15 @@ angular.module("naviApp.naviForm", ["ui.neptune"])
                     key: 'actiontype',
                     type: 'input',
                     templateOptions: {
-                        label: '处理人:'
+                        required: true,
+                        label: '动作类型:'
                     }
                 },
                 {
                     key: 'device',
                     type: 'input',
                     templateOptions: {
+                        required: true,
                         label: '设备:'
                     }
                 }
