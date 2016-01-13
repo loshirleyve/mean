@@ -399,7 +399,6 @@ proxy.action("QueryAirline", {
     action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
 });
 
-<<<<<<< HEAD
 //余额
 proxy.action("QueryBalanceByOwner", {
     proxy:"Y9",
@@ -410,7 +409,7 @@ proxy.action("QueryRechargeGroupsByUserId", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
 });
-=======
+
 
 //导航
 proxy.action("QueryMdNavi", {
@@ -421,5 +420,5 @@ proxy.action("QueryMdNavi", {
     action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
 });
 
->>>>>>> e5c7b4f7a9972b0cc677aaac52d3fdc3be5fa4a3
+
 module.exports = proxy;
