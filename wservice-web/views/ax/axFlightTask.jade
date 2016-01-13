@@ -5,7 +5,7 @@ block titleContent
     title 飞行计划
 block content
     script(src="/js/ax/axFlightTask.js")
-    script(src="/js/biz/workorder/workorderForm.js")
+    script(src="/js/ax/axFlightTaskForm.js")
     div(ng-app="AXFlightTaskApp")
         //内容区域
         div(ng-view)
@@ -36,9 +36,9 @@ block content
                             li
                                 a(ng-click="vm.startWorkorder()",ng-show="vm.showStart();") 开始任务
                             li
-                                a(ng-click="vm.completeWorkorder()",ng-show="vm.showComplete();") 完成任务
+                                a(type="button",ng-click="vm.completeWorkorder()",ng-show="vm.showComplete();",ng-disabled="vm.nptFormApi.form.$invalid") 完成任务
                             li
-                                a(ng-click="vm.nptFormApi.reset()",ng-show="vm.show();") 重置
+                                a(ng-click="vm.nptFormApi.reset()",ng-show="vm.showComplete();") 重置
                             li
                                 a(ng-click="vm.query()") 刷新任务
             div.panel.panel-default
@@ -75,7 +75,7 @@ block content
                         dd {{vm.model.workOrder.duty | timestampFilter}}
                         dt 创建日期:
                         dd {{vm.model.workOrder.createdate | timestampFilter}}
-            div.page-header
+            div.page-header(ng-show="vm.showAireLine();")
                 div.row
                     div.col-xs-6.col-md-6
                         h4 航线列表
@@ -85,12 +85,17 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    h5 {{item.createdate | timestampFilter}}
-                                    span {{item.createby | cacheFilter:'user':'name':'id'}}
+                                    h5 {{item.state | ctrlCodeFilter:'workstate':'name':'no'}}
+                                    h5 {{item.data}}
                         div.list-group-item-text
-                             h5 {{item.state}}
+                            h5 {{item.createdate | timestampFilter}}
                             span {{item.remark}}
-            div(npt-form="vm.startWorkorderOptions",model="vm.postscript",ng-show="vm.show();")
+            div.page-header(ng-show="vm.showComplete();")
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 飞行日志
+            div(npt-form="vm.aXFlightTaskOptions",model="vm.flight",ng-show="vm.show();")
+            div(npt-form="vm.aXFlightTask2Options",model="vm.flight",ng-show="vm.showStart();")
         script(type="text/ng-template",id="error.html")
             div.jumbotron
                 h1 飞行计划不存在

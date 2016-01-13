@@ -140,6 +140,9 @@ proxy.action("queryCities", {
 }).action("QueryRequirementsByInstid", {
     proxy: "Y9",
     action: "com.yun9.ws.biz.service.QueryRequirementsByInstidService"
+}).action("QueryRequirementById", {
+    proxy: "Y9",
+    action: "com.yun9.ws.biz.service.QueryRequirementByIdService"
 });
 
 //工单
@@ -389,4 +392,15 @@ proxy.action("QueryAirline", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.CompleteAirlinePlanTaskService"
 });
+
+
+//导航
+proxy.action("QueryMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.QueryMdNaviService"
+}).action("AddOrUPdateMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
+});
+
 module.exports = proxy;

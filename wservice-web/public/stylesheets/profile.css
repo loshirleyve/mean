@@ -1,57 +1,100 @@
-div#client-head{
-    background-color: #E94B35;
-    padding-top: 10px;
-    padding-bottom: 10px;
+div#client-head {
+  background-color: #E94B35;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-div#client-head>div{
-    padding-left: 10px;
-    padding-right: 0;
-    color: #ffffff;
+div#client-head > div {
+  padding-left: 10px;
+  padding-right: 0;
+  color: #ffffff;
 }
-dd#client-name{
-    font-size: 18px;
+dd#client-name {
+  font-size: 18px;
 }
-.link-small{
-    margin-top: 60px;
+.link-small {
+  margin-top: 60px;
 }
-.link-small a{
-    color: #ffffff;
+.link-small a:visited {
+  color: #ffffff;
 }
-#ul-item a{
-    color: darkgray;
+#ul-item a {
+  color: darkgray;
 }
-ul>li{
-    padding-top: 3px;
-    padding-bottom: 2px;
+#ul-item {
+  background-color: #EEF0EF;
 }
-ul#ul-item{
-    background-color: #EEF0EF;
+#ul-item ul li {
+  margin-top: 10px;
+  background-color: #ffffff;
 }
-ul#ul-item>li{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #ffffff;
+img.img-small {
+  width: 30px;
+  height: 30px;
 }
-img.img-small{
-    width: 30px;
-    height: 30px;
+#ul-item .img-small {
+  margin-left: 20px;
 }
-#ul-item .img-small{
-    margin-left: 20px;
+#ul-item .img-large {
+  margin-left: 30px;
 }
-#ul-item .img-large{
-    margin-left: 30px;
+#ul-item .link-small {
+  margin-top: 10px;
 }
-#ul-item .link-small{
-    margin-top: 10px;
+#ul-item .link-large {
+  margin-top: 20px;
 }
-#ul-item .link-large{
-    margin-top: 20px;
+.text-large {
+  padding-top: 20px;
+  margin-left: 10px;
 }
-.text-large{
-    padding-top: 20px;
-    margin-left: 10px;
+.text-small {
+  padding-top: 5px;
 }
-.text-small{
-    padding-top: 5px;
+#user-header {
+  background-color: #E94B35;
+  color: #ffffff;
+  padding-top: 5px;
+}
+#user-header a {
+  color: #ffffff;
+}
+#user-head {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#user-head p {
+  padding-top: 15px;
+}
+#user-head img.image-small {
+  width: 50px;
+  height: 50px;
+}
+#user-head img.image-large {
+  width: 100px;
+  height: 100px;
+}
+#devide {
+  background-color: #EEF0EF;
+  height: 5px;
+}
+@media (min-width: 992px) {
+  #user-head p {
+    padding-top: 30px;
+  }
+}
+.link-white {
+  color: lightgrey;
+}
+#info-item div:first-child {
+  padding-top: 10px;
+}
+#info-item hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#info-item a {
+  color: lightgrey;
+}
+.disp-block {
+  display: block;
 }

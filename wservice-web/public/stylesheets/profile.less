@@ -1,0 +1,111 @@
+@screen-md-min :992px;
+@background-grey:#EEF0EF;
+@background-red:#E94B35;
+@white:#fff;
+div#client-head{
+  background-color: @background-red;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+div#client-head>div{
+  padding-left: 10px;
+  padding-right: 0;
+  color: @white;
+}
+dd#client-name{
+  font-size: 18px;
+}
+.link-small{
+  margin-top: 60px;
+}
+.link-small a:visited{
+  color: @white;
+}
+#ul-item a{
+  color: darkgray;
+}
+#ul-item{
+  background-color: @background-grey;
+}
+#ul-item ul li{
+  margin-top: 10px;
+  background-color: @white;
+}
+img.img-small{
+  width: 30px;
+  height: 30px;
+}
+#ul-item .img-small{
+  margin-left: 20px;
+}
+#ul-item .img-large{
+  margin-left: 30px;
+}
+#ul-item .link-small{
+  margin-top: 10px;
+}
+#ul-item .link-large{
+  margin-top: 20px;
+}
+.text-large{
+  padding-top: 20px;
+  margin-left: 10px;
+}
+.text-small{
+  padding-top: 5px;
+}
+#user-header{
+  background-color: @background-red;
+  color: @white;
+  padding-top: 5px;
+}
+#user-header a{
+  color: inherit;
+}
+#user-head{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#user-head p{
+  padding-top: 15px;
+}
+#user-head img.image-small{
+  width: 50px;
+  height: 50px;
+}
+#user-head img.image-large{
+  width: 100px;
+  height: 100px;
+}
+#devide{
+  background-color: #EEF0EF;
+  height: 5px;
+}
+@media (min-width: @screen-md-min){
+  #user-head{
+    p{
+      padding-top: 30px;
+    }
+  }
+}
+.link-white{
+  color: lightgrey;
+}
+#info-item{
+  div:first-child{
+    padding-top: 10px;
+  }
+  hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  a{
+    .link-white
+  }
+}
+.disp-block{
+  display: block;
+}
+#traInst:focus, #myclient:focus{
+  background-color: @background-red;
+}

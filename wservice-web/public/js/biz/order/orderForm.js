@@ -209,8 +209,7 @@ angular.module("orderApp.orderForm", ["ui.neptune"])
                     templateOptions: {
                         label: '新价格:',
                         required: true,
-                        "min": 0.00,
-                        "max": 10000
+                        "min": 0.00
                     }
                 },
                 {
