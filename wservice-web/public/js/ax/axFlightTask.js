@@ -12,7 +12,16 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                     return nptSession();
                 }
             }
-        }).when("/error", {
+        }).when("/completeAirLine/:id/:code", {
+            controller: "completeAirLineController as vm",
+            templateUrl: "completeAirLine.html",
+            resolve: {
+                sessionData: function (nptSession) {
+                    return nptSession();
+                }
+            }
+        })
+        .when("/error", {
             controller: "errorController as vm",
             templateUrl: "error.html"
         });
@@ -27,10 +36,16 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         return nptRepository("CompleteFlightTask");
     }).factory("QueryAirline", function (nptRepository) {
         return nptRepository("QueryAirline");
-    }).controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask, aXFlightTaskForm, aXFlightTask2Form, nptSessionManager, Notification) {
+    }).factory("AddOrUpdateAirline", function (nptRepository) {
+        return nptRepository("AddOrUpdateAirline");
+    }).factory("AddOrUpdateAirlineLog", function (nptRepository) {
+        return nptRepository("AddOrUpdateAirlineLog");
+    })
+.controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
         var userid = nptSessionManager.getSession().getUser().id;
+        var instid = nptSessionManager.getSession().getInst().id;
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
         vm.queryAirline = QueryAirline;
@@ -42,12 +57,6 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             store: aXFlightTaskForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
-            }
-        };
-        vm.aXFlightTask2Options = {
-            store: aXFlightTask2Form,
-            onRegisterApi: function (nptFormApi) {
-                vm.nptForm2Api = nptFormApi;
             }
         };
 
@@ -157,7 +166,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                         delay: 5000
                     });
                 }
-                else {
+                else if(a===false){
                     if (vm.nptFormApi.form.$invalid) {
                         Notification.error({message: '请输入正确的飞行任务信息.', delay: 2000});
                     }
@@ -201,6 +210,33 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         };
 
 
+        vm.startAirLine = function (id) {
+            AddOrUpdateAirline.post({id:id,state:"inservice"}).then(function (response) {
+                Notification.success({
+                    message: '飞行开始执行',
+                    replaceMessage: true,
+                    delay: 2000
+                });
+                angular.forEach(vm.modelLine, function (value) {
+                    if (value.id === id) {
+                        value.state='inservice';
+                    }
+                });
+            }, function (error) {
+                Notification.error({
+                    title: '飞行开始执行失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        vm.completeAirLine=function(id)
+        {
+            $location.path("/completeAirLine/" + id+"/"+vm.code);
+        };
+
         vm.showStart = function () {
             if (vm.model && vm.model.workOrder.state === 'unstart') {
                 return true;
@@ -215,19 +251,72 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             return false;
         };
 
-        vm.show = function () {
-            if (vm.model && vm.model.workOrder.state != 'unstart') {
-                return true;
-            }
-            return false;
-        };
-
-
         vm.showAireLine = function () {
             if (vm.modelLine && vm.modelLine.length>0 ) {
                 return true;
             }
             return false;
+        };
+
+        vm.unstartShow=function(state)
+        {
+            if (state==='unstart') {
+                return true;
+            }
+            return false;
+        }
+
+        vm.inserviceShow=function(state)
+        {
+            if (state==='inservice') {
+                return true;
+            }
+            return false;
+        }
+    }).controller("completeAirLineController", function ($routeParams, $location, aXAirLineLogForm, AddOrUpdateAirline,AddOrUpdateAirlineLog,nptSessionManager, Notification) {
+        var vm = this;
+        vm.id = $routeParams.id;
+        vm.code = $routeParams.code;
+        var userid = nptSessionManager.getSession().getUser().id;
+        vm.log={airlineid:vm.id,createby:userid}
+        //表单配置
+        vm.aXAirLineLogOptions = {
+            store: aXAirLineLogForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+
+        vm.completeAirLine = function () {
+            AddOrUpdateAirline.post({id:vm.id,state:"complete"}).then(function (response) {
+                Notification.success({
+                    message: '完成飞行',
+                    replaceMessage: true,
+                    delay: 2000
+                });
+                vm.addAirLineLog()
+            }, function (error) {
+                Notification.error({
+                    title: '完成飞行失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        vm.addAirLineLog = function () {
+            AddOrUpdateAirlineLog.post(vm.log).then(function (response) {
+                $location.path("/form/"+vm.code);
+            }, function (error) {
+                Notification.error({
+                    title: '填写飞行日志失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
         };
     }).controller("errorController", function () {
 

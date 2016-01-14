@@ -1,0 +1,8 @@
+#navbar {
+  padding: auto -15px;
+  margin: auto -15px;
+  background-color: #E94B35;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+}

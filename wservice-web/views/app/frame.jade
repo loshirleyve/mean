@@ -142,14 +142,14 @@ html(ng-app='wservice.web.home')
                             li.header &#23548;&#33322;
                             li.treeview(ng-repeat='menu in vm.navigateMenu.menus',ng-class="{'active':menu.selected}")
                                 a(href="javascript:void(0);")
-                                    i.fa(ng-class="'icon-'+menu.no",style="font-size:20px;")
-                                    span(style="font-weight:500") {{menu.name}}
+                                    i.fa(ng-class="'icon-'+menu.no",style="font-size:19px;")
+                                    span(style="font-weight:500") {{' '+menu.name}}
                                     i.fa.fa-angle-left.pull-right
                                 ul.treeview-menu.menu-open
                                     li(ng-repeat='item in menu.children',ng-class="{'active':item.selected}")
                                         a(id='mno_{{item.no}}',href="javascript:void(0);", ng-click='vm.navigateMenu.navigateTo(item)',style="font-weight:500")
                                             i.fa(ng-class="'icon-'+item.no",style="font-size:20px;")
-                                            | {{item.name}}
+                                            | {{' '+item.name}}
                     // /.sidebar
                 // Content Wrapper. Contains page content
                 .content-wrapper

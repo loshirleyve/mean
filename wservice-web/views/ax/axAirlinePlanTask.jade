@@ -90,8 +90,11 @@ block content
                         div.list-group-item-text
                             h5 {{item.createdate | timestampFilter}}
                             span {{item.remark}}
-
-            div(npt-form="vm.aXAirlinePlanTaskOptions",model="vm.airLinePlan",ng-show="vm.show();")
+            div.page-header(ng-show="!vm.showStart();")
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 附件
+            div(npt-form="vm.aXAirlinePlanTaskOptions",model="vm.airLinePlan",ng-show="!vm.showStart();")
             div(npt-form="vm.aXAirlinePlanTask2Options",model="vm.airLinePlan",ng-show="vm.showStart();")
 
 
