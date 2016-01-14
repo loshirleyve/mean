@@ -405,10 +405,31 @@ proxy.action("QueryAirline", {
     action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
 });
 
+//余额
+proxy.action("QueryBalanceByOwner", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.member.service.QueryBalanceByOwnerService"
+});
+//充值
+proxy.action("QueryRechargeGroupsByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryRechargeGroupsByUserIdService"
+});
+//查询支付方式
+proxy.action("QueryPayModeTypeByType", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.pay.service.QueryPayModeTypeByTypeService"
+});
+
 
 //导航
 proxy.action("QueryMdNavi", {
     proxy:"Y9",
     action:"com.yun9.sys.md.service.QueryMdNaviService"
-})
+}).action("AddOrUPdateMdNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
+});
+
+
 module.exports = proxy;
