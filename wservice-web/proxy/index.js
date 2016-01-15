@@ -281,6 +281,15 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("AddOrgCardsByOrgid", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.AddOrgCardsByOrgidService"
+}).action("QueryUserContactByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserContactByUserIdService"
+}).action("QueryUserInviteByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserInviteByUserIdService"
+}).action("QueryUserWxByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserWxByUserIdService"
 });
 
 /*获取导航数据*/

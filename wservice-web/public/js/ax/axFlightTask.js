@@ -40,12 +40,17 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         return nptRepository("AddOrUpdateAirline");
     }).factory("AddOrUpdateAirlineLog", function (nptRepository) {
         return nptRepository("AddOrUpdateAirlineLog");
+    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "filetype": "doc"
+        });
     })
-.controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
+    .controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline,QueryFileByUserLevel, aXFlightTaskForm, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        var userid = nptSessionManager.getSession().getUser().id;
-        var instid = nptSessionManager.getSession().getInst().id;
+        var userid = "";
+        var instid = "";
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
         vm.queryAirline = QueryAirline;
@@ -66,6 +71,9 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
+                QueryFileByUserLevel.params({instid:vm.params.instid});
+                userid = vm.params.userid;
+                instid = vm.params.instid;
                 vm.query();
             }, function (error) {
                 Notification.error({

@@ -15,9 +15,9 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         }).when("/error", {
             controller: "errorController as vm",
             templateUrl: "error.html"
+        }).otherwise({
+            redirectTo: "/form/:code"
         });
-
-
     }).factory("KitActionQuery", function (nptRepository) {
         return nptRepository("KitActionQuery");
     }).factory("QueryWorkorderInfo", function (nptRepository) {
@@ -28,11 +28,15 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         return nptRepository("CompleteAirlinePlanTask");
     }).factory("QueryAirline", function (nptRepository) {
         return nptRepository("QueryAirline");
-    })
-    .controller("AXAirlinePlanTaskController", function ($routeParams, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartAirlinePlanTask, CompleteAirlinePlanTask, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
+    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "filetype": "doc"
+        });
+    }).controller("AXAirlinePlanTaskController", function ($routeParams, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartAirlinePlanTask, CompleteAirlinePlanTask,QueryFileByUserLevel, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        var userid = nptSessionManager.getSession().getUser().id;
+        var userid = "";
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
         vm.queryAirline = QueryAirline;
@@ -63,6 +67,8 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
+                QueryFileByUserLevel.params({instid:vm.params.instid});
+                userid=vm.params.userid;
                 vm.query();
             }, function (error) {
                 Notification.error({
