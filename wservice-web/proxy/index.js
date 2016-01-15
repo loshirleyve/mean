@@ -415,6 +415,12 @@ proxy.action("QueryPayModeTypeByType", {
     action:"com.yun9.ws.biz.pay.service.QueryPayModeTypeByTypeService"
 });
 
+//查询充值记录
+proxy.action("QueryRecharge", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryRechargeService"
+});
+
 
 //导航
 proxy.action("QueryMdNavi", {

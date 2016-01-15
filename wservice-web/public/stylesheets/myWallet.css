@@ -20,11 +20,14 @@
 #title div:nth-child(2) a {
   color: #fff;
 }
+.divide {
+  margin-bottom: 1px;
+}
+.item-padding {
+  padding: 10px 10px 10px 20px;
+}
 #body {
   margin: 36px -15px 0 -15px;
-}
-#body .item-padding {
-  padding: 10px 10px 10px 20px;
 }
 #body .font {
   color: #E94B35;
@@ -36,11 +39,12 @@
 }
 #body p {
   padding: 10px 0 0 10px;
-  margin: 0;
+  margin: 10px 0 0 0;
 }
 #body a {
   color: #EEF0EF;
   padding-left: 5px;
+  text-decoration: none;
 }
 #body button {
   border-color: #E94B35;
@@ -54,6 +58,33 @@
   padding-left: 5px;
   border: 0;
 }
+#body .radio {
+  color: #E94B35;
+}
+#body label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+#body label span:first-child {
+  display: block;
+}
+#body label input {
+  position: absolute;
+  right: 0;
+  margin: -5px 20px auto auto;
+}
+#body hr {
+  margin: 6px -4px 6px -16px;
+}
+#body .recharge-item {
+  margin: 0 4px 8px 4px;
+}
+#body .recharge-item p {
+  padding: 0;
+}
+#body .recharge-item:first-child {
+  margin: 40px 4px 8px 4px;
+}
 #foot {
   position: fixed;
   background-color: #E94B35;
@@ -65,4 +96,8 @@
   line-height: 2.6;
   color: #fff;
   font-weight: bold;
+}
+#foot a {
+  text-decoration: none;
+  color: #fff;
 }
