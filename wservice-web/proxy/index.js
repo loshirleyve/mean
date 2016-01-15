@@ -275,6 +275,21 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryCurrInstByUser", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryCurrInstByUserService"
+}).action("QueryInstRole", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstRoleService"
+}).action("AddOrgCardsByOrgid", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.AddOrgCardsByOrgidService"
+}).action("QueryUserContactByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserContactByUserIdService"
+}).action("QueryUserInviteByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserInviteByUserIdService"
+}).action("QueryUserWxByUserId", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryUserWxByUserIdService"
 });
 
 /*获取导航数据*/
@@ -413,6 +428,12 @@ proxy.action("QueryRechargeGroupsByUserId", {
 proxy.action("QueryPayModeTypeByType", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.pay.service.QueryPayModeTypeByTypeService"
+});
+
+//查询充值记录
+proxy.action("QueryRecharge", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryRechargeService"
 });
 
 

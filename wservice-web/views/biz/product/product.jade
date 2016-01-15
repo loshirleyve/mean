@@ -61,7 +61,6 @@ block content
                                 li.dropdown
                                     a.dropdown-toggle(href="",data-toggle="dropdown") 区 - {{vm.queryService.currDistrict.district}}
                                         span.caret
-                                    ul.dropdown-menu
                                         li(ng-repeat="district in vm.queryService.currCity.districts track by $index")
                                             a(ng-click="vm.queryService.selectDistrict(district)") {{district.district}}
 

@@ -68,5 +68,8 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
         };
         vm.toUserInfo = function(){
             $location.path("/userInfo");
-        }
+        };
+        vm.toMyWallet = function(){
+            location.href="/mobile/myWallet";
+        };
     });

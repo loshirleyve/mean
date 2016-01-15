@@ -8,6 +8,7 @@ block titleContent
 block content
     script(src="/js/admin/user/userListGrid.js")
     script(src="/js/admin/user/userManager.js")
+    script(src="/js/admin/user/userForm.js")
     div(ng-app="userManagerApp")
         //通知区域
         //内容区域
@@ -35,12 +36,14 @@ block content
                         a.navbar-brand(href="#") 用户列表
                     div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li
-                                a(href="") 正在查询,请稍后...
-                            li
-                                a 用户查询
+                            ul.nav.navbar-nav.navbar-left(ng-if="vm.queryUserByInst.loading()")
+                                li
+                                    a(href="") 正在查询,请稍后...
+                            ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryUserByInst.loading()")
+                                li
+                                    a 用户查询
 
-            div(npt-grid="vm.userListGridOptions",model="vm.users")
+            div(npt-grid="vm.userListGridOptions",model="vm.queryUserByInst.data",npt-loading="vm.queryUserByInst.loading()")
 
 
         script(type="text/ng-template",id="detail.html")
@@ -68,10 +71,57 @@ block content
                         a.navbar-brand(href="#") 用户详情
                     div#navbar-collapse.collapse.navbar-collapse
                         ul.nav.navbar-nav.navbar-right
-                            li
-                                a(href="") 正在查询,请稍后...
-                            li
-                                a(href="#/list") 返回
+                            ul.nav.navbar-nav.navbar-left(ng-if="vm.queryUserInfo.loading()")
+                                li
+                                    a(href="") 正在查询,请稍后...
+                            ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryUserInfo.loading()")
+                                li
+                                    a(href="",ng-click="vm.previous(vm.userInfo)",ng-show="vm.queryUserByInst.previous(vm.userInfo)") 上一单
+                                li
+                                    a(href="",ng-click="vm.next(vm.userInfo)",ng-show="vm.queryUserByInst.next(vm.userInfo)") 下一单
+                                li
+                                    a(href="#/list") 返回
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户基本信息
+            div.page-body
+                div.panel.panel-default
+                    div.panel-body
+                        div.col-xs-2.col-md-2
+                            img.media-object(ng-src="{{vm.userInfo.userCache.url}}",style="width:150px;height:150px")
+                        div.col-xs-10.col-md-10
+                            div 姓名：{{vm.userInfo.name}}
+                            div 性别：{{vm.userInfo.sex}}
+                            div 出生日期：{{vm.userInfo.birthday}}
+                            div 联系电话：{{vm.userInfo.userCache.phone}}
+                            div 身份证号：{{vm.userInfo.idcard}}
+                            div 个性签名：{{vm.userInfo.signature}}
+                            div 注册日期：{{vm.userInfo.registerdate | timestampFilter}}
+                            div 所属机构：{{vm.userInfo.userCache.instname}}
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户角色
+                    div.col-xs-6.col-md-6
+                        button.btn.btn-primary.pull-right(type="button",data-toggle="collapse",data-target="#collapseExample",aria-expanded="false",aria-controls="collapseExample") 添加用户角色
+            div.page-body
+                div.container-fluid
+                    div#collapseExample.collapse
+                        div.panel.panel-default
+                            div.panel-body
+                                div(npt-form="vm.userRoleFormOptions" model="vm.userRoleIds")
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.queryInstRoles.data")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-11.col-md-11
+                                    h5 {{item.name}}
+                                div.col-xs-1.col-md-1
+                                    button.close
+                                        span.pull-right(aria-hidden="ture",ng-click="vm.isDeleteRole();")&times;
 
             div.page-header
                 div.row
@@ -79,15 +129,23 @@ block content
                         h4 用户导航
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.users")
+                    div.list-group-item(ng-repeat="item in vm.queryInstRoleNavi.data")
                         div.list-group-item-heading
                             div.row
-                                div.col-xs-6.col-md-6
-                                    h5 {{item.name}}
-                        div.list-group-item-text
-                            span {{item.sex}}
-                            span {{item.tel}}
-                            span {{item.occupation}}
-                            span {{item.hobby}}
-                            span {{item.address}}
+                                div.col-xs-12.col-md-12
+                                    label(ng-repeat="subitem in item.children") {{subitem.name}} &nbsp;&nbsp;&nbsp;&nbsp;
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户联系方式
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.queryInstRoleNavi.data")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-12.col-md-12
+                                    label(ng-repeat="subitem in item.children") {{subitem.name}} &nbsp;&nbsp;&nbsp;&nbsp;
+
+
 

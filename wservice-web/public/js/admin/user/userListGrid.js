@@ -20,7 +20,10 @@ angular.module("userManagerApp.userListGrid", [])
                     type: "view",
                     listens: [
                         function ($location, params) {
-                            $location.path("/detail/1");
+                            if (params.item && params.item.length > 0) {
+                                var id = params.item[0].id;
+                                $location.path("/detail/" + id);
+                            }
                         }
                     ]
                 }

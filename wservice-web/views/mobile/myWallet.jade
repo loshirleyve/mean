@@ -14,7 +14,7 @@ block content
                 div
                     span 我的钱包
                 div
-                    a(href="", type="button")
+                    a(href="./profile", type="button")
                         span.glyphicon.glyphicon-chevron-left
                         span.sr-only
             div#body
@@ -23,24 +23,18 @@ block content
                     span.font.item-padding(ng-bind="vm.queryBalance.data.balance+'元'")
                     button.btn.btn-xs.pull-right(ng-click="vm.toRecharge()") 充值
                 p.small 充值记录
-                div
-                    span 充值成功
-                    a.pull-right(href="", type="button")
+                div(ng-repeat="rechargeItem in vm.queryRecharge.data")
+                    span(ng-bind="rechargeItem.statename")
+                    a.pull-right(href='#/rechargeRecord/{{rechargeItem.state}}', type="button")
+                        span.font(ng-bind="rechargeItem.nums")
                         span.glyphicon.glyphicon-chevron-right
                         span.sr-only
-                    span.font.pull-right(ng-bind="vm.rechargeGroup.arrive")
-                div
-                    span 未支付
-                    a.pull-right(href="", type="button")
-                        span.glyphicon.glyphicon-chevron-right
-                        span.sr-only
-                    span.font.pull-right(ng-bind="vm.rechargeGroup.unarrive")
         script(type="text/ng-template", id="recharge.html")
             div#title.text-center
                 div
                     span 充值
                 div
-                    a(href="", type="button")
+                    a(href="#/", type="button")
                         span.glyphicon.glyphicon-chevron-left
                         span.sr-only
             div#body
@@ -61,7 +55,35 @@ block content
                 div
                     span 支付方式
                 div
-                    a(href="", type="button")
+                    a(href="#/recharge", type="button")
                         span.glyphicon.glyphicon-chevron-left
                         span.sr-only
             div#body
+                div(ng-repeat="payMode in vm.queryPayMode.data")
+                    label
+                        span(ng-bind="payMode.name")
+                        span.small(ng-bind="payMode.descr")
+                        input(type="radio", name="padModes")
+            div#foot.text-center
+                div
+                    a(href="#/recharge")
+                        span 确定
+        script(type="text/ng-template", id="rechargeRecord.html")
+            div#title.text-center
+                div
+                    span {{'充值记录('+vm.rechargeStateName+')'}}
+                div
+                    a(href="#/", type="button")
+                        span.glyphicon.glyphicon-chevron-left
+                        span.sr-only
+            div#body
+                div.recharge-item(ng-repeat="recharge in vm.queryRechargeRecord.data")
+                    p
+                        strong(ng-bind="(recharge.accounttype | ctrlCodeFilter:'accounttype':'name':'no')+'充值'")
+                        span.small.pull-right {{recharge.expirydate|timestampFilter}}
+                    p
+                        span.small {{recharge.typeName+"支付"+recharge.amount+"元"}}
+                    hr
+                    span 充值ID：{{recharge.id}}
+                    strong.pull-right(ng-bind="recharge.state | ctrlCodeFilter:'rechargedetailstate':'name':'no'", ng-if="recharge.state === 'arrive'")
+                    button.btn.btn-xs.pull-right(ng-if="recharge.state === 'unarrive'") 重新支付
