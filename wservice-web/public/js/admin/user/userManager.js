@@ -51,10 +51,17 @@ angular.module("userManagerApp", ["ui.neptune",
         return nptRepository("queryInstRolesByUseridAndInstid").params({
             instid: nptSessionManager.getSession().getInst().id
         });
-    }).factory("AddOrgCardsByOrgid", function (nptRepository) {
-        return nptRepository("AddOrgCardsByOrgid").params({
+    }).factory("QueryUserContact", function (nptRepository) {
+        return nptRepository("QueryUserContactByUserId").params({
         });
-    }).service("userService", function (QueryUserByInst,Notification) {
+    }).factory("QueryUserInvite", function (nptRepository) {
+        return nptRepository("QueryUserInviteByUserId").params({
+        });
+    }).factory("QueryUserWx", function (nptRepository) {
+        return nptRepository("QueryUserWxByUserId").params({
+        });
+    })
+    .service("userService", function (QueryUserByInst,Notification) {
         var self = this;
         self.queryUserByInst=QueryUserByInst;
 
@@ -82,14 +89,16 @@ angular.module("userManagerApp", ["ui.neptune",
                 vm.nptGridApi = nptGridApi;
             }
         };
-    }).controller("detailController", function ($routeParams,$location,userService,QueryUserInfoById,QueryInstRoleNavi,queryInstRoles,userRoleForm,nptCache,Notification,nptMessageBox) {
+    }).controller("detailController", function ($routeParams,$location,userService,QueryUserInfoById,QueryInstRoleNavi,queryInstRoles,QueryUserContact,userRoleForm,nptCache,Notification,nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
         vm.queryUserInfo=QueryUserInfoById;
         vm.queryInstRoleNavi=QueryInstRoleNavi;
         vm.queryInstRoles=queryInstRoles;
+        vm.queryUserContact=QueryUserContact;
         vm.queryUserByInst = userService.queryUserByInst;
+
         vm.userRoleIds={};
         vm.userRoleIds.ids=[];
 
@@ -97,7 +106,6 @@ angular.module("userManagerApp", ["ui.neptune",
             store: userRoleForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
-
             }
         };
 
@@ -106,7 +114,6 @@ angular.module("userManagerApp", ["ui.neptune",
             vm.queryUserInfo.post({userid:vm.userid}).then(function (response) {
                 vm.userInfo=response.data;
                 vm.userInfo.userCache = nptCache.get("user", vm.userid);
-                vm.userInfo;
             }, function (error) {
                 Notification.error({
                     title: '获取用户详情失败',
@@ -146,6 +153,20 @@ angular.module("userManagerApp", ["ui.neptune",
                     delay: 5000
                 });
             });
+        };
+
+        //用户联系方式
+        vm.queryNavi = function () {
+            vm.queryUserContact.post({userid:vm.userid})
+                .then(function (response) {
+                }, function (error) {
+                    Notification.error({
+                        title: '获取用户角色导航失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
         };
 
         //下一个

@@ -45,10 +45,4 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wse
                 }
             ]
         });
-    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").params({
-            "level": "user",
-            "instid": nptSessionManager.getSession().getInst().id,
-            "filetype": "doc"
-        });
     });
