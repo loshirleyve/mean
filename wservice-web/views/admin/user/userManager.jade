@@ -41,7 +41,7 @@ block content
                                     a(href="") 正在查询,请稍后...
                             ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryUserByInst.loading()")
                                 li
-                                    a 用户查询
+                                    a(ng-click="vm._showModal();") 用户查询
 
             div(npt-grid="vm.userListGridOptions",model="vm.queryUserByInst.data",npt-loading="vm.queryUserByInst.loading()")
 
@@ -167,7 +167,7 @@ block content
                         h4 用户微信信息
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.queryWx.data")
+                    div.list-group-item(ng-repeat="item in vm.queryUserWx.data")
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-2.col-md-2
