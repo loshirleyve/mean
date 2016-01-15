@@ -143,9 +143,7 @@ block content
                 div.list-group
                     div.list-group-item(ng-repeat="item in vm.queryUserContact.data")
                         div.list-group-item-heading
-                            div.row
-                                div.col-xs-12.col-md-12
-                                    label(ng-repeat="subitem in item.children") {{subitem.name}} &nbsp;&nbsp;&nbsp;&nbsp;
+                            span {{item.contentlabel}}：{{item.contactvalue}}
 
             div.page-header
                 div.row
