@@ -53,7 +53,7 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
             ]
         });
     })
-    .factory("aXAirLineLogForm", function (nptFormlyStore, QueryUserInfoById,OrgListBySelectTree,UserListBySelectTree) {
+    .factory("aXAirLineLogForm", function (nptFormlyStore, QueryUserInfoById,OrgSelectTree,UserListBySelectTree) {
         return nptFormlyStore("aXAirLineLogForm", {
             fields: [
                 {
@@ -81,7 +81,7 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                         label: '飞控员:',
                         required: true,
                         viewvalueQueryProp: "userid",
-                        treeRepository: OrgListBySelectTree,
+                        treeRepository: OrgSelectTree,
                         listRepository: UserListBySelectTree,
                         viewvalueRepository: QueryUserInfoById
                     }
@@ -294,20 +294,6 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                     templateOptions: {
                         label: '飞行时间:',
                         required: false
-                    }
-                },
-                {
-                    key: 'createby',
-                    type: 'ui-select',
-                    templateOptions: {
-                        optionsAttr: "bs-options",
-                        label: '创建人:',
-                        valueProp: "id",
-                        labelProp: "name",
-                        options: [],
-                        search: ["userid"],
-                        repository: QueryUserInfoById,
-                        allowClear: false
                     }
                 },
                 {

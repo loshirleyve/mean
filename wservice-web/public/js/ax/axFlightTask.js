@@ -49,6 +49,35 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             return req;
         });
     }).value("CurrentInst",{})
+    .factory("OrgSelectTree", function (nptRepository,CurrentInst) {
+        function builderOrgTreeNode(nodes, data) {
+            if (data) {
+                nodes.nodes = [];
+                for (var i = 0; i < data.length; i++) {
+                    var node = {
+                        id: data[i].id,
+                        title: data[i].name
+                    };
+                    builderOrgTreeNode(node, data[i].children);
+                    nodes.nodes.push(node);
+                }
+            }
+        }
+
+        return nptRepository("queryOrgTree").addRequestInterceptor(function (request) {
+            request.params.instid = CurrentInst.id;
+            request.params.dimtype = "hr";
+            return request;
+        }).addResponseInterceptor(function (response) {
+            var orgNodes = [{
+                id: response.data.id,
+                title: response.data.simplename
+            }];
+            builderOrgTreeNode(orgNodes[0], response.data.children);
+            return orgNodes;
+        });
+
+    }).value("CurrentInst",{})
     .controller("AXFlightTaskController", function ($routeParams, $location,CurrentInst, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
@@ -275,7 +304,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                 return true;
             }
             return false;
-        }
+        };
 
         vm.inserviceShow=function(state)
         {
@@ -283,7 +312,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                 return true;
             }
             return false;
-        }
+        };
     }).controller("completeAirLineController", function ($routeParams, $location, aXAirLineLogForm, AddOrUpdateAirline,AddOrUpdateAirlineLog,nptSessionManager, Notification) {
         var vm = this;
         vm.userid = $routeParams.userid;
