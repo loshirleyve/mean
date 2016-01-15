@@ -11,17 +11,16 @@ block content
     div(ng-app="UserProfileApp")
         div(ng-view)
         script(type="text/ng-template", id="profile.html")
-            div#client-head.row(ng-click="vm.toUserInfo()")
-                div.col-xs-3.col-sm-3.col-md-2.col-lg-2
-                    img.img-responsive.img-rounded(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
-                div.col-md-1.col-lg-1.visible-md-inline-block.visible-lg-inline-block.hidden-xs.hidden-sm
-                div.col-xs-7.col-sm-7.col-md-8.col-md-8
-                    dl
-                        dd#client-name(ng-bind="vm.userInfo.data.name")
-                        dd(ng-bind="vm.instName")
-                        dd(ng-bind="vm.userInfo.data.orgNames")
-                        dd(ng-bind="vm.userInfo.data.signature")
-                div.link-small.col-xs-2.col-sm-2.col-md-1.col-lg-1.pull-right
+            div.media(ng-click="vm.toUserInfo()")
+                div.media-left
+                    a(href="")
+                        img.media-object.img-rounded(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
+                div.media-body
+                    h4.media-heading(ng-bind="vm.userInfo.data.name")
+                    p.small(ng-bind="vm.instName")
+                    p.small(ng-bind="vm.userInfo.data.orgNames")
+                    p.small(ng-bind="vm.userInfo.data.signature")
+                div.media-right.media-middle
                     a(href="", role="button")
                         span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                         span.sr-only
@@ -29,19 +28,19 @@ block content
                 li.col-xs-3.col-sm-3.col-md-3.col-lg-3(ng-click="vm.toMyWallet()")
                     img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/money@3x.png")
                     img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/money@3x.png")
-                    p 我的钱包
+                    p.small 我的钱包
                 li.col-xs-3.col-sm-3.col-md-3.col-lg-3
                     img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/order@3x.png")
                     img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/order@3x.png")
-                    p 我的订单
+                    p.small 我的订单
                 li.col-xs-3.col-sm-3.col-md-3.col-lg-3
                     img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/file@3x.png")
                     img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/file@3x.png")
-                    p 我的文件
+                    p.small 我的文件
                 li.col-xs-3.col-sm-3.col-md-3.col-lg-3
                     img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/contact@3x.png")
                     img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/contact@3x.png")
-                    p 联系人/小组
+                    p.small 联系人/小组
             div#ul-item.row
                 ul.list-unstyled.row
                     li.col-xs-12.col-sm-12.col-md-12.col-lg-12
