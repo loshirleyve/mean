@@ -285,7 +285,7 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         vm.query();
     })
-    .controller("ContractDetailController", function ($scope, $location, $routeParams, nptSessionManager, Notification, QueryContractsByInstid, QueryContractById, nptMessageBox, UpdateContractState) {
+    .controller("ContractDetailController", function ($scope, $location, $routeParams, nptSessionManager, Notification, QueryContractsByInstid, QueryContractById, nptMessageBox, UpdateContractState,UserListBySelectTree, OrgListBySelectTree) {
         var vm = this;
 
         vm.contractid = $routeParams.id;
@@ -401,35 +401,59 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         vm.query();
 
+        vm.name = "11";
         //确认送审
         vm.isSend = function(contractid) {
-            nptMessageBox.open({
+            var model = nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定将该合同送往审批?</label>'+
-                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>"+
+                //"<br/><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button>"+
+                "<br/><div class='form-group'><label>目标用户:*</label><input class='form-control' ng-model='$$ms.name' ng-disabled='true'><span class='input-group-btn'><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button></span></div>"+
+                "<br/><div npt-select-tree='$$ms.selectTreeSetting'></div>",
                 showCancel: true,
                 scope:{
+                    selectTreeSetting:{
+                        onRegisterApi: function (selectTreeApi) {
+                            vm.selectTreeApi = selectTreeApi;
+                        },
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree
+                    },
+                    show : function () {
+                        vm.selectTreeApi.open().then(function (data) {
+                            //vm.name = data[0].name;
+                            model.updateScope("name", data[0].name);
+                            model.updateScope("dis", false);
+                            model.updateScope("targetuserid" , data[0].id);
+                        }, function () {
+                        })
+                    },
+                    dis:true
+
 
                 },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.send(contractid, modalResult.scope.remark);
+                            vm.send(contractid, modalResult.scope.remark,modalResult.scope.targetuserid);
 
-                        }]
+                        }],
+                        ngDisabled:"$$ms.dis"
                     }
                 }
             });
         };
 
         //送审
-        vm.send = function(contractid, remark) {
+        vm.send = function(contractid, remark, targetuserid) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"waitaudit",
                 "userid":nptSessionManager.getSession().getUser().id,
-                "remark":remark
+                "remark":remark,
+                "targetuserid":targetuserid
             }).then(function (response) {
                 vm.query();
 
@@ -449,30 +473,56 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         };
 
         vm.isPass = function(contractid) {
-            nptMessageBox.open({
+            var model = nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定审批通过该合同?</label>'+
-                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>"+
+                    //"<br/><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button>"+
+                "<br/><div class='form-group'><label>目标用户:*</label><input class='form-control' ng-model='$$ms.name' ng-disabled='true'><span class='input-group-btn'><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button></span></div>"+
+                "<br/><div npt-select-tree='$$ms.selectTreeSetting'></div>",
                 showCancel: true,
+                scope:{
+                    selectTreeSetting:{
+                        onRegisterApi: function (selectTreeApi) {
+                            vm.selectTreeApi = selectTreeApi;
+                        },
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree
+                    },
+                    show : function () {
+                        vm.selectTreeApi.open().then(function (data) {
+                            //vm.name = data[0].name;
+                            model.updateScope("name", data[0].name);
+                            model.updateScope("dis", false);
+                            model.updateScope("targetuserid" , data[0].id);
+                        }, function () {
+                        })
+                    },
+                    dis:true
+
+
+                },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
+                            vm.pass(contractid, modalResult.scope.remark,modalResult.scope.targetuserid);
 
-                            vm.pass(contractid, modalResult.scope.remark);
-                        }]
+                        }],
+                        ngDisabled:"$$ms.dis"
                     }
                 }
             });
         };
 
         //审批通过
-        vm.pass = function(contractid, remark) {
+        vm.pass = function(contractid, remark, targetuserid) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"audit",
                 "userid":nptSessionManager.getSession().getUser().id,
-                "remark":remark
+                "remark":remark,
+                "targetuserid":targetuserid
             }).then(function (response) {
                 vm.query();
 
@@ -492,16 +542,39 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         };
 
         vm.isCancle = function(contractid) {
-            nptMessageBox.open({
+
+            var model = nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定废除该合同?</label>'+
-                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>"+
+                    //"<br/><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button>"+
+                "<br/><div class='form-group'><label>目标用户:</label><input class='form-control' ng-model='$$ms.name' ng-disabled='true'><span class='input-group-btn'><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button></span></div>"+
+                "<br/><div npt-select-tree='$$ms.selectTreeSetting'></div>",
                 showCancel: true,
+                scope:{
+                    selectTreeSetting:{
+                        onRegisterApi: function (selectTreeApi) {
+                            vm.selectTreeApi = selectTreeApi;
+                        },
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree
+                    },
+                    show : function () {
+                        vm.selectTreeApi.open().then(function (data) {
+                            model.updateScope("name", data[0].name);
+                            model.updateScope("targetuserid" , data[0].id);
+                        }, function () {
+                        })
+                    }
+
+
+                },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.cancle(contractid, modalResult.scope.remark);
+                            vm.cancle(contractid, modalResult.scope.remark,modalResult.scope.targetuserid);
+
                         }]
                     }
                 }
@@ -509,12 +582,13 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         };
 
         //作废
-        vm.cancle = function(contractid, remark) {
+        vm.cancle = function(contractid, remark, targetuserid) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"close",
                 "userid":nptSessionManager.getSession().getUser().id,
-                "remark":remark
+                "remark":remark,
+                "targetuserid":targetuserid
             }).then(function (response) {
                 vm.query();
 
@@ -534,29 +608,57 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
         };
 
         vm.isSendBack = function(contractid) {
-            nptMessageBox.open({
+
+            var model = nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定驳回该合同?</label>'+
-                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>"+
+                    //"<br/><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button>"+
+                "<br/><div class='form-group'><label>目标用户:*</label><input class='form-control' ng-model='$$ms.name' ng-disabled='true'><span class='input-group-btn'><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button></span></div>"+
+                "<br/><div npt-select-tree='$$ms.selectTreeSetting'></div>",
                 showCancel: true,
+                scope:{
+                    selectTreeSetting:{
+                        onRegisterApi: function (selectTreeApi) {
+                            vm.selectTreeApi = selectTreeApi;
+                        },
+                        treeRepository: OrgListBySelectTree,
+                        listRepository: UserListBySelectTree
+                    },
+                    show : function () {
+                        vm.selectTreeApi.open().then(function (data) {
+                            //vm.name = data[0].name;
+                            model.updateScope("name", data[0].name);
+                            model.updateScope("dis", false);
+                            model.updateScope("targetuserid" , data[0].id);
+                        }, function () {
+                        })
+                    },
+                    dis:true
+
+
+                },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.sendBack(contractid, modalResult.scope.remark);
-                        }]
+                            vm.sendBack(contractid, modalResult.scope.remark,modalResult.scope.targetuserid);
+
+                        }],
+                        ngDisabled:"$$ms.dis"
                     }
                 }
             });
         };
 
         //作废
-        vm.sendBack = function(contractid,remark) {
+        vm.sendBack = function(contractid,remark, targetuserid) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"draft",
                 "userid":nptSessionManager.getSession().getUser().id,
-                "remark":remark
+                "remark":remark,
+                "targetuserid":targetuserid
             }).then(function (response) {
                 vm.query();
 

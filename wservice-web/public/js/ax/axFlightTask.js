@@ -12,7 +12,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                     return nptSession();
                 }
             }
-        }).when("/completeAirLine/:id/:code", {
+        }).when("/completeAirLine/:userid/:id/:code", {
             controller: "completeAirLineController as vm",
             templateUrl: "completeAirLine.html",
             resolve: {
@@ -40,18 +40,24 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         return nptRepository("AddOrUpdateAirline");
     }).factory("AddOrUpdateAirlineLog", function (nptRepository) {
         return nptRepository("AddOrUpdateAirlineLog");
-    })
-.controller("AXFlightTaskController", function ($routeParams, $location, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
+    }).factory("QueryFileByUserLevel", function (nptRepository, CurrentInst) {
+        return nptRepository("QueryFile").params({
+            "level": "user",
+            "filetype": "doc"
+        }).addRequestInterceptor(function(req){
+            req.params.instid = CurrentInst.id;
+            return req;
+        });
+    }).value("CurrentInst",{})
+    .controller("AXFlightTaskController", function ($routeParams, $location,CurrentInst, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask,AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        var userid = nptSessionManager.getSession().getUser().id;
-        var instid = nptSessionManager.getSession().getInst().id;
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
         vm.queryAirline = QueryAirline;
-
         vm.model = {workOrder: {state: ""}};
-        vm.flight = {createby: userid, userid: userid};
+        vm.flight={};
+
         //表单配置
         vm.aXFlightTaskOptions = {
             store: aXFlightTaskForm,
@@ -66,6 +72,9 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
+                vm.userid = vm.params.userid;
+                vm.instid = vm.params.instid;
+                CurrentInst.id = vm.params.instid;
                 vm.query();
             }, function (error) {
                 Notification.error({
@@ -126,12 +135,12 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         };
 
         vm.startWorkorder = function () {
-
             var params = {};
             var workorderids = [];
-
             workorderids.push(vm.workorderid);
             vm.flight.workorderids = workorderids;
+            vm.flight.createby=vm.userid;
+            vm.flight.userid=vm.userid;
             delete vm.flight.fileId;
             StartFlightTask.post(vm.flight).then(function (response) {
                 Notification.success({
@@ -140,7 +149,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                     delay: 2000
                 });
                 vm.query();
-                vm.flight = {createby: userid, userid: userid};
+                vm.flight={};
             }, function (error) {
                 Notification.error({
                     title: '飞行计划开始失败',
@@ -181,6 +190,8 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                         }
                         delete vm.flight.fileId;
                         vm.flight.workorderids = workorderids;
+                        vm.flight.createby=vm.userid;
+                        vm.flight.userid=vm.userid;
                         vm.nptFormApi.form.$commitViewValue();
                         CompleteFlightTask.post(vm.flight).then(function (response) {
                             Notification.success({
@@ -189,7 +200,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                                 delay: 2000
                             });
                             vm.query();
-                            vm.flight = {createby: userid, userid: userid};
+                            vm.flight={};
                         }, function (error) {
                             Notification.error({
                                 title: '完成飞行计划失败',
@@ -234,7 +245,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
 
         vm.completeAirLine=function(id)
         {
-            $location.path("/completeAirLine/" + id+"/"+vm.code);
+            $location.path("/completeAirLine/"+vm.userid+"/"+ id+"/"+vm.code);
         };
 
         vm.showStart = function () {
@@ -275,10 +286,10 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         }
     }).controller("completeAirLineController", function ($routeParams, $location, aXAirLineLogForm, AddOrUpdateAirline,AddOrUpdateAirlineLog,nptSessionManager, Notification) {
         var vm = this;
+        vm.userid = $routeParams.userid;
         vm.id = $routeParams.id;
         vm.code = $routeParams.code;
-        var userid = nptSessionManager.getSession().getUser().id;
-        vm.log={airlineid:vm.id,createby:userid}
+        vm.log={airlineid:vm.id,createby:vm.userid}
         //表单配置
         vm.aXAirLineLogOptions = {
             store: aXAirLineLogForm,

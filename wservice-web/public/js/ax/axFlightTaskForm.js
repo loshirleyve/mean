@@ -367,10 +367,4 @@ angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',
                 }
             ]
         });
-    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").params({
-            "level": "user",
-            "instid": nptSessionManager.getSession().getInst().id,
-            "filetype": "doc"
-        });
     });

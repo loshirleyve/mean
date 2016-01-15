@@ -141,11 +141,42 @@ block content
                         h4 用户联系方式
             div.page-body
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.queryInstRoleNavi.data")
+                    div.list-group-item(ng-repeat="item in vm.queryUserContact.data")
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-12.col-md-12
                                     label(ng-repeat="subitem in item.children") {{subitem.name}} &nbsp;&nbsp;&nbsp;&nbsp;
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户邀请记录
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.queryUserInvite.data")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-10.col-md-10
+                                    h5 {{item.no}}
+                                div.col-xs-2.col-md-2
+                                    span.pull-right {{item.createdate | timestampFilter}}
+                        div.list-group-item-text
+                            span {{item.content}}
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 用户微信信息
+            div.page-body
+                div.list-group
+                    div.list-group-item(ng-repeat="item in vm.queryWx.data")
+                        div.list-group-item-heading
+                            div.row
+                                div.col-xs-2.col-md-2
+                                    img.media-object(ng-src="{{item.headimgurl}}",style="width:150px;height:150px")
+                                div.col-xs-10.col-md-10
+                                    div 姓名：{{item.displayName}}
+                                    div 注册日期：{{item.createdate | timestampFilter}}
 
 
 

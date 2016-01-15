@@ -5,7 +5,7 @@
  */
 
 angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wservice.common"])
-    .factory("aXAirlinePlanTaskForm", function (nptFormlyStore, nptSessionManager, QueryFileByUserLevel, UploadSignature, AddOrUpdateFileRepo) {
+    .factory("aXAirlinePlanTaskForm", function (nptFormlyStore, nptSessionManager, QueryFileByUserLevel_ud, UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("aXAirlinePlanTaskForm", {
             fields: [
                 {
@@ -15,7 +15,7 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wse
                         required: false,
                         label: '添加文档附件:',
                         single: true,
-                        fileRepository: QueryFileByUserLevel,
+                        fileRepository: QueryFileByUserLevel_ud,
                         uploadOptions: {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo
@@ -44,11 +44,5 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wse
                     }
                 }
             ]
-        });
-    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
-        return nptRepository("QueryFile").params({
-            "level": "user",
-            "instid": nptSessionManager.getSession().getInst().id,
-            "filetype": "doc"
         });
     });
