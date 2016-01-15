@@ -79,6 +79,10 @@ angular.module("naviApp", ["ui.neptune"
             }
         };
 
+        vm.reset = function() {
+            vm.navi = {};
+        };
+
         vm.save = function(navi) {
             vm.nptFormApi.form.$commitViewValue();
             if(vm.nptFormApi.form.$invalid){

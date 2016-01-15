@@ -3,6 +3,7 @@
  */
 angular.module("userManagerApp", ["ui.neptune",
     "userManagerApp.userListGrid",
+    "userManagerApp.userForm",
     "wservice.common",
     "ngRoute",
     "ui-notification"])
@@ -34,9 +35,46 @@ angular.module("userManagerApp", ["ui.neptune",
         return nptRepository("queryCities").params({});
     }).factory("QueryMdProductGroup", function (nptRepository) {
         return nptRepository("QueryMdProductGroupBylocation").params({});
-    })
-    .controller("userListController", function (userListGrid) {
+    }).factory("QueryUserByInst", function (nptRepository,nptSessionManager) {
+        return nptRepository("QueryUserByInst").params({
+            instid: nptSessionManager.getSession().getInst().id
+        });
+    }).factory("QueryInstRoleNavi", function (nptRepository,nptSessionManager) {
+        return nptRepository("QueryInstRoleNaviByUseridAndInstidAndDevice").params({
+            instid: nptSessionManager.getSession().getInst().id,
+            device:"web"
+        });
+    }).factory("QueryUserInfoById", function (nptRepository,nptSessionManager) {
+        return nptRepository("QueryUserInfoById").params({
+        });
+    }).factory("queryInstRoles", function (nptRepository,nptSessionManager) {
+        return nptRepository("queryInstRolesByUseridAndInstid").params({
+            instid: nptSessionManager.getSession().getInst().id
+        });
+    }).factory("AddOrgCardsByOrgid", function (nptRepository) {
+        return nptRepository("AddOrgCardsByOrgid").params({
+        });
+    }).service("userService", function (QueryUserByInst,Notification) {
+        var self = this;
+        self.queryUserByInst=QueryUserByInst;
+
+        self.queryUserList = function () {
+            self.queryUserByInst.post().then(function (response) {
+            }, function (error) {
+                Notification.error({
+                    title: '获取用户失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        self.queryUserList();
+
+    }).controller("userListController", function (userService,userListGrid) {
         var vm = this;
+        vm.queryUserByInst = userService.queryUserByInst;
 
         vm.userListGridOptions = {
             store: userListGrid,
@@ -44,22 +82,111 @@ angular.module("userManagerApp", ["ui.neptune",
                 vm.nptGridApi = nptGridApi;
             }
         };
-
-        vm.users=[{name: "权志龙",sex: "男",tel: "1369101459",occupation: "歌手，制作人",hobby: "唱歌，作词作曲",address: "韩国首尔"},
-                  {name: "东永裴",sex: "男",tel: "424171203",occupation: "歌手",hobby: "唱歌，跳舞",address: "韩国首尔"},
-                  {name: "崔胜贤",sex: "男",tel: "1690107228",occupation: "歌手，rap",hobby: "唱歌，收藏艺术品",address: "韩国首尔"},
-                  {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
-                  {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}];
-
-    }).controller("detailController", function ($routeParams) {
+    }).controller("detailController", function ($routeParams,$location,userService,QueryUserInfoById,QueryInstRoleNavi,queryInstRoles,userRoleForm,nptCache,Notification,nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
+        vm.queryUserInfo=QueryUserInfoById;
+        vm.queryInstRoleNavi=QueryInstRoleNavi;
+        vm.queryInstRoles=queryInstRoles;
+        vm.queryUserByInst = userService.queryUserByInst;
+        vm.userRoleIds={};
+        vm.userRoleIds.ids=[];
 
-        vm.users=[{name: "权志龙",sex: "男",tel: "1369101459",occupation: "歌手，制作人",hobby: "唱歌，作词作曲",address: "韩国首尔"},
-            {name: "东永裴",sex: "男",tel: "424171203",occupation: "歌手",hobby: "唱歌，跳舞",address: "韩国首尔"},
-            {name: "崔胜贤",sex: "男",tel: "1690107228",occupation: "歌手，rap",hobby: "唱歌，收藏艺术品",address: "韩国首尔"},
-            {name: "姜大声",sex: "男",tel: "520711973",occupation: "歌手",hobby: "唱歌",address: "韩国首尔"},
-            {name: "李胜贤",sex: "男",tel: "6732917301",occupation: "歌手",hobby: "唱歌，看书",address: "韩国首尔"}];
+        vm.userRoleFormOptions = {
+            store: userRoleForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+
+            }
+        };
+
+        //用户详情
+        vm.queryUserDetail= function () {
+            vm.queryUserInfo.post({userid:vm.userid}).then(function (response) {
+                vm.userInfo=response.data;
+                vm.userInfo.userCache = nptCache.get("user", vm.userid);
+                vm.userInfo;
+            }, function (error) {
+                Notification.error({
+                    title: '获取用户详情失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        //用户角色
+        vm.queryRole = function () {
+            vm.queryInstRoles.post({userid:vm.userid})
+                .then(function (response) {
+                    angular.forEach(response.data, function (value) {
+                        vm.userRoleIds.ids.push(value.id);
+                    });
+            }, function (error) {
+                Notification.error({
+                    title: '获取用户角色失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        //用户导航
+        vm.queryNavi = function () {
+            vm.queryInstRoleNavi.post({userid:vm.userid})
+                .then(function (response) {
+            }, function (error) {
+                Notification.error({
+                    title: '获取用户角色导航失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        //下一个
+        vm.next = function (user) {
+            var nextUser = vm.queryUserByInst.next(user);
+            if (nextUser) {
+                $location.path("/detail/" + nextUser.id);
+            }
+        };
+
+        //上一个
+        vm.previous = function (user) {
+            var previousUser = vm.queryUserByInst.previous(user);
+            if (previousUser) {
+                $location.path("/detail/" + previousUser.id);
+            }
+        };
+
+        vm.isDeleteRole = function () {
+            nptMessageBox.open({
+                title:"提示",
+                content: '是否确定删除吗?',
+                showCancel: true,
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+
+                        }]
+                    }
+                },
+                modal:{
+                    size:"sm"
+                }
+            });
+        };
+
+
+
+        vm.queryUserDetail();
+        vm.queryRole();
+        vm.queryNavi();
 
     });

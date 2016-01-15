@@ -275,6 +275,12 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryCurrInstByUser", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryCurrInstByUserService"
+}).action("QueryInstRole", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.QueryInstRoleService"
+}).action("AddOrgCardsByOrgid", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.AddOrgCardsByOrgidService"
 });
 
 /*获取导航数据*/

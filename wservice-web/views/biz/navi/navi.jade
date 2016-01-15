@@ -41,7 +41,7 @@ block content
                             a.list-group-item
                                 div.row
                                     div.col-xs-6.col-md-6
-                                        span {{navi.name}}
+                                        span {{navi.name}}-{{navi.device}}
                                     div.col-xs-6.col-md-6
                                         button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(navi.id);") 添加子导航
                             ul.media.media-list
@@ -49,7 +49,7 @@ block content
                                     div.media-left(style="padding-right: 50px")
                                     div.media-body
                                         a.list-group-item
-                                            span {{child.name}}
+                                            span {{child.name}}-{{child.device}}
         script(type="text/ng-template",id="add.html")
             //功能导航区域
             ul.breadcrumb
