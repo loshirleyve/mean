@@ -35,19 +35,19 @@ angular.module("userManagerApp", ["ui.neptune",
         return nptRepository("queryCities").params({});
     }).factory("QueryMdProductGroup", function (nptRepository) {
         return nptRepository("QueryMdProductGroupBylocation").params({});
-    }).factory("QueryUserByInst", function (nptRepository,nptSessionManager) {
+    }).factory("QueryUserByInst", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryUserByInst").params({
             instid: nptSessionManager.getSession().getInst().id
         });
-    }).factory("QueryInstRoleNavi", function (nptRepository,nptSessionManager) {
+    }).factory("QueryInstRoleNavi", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryInstRoleNaviByUseridAndInstidAndDevice").params({
             instid: nptSessionManager.getSession().getInst().id,
-            device:"web"
+            device: "web"
         });
-    }).factory("QueryUserInfoById", function (nptRepository,nptSessionManager) {
+    }).factory("QueryUserInfoById", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryUserInfoById").params({
         });
-    }).factory("queryInstRoles", function (nptRepository,nptSessionManager) {
+    }).factory("queryInstRoles", function (nptRepository, nptSessionManager) {
         return nptRepository("queryInstRolesByUseridAndInstid").params({
             instid: nptSessionManager.getSession().getInst().id
         });
@@ -61,9 +61,9 @@ angular.module("userManagerApp", ["ui.neptune",
         return nptRepository("QueryUserWxByUserId").params({
         });
     })
-    .service("userService", function (QueryUserByInst,Notification) {
+    .service("userService", function (QueryUserByInst, Notification) {
         var self = this;
-        self.queryUserByInst=QueryUserByInst;
+        self.queryUserByInst = QueryUserByInst;
 
         self.queryUserList = function () {
             self.queryUserByInst.post().then(function (response) {
@@ -79,7 +79,7 @@ angular.module("userManagerApp", ["ui.neptune",
 
         self.queryUserList();
 
-    }).controller("userListController", function (userService,userListGrid) {
+    }).controller("userListController", function (userService, userListGrid) {
         var vm = this;
         vm.queryUserByInst = userService.queryUserByInst;
 
@@ -89,18 +89,20 @@ angular.module("userManagerApp", ["ui.neptune",
                 vm.nptGridApi = nptGridApi;
             }
         };
-    }).controller("detailController", function ($routeParams,$location,userService,QueryUserInfoById,QueryInstRoleNavi,queryInstRoles,QueryUserContact,userRoleForm,nptCache,Notification,nptMessageBox) {
+    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, queryInstRoles, QueryUserContact, QueryUserInvite, QueryUserWx, userRoleForm, nptCache, Notification, nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
-        vm.queryUserInfo=QueryUserInfoById;
-        vm.queryInstRoleNavi=QueryInstRoleNavi;
-        vm.queryInstRoles=queryInstRoles;
-        vm.queryUserContact=QueryUserContact;
+        vm.queryUserInfo = QueryUserInfoById;
+        vm.queryInstRoleNavi = QueryInstRoleNavi;
+        vm.queryInstRoles = queryInstRoles;
+        vm.queryUserContact = QueryUserContact;
+        vm.queryUserInvite = QueryUserInvite;
+        vm.queryUserWx = QueryUserWx;
         vm.queryUserByInst = userService.queryUserByInst;
 
-        vm.userRoleIds={};
-        vm.userRoleIds.ids=[];
+        vm.userRoleIds = {};
+        vm.userRoleIds.ids = [];
 
         vm.userRoleFormOptions = {
             store: userRoleForm,
@@ -110,9 +112,9 @@ angular.module("userManagerApp", ["ui.neptune",
         };
 
         //用户详情
-        vm.queryUserDetail= function () {
-            vm.queryUserInfo.post({userid:vm.userid}).then(function (response) {
-                vm.userInfo=response.data;
+        vm.queryUserDetail = function () {
+            vm.queryUserInfo.post({userid: vm.userid}).then(function (response) {
+                vm.userInfo = response.data;
                 vm.userInfo.userCache = nptCache.get("user", vm.userid);
             }, function (error) {
                 Notification.error({
@@ -126,42 +128,72 @@ angular.module("userManagerApp", ["ui.neptune",
 
         //用户角色
         vm.queryRole = function () {
-            vm.queryInstRoles.post({userid:vm.userid})
+            vm.queryInstRoles.post({userid: vm.userid})
                 .then(function (response) {
                     angular.forEach(response.data, function (value) {
                         vm.userRoleIds.ids.push(value.id);
                     });
-            }, function (error) {
-                Notification.error({
-                    title: '获取用户角色失败',
-                    message: error.data.cause,
-                    replaceMessage: true,
-                    delay: 5000
+                }, function (error) {
+                    Notification.error({
+                        title: '获取用户角色失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
                 });
-            });
         };
 
         //用户导航
         vm.queryNavi = function () {
-            vm.queryInstRoleNavi.post({userid:vm.userid})
-                .then(function (response) {
-            }, function (error) {
-                Notification.error({
-                    title: '获取用户角色导航失败',
-                    message: error.data.cause,
-                    replaceMessage: true,
-                    delay: 5000
-                });
-            });
-        };
-
-        //用户联系方式
-        vm.queryNavi = function () {
-            vm.queryUserContact.post({userid:vm.userid})
+            vm.queryInstRoleNavi.post({userid: vm.userid})
                 .then(function (response) {
                 }, function (error) {
                     Notification.error({
                         title: '获取用户角色导航失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
+        };
+
+        //用户联系方式
+        vm.queryContact = function () {
+            vm.queryUserContact.post({id: vm.userid})
+                .then(function (response) {
+                    vm.contact = response.data;
+                }, function (error) {
+                    Notification.error({
+                        title: '获取用户联系方式失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
+        };
+
+        //用户邀请记录
+        vm.queryInvite = function () {
+            vm.queryUserInvite.post({id: vm.userid})
+                .then(function (response) {
+                    vm.invite = response.data;
+                }, function (error) {
+                    Notification.error({
+                        title: '获取用户邀请记录失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
+        };
+
+        //用户微信信息
+        vm.queryWx = function () {
+            vm.queryUserWx.post({id: vm.userid})
+                .then(function (response) {
+                }, function (error) {
+                    Notification.error({
+                        title: '获取用户微信信息失败',
                         message: error.data.cause,
                         replaceMessage: true,
                         delay: 5000
@@ -187,7 +219,7 @@ angular.module("userManagerApp", ["ui.neptune",
 
         vm.isDeleteRole = function () {
             nptMessageBox.open({
-                title:"提示",
+                title: "提示",
                 content: '是否确定删除吗?',
                 showCancel: true,
                 action: {
@@ -198,16 +230,17 @@ angular.module("userManagerApp", ["ui.neptune",
                         }]
                     }
                 },
-                modal:{
-                    size:"sm"
+                modal: {
+                    size: "sm"
                 }
             });
         };
 
 
-
         vm.queryUserDetail();
         vm.queryRole();
         vm.queryNavi();
-
+        vm.queryContact();
+        vm.queryInvite();
+        vm.queryWx();
     });

@@ -28,22 +28,23 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         return nptRepository("CompleteAirlinePlanTask");
     }).factory("QueryAirline", function (nptRepository) {
         return nptRepository("QueryAirline");
-    }).factory("QueryFileByUserLevel", function (nptRepository, nptSessionManager) {
+    }).factory("QueryFileByUserLevel_ud", function (nptRepository,CurrentInst) {
         return nptRepository("QueryFile").params({
-            "level": "user",
-            "filetype": "doc"
+            level: "user",
+            filetype: "doc"
+        }).addRequestInterceptor(function(req){
+            req.params.instid = CurrentInst.id;
+            return req;
         });
-    }).controller("AXAirlinePlanTaskController", function ($routeParams, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartAirlinePlanTask, CompleteAirlinePlanTask,QueryFileByUserLevel, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
+    }).value("CurrentInst",{}).controller("AXAirlinePlanTaskController", function ($routeParams, CurrentInst,KitActionQuery, QueryWorkorderInfo, QueryAirline,QueryFileByUserLevel_ud, StartAirlinePlanTask, CompleteAirlinePlanTask, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
-        var userid = "";
         //工单信息资源库
         vm.workorderInfo = QueryWorkorderInfo;
         vm.queryAirline = QueryAirline;
         //数据模型
         vm.model = {workOrder: {state: ""}};
-        vm.airLinePlan = {userid: userid};
-
+        vm.airLinePlan ={};
         //表单配置
         vm.aXAirlinePlanTaskOptions = {
             store: aXAirlinePlanTaskForm,
@@ -67,8 +68,8 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             }).then(function (response) {
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
-                QueryFileByUserLevel.params({instid:vm.params.instid});
-                userid=vm.params.userid;
+                vm.userid=vm.params.userid;
+                CurrentInst.id = vm.params.instid;
                 vm.query();
             }, function (error) {
                 Notification.error({
@@ -128,12 +129,12 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         };
 
         vm.startWorkorder = function () {
-            var params = {};
             var workorderids = [];
-
             workorderids.push(vm.workorderid);
-            vm.airLinePlan.workorderids = workorderids;
             delete vm.airLinePlan.fileId;
+            delete vm.airLinePlan.attachmentValue;
+            vm.airLinePlan.workorderids = workorderids;vm.airLinePlan.workorderids = workorderids;
+            vm.airLinePlan.userid = vm.userid;
             StartAirlinePlanTask.post(vm.airLinePlan).then(function (response) {
                 Notification.success({
                     message: '航线规划开始成功',
@@ -141,7 +142,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
                     delay: 2000
                 });
                 vm.query();
-                vm.airLinePlan = {userid: userid};
+                vm.airLinePlan ={};
             }, function (error) {
                 Notification.error({
                     title: '航线规划开始失败',
@@ -154,8 +155,6 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
         };
 
         vm.completeWorkorder = function () {
-
-            var params = {};
             var workorderids = [];
             workorderids.push(vm.workorderid);
             if (vm.airLinePlan.fileId) {
@@ -164,7 +163,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             }
             delete vm.airLinePlan.fileId;
             vm.airLinePlan.workorderids = workorderids;
-
+            vm.airLinePlan.userid = vm.userid;
             CompleteAirlinePlanTask.post(vm.airLinePlan).then(function (response) {
                 Notification.success({
                     message: '完成航线规划成功',
@@ -172,7 +171,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
                     delay: 2000
                 });
                 vm.query();
-                vm.airLinePlan = {userid: userid};
+                vm.airLinePlan ={};
             }, function (error) {
                 Notification.error({
                     title: '完成航线规划失败',

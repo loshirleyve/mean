@@ -1,21 +1,15 @@
-div#client-head {
+.media {
   background-color: #E94B35;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-div#client-head > div {
-  padding-left: 10px;
-  padding-right: 0;
+  margin: 20px -20px 0 -25px;
+  padding: 10px 20px 0 20px;
   color: #fff;
 }
-dd#client-name {
-  font-size: 18px;
-}
-.link-small {
-  margin-top: 60px;
-}
-.link-small a:visited {
+.media a {
   color: #fff;
+}
+.media img {
+  width: 80px;
+  height: 80px;
 }
 #ul-item a {
   color: darkgray;
