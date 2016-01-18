@@ -129,7 +129,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification", "us
             });
         };
     })
-    .controller("UserChangePwdController", function(updatePasswd, UserPwdForm, Notification){
+    .controller("UserChangePwdController", function($location, updatePasswd, UserPwdForm, Notification){
         $(window.document.body).css("background-color", "#EEF0EF");
         var vm = this;
         vm.model = {};
@@ -155,6 +155,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification", "us
             }else{
                 vm.updateUserPwd.post({"oldPasswd":vm.model.oldPasswd, "newPasswd":vm.model.newPasswd}).then(function(response){
                     Notification.success({message:'修改密码成功！',delay:2000});
+                    $location.path("/userInfo");
                 },function(err){
                     Notification.error({
                         title:"更改密码失败.",
