@@ -71,6 +71,12 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
     .factory("UpdateContractState", function (nptRepository) {
         return nptRepository("updateContractState");
     })
+    .factory("QueryInstRolesByUseridAndInstid", function (nptRepository,nptSessionManager) {
+        return nptRepository("queryInstRolesByUseridAndInstid").params({
+            "userid":nptSessionManager.getSession().getUser().id,
+            "instid":nptSessionManager.getSession().getInst().id
+        });
+    })
     .service("ContractListQueryService", function(Notification, QueryContractsByInstid,QueryCtrlCode, $uibModal){
         var self = this;
 
@@ -285,13 +291,14 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
 
         vm.query();
     })
-    .controller("ContractDetailController", function ($scope, $location, $routeParams, nptSessionManager, Notification, QueryContractsByInstid, QueryContractById, nptMessageBox, UpdateContractState,UserListBySelectTree, OrgListBySelectTree) {
+    .controller("ContractDetailController", function ($scope, $location, $routeParams, nptSessionManager, Notification, QueryContractsByInstid, QueryContractById, nptMessageBox, UpdateContractState,UserListBySelectTree, OrgListBySelectTree, QueryInstRolesByUseridAndInstid) {
         var vm = this;
 
         vm.contractid = $routeParams.id;
 
         //合同列表资源库
         vm.contractList = QueryContractsByInstid;
+        vm.instRoles = QueryInstRolesByUseridAndInstid;
 
         //合同信息资源库
         vm.contractInfo = QueryContractById;
@@ -350,10 +357,31 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             return false;
         };
 
+        vm.isAuditorTemp = false;
+
+        vm.isAuditor = function() {
+            vm.instRoles.post().then(function (response) {
+                for(var i = 0;i<response.data.length;i++) {
+                    if("AUDITOR" === response.data[i].no) {
+                        vm.isAuditorTemp = true;
+                    }
+                }
+            },function(error) {
+                Notification.error({
+                    title: '查询合同详情失败',
+                    message: error.data.cause,
+                    replaceMessage: true,
+                    delay: 5000
+                });
+            });
+        };
+
+        vm.isAuditor();
+
         //合同通过标识
         vm.isShowPass = function() {
             if(vm.contractInfo) {
-                if (vm.contractInfo.data.state == "waitaudit") {
+                if (vm.contractInfo.data.state == "waitaudit" && vm.isAuditorTemp) {
                     return true;
                 }
             }
@@ -476,53 +504,27 @@ angular.module("contractApp", ["ui.neptune", "contractApp.ContractListGrid", "co
             var model = nptMessageBox.open({
                 title:"提示",
                 content: '<label>确定审批通过该合同?</label>'+
-                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>"+
-                    //"<br/><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button>"+
-                "<br/><div class='form-group'><label>目标用户:*</label><input class='form-control' ng-model='$$ms.name' ng-disabled='true'><span class='input-group-btn'><button class='btn btn-primary' type='button' ng-click='$$ms.show()'>选择用户</button></span></div>"+
-                "<br/><div npt-select-tree='$$ms.selectTreeSetting'></div>",
+                "<br/><label>附言:</label><input type='textarea' class='form-control' ng-model='$$ms.remark'>",
                 showCancel: true,
-                scope:{
-                    selectTreeSetting:{
-                        onRegisterApi: function (selectTreeApi) {
-                            vm.selectTreeApi = selectTreeApi;
-                        },
-                        treeRepository: OrgListBySelectTree,
-                        listRepository: UserListBySelectTree
-                    },
-                    show : function () {
-                        vm.selectTreeApi.open().then(function (data) {
-                            //vm.name = data[0].name;
-                            model.updateScope("name", data[0].name);
-                            model.updateScope("dis", false);
-                            model.updateScope("targetuserid" , data[0].id);
-                        }, function () {
-                        })
-                    },
-                    dis:true
-
-
-                },
                 action: {
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-                            vm.pass(contractid, modalResult.scope.remark,modalResult.scope.targetuserid);
+                            vm.pass(contractid, modalResult.scope.remark);
 
-                        }],
-                        ngDisabled:"$$ms.dis"
+                        }]
                     }
                 }
             });
         };
 
         //审批通过
-        vm.pass = function(contractid, remark, targetuserid) {
+        vm.pass = function(contractid, remark) {
             vm.updateContractState.post({
                 "contractid":contractid,
                 "state":"audit",
                 "userid":nptSessionManager.getSession().getUser().id,
-                "remark":remark,
-                "targetuserid":targetuserid
+                "remark":remark
             }).then(function (response) {
                 vm.query();
 

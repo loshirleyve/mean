@@ -65,8 +65,8 @@ angular.module("userManagerApp", ["ui.neptune",
         var self = this;
         self.queryUserByInst = QueryUserByInst;
 
-        self.queryUserList = function () {
-            self.queryUserByInst.post().then(function (response) {
+        self.queryUserList = function (params) {
+            self.queryUserByInst.post(params).then(function (response) {
             }, function (error) {
                 Notification.error({
                     title: '获取用户失败',
@@ -77,10 +77,11 @@ angular.module("userManagerApp", ["ui.neptune",
             });
         };
 
-        self.queryUserList();
+        self.queryUserList(null);
 
-    }).controller("userListController", function (userService, userListGrid) {
+    }).controller("userListController", function (userService, userListGrid,userSearchForm,nptMessageBox) {
         var vm = this;
+        vm.queryService=userService;
         vm.queryUserByInst = userService.queryUserByInst;
 
         vm.userListGridOptions = {
@@ -89,6 +90,34 @@ angular.module("userManagerApp", ["ui.neptune",
                 vm.nptGridApi = nptGridApi;
             }
         };
+        vm.userSearchFormOptions = {
+            store: userSearchForm,
+            onRegisterApi: function (nptFormApi) {
+                vm.nptFormApi = nptFormApi;
+            }
+        };
+
+
+        vm._showModal = function () {
+            nptMessageBox.open({
+                title: "资料列表",
+                content: '<div npt-form="$$ms.userSearchFormOptions" model="$$ms.user"></div>',
+                showCancel: true,
+                scope: {
+                    userSearchFormOptions: vm.userSearchFormOptions,
+                    user: vm.user
+                },
+                action: {
+                    success: {
+                        label: "确定",
+                        listens: [function (modalResult) {
+                            vm.queryService.queryUserList(modalResult.scope.user);
+                        }]
+                    }
+                }
+            });
+        };
+
     }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, queryInstRoles, QueryUserContact, QueryUserInvite, QueryUserWx, userRoleForm, nptCache, Notification, nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
@@ -191,6 +220,7 @@ angular.module("userManagerApp", ["ui.neptune",
         vm.queryWx = function () {
             vm.queryUserWx.post({id: vm.userid})
                 .then(function (response) {
+                    vm.wx=response.data;
                 }, function (error) {
                     Notification.error({
                         title: '获取用户微信信息失败',

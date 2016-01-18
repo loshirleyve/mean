@@ -40,6 +40,45 @@ angular.module("userManagerApp.userForm", ["ui.neptune",'ui.bootstrap',"wservice
                 }
             ]
         });
+    }).factory("userSearchForm", function (nptFormlyStore) {
+        return nptFormlyStore("userSearchForm", {
+            options: {
+
+            },
+            fields: [
+                {
+                    key: 'no',
+                    type: 'input',
+                    templateOptions: {
+                        label: '用户编号:',
+                        placeholder: "请输入用户编号"
+                    }
+                },
+                {
+                    key: 'userName',
+                    type: 'input',
+                    templateOptions: {
+                        label: '用户姓名:',
+                        placeholder: "请输入用户姓名"
+                    }
+                }
+            ],
+            buttons: {
+                ok: false,
+                reset: false
+            },
+            onSubmitListens: [
+                function (model, $timeout, $q) {
+                    var deferd = $q.defer();
+
+                    $timeout(function () {
+                        deferd.resolve();
+                    }, 1000);
+
+                    return deferd.promise;
+                }
+            ]
+        });
     }).factory("QueryInstRole", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryInstRole").params({
             "instid": nptSessionManager.getSession().getInst().id
