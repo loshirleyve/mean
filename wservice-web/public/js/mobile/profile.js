@@ -120,6 +120,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification", "us
         vm.updateSignature = updateUserBySignature;
         vm.sure = function(signature){
             vm.updateSignature.post({"signature":signature}).then(function(res){
+                Notification.success({message:'更新成功！',delay:2000});
             }, function(err){
                 Notification.error({
                    message:err.data.cause,
