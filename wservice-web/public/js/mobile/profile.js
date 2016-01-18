@@ -35,6 +35,7 @@ angular.module("UserProfileApp", ["ui.neptune","ngRoute", "ui-notification"])
         return nptRepository("QueryFileById");
     })
     .controller("UserProfileController", function(queryUserInfoById, $location, Notification, queryFileById, nptSession){
+        $(window.document.body).css("background-color", "#EEF0EF");
         var vm = this;
         vm.userInfo = queryUserInfoById;
         vm.queryUserInfo = function() {

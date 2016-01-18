@@ -1,98 +1,66 @@
 .media {
-  background-color: #E94B35;
   margin: 20px -20px 0 -25px;
-  padding: 10px 20px 0 20px;
+}
+#head {
+  background-color: #E94B35;
+  padding: 10px 20px 10px 20px;
   color: #fff;
 }
-.media a {
+#head a {
   color: #fff;
 }
-.media img {
+#head img {
   width: 80px;
   height: 80px;
 }
-#ul-item a {
-  color: darkgray;
-}
-#ul-item {
-  background-color: #EEF0EF;
-}
-#ul-item ul li {
-  margin-top: 10px;
+#horizon-item {
   background-color: #fff;
 }
-img.img-small {
-  width: 30px;
-  height: 30px;
+#horizon-item button {
+  background-color: #fff;
 }
-#ul-item .img-small {
-  margin-left: 20px;
+#horizon-item img {
+  width: 40px;
+  height: 40px;
 }
-#ul-item .img-large {
-  margin-left: 30px;
+#vertical-item {
+  margin: 0 -20px;
 }
-#ul-item .link-small {
-  margin-top: 10px;
+#vertical-item li {
+  padding: 0 40px;
+  background-color: #fff;
+  margin: 10px -20px 0 -20px;
 }
-#ul-item .link-large {
-  margin-top: 20px;
+#vertical-item img {
+  width: 40px;
+  height: 40px;
 }
-.text-large {
-  padding-top: 20px;
-  margin-left: 10px;
-}
-.text-small {
-  padding-top: 5px;
-}
-#user-header {
-  background-color: #E94B35;
-  color: #fff;
-  padding-top: 5px;
-}
-#user-header a {
-  color: inherit;
-}
-#user-head {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-#user-head p {
-  padding-top: 15px;
-}
-#user-head img.image-small {
-  width: 50px;
-  height: 50px;
-}
-#user-head img.image-large {
-  width: 100px;
-  height: 100px;
-}
-#devide {
-  background-color: #EEF0EF;
-  height: 5px;
-}
-@media (min-width: 992px) {
-  #user-head p {
-    padding-top: 30px;
-  }
-}
-.link-white {
+#vertical-item a {
   color: lightgrey;
 }
-#info-item div:first-child {
-  padding-top: 10px;
+#vertical-item1 {
+  margin: 0 -20px;
 }
-#info-item hr {
-  margin-top: 10px;
-  margin-bottom: 10px;
+#vertical-item1 li {
+  padding: 0 40px;
+  background-color: #fff;
+  margin: 10px -20px 0 -20px;
 }
-#info-item a {
+#vertical-item1 img {
+  width: 40px;
+  height: 40px;
+}
+#vertical-item1 a {
   color: lightgrey;
 }
-.disp-block {
-  display: block;
+#vertical-item1 li {
+  margin: 0 -20px 1px -20px;
 }
-#traInst:focus,
-#myclient:focus {
-  background-color: #E94B35;
+#vertical-item1 li:first-child {
+  margin-bottom: 5px;
+}
+#vertical-item1 img {
+  width: 60px;
+  height: 60px;
+  margin: 10px 0;
 }
