@@ -7,6 +7,7 @@ block titleContent
     link(rel='stylesheet', href='/stylesheets/profile.css')
     title 我
 block content
+    script(src="/js/biz/user/userPwdForm.js")
     script(src="/js/mobile/profile.js")
     div(ng-app="UserProfileApp")
         div(ng-view)
@@ -105,7 +106,7 @@ block content
                             span 部门
                             span.small.pull-right(ng-bind="vm.userInfo.data.orgNames")
                 li.media
-                    div.media-body.media-middle
+                    div.media-body.media-middle(onclick='javascript:location.href="#/signature"')
                         h5
                             p 个性签名
                             span.small(ng-bind="vm.userInfo.data.signature")
@@ -113,9 +114,37 @@ block content
                         span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                         span.sr-only
                 li.media
-                    div.media-body.media-middle
+                    div.media-body.media-middle(onclick='javascript:location.href="#/changePwd"')
                         h5 修改密码
                     a.media-right.media-middle(href="")
                         span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                         span.sr-only
+        script(type="text/ng-template", id="signature.html")
+            div#head.media
+                div.media-left.media-middle
+                    a(href="#/userInfo", role="button")
+                        span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                        span.sr-only
+                div.media-body.media-middle.text-center
+                    strong 个性签名
+                    a(href="#/userInfo", ng-click="vm.sure(vm.signature)")
+                        span.pull-right 确定
+            div#textarea.row
+                textarea.form-control(rows="8", ng-model="vm.signature")
+        script(type="text/ng-template", id="changePwd.html")
+            div#head.media
+                div.media-left.media-middle
+                    a(href="#/userInfo", role="button")
+                        span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                        span.sr-only
+                div.media-body.media-middle.text-center
+                    strong 修改密码
+                    a(href="", ng-click="vm.ok()")
+                        span.pull-right 确定
+            h5.text-center
+                span.small 请输入6-12位由字母或数字组成的密码组合!
+            div.row
+                    div.col-md-12
+                        div(npt-form="vm.userPwdFormOptions", model="vm.model")
+
 

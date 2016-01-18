@@ -64,3 +64,7 @@
   height: 60px;
   margin: 10px 0;
 }
+#textarea {
+  background-color: #fff;
+  margin: 4px -10px 0 -10px;
+}
