@@ -1,6 +1,6 @@
 #head {
   background-color: #E94B35;
-  padding: 10px;
+  padding: 14px 10px;
   color: #fff;
 }
 #head a {
@@ -24,7 +24,7 @@
   margin-top: 10px;
 }
 #vertical-item li {
-  padding: 0 10px;
+  padding: 4px 10px;
   background-color: #fff;
 }
 #vertical-item img {
@@ -38,7 +38,7 @@
   margin-top: 10px;
 }
 #vertical-item1 li {
-  padding: 0 10px;
+  padding: 4px 10px;
   background-color: #fff;
 }
 #vertical-item1 img {
@@ -50,7 +50,9 @@
 }
 #vertical-item1 .media {
   margin-top: 0;
-  margin-bottom: 1px;
+  margin-bottom: 1.5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 #vertical-item1 .media:first-child {
   margin-bottom: 5px;

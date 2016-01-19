@@ -12,7 +12,7 @@ block content
         script(type="text/ng-template", id="myWallet.html")
             div.row
                 div#title.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href="./profile"')
                         a(href="./profile", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
@@ -21,7 +21,7 @@ block content
                 div#body
                     div
                         span 账户余额
-                        span.font.item-padding(ng-bind="vm.queryBalance.data.balance+'元'")
+                        span.font(ng-bind="vm.queryBalance.data.balance+'元'")
                         button.btn.btn-xs.pull-right(ng-click="vm.toRecharge()") 充值
                     p.small 充值记录
                     div(ng-repeat="rechargeItem in vm.queryRecharge.data", ng-click="vm.toRechargeList(rechargeItem.state)")
@@ -33,7 +33,7 @@ block content
         script(type="text/ng-template", id="recharge.html")
             div.row
                 div#title.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href("#/")')
                         a(href="#/", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
@@ -42,7 +42,7 @@ block content
                 div#body
                     div(onclick='javascript:location.href="#/payMode"')
                         span 支付方式
-                        a.pull-right(href="", type="button")
+                        a.pull-right(href="#/payMode", type="button")
                             span.font.small 请选择支付方式
                             span.glyphicon.glyphicon-chevron-right
                             span.sr-only
@@ -55,7 +55,7 @@ block content
         script(type="text/ng-template", id="payMode.html")
             div.row
                 div#title.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href="#/recharge"')
                         a(href="#/recharge", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
@@ -74,13 +74,13 @@ block content
         script(type="text/ng-template", id="rechargeRecord.html")
             div.row
                 div#title.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href="#/"')
                         a(href="#/", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
                     div.media-body.media-middle.text-center
                         span.h4 {{'充值记录('+vm.rechargeStateName+')'}}
-                div#body
+                div#body-recharge
                     div.recharge-item(ng-repeat="recharge in vm.queryRechargeRecord.data")
                         p
                             strong(ng-bind="(recharge.accounttype | ctrlCodeFilter:'accounttype':'name':'no')+'充值'")

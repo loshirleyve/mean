@@ -81,7 +81,7 @@ block content
         script(type="text/ng-template", id="userInfo.html")
             div.row
                 div#head.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href("#/")')
                         a(href="#/", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
@@ -108,24 +108,24 @@ block content
                             h5
                                 span 部门
                                 span.small.pull-right(ng-bind="vm.userInfo.data.orgNames")
-                    li.media
-                        div.media-body.media-middle(onclick='javascript:location.href="#/signature"')
+                    li.media(onclick='javascript:location.href="#/signature"')
+                        div.media-body.media-middle
                             h5
                                 p 个性签名
                                 span.small(ng-bind="vm.userInfo.data.signature")
-                        a.media-right.media-middle(href="")
+                        a.media-right.media-middle(href="#/signature")
                             span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                             span.sr-only
-                    li.media
-                        div.media-body.media-middle(onclick='javascript:location.href="#/changePwd"')
+                    li.media(onclick='javascript:location.href="#/changePwd"')
+                        div.media-body.media-middle
                             h5 修改密码
-                        a.media-right.media-middle(href="")
+                        a.media-right.media-middle(href="#/changePwd")
                             span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                             span.sr-only
         script(type="text/ng-template", id="signature.html")
             div.row
                 div#head.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href="#/userInfo"')
                         a(href="#/userInfo", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only
@@ -138,7 +138,7 @@ block content
         script(type="text/ng-template", id="changePwd.html")
             div.row
                 div#head.media
-                    div.media-left.media-middle
+                    div.media-left.media-middle(onclick='javascript:location.href="#/userInfo"')
                         a(href="#/userInfo", role="button")
                             span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
                             span.sr-only

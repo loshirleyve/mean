@@ -1,21 +1,21 @@
 #title {
   background-color: #E94B35;
-  padding: 10px;
+  padding: 14px 10px;
   color: #fff;
 }
 #title a {
   color: #fff;
 }
 .divide {
-  margin-bottom: 1px;
+  margin-bottom: 1.5px;
 }
 #body .font {
   color: #E94B35;
 }
 #body div {
   background-color: #fff;
-  padding: 10px;
-  margin-bottom: 1px;
+  padding: 14px 10px;
+  margin-bottom: 1.5px;
 }
 #body div span:first-child {
   display: inline-block;
@@ -57,6 +57,59 @@
 #body hr ~ span {
   display: inline-block;
   margin-left: 12px;
+}
+#body-recharge .font {
+  color: #E94B35;
+}
+#body-recharge div {
+  background-color: #fff;
+  padding: 14px 10px;
+  margin-bottom: 1.5px;
+}
+#body-recharge div span:first-child {
+  display: inline-block;
+  padding-right: 6px;
+}
+#body-recharge p {
+  margin: 10px 0 0 10px;
+}
+#body-recharge a {
+  color: lightgrey;
+  text-decoration: none;
+}
+#body-recharge button {
+  border-color: #E94B35;
+  background-color: #fff;
+  color: #E94B35;
+}
+#body-recharge input {
+  border: 0;
+}
+#body-recharge label {
+  font-weight: normal;
+}
+#body-recharge label span:first-child {
+  display: block;
+}
+#body-recharge label input {
+  position: absolute;
+  right: 0;
+  margin: 0 10px 10px 0;
+  padding: 10px;
+}
+#body-recharge .recharge-item {
+  margin: 4px;
+}
+#body-recharge hr {
+  margin: 4px -10px;
+}
+#body-recharge hr ~ span {
+  display: inline-block;
+  margin-left: 12px;
+}
+#body-recharge .recharge-item {
+  padding-top: 2px;
+  padding-bottom: 4px;
 }
 #foot {
   position: fixed;
