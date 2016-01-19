@@ -1,9 +1,6 @@
-.media {
-  margin: 20px -20px 0 -25px;
-}
 #head {
   background-color: #E94B35;
-  padding: 10px 20px 10px 20px;
+  padding: 10px;
   color: #fff;
 }
 #head a {
@@ -23,13 +20,12 @@
   width: 40px;
   height: 40px;
 }
-#vertical-item {
-  margin: 0 -20px;
+#vertical-item .media {
+  margin-top: 10px;
 }
 #vertical-item li {
-  padding: 0 40px;
+  padding: 0 10px;
   background-color: #fff;
-  margin: 10px -20px 0 -20px;
 }
 #vertical-item img {
   width: 40px;
@@ -38,13 +34,12 @@
 #vertical-item a {
   color: lightgrey;
 }
-#vertical-item1 {
-  margin: 0 -20px;
+#vertical-item1 .media {
+  margin-top: 10px;
 }
 #vertical-item1 li {
-  padding: 0 40px;
+  padding: 0 10px;
   background-color: #fff;
-  margin: 10px -20px 0 -20px;
 }
 #vertical-item1 img {
   width: 40px;
@@ -53,10 +48,11 @@
 #vertical-item1 a {
   color: lightgrey;
 }
-#vertical-item1 li {
-  margin: 0 -20px 1px -20px;
+#vertical-item1 .media {
+  margin-top: 0;
+  margin-bottom: 1px;
 }
-#vertical-item1 li:first-child {
+#vertical-item1 .media:first-child {
   margin-bottom: 5px;
 }
 #vertical-item1 img {
@@ -66,5 +62,5 @@
 }
 #textarea {
   background-color: #fff;
-  margin: 4px -10px 0 -10px;
+  margin: 4px;
 }

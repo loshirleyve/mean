@@ -1,9 +1,6 @@
-.media {
-  margin: 20px -20px 0 -25px;
-}
 #title {
   background-color: #E94B35;
-  padding: 10px 20px 10px 20px;
+  padding: 10px;
   color: #fff;
 }
 #title a {
@@ -12,27 +9,23 @@
 .divide {
   margin-bottom: 1px;
 }
-.item-padding {
-  padding: 10px 10px 10px 20px;
-}
-#body {
-  margin: 0 -15px 0 -15px;
-}
 #body .font {
   color: #E94B35;
 }
 #body div {
   background-color: #fff;
-  padding: 10px 10px 10px 20px;
+  padding: 10px;
   margin-bottom: 1px;
 }
+#body div span:first-child {
+  display: inline-block;
+  padding-right: 6px;
+}
 #body p {
-  padding: 10px 0 0 10px;
-  margin: 10px 0 0 0;
+  margin: 10px 0 0 10px;
 }
 #body a {
-  color: #EEF0EF;
-  padding-left: 5px;
+  color: lightgrey;
   text-decoration: none;
 }
 #body button {
@@ -40,19 +33,11 @@
   background-color: #fff;
   color: #E94B35;
 }
-#body .small {
-  padding-top: 2px;
-}
 #body input {
-  padding-left: 5px;
   border: 0;
-}
-#body .radio {
-  color: #E94B35;
 }
 #body label {
   font-weight: normal;
-  margin-bottom: 0;
 }
 #body label span:first-child {
   display: block;
@@ -60,19 +45,10 @@
 #body label input {
   position: absolute;
   right: 0;
-  margin: -5px 20px auto auto;
-}
-#body hr {
-  margin: 6px -4px 6px -16px;
+  margin: 0 10px 10px 0;
 }
 #body .recharge-item {
-  margin: 0 4px 8px 4px;
-}
-#body .recharge-item p {
-  padding: 0;
-}
-#body .recharge-item:first-child {
-  margin: 4px 4px 8px 4px;
+  margin: 4px;
 }
 #foot {
   position: fixed;
@@ -80,7 +56,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  margin-bottom: 0;
   height: 38px;
   line-height: 2.6;
   color: #fff;
