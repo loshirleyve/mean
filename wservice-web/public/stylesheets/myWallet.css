@@ -46,9 +46,17 @@
   position: absolute;
   right: 0;
   margin: 0 10px 10px 0;
+  padding: 10px;
 }
 #body .recharge-item {
   margin: 4px;
+}
+#body hr {
+  margin: 4px -10px;
+}
+#body hr ~ span {
+  display: inline-block;
+  margin-left: 12px;
 }
 #foot {
   position: fixed;

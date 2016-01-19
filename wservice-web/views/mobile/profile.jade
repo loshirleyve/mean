@@ -13,7 +13,7 @@ block content
         div(ng-view)
         script(type="text/ng-template", id="profile.html")
             div.row
-                div#head.col-xs-12
+                div#head
                     div.media(ng-click="vm.toUserInfo()")
                         div.media-left
                             a(href="")
@@ -27,8 +27,7 @@ block content
                             a(href="", role="button")
                                 span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                                 span.sr-only
-            div.row
-                div#horizon-item.col-xs-12
+                div#horizon-item
                     div.btn-group.btn-group-justified
                         div.btn-group
                             button.btn(ng-click="vm.toMyWallet()")
@@ -46,7 +45,6 @@ block content
                             button.btn
                                 img(src="/image/contact@3x.png")
                                 p.small 联系人/小组
-            div.row
                 ul#vertical-item.media-list
                     li.media
                         a.media-left(href="")

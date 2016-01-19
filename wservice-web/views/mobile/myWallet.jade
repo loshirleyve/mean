@@ -87,7 +87,7 @@ block content
                             span.small.pull-right {{recharge.expirydate|timestampFilter}}
                         p
                             span.small {{recharge.typeName+"支付"+recharge.amount+"元"}}
-                        hr.row
+                        hr
                         span.small 充值ID：{{recharge.id}}
                         strong.small.pull-right(ng-bind="recharge.state | ctrlCodeFilter:'rechargedetailstate':'name':'no'", ng-if="recharge.state === 'arrive'")
                         button.btn.btn-xs.pull-right(ng-if="recharge.state === 'unarrive'") 重新支付
