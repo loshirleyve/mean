@@ -7,151 +7,148 @@ block titleContent
     link(rel='stylesheet', href='/stylesheets/profile.css')
     title 我
 block content
+    script(src="/js/biz/user/userPwdForm.js")
     script(src="/js/mobile/profile.js")
     div(ng-app="UserProfileApp")
         div(ng-view)
         script(type="text/ng-template", id="profile.html")
-            div.media(ng-click="vm.toUserInfo()")
-                div.media-left
-                    a(href="")
-                        img.media-object.img-rounded(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
-                div.media-body
-                    h4.media-heading(ng-bind="vm.userInfo.data.name")
-                    p.small(ng-bind="vm.instName")
-                    p.small(ng-bind="vm.userInfo.data.orgNames")
-                    p.small(ng-bind="vm.userInfo.data.signature")
-                div.media-right.media-middle
-                    a(href="", role="button")
-                        span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                        span.sr-only
-            ul.list-inline.row.text-center
-                li.col-xs-3.col-sm-3.col-md-3.col-lg-3(ng-click="vm.toMyWallet()")
-                    img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/money@3x.png")
-                    img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/money@3x.png")
-                    p.small 我的钱包
-                li.col-xs-3.col-sm-3.col-md-3.col-lg-3
-                    img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/order@3x.png")
-                    img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/order@3x.png")
-                    p.small 我的订单
-                li.col-xs-3.col-sm-3.col-md-3.col-lg-3
-                    img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/file@3x.png")
-                    img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/file@3x.png")
-                    p.small 我的文件
-                li.col-xs-3.col-sm-3.col-md-3.col-lg-3
-                    img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(src="/image/contact@3x.png")
-                    img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/contact@3x.png")
-                    p.small 联系人/小组
-            div#ul-item.row
-                ul.list-unstyled.row
-                    li.col-xs-12.col-sm-12.col-md-12.col-lg-12
-                        ul.list-inline.row
-                            li.col-xs-2.col-sm-2.col-md-1.col-lg-1
-                                img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/analysis@3x.png")
-                                img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/analysis@3x.png")
-                            li.col-md-10.col-sm-8.col-xs-8.col-lg-10
-                                p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 销售分析
-                                p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 销售分析
-                            li.col-md-1.col-sm-1.col-xs-1.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-small.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                    li.col-xs-12.col-sm-12.col-md-12.col-lg-12
-                        ul.list-inline.row
-                            li.col-xs-2.col-sm-2.col-md-1.col-lg-1
-                                img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/contact@3x.png")
-                                img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/contact@3x.png")
-                            li#myclient.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.toClient()")
-                                p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 我的客户
-                                p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 我的客户
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-small.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                    li.col-xs-12.col-sm-12.col-md-12.col-lg-12
-                        ul.list-inline.row
-                            li.col-xs-2.col-sm-2.col-md-1.col-lg-1
-                                img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/switchAcc@3x.png")
-                                img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/switchAcc@3x.png")
-                            li#traInst.col-md-10.col-sm-8.col-xs-8.col-lg-10(ng-click="vm.transInst()")
-                                p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 切换机构
-                                p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 切换机构
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-small.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                    li.col-xs-12.col-sm-12.col-md-12.col-lg-12
-                        ul.list-inline.row
-                            li.col-xs-2.col-sm-2.col-md-1.col-lg-1
-                                img.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.img-large(src="/image/setting@3x.png")
-                                img.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.img-small(src="/image/setting@3x.png")
-                            li.col-md-10.col-sm-8.col-xs-8.col-lg-10
-                                p.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs.text-large 设置
-                                p.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg.text-small 设置
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-large.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                            li.col-md-1.col-sm-2.col-xs-2.col-lg-1.link-small.visible-sm-inline-block.visible-xs-inline-block.hidden-md.hidden-lg
-                                a(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-
-        script(type="text/ng-template", id="userInfo.html")
-            div#user-header.row
-                div.col-xs-1.col-sm-1
-                    a(href="#/", role="button")
-                        span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
-                        span.sr-only
-                div.col-xs-10.col-sm-10.text-center
-                    p 个人信息
-            div#user-head.row
-                div.col-xs-3.col-sm-3
-                    p 头像
-                div.col-xs-3.col-sm-2.col-md-1.col-lg-1.col-md-offset-7.col-lg-offset-7.col-xs-offset-6.col-sm-offset-7
-                    img.image-small.img-rounded.visible-xs-inline-block.visible-sm-inline-block.hidden-md.hidden-lg(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
-                    img.image-large.img-rounded.visible-md-inline-block.visible-lg-inline-block.hidden-sm.hidden-xs(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
-            div#devide.row
-            div#info-item
-                div.row
-                    div.col-sm-12
-                        span 名字
-                        span.pull-right(ng-bind="vm.userInfo.data.name")
-                hr.row
-                div.row
-                    div.col-sm-12
-                        span 机构
-                        span.small.pull-right(ng-bind="vm.instName")
-                hr.row
-                div.row
-                    div.col-sm-12
-                        span 部门
-                        span.pull-right(ng-bind="vm.userInfo.data.orgNames")
-                hr.row
-                div.row
-                    div.col-sm-12
-                        span.disp-block 个性签名
-                        span.small(ng-bind="vm.userInfo.data.signature")
-                        a.pull-right(href="", role="button")
+            div.row
+                div#head
+                    div.media(ng-click="vm.toUserInfo()")
+                        div.media-left
+                            a(href="")
+                                img.media-object.img-rounded(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
+                        div.media-body
+                            h4.media-heading(ng-bind="vm.userInfo.data.name")
+                            p.small(ng-bind="vm.instName")
+                            p.small(ng-bind="vm.userInfo.data.orgNames")
+                            p.small(ng-bind="vm.userInfo.data.signature")
+                        div.media-right.media-middle
+                            a(href="", role="button")
+                                span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                                span.sr-only
+                div#horizon-item
+                    div.btn-group.btn-group-justified
+                        div.btn-group
+                            button.btn(ng-click="vm.toMyWallet()")
+                                img(src="/image/money@3x.png")
+                                p.small 我的钱包
+                        div.btn-group
+                            button.btn
+                                img(src="/image/order@3x.png")
+                                p.small 我的订单
+                        div.btn-group
+                            button.btn
+                                img(src="/image/file@3x.png")
+                                p.small 我的文件
+                        div.btn-group
+                            button.btn
+                                img(src="/image/contact@3x.png")
+                                p.small 联系人/小组
+                ul#vertical-item.media-list
+                    li.media
+                        a.media-left(href="")
+                            img(src="/image/analysis@3x.png")
+                        div.media-body.media-middle
+                            h5 销售分析
+                        a.media-right.media-middle(href="")
                             span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
                             span.sr-only
-                hr.row
-                div.row
-                    div.col-sm-12
-                        span 修改密码
-                        a.pull-right(href="", role="button")
-                                    span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-                                    span.sr-only
-                hr.row
+                    li.media(ng-click="vm.toClient()")
+                        a.media-left(href="")
+                            img(src="/image/contact@3x.png")
+                        div.media-body.media-middle
+                            h5 我的客户
+                        a.media-right.media-middle(href="")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                    li.media(ng-click="vm.transInst()")
+                        a.media-left(href="")
+                            img(src="/image/switchAcc@3x.png")
+                        div.media-body.media-middle
+                            h5 切换机构
+                        a.media-right.media-middle(href="")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                    li.media
+                        a.media-left(href="")
+                            img(src="/image/setting@3x.png")
+                        div.media-body.media-middle
+                            h5 设置
+                        a.media-right.media-middle(href="")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+        script(type="text/ng-template", id="userInfo.html")
+            div.row
+                div#head.media
+                    div.media-left.media-middle(onclick='javascript:location.href("#/")')
+                        a(href="#/", role="button")
+                            span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                            span.sr-only
+                    div.media-body.media-middle.text-center
+                        span.h4 个人信息
+                ul#vertical-item1.media-list
+                    li.media
+                        div.media-body.media-middle
+                            h5 头像
+                        a.media-right(href="")
+                            img.media-object.img-rounded(npt-image="vm.headerfileid", npt-image-options="vm.imageOptions")
+                    li.media
+                        div.media-body.media-middle
+                            h5
+                                span 名字
+                                span.small.pull-right(ng-bind="vm.userInfo.data.name")
+                    li.media
+                        div.media-body.media-middle
+                            h5
+                                span 机构
+                                span.small.pull-right.media-middle(ng-bind="vm.instName")
+                    li.media
+                        div.media-body.media-middle
+                            h5
+                                span 部门
+                                span.small.pull-right(ng-bind="vm.userInfo.data.orgNames")
+                    li.media(onclick='javascript:location.href="#/signature"')
+                        div.media-body.media-middle
+                            h5
+                                p 个性签名
+                                span.small(ng-bind="vm.userInfo.data.signature")
+                        a.media-right.media-middle(href="#/signature")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+                    li.media(onclick='javascript:location.href="#/changePwd"')
+                        div.media-body.media-middle
+                            h5 修改密码
+                        a.media-right.media-middle(href="#/changePwd")
+                            span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                            span.sr-only
+        script(type="text/ng-template", id="signature.html")
+            div.row
+                div#head.media
+                    div.media-left.media-middle(onclick='javascript:location.href="#/userInfo"')
+                        a(href="#/userInfo", role="button")
+                            span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                            span.sr-only
+                    div.media-body.media-middle.text-center
+                        span.h4 个性签名
+                        a(href="#/userInfo", ng-click="vm.sure(vm.signature)")
+                            span.pull-right 确定
+                div#textarea
+                    textarea.form-control(rows="8", ng-model="vm.signature")
+        script(type="text/ng-template", id="changePwd.html")
+            div.row
+                div#head.media
+                    div.media-left.media-middle(onclick='javascript:location.href="#/userInfo"')
+                        a(href="#/userInfo", role="button")
+                            span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                            span.sr-only
+                    div.media-body.media-middle.text-center
+                        span.h4 修改密码
+                        a(href="", ng-click="vm.ok()")
+                            span.pull-right 确定
+                h5.text-center
+                    span.small 请输入6-12位由字母或数字组成的密码组合!
+                div.col-xs-12
+                    div(npt-form="vm.userPwdFormOptions", model="vm.model")
+
 

@@ -11,7 +11,7 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                     type:'input',
                     templateOptions:{
                         required:true,
-                        label:'原密码',
+                        label:'原始密码',
                         type:"password",
                         placeholder: "请输入原始密码"
                     },
@@ -45,7 +45,7 @@ angular.module("userApp.userPwdForm", ["ui.neptune"])
                     type:'input',
                     templateOptions:{
                         required:true,
-                        label:'确认新密码',
+                        label:'确认密码',
                         type:"password",
                         placeholder: "请确认新密码"
                     },

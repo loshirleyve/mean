@@ -447,6 +447,11 @@ proxy.action("QueryRecharge", {
     action:"com.yun9.ws.biz.service.QueryRechargeService"
 });
 
+//更新个性签名
+proxy.action("UpdateUserBySignature", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.UpdateUserBySignatureService"
+});
 
 //导航
 proxy.action("QueryMdNavi", {
