@@ -290,6 +290,9 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryUserWxByUserId", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryUserWxByUserIdService"
+}).action("QueryUserByUserNo", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUserByUserNoService"
 });
 
 /*获取导航数据*/
