@@ -60,6 +60,12 @@ angular.module("userManagerApp", ["ui.neptune",
     }).factory("QueryUserWx", function (nptRepository) {
         return nptRepository("QueryUserWxByUserId").params({
         });
+    }).factory("RemoveUserInstRole", function (nptRepository) {
+        return nptRepository("RemoveUserInstRole").params({
+        });
+    }).factory("AddOrUpdateUserInstRole", function (nptRepository) {
+        return nptRepository("AddOrUpdateUserInstRole").params({
+        });
     })
     .service("userService", function (QueryUserByInst, Notification) {
         var self = this;
@@ -118,7 +124,7 @@ angular.module("userManagerApp", ["ui.neptune",
             });
         };
 
-    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, queryInstRoles, QueryUserContact, QueryUserInvite, QueryUserWx, userRoleForm, nptCache, Notification, nptMessageBox) {
+    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, queryInstRoles, QueryUserContact, QueryUserInvite, QueryUserWx,RemoveUserInstRole,AddOrUpdateUserInstRole,userRoleForm, nptCache, Notification, nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
@@ -220,10 +226,37 @@ angular.module("userManagerApp", ["ui.neptune",
         vm.queryWx = function () {
             vm.queryUserWx.post({id: vm.userid})
                 .then(function (response) {
-                    vm.wx=response.data;
                 }, function (error) {
                     Notification.error({
                         title: '获取用户微信信息失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
+        };
+
+        //删除用户角色
+        vm.removeUserRole = function (userRoleId) {
+            RemoveUserInstRole.post({id: userRoleId})
+                .then(function (response) {
+                }, function (error) {
+                    Notification.error({
+                        title: '删除用户角色失败',
+                        message: error.data.cause,
+                        replaceMessage: true,
+                        delay: 5000
+                    });
+                });
+        };
+
+        //添加用户角色
+        vm.addUserRole = function (roleId) {
+            AddOrUpdateUserInstRole.post({userid: vm.userid,instroleid: roleId,createby: vm.userid})
+                .then(function (response) {
+                }, function (error) {
+                    Notification.error({
+                        title: '添加用户角色失败',
                         message: error.data.cause,
                         replaceMessage: true,
                         delay: 5000
@@ -247,7 +280,7 @@ angular.module("userManagerApp", ["ui.neptune",
             }
         };
 
-        vm.isDeleteRole = function () {
+        vm.isDeleteRole = function (userRoleId) {
             nptMessageBox.open({
                 title: "提示",
                 content: '是否确定删除吗?',
@@ -256,7 +289,7 @@ angular.module("userManagerApp", ["ui.neptune",
                     success: {
                         label: "确定",
                         listens: [function (modalResult) {
-
+                            vm.removeUserRole(userRoleId);
                         }]
                     }
                 },

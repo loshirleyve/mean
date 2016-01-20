@@ -290,7 +290,15 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("QueryUserWxByUserId", {
     proxy:"Y9",
     action:"com.yun9.sys.inst.serivce.QueryUserWxByUserIdService"
+}).action("RemoveUserInstRole", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.RemoveUserInstRoleService"
+}).action("AddOrUpdateUserInstRole", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.AddOrUpdateUserInstRoleService"
 });
+
+
 
 /*获取导航数据*/
 proxy.action("QueryInstRoleNaviService", {
@@ -412,6 +420,9 @@ proxy.action("QueryAirline", {
 }).action("AddOrUpdateAirlineLog", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
+}).action("GetTaskUrl", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.GetTaskUrlService"
 });
 
 //余额
