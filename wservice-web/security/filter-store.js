@@ -19,7 +19,10 @@ store.use("/app*", {
 }).use("/", {
     needLogin: true,
     needInst: true
-}).use("/mobile*", {
+}).use("/mobile/profile", {
+    needLogin: true,
+    needInst: true
+}).use("/mobile/myWallet", {
     needLogin: true,
     needInst: true
 });

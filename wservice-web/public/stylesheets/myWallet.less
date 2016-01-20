@@ -3,50 +3,34 @@
 @red:#E94B35;
 @white:#fff;
 #title{
-  color: @white;
-  margin: 0 -15px;
   background-color: @red;
-  font-weight: bold;
-  div{
-    position: absolute;
-    top:0;
-    left: 0;
-  }
-  div:first-child{
-    background-color: @red;
-    width: 100%;
-    line-height: 2.6;
-  }
-  div:nth-child(2){
-    padding: 10px;
-    a{
-      color: @white;
-    }
+  padding: 14px 10px;
+  color:@white;
+  a{
+    color: @white;
   }
 }
 .divide{
-  margin-bottom: 1px;
-}
-.item-padding{
-  padding: 10px 10px 10px 20px;
+  margin-bottom: 1.5px;
 }
 #body{
-  margin: 36px -15px 0 -15px;
   .font{
     color: @red;
   }
   div{
     background-color: @white;
-    .item-padding;
+    padding:14px 10px;
     .divide;
+    span:first-child{
+      display: inline-block;
+      padding-right: 6px;
+    }
   }
   p{
-    padding: 10px 0 0 10px;
-    margin: 10px 0 0 0;
+    margin: 10px 0 0 10px;
   }
   a{
-    color: @grey;
-    padding-left: 5px;
+    color: lightgrey;
     text-decoration: none;
   }
   button{
@@ -54,39 +38,37 @@
     background-color: @white;
     color: @red;
   }
-  .small{
-    padding-top: 2px;
-  }
   input{
-    padding-left: 5px;
     border: 0;
-  }
-  .radio{
-    color: @red;
   }
   label{
     font-weight: normal;
     span:first-child{
       display:block;
     }
-    margin-bottom: 0;
     input{
       position: absolute;
       right: 0;
-      margin: -5px 20px auto auto;
+      margin: 0 10px 10px 0;
+      padding: 10px;
     }
-  }
-  hr{
-    margin: 6px -4px 6px -16px;
   }
   .recharge-item{
-    margin: 0 4px 8px 4px;
-    p{
-      padding: 0;
-    }
+    margin: 4px;
   }
-  .recharge-item:first-child{
-    margin: 40px 4px 8px 4px;
+  hr{
+    margin: 4px -10px;
+  }
+  hr~span{
+    display: inline-block;
+    margin-left: 12px;
+  }
+}
+#body-recharge{
+  #body;
+  .recharge-item{
+    padding-top: 2px;
+    padding-bottom: 4px;
   }
 }
 #foot{
@@ -95,7 +77,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  margin-bottom: 0;
   height: 38px;
   line-height: 2.6;
   color: @white;

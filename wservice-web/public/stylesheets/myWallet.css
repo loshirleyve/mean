@@ -1,49 +1,31 @@
 #title {
+  background-color: #E94B35;
+  padding: 14px 10px;
   color: #fff;
-  margin: 0 -15px;
-  background-color: #E94B35;
-  font-weight: bold;
 }
-#title div {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-#title div:first-child {
-  background-color: #E94B35;
-  width: 100%;
-  line-height: 2.6;
-}
-#title div:nth-child(2) {
-  padding: 10px;
-}
-#title div:nth-child(2) a {
+#title a {
   color: #fff;
 }
 .divide {
-  margin-bottom: 1px;
-}
-.item-padding {
-  padding: 10px 10px 10px 20px;
-}
-#body {
-  margin: 36px -15px 0 -15px;
+  margin-bottom: 1.5px;
 }
 #body .font {
   color: #E94B35;
 }
 #body div {
   background-color: #fff;
-  padding: 10px 10px 10px 20px;
-  margin-bottom: 1px;
+  padding: 14px 10px;
+  margin-bottom: 1.5px;
+}
+#body div span:first-child {
+  display: inline-block;
+  padding-right: 6px;
 }
 #body p {
-  padding: 10px 0 0 10px;
-  margin: 10px 0 0 0;
+  margin: 10px 0 0 10px;
 }
 #body a {
-  color: #EEF0EF;
-  padding-left: 5px;
+  color: lightgrey;
   text-decoration: none;
 }
 #body button {
@@ -51,19 +33,11 @@
   background-color: #fff;
   color: #E94B35;
 }
-#body .small {
-  padding-top: 2px;
-}
 #body input {
-  padding-left: 5px;
   border: 0;
-}
-#body .radio {
-  color: #E94B35;
 }
 #body label {
   font-weight: normal;
-  margin-bottom: 0;
 }
 #body label span:first-child {
   display: block;
@@ -71,19 +45,71 @@
 #body label input {
   position: absolute;
   right: 0;
-  margin: -5px 20px auto auto;
-}
-#body hr {
-  margin: 6px -4px 6px -16px;
+  margin: 0 10px 10px 0;
+  padding: 10px;
 }
 #body .recharge-item {
-  margin: 0 4px 8px 4px;
+  margin: 4px;
 }
-#body .recharge-item p {
-  padding: 0;
+#body hr {
+  margin: 4px -10px;
 }
-#body .recharge-item:first-child {
-  margin: 40px 4px 8px 4px;
+#body hr ~ span {
+  display: inline-block;
+  margin-left: 12px;
+}
+#body-recharge .font {
+  color: #E94B35;
+}
+#body-recharge div {
+  background-color: #fff;
+  padding: 14px 10px;
+  margin-bottom: 1.5px;
+}
+#body-recharge div span:first-child {
+  display: inline-block;
+  padding-right: 6px;
+}
+#body-recharge p {
+  margin: 10px 0 0 10px;
+}
+#body-recharge a {
+  color: lightgrey;
+  text-decoration: none;
+}
+#body-recharge button {
+  border-color: #E94B35;
+  background-color: #fff;
+  color: #E94B35;
+}
+#body-recharge input {
+  border: 0;
+}
+#body-recharge label {
+  font-weight: normal;
+}
+#body-recharge label span:first-child {
+  display: block;
+}
+#body-recharge label input {
+  position: absolute;
+  right: 0;
+  margin: 0 10px 10px 0;
+  padding: 10px;
+}
+#body-recharge .recharge-item {
+  margin: 4px;
+}
+#body-recharge hr {
+  margin: 4px -10px;
+}
+#body-recharge hr ~ span {
+  display: inline-block;
+  margin-left: 12px;
+}
+#body-recharge .recharge-item {
+  padding-top: 2px;
+  padding-bottom: 4px;
 }
 #foot {
   position: fixed;
@@ -91,7 +117,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  margin-bottom: 0;
   height: 38px;
   line-height: 2.6;
   color: #fff;

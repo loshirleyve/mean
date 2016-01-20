@@ -103,6 +103,9 @@ angular.module("MyWalletApp", ["ui.neptune", "ngRoute", "ui-notification"])
                 delay:2000
             });
         });
+        vm.toRechargeList = function(state){
+            $location.path('/rechargeRecord/'+state);
+        }
     })
     .controller("RechargeRecordController", function(QueryRecharge, Notification, $routeParams){
         $(window.document.body).css("background-color","#EEF0EF");

@@ -1,98 +1,68 @@
-.media {
+#head {
   background-color: #E94B35;
-  margin: 20px -20px 0 -25px;
-  padding: 10px 20px 0 20px;
+  padding: 14px 10px;
   color: #fff;
 }
-.media a {
+#head a {
   color: #fff;
 }
-.media img {
+#head img {
   width: 80px;
   height: 80px;
 }
-#ul-item a {
-  color: darkgray;
-}
-#ul-item {
-  background-color: #EEF0EF;
-}
-#ul-item ul li {
-  margin-top: 10px;
+#horizon-item {
   background-color: #fff;
 }
-img.img-small {
-  width: 30px;
-  height: 30px;
+#horizon-item button {
+  background-color: #fff;
 }
-#ul-item .img-small {
-  margin-left: 20px;
+#horizon-item img {
+  width: 40px;
+  height: 40px;
 }
-#ul-item .img-large {
-  margin-left: 30px;
-}
-#ul-item .link-small {
+#vertical-item .media {
   margin-top: 10px;
 }
-#ul-item .link-large {
-  margin-top: 20px;
+#vertical-item li {
+  padding: 4px 10px;
+  background-color: #fff;
 }
-.text-large {
-  padding-top: 20px;
-  margin-left: 10px;
+#vertical-item img {
+  width: 40px;
+  height: 40px;
 }
-.text-small {
-  padding-top: 5px;
-}
-#user-header {
-  background-color: #E94B35;
-  color: #fff;
-  padding-top: 5px;
-}
-#user-header a {
-  color: inherit;
-}
-#user-head {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-#user-head p {
-  padding-top: 15px;
-}
-#user-head img.image-small {
-  width: 50px;
-  height: 50px;
-}
-#user-head img.image-large {
-  width: 100px;
-  height: 100px;
-}
-#devide {
-  background-color: #EEF0EF;
-  height: 5px;
-}
-@media (min-width: 992px) {
-  #user-head p {
-    padding-top: 30px;
-  }
-}
-.link-white {
+#vertical-item a {
   color: lightgrey;
 }
-#info-item div:first-child {
-  padding-top: 10px;
-}
-#info-item hr {
+#vertical-item1 .media {
   margin-top: 10px;
-  margin-bottom: 10px;
 }
-#info-item a {
+#vertical-item1 li {
+  padding: 4px 10px;
+  background-color: #fff;
+}
+#vertical-item1 img {
+  width: 40px;
+  height: 40px;
+}
+#vertical-item1 a {
   color: lightgrey;
 }
-.disp-block {
-  display: block;
+#vertical-item1 .media {
+  margin-top: 0;
+  margin-bottom: 1.5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
-#traInst:focus,
-#myclient:focus {
-  background-color: #E94B35;
+#vertical-item1 .media:first-child {
+  margin-bottom: 5px;
+}
+#vertical-item1 img {
+  width: 60px;
+  height: 60px;
+  margin: 10px 0;
+}
+#textarea {
+  background-color: #fff;
+  margin: 4px;
 }
