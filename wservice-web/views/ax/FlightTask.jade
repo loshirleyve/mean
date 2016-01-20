@@ -31,15 +31,21 @@ block content
                             span.icon-bar
                         a.navbar-brand(href="#") 任务列表
                     div#navbar-collapse.collapse.navbar-collapse.navbar-right
-                        ul.nav.navbar-nav.navbar-left(ng-if="vm.workorderList.loading()")
+                        ul.nav.navbar-nav.navbar-left(ng-if="vm.queryService.flightTaskList.loading()")
                             li
                                 a(href="") 正在查询,请稍后...
-                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.workorderList.loading()")
-                            li
-                                a(ng-click="vm.query()") 刷新任务
+                        ul.nav.navbar-nav.navbar-left(ng-if="!vm.queryService.flightTaskList.loading()")
+                            li.dropdown
+                                a.dropdown-toggle(href="",data-toggle="dropdown") 任务查询 - {{vm.queryService.currQuery.label}}
+                                    span.caret
+                                ul.dropdown-menu
+                                    li(ng-repeat="queryItem in vm.queryService.queryList")
+                                        a(href="",ng-click="vm.queryService.selectQuery(queryItem)") {{queryItem.label}}
+
+
             div
                 ul.media-list
-                    li.media(ng-repeat="item in vm.model")
+                    li.media(ng-repeat="item in vm.queryService.flightTaskList.data")
                         div.media-body
                             a.list-group-item
                                 div.row
