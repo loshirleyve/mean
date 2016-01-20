@@ -204,7 +204,7 @@ block content
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-6.col-md-6
-                                    label {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}}
+                                    label {{item.actionname | ctrlCodeFilter:'contractactionname':'name':'no'}} &nbsp;&nbsp; 接受人:{{item.targetuserid | cacheFilter:'user':'name':'id'}}
                         div.list-group-item-text
                             p 附言:{{item.remark}}
                             p 操作人:{{item.createby | cacheFilter:'user':'name':'id'}}; &nbsp;&nbsp; 处理时间:{{item.createdate | timestampFilter}}
