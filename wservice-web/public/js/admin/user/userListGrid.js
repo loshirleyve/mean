@@ -27,6 +27,13 @@ angular.module("userManagerApp.userListGrid", [])
                         }
                     ]
                 }
+            },mobile: {
+                fields: {
+                    title: "name",
+                    tip: "'性别: '+sex",
+                    content: "'电话: '+tel+'<br/>'+'职业: '+occupation+'<br/>'+'爱好: '+hobby+'<br/>'+'住址: '+ address",
+                    createDate: "createdate|timestampFilter"
+                }
             }
         });
     });
