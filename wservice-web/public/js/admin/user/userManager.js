@@ -47,9 +47,9 @@ angular.module("userManagerApp", ["ui.neptune",
     }).factory("QueryUserInfoById", function (nptRepository, nptSessionManager) {
         return nptRepository("QueryUserInfoById").params({
         });
-    }).factory("queryInstRoles", function (nptRepository, nptSessionManager) {
-        return nptRepository("queryInstRolesByUseridAndInstid").params({
-            instid: nptSessionManager.getSession().getInst().id
+    }).factory("QueryUserRoles", function (nptRepository, nptSessionManager) {
+        return nptRepository("QueryUserRoles").params({
+            instId: nptSessionManager.getSession().getInst().id
         });
     }).factory("QueryUserContact", function (nptRepository) {
         return nptRepository("QueryUserContactByUserId").params({
@@ -63,8 +63,8 @@ angular.module("userManagerApp", ["ui.neptune",
     }).factory("RemoveUserInstRole", function (nptRepository) {
         return nptRepository("RemoveUserInstRole").params({
         });
-    }).factory("AddOrUpdateUserInstRole", function (nptRepository) {
-        return nptRepository("AddOrUpdateUserInstRole").params({
+    }).factory("AddUserInstRole", function (nptRepository) {
+        return nptRepository("AddUserInstRole").params({
         });
     })
     .service("userService", function (QueryUserByInst, Notification) {
@@ -124,13 +124,13 @@ angular.module("userManagerApp", ["ui.neptune",
             });
         };
 
-    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, queryInstRoles, QueryUserContact, QueryUserInvite, QueryUserWx,RemoveUserInstRole,AddOrUpdateUserInstRole,userRoleForm, nptCache, Notification, nptMessageBox) {
+    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, QueryUserRoles, QueryUserContact, QueryUserInvite, QueryUserWx,RemoveUserInstRole,AddUserInstRole,userRoleForm, nptCache, Notification, nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
         vm.queryUserInfo = QueryUserInfoById;
         vm.queryInstRoleNavi = QueryInstRoleNavi;
-        vm.queryInstRoles = queryInstRoles;
+        vm.queryUserRoles = QueryUserRoles;
         vm.queryUserContact = QueryUserContact;
         vm.queryUserInvite = QueryUserInvite;
         vm.queryUserWx = QueryUserWx;
@@ -143,6 +143,7 @@ angular.module("userManagerApp", ["ui.neptune",
             store: userRoleForm,
             onRegisterApi: function (nptFormApi) {
                 vm.nptFormApi = nptFormApi;
+                vm.nptFormApi.addOnSubmitListen(addUserRole);
             }
         };
 
@@ -163,10 +164,10 @@ angular.module("userManagerApp", ["ui.neptune",
 
         //用户角色
         vm.queryRole = function () {
-            vm.queryInstRoles.post({userid: vm.userid})
+            vm.queryUserRoles.post({userId: vm.userid})
                 .then(function (response) {
                     angular.forEach(response.data, function (value) {
-                        vm.userRoleIds.ids.push(value.id);
+                        vm.userRoleIds.ids.push(value.instroleId);
                     });
                 }, function (error) {
                     Notification.error({
@@ -240,6 +241,8 @@ angular.module("userManagerApp", ["ui.neptune",
         vm.removeUserRole = function (userRoleId) {
             RemoveUserInstRole.post({id: userRoleId})
                 .then(function (response) {
+                    vm.userRoleIds.ids=[];
+                    vm.queryRole();
                 }, function (error) {
                     Notification.error({
                         title: '删除用户角色失败',
@@ -251,9 +254,12 @@ angular.module("userManagerApp", ["ui.neptune",
         };
 
         //添加用户角色
-        vm.addUserRole = function (roleId) {
-            AddOrUpdateUserInstRole.post({userid: vm.userid,instroleid: roleId,createby: vm.userid})
+        function addUserRole() {
+            AddUserInstRole.post
+            ({userid: vm.userid,instroleids: vm.userRoleIds.ids,createby: vm.userid})
                 .then(function (response) {
+                    vm.userRoleIds.ids=[];
+                    vm.queryRole();
                 }, function (error) {
                     Notification.error({
                         title: '添加用户角色失败',

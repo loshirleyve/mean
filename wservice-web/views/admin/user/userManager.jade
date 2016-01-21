@@ -114,11 +114,11 @@ block content
                             div.panel-body
                                 div(npt-form="vm.userRoleFormOptions" model="vm.userRoleIds")
                 div.list-group
-                    div.list-group-item(ng-repeat="item in vm.queryInstRoles.data")
+                    div.list-group-item(ng-repeat="item in vm.queryUserRoles.data")
                         div.list-group-item-heading
                             div.row
                                 div.col-xs-11.col-md-11
-                                    h5 {{item.name}}
+                                    h5 {{item.roleName}}
                                 div.col-xs-1.col-md-1
                                     button.close
                                         span.pull-right(aria-hidden="ture",ng-click="vm.isDeleteRole(item.id);")&times;
