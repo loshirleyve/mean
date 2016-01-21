@@ -36,6 +36,7 @@
     "body-parser": "^1.14.1",
     "bootstrap": "^3.3.5",
     "cookie-parser": "^1.4.0",
+    "dateformat": "^1.0.12",
     "debug": "^2.2.0",
     "express": "^4.13.3",
     "express-flash": "0.0.2",

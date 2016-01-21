@@ -10,8 +10,12 @@ var y9MarsUtil = require("y9-mars-util");
 var WeixinStrategy = require("y9-passport-weixin").Strategy;
 var debug = require("debug")("y9-wservice-passport");
 var WxAuthenticationerror = require("../errors/WxAuthenticationerror");
+var dateFormat = require('dateformat');
+var crypto = require('crypto');
 
 var __by_secret_code_param_name = "secretCode";
+
+var __secret_key = "_wservice_";
 
 module.exports = function (app) {
 
@@ -34,9 +38,13 @@ module.exports = function (app) {
                 }
                 try {
                     var json = JSON.parse(new Buffer(secretCode, 'base64').toString());
-                    if (json.userno && json.date &&
-                        json.date.substring(0,8) == (new Date().getTime()+'').substring(0,8)) {
-                        return json;
+                    if (json.userno && json.key) {
+                        var md5 = crypto.createHash('md5');
+                        md5.update(dateFormat(new Date(),"yyyymmddHHMM")+__secret_key);
+                        var thekey = md5.digest('hex');
+                        if (json.key == thekey) {
+                            return json;
+                        }
                     }
                 } catch (e) {
                     debug(e);

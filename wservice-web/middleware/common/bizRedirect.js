@@ -20,10 +20,10 @@ exports = module.exports = function () {
         req.query.userno = __by_secret_code_param_name;
         req.query.password = secretCode;
         passport.authenticate("local", {
-            successRedirect: bizMap[bizType]+bizPk,
+            successRedirect: bizMap[bizType]+bizPk || "/",
             failureRedirect: "/auth/login",
             failureFlash: {},
-            "successReturnToOrRedirect": bizMap[bizType]+bizPk
+            "successReturnToOrRedirect": bizMap[bizType]+bizPk || "/"
         })(req,res,next);
     }
 };
