@@ -268,7 +268,7 @@ angular.module("userManagerApp", ["ui.neptune",
                         delay: 5000
                     });
                 });
-        };
+        }
 
         //下一个
         vm.next = function (user) {

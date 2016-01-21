@@ -23,7 +23,7 @@ angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute"])
         return nptRepository("queryWorkorderList").params({
             instid: nptSessionManager.getSession().getInst().id,
             processid: nptSessionManager.getSession().getUser().id
-        })
+        });
     }).factory("GetTaskUrl", function (nptRepository) {
         return nptRepository("GetTaskUrl");
     }).service("FlightTaskListQueryService", function (Notification, queryWorkorderList) {
