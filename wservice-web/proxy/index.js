@@ -293,9 +293,12 @@ proxy.action("QueryIdentificationByUsernoAndPasswd", {
 }).action("RemoveUserInstRole", {
     proxy:"Y9",
     action:"com.yun9.sys.user.service.RemoveUserInstRoleService"
-}).action("AddOrUpdateUserInstRole", {
+}).action("AddUserInstRole", {
     proxy:"Y9",
-    action:"com.yun9.sys.user.service.AddOrUpdateUserInstRoleService"
+    action:"com.yun9.sys.user.service.AddUserInstRoleService"
+}).action("QueryUserRoles", {
+    proxy:"Y9",
+    action:"com.yun9.sys.user.service.QueryUserRolesByUseridAndInstidService"
 });
 
 
