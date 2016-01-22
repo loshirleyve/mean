@@ -273,8 +273,16 @@ angular.module("userManagerApp", ["ui.neptune",
 
         vm.show=function()
         {
-            var currInstId=nptSessionManager.getSession().getInst().id;
-            vm.userInfo.userCache = nptCache.get("inst", currInstId);
+            vm.showAddRole=false;
+            var currInst=nptSessionManager.getSession().getInst();
+            var currRoles = currInst.roles;
+            if(currRoles)
+            {
+                angular.forEach(currRoles, function (value) {
+                    if(value.no==='SYSTEM')
+                        vm.showAddRole= true;
+                });
+            }
         };
 
         //下一个
@@ -319,4 +327,5 @@ angular.module("userManagerApp", ["ui.neptune",
         vm.queryContact();
         vm.queryInvite();
         vm.queryWx();
+        vm.show();
     });
