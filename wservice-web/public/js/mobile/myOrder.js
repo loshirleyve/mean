@@ -30,6 +30,15 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
                         return nptSession();
                     }
                 }
+            })
+            .when("/payInfo/:orderid", {
+                controller:"OrderPayInfoController as vm",
+                templateUrl:"payInfo.html",
+                resolve:{
+                    sessionData:function(nptSession){
+                        return nptSession();
+                    }
+                }
             });
     })
     .factory("QueryOrderGroupsByUserId", function(nptRepository, nptSessionManager){
@@ -55,8 +64,18 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
     .factory("queryFileById", function(nptRepository){
         return nptRepository("QueryFileById");
     })
-    .factory("AddComplain", function(nptRepository){
-        return nptRepository("AddComplain");
+    .factory("AddComplain", function(nptRepository, nptSessionManager){
+        return nptRepository("AddComplain").addRequestInterceptor(function(request){
+            request.params.createby=nptSessionManager.getSession().getUser().id;
+            request.params.instid=nptSessionManager.getSession().getInst().id;
+            return request;
+        });
+    })
+    .factory("QueryPayinfoBySource", function(nptRepository){
+        return nptRepository("QueryPayinfoBySource").addRequestInterceptor(function(request){
+            request.params.source="so";
+            return request;
+        });
     })
     .controller("MyOrderController", function(QueryOrderGroupsByUserId, Notification, QueryOrdersByState, queryFileById, $location){
         $(window.document.body).css("background-color", "#EEF0EF");
@@ -116,6 +135,9 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
         };
         vm.toComplaint = function(orderid){
             $location.path('/complaint/'+orderid);
+        };
+        vm.toPayInfo = function(orderid){
+            $location.path('/payInfo/'+orderid);
         }
     })
     .controller("OrderComplaintController", function($routeParams, queryOrderInfo, Notification, queryFileById, $location, AddComplain){
@@ -123,6 +145,7 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
         var vm = this;
         vm.orderid = $routeParams.orderid;
         vm.orderDetail = queryOrderInfo;
+        vm.complaints = "";
         vm.addComplain = AddComplain;
         vm.orderDetail.post({"orderid":vm.orderid}).then(function(res){
         }, function(err){
@@ -138,5 +161,49 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
         };
         vm.toOrderDetail = function(orderid){
             $location.path('/orderDetail/'+orderid);
+        };
+        vm.finishComplaint = function(){
+            var params={};
+            params.complain = vm.complaints;
+            params.tag = vm.complaints;
+            params.serviceinstid = vm.orderDetail.data.order.instid;
+            params.sourceid = vm.orderDetail.data.order.id;
+            params.sourcetype =vm.orderDetail.data.order.ordersn;
+            vm.addComplain.post(params).then(function(res){
+                Notification.success({
+                    message:'投诉成功！',
+                    delay:2000
+                });
+            }, function(err){
+                Notification.error({
+                    message:err.data.cause,
+                    delay:2000
+                });
+            });
         }
+    })
+    .controller("OrderPayInfoController", function(queryOrderInfo, $location, $routeParams, QueryPayinfoBySource, Notification){
+        $(window.document.body).css("background-color", "#EEF0EF");
+        var vm = this;
+        vm.orderid = $routeParams.orderid;
+        vm.payInfo = QueryPayinfoBySource;
+        vm.payInfo.post({"sourceValue":vm.orderid}).then(function(res){
+
+        }, function(err){
+            Notification.error({
+               message:err.data.cause,
+               delay:2000
+            });
+        });
+        vm.toOrderDetail = function(orderid){
+            $location.path('/orderDetail/'+orderid);
+        };
+        vm.orderDetail = queryOrderInfo;
+        vm.orderDetail.post({"orderid":vm.orderid}).then(function(res){
+        }, function(err){
+            Notification.error({
+                message:err.data.cause,
+                delay:2000
+            });
+        });
     });

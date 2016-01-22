@@ -33,12 +33,12 @@ block content
                             a(href="")
                                 img.media-object.img-rounded(npt-image="order.imgid", npt-image-options="vm.imageOptions")
                         div.media-body
-                            p.small {{order.instid | cacheFilter:'inst':'instname':'instid'}}
+                            p.small.font-grey {{order.instid | cacheFilter:'inst':'instname':'instid'}}
                             p.small {{order.name}}
                             p.small {{order.introduce}}
                             p
                                 span.small {{order.orderamount}} 元
-                                span.pull-right.small {{order.createdate | timestampFilter}}
+                                span.pull-right.small.font-grey {{order.createdate | timestampFilter}}
                         div.media-right.media-middle
                             a(href="", role="button")
                                 span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
@@ -67,21 +67,30 @@ block content
                     hr
                     h4.small.padding-left(ng-bind="'订单号：'+vm.orderDetail.data.order.id")
                     hr
+                div.body-orderDetail
+                    div.btn-group.btn-group-justified
+                        div.btn-group(ng-repeat="orderState in vm.orderDetail.data.orderLogs")
+                            a.btn(href="")
+                                img(src="/image/money@3x.png")
+                                p.font-small(ng-bind="orderState.orderstatecode")
+                                span.font-small(ng-bind="orderState.handledate | timestampFilter")
+
                 span.small.padding-left 付款详情
                 div.body-orderDetail
                     div.media
                         div.media-body
-                            h4.padding-left.font-red.small(ng-bind="(vm.orderDetail.data.order.paystate) | ctrlCodeFilter:'orderpaystate':'name':'no'")
+                            h4.padding-left.font-red.small(ng-bind="(vm.orderDetail.data.order.paystate) | ctrlCodeFilter:'orderpaystate':'name':'no'",
+                            ng-click="vm.toPayInfo(vm.orderDetail.data.order.id)")
                         a.media-right.media-middle
                             span.glyphicon.glyphicon-chevron-right
-                div(ng-if="vm.orderDetail.data.order.adviser")
+                div(ng-if="vm.orderDetail.data.order.adviser !== null && vm.orderDetail.data.order.adviser !== ''")
                     span.small.padding-left 专属顾问
                     div.body-orderDetail
                         div.media
                             a.media-left
                                 img(src="")
                             div.media-body.media-middle
-                                p(ng-bind="vm.orderDetail.data.order.adviser")
+                                p(ng-bind="vm.orderDetail.data.order.adviser | cacheFilter:'user':'name':'id'")
                             div.media-body.media-middle.media-right
                                 button.btn.btn-sm.pull-right
                                     span.glyphicon.glyphicon-earphone.font-red
@@ -91,8 +100,9 @@ block content
                 div.body-orderDetail
                     div.media
                         div.media-body.media-middle
-                            p(ng-bind="vm.orderDetail.data.order.instid")
-                        div.media-body.media-middle.media-right
+                            p(ng-bind="vm.orderDetail.data.order.instid | cacheFilter:'inst':'instname':'instid'")
+                            p.small(ng-bind="'电话 '+(vm.orderDetail.data.order.instid | cacheFilter:'inst':'tel':'instid')")
+                        div.media-right.media-middle
                             button.btn.btn-sm.pull-right
                                 span.glyphicon.glyphicon-earphone
         script(type="text/ng-template", id="orderComplaint.html")
@@ -105,7 +115,7 @@ block content
                                 span.sr-only
                         div.media-body.text-center.media-middle
                             h4.media-heading 投诉
-                            a.pull-right(href="", role="button")
+                            a.pull-right(href="", role="button", ng-click="vm.finishComplaint()")
                                 span 完成
                 div.body-orderDetail
                     div.media
@@ -113,15 +123,56 @@ block content
                             img.media-object.img-rounded(npt-image="vm.orderDetail.data.order.imgid", npt-image-options="vm.imageOptions")
                         div.media-body
                             h4.media-heading(ng-bind="vm.orderDetail.data.order.name")
-                            p.pull-right.font-red(ng-bind="vm.orderDetail.data.order.orderamount + '元'")
+                            p.font-red(ng-bind="vm.orderDetail.data.order.orderamount + '元'")
                     hr
-                    h4.small.padding-left(ng-bind="'订单号：'+vm.orderDetail.data.order.id")
+                    h4.small.padding-right.padding-left
+                        span(ng-bind="'订单号：'+vm.orderDetail.data.order.id")
+                        span.pull-right.font-blue(ng-bind="vm.orderDetail.data.order.state | ctrlCodeFilter:'orderstatetype':'name':'no'")
                     hr
                 div.body-orderDetail
                     div.media
                         div.media-body.media-middle
-                            h4.padding-left(style="display:inline-block") 投诉内容
+                            h4.padding-left 投诉内容
+                            textarea.form-control(rows="5", ng-model="vm.complaints")
+                div.body-orderDetail
+                    div.media
                         div.media-body.media-middle
-                            textarea(rows="5")
+                            p(ng-bind="vm.orderDetail.data.order.instid | cacheFilter:'inst':'instname':'instid'")
+                            p.small(ng-bind="'电话 '+(vm.orderDetail.data.order.instid | cacheFilter:'inst':'tel':'instid')")
+                        div.media-right.media-middle
+                            button.btn.btn-sm.pull-right
+                                span.glyphicon.glyphicon-earphone
+        script(type="text/ng-template", id="payInfo.html")
+            div.row
+                div#head-orderDetail
+                    div.media
+                        div.media-left
+                            a(href="", role="button", ng-click="vm.toOrderDetail(vm.orderid)")
+                                span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                                span.sr-only
+                        div.media-body.text-center.media-middle
+                            h4.media-heading(ng-bind="vm.orderDetail.data.order.paystate==complete?'支付完成':'等待支付'")
+                div.body-orderDetail
+                    div.media
+                        p.padding-left
+                            span 支付方式
+                            span.pull-right(ng-bind="vm.payInfo.data.payMode.name")
+                    hr
+                    div.media
+                        p.padding-left
+                            span 支付总额
+                            span.pull-right(ng-bind="vm.payInfo.data.payableAmount + '元'")
+                        p.padding-left
+                            span 余额
+                            span.pull-right(ng-bind="vm.payInfo.data.balance.balance + '元'")
+                            p
+                                button.btn.btn-xs.pull-right
+                                    span 重新支付
+                    hr
+                    div.media
+                        p.padding-left
+                            span.pull-right.font-red(ng-bind="vm.payInfo.data.unpayAmount + '元'")
+                            span.pull-right 还需支付：
+
 
 

@@ -468,6 +468,11 @@ proxy.action("AddComplain", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.AddComplainService"
 });
+//查询支付信息
+proxy.action("QueryPayinfoBySource", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.QueryPayinfoBySourceService"
+});
 
 //导航
 proxy.action("QueryMdNavi", {
