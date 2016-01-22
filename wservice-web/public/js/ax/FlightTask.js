@@ -1,11 +1,7 @@
 /**
  * Created by rxy on 16/1/20.
  */
-/**
- * Created by leon on 15/12/17.
- */
-
-angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute"])
+angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute", "ui-notification"])
     .config(function ($routeProvider) {
         $routeProvider.when("/list", {
             controller: "FlightTaskController as vm",
@@ -36,42 +32,47 @@ angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute"])
             self.flightTaskList.post(params).then(function (response) {
                 console.info(response.data);
             }, function (error) {
-                Notification.error({title: '查询任务列表出现错误,请稍后再试.',message: error.data.cause, delay: 2000});
+                Notification.error({title: '查询任务列表出现错误,请稍后再试.', message: error.data.cause, delay: 2000});
             });
         };
 
         //建立待查询列表
-        self.queryList = [{
-            label: "全部",
-            type: "all",
-            callback: function () {
-                self.query();
+        self.queryList = [
+            {
+                label: "全部",
+                type: "all",
+                callback: function () {
+                    self.query();
+                }
+            },
+            {
+                label: "未开始",
+                type: "unstart",
+                callback: function () {
+                    self.query({
+                        state: "unstart"
+                    });
+                }
+            },
+            {
+                label: "处理中",
+                type: "inservice",
+                callback: function () {
+                    self.query({
+                        state: "inservice"
+                    });
+                }
+            },
+            {
+                label: "已完成",
+                type: "complete",
+                callback: function () {
+                    self.query({
+                        state: "complete"
+                    });
+                }
             }
-        }, {
-            label: "未开始",
-            type: "unstart",
-            callback: function () {
-                self.query({
-                    state: "unstart"
-                });
-            }
-        }, {
-            label: "处理中",
-            type: "inservice",
-            callback: function () {
-                self.query({
-                    state: "inservice"
-                });
-            }
-        }, {
-            label: "已完成",
-            type: "complete",
-            callback: function () {
-                self.query({
-                    state: "complete"
-                });
-            }
-        }];
+        ];
 
         //选择查询列表
         self.selectQuery = function (query) {
@@ -87,18 +88,18 @@ angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute"])
         self.selectQuery(self.queryList[0]);
 
     })
-    .controller("FlightTaskController", function ($routeParams, $location,$window, FlightTaskListQueryService,GetTaskUrl, nptSessionManager, Notification) {
+    .controller("FlightTaskController", function ($routeParams, $location, $window, FlightTaskListQueryService, GetTaskUrl, nptSessionManager, Notification) {
         var vm = this;
         //工单信息资源库
         vm.queryService = FlightTaskListQueryService;
 
+        vm.url = {};
         vm.getUrl = function (params) {
             GetTaskUrl.post(params)
                 .then(function (response) {
-                    $window.open(response.data);
+                    vm.url[params.workorderId] = response.data;
                 }, function (error) {
-                    Notification.error({
-                        title: '办理出错',
+                    Notification.error({ title: '办理出错',
                         message: error.data.cause,
                         replaceMessage: true,
                         delay: 5000
@@ -106,17 +107,14 @@ angular.module("FlightTaskApp", ["ui.neptune", "wservice.common", "ngRoute"])
                 });
         };
 
-        vm.doTask=function(id,type)
-        {
-            var params={};
-            params.workorderId=id;
-            if(type==='zxfx')
-            {
-                params.taskType='axFlightTask';
+        vm.doTask = function (id, type) {
+            var params = {};
+            params.workorderId = id;
+            if (type === 'zxfx') {
+                params.taskType = 'axFlightTask';
             }
-            else if(type==='hxgh')
-            {
-                params.taskType='axAirlinePlanTask';
+            else if (type === 'hxgh') {
+                params.taskType = 'axAirlinePlanTask';
             }
             vm.getUrl(params);
         };

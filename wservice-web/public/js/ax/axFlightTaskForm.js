@@ -5,7 +5,7 @@
  */
 
 angular.module("AXFlightTaskApp.aXFlightTaskForm", ["ui.neptune",'ui.bootstrap',"wservice.common"])
-    .factory("aXFlightTaskForm", function (nptFormlyStore, nptSessionManager, QueryUserInfoById,QueryFileByUserLevel, UploadSignature, AddOrUpdateFileRepo) {
+    .factory("aXFlightTaskForm", function (nptFormlyStore, QueryUserInfoById,QueryFileByUserLevel, UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("aXFlightTaskForm", {
             options: {
                 formState: {
