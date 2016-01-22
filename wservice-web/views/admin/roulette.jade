@@ -7,5 +7,6 @@ block titleContent
 block content
    script(src="/js/admin/raphael.js")
    script(src="/js/admin/roulette.js")
-   div
+   div(ng-app="rouletteApp",ng-controller="rouletteController as vm",style="position:relative;z-index: 999;")
+      button(style="float:right;margin-right:10px;" ng-click="vm.choicePrize()").btn.btn-danger 选择抽奖项
 
