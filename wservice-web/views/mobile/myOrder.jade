@@ -1,0 +1,127 @@
+//
+   Created by Shirley on 2016/1/19.
+
+extends ../layout/layout-mobile
+block titleContent
+    link(rel="stylesheet", href="/stylesheets/myOrder.css")
+    title 我的订单
+block content
+    script(src="/js/mobile/myOrder.js")
+    div(ng-app="MyOrderApp")
+        div(ng-view)
+        script(type="text/ng-template", id="myOrder.html")
+            div.row
+                div#head
+                    div.media
+                        div.media-left
+                            a(href="", role="button")
+                                span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                                span.sr-only
+                        div.media-body.text-center
+                            h4.media-heading 我的订单
+                            div.btn-group(role="group").btn-group-xs
+                                button.btn(type="button",
+                                 ng-repeat="state in vm.queryOrderGroups.data", ng-bind="(state.nums>0)?(state.statename + '(' + state.nums + ')'):(state.statename)"
+                                 ng-click="vm.queryOrderByState(state.state)")
+                div#body(ng-repeat="order in vm.queryOrder.data", ng-click="vm.toOrderDetail(order.id)")
+                    div.order-title
+                        span.small 订单号:{{order.id}}
+                        span.small.pull-right.font-red {{order.state | ctrlCodeFilter:'orderstatetype':'name':'no'}}
+                    hr
+                    div.media
+                        div.media-left.media-middle
+                            a(href="")
+                                img.media-object.img-rounded(npt-image="order.imgid", npt-image-options="vm.imageOptions")
+                        div.media-body
+                            p.small {{order.instid | cacheFilter:'inst':'instname':'instid'}}
+                            p.small {{order.name}}
+                            p.small {{order.introduce}}
+                            p
+                                span.small {{order.orderamount}} 元
+                                span.pull-right.small {{order.createdate | timestampFilter}}
+                        div.media-right.media-middle
+                            a(href="", role="button")
+                                span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+                                span.sr-only
+        script(type="text/ng-template", id="orderDetail.html")
+            div.row
+                div#head-orderDetail
+                    div.media
+                        div.media-left
+                            a(href="#/", role="button", ng-click="vm.toOrderList()")
+                                span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                                span.sr-only
+                        div.media-body.text-center.media-middle
+                            h4.media-heading 订单详情
+                            a.pull-right(href="", role="button", ng-click="vm.toComplaint(vm.orderDetail.data.order.id)")
+                                span 投诉
+                div.body-orderDetail
+                    div.media
+                        a.media-left(href="")
+                            img.media-object.img-rounded(npt-image="vm.orderDetail.data.order.imgid", npt-image-options="vm.imageOptions")
+                        div.media-body
+                            h4.media-heading(ng-bind="vm.orderDetail.data.order.name")
+                            p(ng-bind="vm.orderDetail.data.order.introduce")
+                        div.media-body.media-right.media-middle
+                            p.pull-right.font-red(ng-bind="vm.orderDetail.data.order.orderamount + '元'")
+                    hr
+                    h4.small.padding-left(ng-bind="'订单号：'+vm.orderDetail.data.order.id")
+                    hr
+                span.small.padding-left 付款详情
+                div.body-orderDetail
+                    div.media
+                        div.media-body
+                            h4.padding-left.font-red.small(ng-bind="(vm.orderDetail.data.order.paystate) | ctrlCodeFilter:'orderpaystate':'name':'no'")
+                        a.media-right.media-middle
+                            span.glyphicon.glyphicon-chevron-right
+                div(ng-if="vm.orderDetail.data.order.adviser")
+                    span.small.padding-left 专属顾问
+                    div.body-orderDetail
+                        div.media
+                            a.media-left
+                                img(src="")
+                            div.media-body.media-middle
+                                p(ng-bind="vm.orderDetail.data.order.adviser")
+                            div.media-body.media-middle.media-right
+                                button.btn.btn-sm.pull-right
+                                    span.glyphicon.glyphicon-earphone.font-red
+                                button.btn.btn-sm.pull-right
+                                    span.font-red 沟通咨询
+                span.small.padding-left 服务提供商
+                div.body-orderDetail
+                    div.media
+                        div.media-body.media-middle
+                            p(ng-bind="vm.orderDetail.data.order.instid")
+                        div.media-body.media-middle.media-right
+                            button.btn.btn-sm.pull-right
+                                span.glyphicon.glyphicon-earphone
+        script(type="text/ng-template", id="orderComplaint.html")
+            div.row
+                div#head-orderDetail
+                    div.media
+                        div.media-left
+                            a(href="", role="button", ng-click="vm.toOrderDetail(vm.orderDetail.data.order.id)")
+                                span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+                                span.sr-only
+                        div.media-body.text-center.media-middle
+                            h4.media-heading 投诉
+                            a.pull-right(href="", role="button")
+                                span 完成
+                div.body-orderDetail
+                    div.media
+                        a.media-left(href="")
+                            img.media-object.img-rounded(npt-image="vm.orderDetail.data.order.imgid", npt-image-options="vm.imageOptions")
+                        div.media-body
+                            h4.media-heading(ng-bind="vm.orderDetail.data.order.name")
+                            p.pull-right.font-red(ng-bind="vm.orderDetail.data.order.orderamount + '元'")
+                    hr
+                    h4.small.padding-left(ng-bind="'订单号：'+vm.orderDetail.data.order.id")
+                    hr
+                div.body-orderDetail
+                    div.media
+                        div.media-body.media-middle
+                            h4.padding-left(style="display:inline-block") 投诉内容
+                        div.media-body.media-middle
+                            textarea(rows="5")
+
+
