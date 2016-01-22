@@ -285,25 +285,25 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             $location.path("/completeAirLine/" + vm.userid + "/" + id + "/" + vm.code);
         };
 
-        vm.showStart = function () {
+        vm.isShowStart = function () {
+            vm.showStart=false;
             if (vm.model && vm.model.workOrder.state === 'unstart') {
-                return true;
+                vm.showStart= true;
             }
-            return false;
         };
 
-        vm.showComplete = function () {
+        vm.isShowComplete = function () {
+            vm.showComplete=false;
             if (vm.model && vm.model.workOrder.state === 'inservice') {
-                return true;
+                vm.showComplete= true;
             }
-            return false;
         };
 
-        vm.showAireLine = function () {
+        vm.isShowAireLine = function () {
+            vm.showAireLine=false;
             if (vm.modelLine && vm.modelLine.length > 0) {
-                return true;
+                vm.showAireLine= true;
             }
-            return false;
         };
 
         vm.unstartShow = function (state) {
@@ -319,6 +319,12 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             }
             return false;
         };
+
+        vm.isShowStart();
+        vm.isShowComplete();
+        vm.isShowAireLine();
+
+
     }).controller("completeAirLineController", function ($routeParams, $location, aXAirLineLogForm, AddOrUpdateAirline, AddOrUpdateAirlineLog, nptSessionManager, Notification) {
         var vm = this;
         vm.userid = $routeParams.userid;
