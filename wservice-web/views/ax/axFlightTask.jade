@@ -35,9 +35,9 @@ block content
                                 a(href="") 正在查询,请稍后...
                         ul.nav.navbar-nav.navbar-left(ng-if="!vm.workorderInfo.loading()")
                             li
-                                a(ng-click="vm.startWorkorder()",ng-show="vm.showStart();") 开始任务
+                                a(ng-click="vm.startWorkorder()",ng-show="vm.showStart") 开始任务
                             li
-                                a(type="button",ng-click="vm.completeWorkorder()",ng-show="vm.showComplete();",ng-disabled="vm.nptFormApi.form.$invalid") 完成任务
+                                a(type="button",ng-click="vm.completeWorkorder()",ng-show="vm.showComplete",ng-disabled="vm.nptFormApi.form.$invalid") 完成任务
                             li
                                 a(ng-click="vm.query()") 刷新任务
             div.panel.panel-default
@@ -74,7 +74,7 @@ block content
                         dd {{vm.model.workOrder.duty | timestampFilter}}
                         dt 创建日期:
                         dd {{vm.model.workOrder.createdate | timestampFilter}}
-            div.page-header(ng-show="vm.showAireLine();")
+            div.page-header(ng-show="vm.showAireLine")
                 div.row
                     div.col-xs-6.col-md-6
                         h4 航线列表
