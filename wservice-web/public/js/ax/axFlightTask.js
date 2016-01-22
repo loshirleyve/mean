@@ -48,6 +48,14 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
             return req;
         });
     }).value("CurrentInst", {})
+    .factory("AddOrUpdateFileRepo", function (nptRepository, CurrentInst,CurrentUser) {
+        return nptRepository("AddOrUpdateFile").params({
+        }).addRequestInterceptor(function (req) {
+            req.params.instid = CurrentInst.id;
+            req.params.createby = CurrentUser.id;
+            return req;
+        });
+    }).value("CurrentUser", {})
     .factory("OrgSelectTree", function (nptRepository, CurrentInst) {
         function builderOrgTreeNode(nodes, data) {
             if (data) {
@@ -79,7 +87,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         });
 
     }).value("CurrentInst", {})
-    .controller("AXFlightTaskController", function ($routeParams, $location, CurrentInst, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask, AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
+    .controller("AXFlightTaskController", function ($routeParams, $location, CurrentInst,CurrentUser, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartFlightTask, CompleteFlightTask, AddOrUpdateAirline, aXFlightTaskForm, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
         //工单信息资源库
@@ -103,7 +111,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
                 vm.userid = vm.params.userid;
-                vm.instid = vm.params.instid;
+                CurrentUser.id = vm.params.userid;
                 CurrentInst.id = vm.params.instid;
                 vm.query();
             }, function (error) {

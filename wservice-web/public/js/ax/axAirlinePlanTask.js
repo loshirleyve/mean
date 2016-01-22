@@ -37,7 +37,15 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
             return req;
         });
     }).value("CurrentInst", {})
-    .controller("AXAirlinePlanTaskController", function ($routeParams, CurrentInst, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartAirlinePlanTask, CompleteAirlinePlanTask, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
+    .factory("AddOrUpdateFileRepo", function (nptRepository, CurrentInst,CurrentUser) {
+        return nptRepository("AddOrUpdateFile").params({
+        }).addRequestInterceptor(function (req) {
+            req.params.instid = CurrentInst.id;
+            req.params.createby = CurrentUser.id;
+            return req;
+        });
+    }).value("CurrentUser", {})
+    .controller("AXAirlinePlanTaskController", function ($routeParams, CurrentInst,CurrentUser, KitActionQuery, QueryWorkorderInfo, QueryAirline, StartAirlinePlanTask, CompleteAirlinePlanTask, aXAirlinePlanTaskForm, aXAirlinePlanTask2Form, nptSessionManager, Notification) {
         var vm = this;
         vm.code = $routeParams.code;
         //工单信息资源库
@@ -70,6 +78,7 @@ angular.module("AXAirlinePlanTaskApp", ["ui.neptune", "AXAirlinePlanTaskApp.aXAi
                 vm.params = angular.fromJson(response.data.params);
                 vm.workorderid = vm.params.workorderid;
                 vm.userid = vm.params.userid;
+                CurrentUser.id=vm.params.userid;
                 CurrentInst.id = vm.params.instid;
                 vm.query();
             }, function (error) {

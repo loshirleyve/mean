@@ -15,6 +15,8 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wse
                         required: false,
                         label: '添加文档附件:',
                         single: true,
+                        download:true,
+                        editable:true,
                         fileRepository: QueryFileByUserLevel,
                         uploadOptions: {
                             getSignature: UploadSignature.query,
