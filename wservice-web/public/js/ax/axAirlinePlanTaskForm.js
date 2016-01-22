@@ -5,7 +5,7 @@
  */
 
 angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wservice.common"])
-    .factory("aXAirlinePlanTaskForm", function (nptFormlyStore, nptSessionManager, QueryFileByUserLevel_ud, UploadSignature, AddOrUpdateFileRepo) {
+    .factory("aXAirlinePlanTaskForm", function (nptFormlyStore, QueryFileByUserLevel, UploadSignature, AddOrUpdateFileRepo) {
         return nptFormlyStore("aXAirlinePlanTaskForm", {
             fields: [
                 {
@@ -15,7 +15,9 @@ angular.module("AXAirlinePlanTaskApp.aXAirlinePlanTaskForm", ["ui.neptune", "wse
                         required: false,
                         label: '添加文档附件:',
                         single: true,
-                        fileRepository: QueryFileByUserLevel_ud,
+                        download:true,
+                        editable:true,
+                        fileRepository: QueryFileByUserLevel,
                         uploadOptions: {
                             getSignature: UploadSignature.query,
                             repository: AddOrUpdateFileRepo
