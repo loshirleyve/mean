@@ -318,7 +318,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
         vm.userid = $routeParams.userid;
         vm.id = $routeParams.id;
         vm.code = $routeParams.code;
-        vm.log={airlineid:vm.id,createby:vm.userid}
+        vm.log={airlineid:vm.id,createby:vm.userid};
         //表单配置
         vm.aXAirLineLogOptions = {
             store: aXAirLineLogForm,
@@ -335,7 +335,7 @@ angular.module("AXFlightTaskApp", ["ui.neptune", "AXFlightTaskApp.aXFlightTaskFo
                     replaceMessage: true,
                     delay: 2000
                 });
-                vm.addAirLineLog()
+                vm.addAirLineLog();
             }, function (error) {
                 Notification.error({
                     title: '完成飞行失败',
