@@ -25,6 +25,9 @@ store.use("/app*", {
 }).use("/mobile/myWallet", {
     needLogin: true,
     needInst: true
+}).use("/mobile/myOrder", {
+    needLogin: true,
+    needInst: true
 });
 
 module.exports = store;
