@@ -1,0 +1,12 @@
+//
+   Created by huangbinglong on 16/1/21.
+
+extends ../layout/layout-bizpage
+block titleContent
+   title  年会抽奖
+block content
+   script(src="/js/admin/raphael.js")
+   script(src="/js/admin/roulette.js")
+   div(ng-app="rouletteApp",ng-controller="rouletteController as vm",style="position:relative;z-index: 999;")
+      button(style="float:right;margin-right:10px;" ng-click="vm.choicePrize()").btn.btn-danger 选择抽奖项
+

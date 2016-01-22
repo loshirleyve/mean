@@ -150,6 +150,8 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     templateOptions: {
                         required: false,
                         label: '添加文档:',
+                        download:true,
+                        editable:true,
                         fileRepository: QueryFileByUserLevel,
                         uploadOptions : {
                             getSignature: UploadSignature.query,
@@ -164,6 +166,8 @@ angular.module("contractApp.addContractForm", ["ui.neptune","wservice.common"])
                     type: 'npt-select-image',
                     templateOptions: {
                         required: false,
+                        download:true,
+                        editable:true,
                         label: '添加图片:',
                         imageRepository: QueryImageByUserLevel,
                         uploadOptions : {
