@@ -1,12 +1,8 @@
 //
-   Created by Leon on 15/10/15.
-
-extends ../../layout/layout-bizpage
-block titleContent
-    title 导航管理
 block content
-    script(src="/js/biz/navi/navi.js")
     script(src="/js/biz/navi/addNaviForm.js")
+    script(src="/js/biz/navi/selectInstForm.js")
+    script(src="/js/biz/navi/navi.js")
     div(ng-app="naviApp")
         //通知区域
         //内容区域
@@ -33,23 +29,86 @@ block content
                     div#navbar-collapse.collapse.navbar-collapse.navbar-right
                         ul.nav.navbar-nav.navbar-left
                             li
-                                a(href="#/add/0") 新增顶级导航
-            div.page-body(ng-if="vm.navis")
+                                a(href="#/add/0") 添加顶级导航
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 机构角色
+                    div.col-xs-6.col-md-6
+                        a.btn.btn-primary.pull-right(href="",ng-click="vm.relateRoleInstNavi()") 关联导航
+            div.page-body
                 ul.media.media-list
-                    li.media(ng-repeat="navi in vm.navis")
+                    li.media(ng-repeat="instrole in vm.instRoles")
                         div.media-body
-                            a.list-group-item
+                            a.list-group-item(ng-click="vm.selectNavi(instrole)")
+                                div.row
+                                    div.col-xs-6.col-md-6
+                                        span {{instrole.name}}
+                                    div.col-xs-6.col-md-6
+                                        span(ng-if="!instrole.selected").pull-right.glyphicon.glyphicon-unchecked
+                                        span(ng-if="instrole.selected").pull-right.glyphicon.glyphicon-ok
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 机构导航
+                    div.col-xs-6.col-md-6
+                        button.btn.btn-primary.pull-right(type="button",data-toggle="collapse",data-target="#instNavi",aria-expanded="false",aria-controls="collapseExample") 选择机构
+            div.page-body
+                div.container-fluid
+                    div#instNavi.collapse
+                        div.panel.panel-default
+                            div.panel-body
+                                div(npt-form="vm.selectInstFormOptions" model="vm.inst")
+                ul.media.media-list
+                    li.media(ng-repeat="instnavi in vm.instNavis")
+                        div.media-body
+                            a.list-group-item(ng-click="vm.selectNavi(instnavi)")
+                                div.row
+                                    div.col-xs-6.col-md-6
+                                        span {{instnavi.name}}
+                                    div.col-xs-6.col-md-6
+                                        span(ng-if="!instnavi.selected").pull-right.glyphicon.glyphicon-unchecked
+                                        span(ng-if="instnavi.selected").pull-right.glyphicon.glyphicon-ok
+
+            div.page-header
+                div.row
+                    div.col-xs-6.col-md-6
+                        h4 基础导航
+                    div.col-xs-6.col-md-6
+                        button.btn.btn-primary.pull-right(type="button",data-toggle="collapse",data-target="#relateInstNavi",aria-expanded="false",aria-controls="collapseExample") 关联机构
+            div.page-body(ng-if="vm.navis")
+                div.container-fluid
+                    div#relateInstNavi.collapse
+                        div.panel.panel-default
+                            div.panel-body
+                                div(npt-form="vm.selectInstFormOptions" model="vm.inst")
+                                a.btn.btn-primary.pull-left(href="",ng-click="vm.relateInstAndNavi(vm.inst)") 确定
+
+                ul.media.media-list
+                    li.list-group-item.media(ng-repeat="navi in vm.navis")
+                        div.media-body
+                            div.row
+                                a.btn.npt-btn-gray-danger.btn-sm.pull-right(type="button",ng-click="vm.toAddView(navi.id)",style="margin-right:15px;") 添加子导航
+                            a.list-group-item(ng-click="vm.selectNavi(navi)")
                                 div.row
                                     div.col-xs-6.col-md-6
                                         span {{navi.name}}-{{navi.device}}
                                     div.col-xs-6.col-md-6
-                                        button.btn.btn-default.btn-sm.pull-right(type="button",ng-click="vm.toAddView(navi.id);") 添加子导航
+                                        span(ng-if="!navi.selected").pull-right.glyphicon.glyphicon-unchecked
+                                        span(ng-if="navi.selected").pull-right.glyphicon.glyphicon-ok
                             ul.media.media-list
                                 li.media(ng-repeat="child in navi.children")
                                     div.media-left(style="padding-right: 50px")
                                     div.media-body
-                                        a.list-group-item
-                                            span {{child.name}}-{{child.device}}
+                                        a.list-group-item(ng-click="vm.selectNavi(child)")
+                                            div.row
+                                                div.col-xs-6.col-md-6
+                                                    span {{child.name}}-{{child.device}}
+                                                div.col-xs-6.col-md-6
+                                                    span(ng-if="!child.selected").pull-right.glyphicon.glyphicon-unchecked
+                                                    span(ng-if="child.selected").pull-right.glyphicon.glyphicon-ok
         script(type="text/ng-template",id="add.html")
             //功能导航区域
             ul.breadcrumb
@@ -87,4 +146,10 @@ block content
                                 | &nbsp &nbsp &nbsp &nbsp
             div.page-body
                 div(npt-form="vm.addNaviOptions",model="vm.navi")
+
+Created by Leon on 15/10/15.
+
+extends ../../layout/layout-bizpage
+block titleContent
+    title 导航管理
 

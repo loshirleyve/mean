@@ -59,7 +59,7 @@ module.exports = function (app) {
         Q.all([queryInst(inst), loadInstRole(inst, user), updateCurrentInst(inst, user)])
             .then(function (ress) {
                 var instData = ress[0];
-                instData.roles = ress[2];
+                instData.roles = ress[1];
                 done(null, instData);
             }, function (error) {
                 done(error);

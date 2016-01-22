@@ -233,6 +233,14 @@ proxy.action("UpdateUserByCurrinstid", {
     proxy: "Y9",
     action: "com.yun9.sys.user.service.UpdateUserByCurrinstidService"
 });
+proxy.action("AddInstNavi", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.AddInstNaviService"
+});
+proxy.action("QueryInstNavis", {
+    proxy: "Y9",
+    action: "com.yun9.sys.inst.serivce.QueryInstNavisService"
+});
 
 //收款
 proxy.action("QueryPayRegisters", {
@@ -479,6 +487,9 @@ proxy.action("QueryMdNavi", {
 }).action("AddOrUPdateMdNavi", {
     proxy:"Y9",
     action:"com.yun9.sys.md.service.AddOrUPdateMdNaviService"
+}).action("AddInstRoleNavi", {
+    proxy:"Y9",
+    action:"com.yun9.sys.inst.serivce.AddInstRoleNaviService"
 });
 
 

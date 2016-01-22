@@ -124,7 +124,7 @@ angular.module("userManagerApp", ["ui.neptune",
             });
         };
 
-    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, QueryUserRoles, QueryUserContact, QueryUserInvite, QueryUserWx,RemoveUserInstRole,AddUserInstRole,userRoleForm, nptCache, Notification, nptMessageBox) {
+    }).controller("detailController", function ($routeParams, $location, userService, QueryUserInfoById, QueryInstRoleNavi, QueryUserRoles, QueryUserContact, QueryUserInvite, QueryUserWx,RemoveUserInstRole,AddUserInstRole,userRoleForm, nptCache, Notification,nptSessionManager, nptMessageBox) {
         var vm = this;
         //记录当前编辑的用户id
         vm.userid = $routeParams.id;
@@ -270,6 +270,21 @@ angular.module("userManagerApp", ["ui.neptune",
                 });
         }
 
+
+        vm.show=function()
+        {
+            vm.showAddRole=false;
+            var currInst=nptSessionManager.getSession().getInst();
+            var currRoles = currInst.roles;
+            if(currRoles)
+            {
+                angular.forEach(currRoles, function (value) {
+                    if(value.no==='SYSTEM')
+                        vm.showAddRole= true;
+                });
+            }
+        };
+
         //下一个
         vm.next = function (user) {
             var nextUser = vm.queryUserByInst.next(user);
@@ -312,4 +327,5 @@ angular.module("userManagerApp", ["ui.neptune",
         vm.queryContact();
         vm.queryInvite();
         vm.queryWx();
+        vm.show();
     });
