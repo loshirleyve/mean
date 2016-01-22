@@ -423,6 +423,9 @@ proxy.action("QueryAirline", {
 }).action("AddOrUpdateAirlineLog", {
     proxy:"Y9",
     action:"com.yun9.ws.biz.service.AddOrUpdateAirlineLogService"
+}).action("GetTaskUrl", {
+    proxy:"Y9",
+    action:"com.yun9.ws.biz.service.GetTaskUrlService"
 });
 
 //余额

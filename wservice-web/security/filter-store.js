@@ -12,7 +12,7 @@ store.use("/app*", {
 }).use("/admin*", {
     needLogin: true,
     needInst: true
-    //role: ["admin"]
+//    role: ["ADMIN","SYSTEM"]
 }).use("/biz*", {
     needLogin: true,
     needInst: true
