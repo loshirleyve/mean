@@ -77,7 +77,8 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
             return request;
         });
     })
-    .controller("MyOrderController", function(QueryOrderGroupsByUserId, Notification, QueryOrdersByState, queryFileById, $location){
+    .constant("orderState", {state:""})
+    .controller("MyOrderController", function(QueryOrderGroupsByUserId, Notification, QueryOrdersByState, queryFileById, $location, orderState){
         $(window.document.body).css("background-color", "#EEF0EF");
         var vm = this;
         vm.imageOptions={
@@ -85,14 +86,13 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
             searchProp:"fileid",
             labelProp:"fileUrl"
         };
-        vm.firstDisplayOrderState = "";
         vm.queryOrderGroups = QueryOrderGroupsByUserId;
         vm.queryOrderGroups.post().then(function(res){
             if(vm.queryOrderGroups.data && vm.queryOrderGroups.data.length){
-                //if(vm.firstDisplayOrderState == null){
-                    vm.firstDisplayOrderState = vm.queryOrderGroups.data[0].state;
-               //}
-                vm.queryOrderByState(vm.firstDisplayOrderState);
+                if(orderState.state == ""){
+                    orderState.state = vm.queryOrderGroups.data[0].state;
+               }
+               vm.queryOrderByState(orderState.state);
             }
         }, function(err){
             Notification.error({
@@ -103,7 +103,7 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
         vm.queryOrder = QueryOrdersByState;
         vm.queryOrderByState = function(state){
             vm.queryOrder.post({"state":state}).then(function(res){
-
+                orderState.state = state;
             }, function(err){
                 Notification.error({
                     message:err.data.cause,
@@ -212,6 +212,7 @@ angular.module("MyOrderApp", ["ui.neptune", "ui-notification", "ngRoute"])
                     message:'投诉成功！',
                     delay:2000
                 });
+                vm.toOrderDetail(vm.orderid);
             }, function(err){
                 Notification.error({
                     message:err.data.cause,

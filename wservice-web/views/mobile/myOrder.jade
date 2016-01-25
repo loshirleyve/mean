@@ -55,7 +55,7 @@ block content
                             h4.media-heading 订单详情
                             a.pull-right(href="", role="button", ng-click="vm.toComplaint(vm.orderDetail.data.order.id)")
                                 span 投诉
-                div.body-orderDetail
+                div#orderLogs.body-orderDetail
                     div.media
                         a.media-left(href="")
                             img.media-object.img-rounded(npt-image="vm.orderDetail.data.order.imgid", npt-image-options="vm.imageOptions")
@@ -83,7 +83,7 @@ block content
                         div.media-body
                             h4.padding-left.font-red.small(ng-bind="(vm.orderDetail.data.order.paystate) | ctrlCodeFilter:'orderpaystate':'name':'no'",
                             ng-click="vm.toPayInfo(vm.orderDetail.data.order.id)")
-                        a.media-right
+                        a.media-right.media-middle
                             span.glyphicon.glyphicon-chevron-right
                 div(ng-if="vm.orderDetail.data.order.adviser !== null && vm.orderDetail.data.order.adviser !== ''")
                     span.small.padding-left 专属顾问
@@ -154,12 +154,12 @@ block content
                                 span.sr-only
                         div.media-body.text-center.media-middle
                             h4.media-heading(ng-bind="vm.orderDetail.data.order.paystate==complete?'支付完成':'等待支付'")
-                div.body-orderDetail
+                div.body-orderDetail.payMode
                     div.media
                         p.padding-left
                             span 支付方式
                             span.pull-right(ng-bind="vm.payInfo.data.payMode.name")
-                    hr
+                div.body-orderDetail
                     div.media
                         p.padding-left
                             span 支付总额
