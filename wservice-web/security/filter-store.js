@@ -11,8 +11,8 @@ store.use("/app*", {
     //role: ["user"]
 }).use("/admin*", {
     needLogin: true,
-    needInst: true
-//    role: ["ADMIN","SYSTEM"]
+    needInst: true,
+    role: ["ADMIN","SYSTEM"]
 }).use("/biz*", {
     needLogin: true,
     needInst: true

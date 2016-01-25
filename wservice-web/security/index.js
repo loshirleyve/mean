@@ -24,13 +24,10 @@ module.exports = function (app) {
             }
         },
         failureRedirect: {
-            default:"/auth/login",
-            weixin:"/auth/loginByWeixinClient"
+            default: "/auth/login",
+            weixin: "/auth/loginByWeixinClient"
         }
     }));
-
-    //角色检查过滤器
-    filter.use(security.LocalRoleHandler());
 
     //机构验证
     filter.use(security.LocalInstHandler({
@@ -48,6 +45,39 @@ module.exports = function (app) {
         },
         failureRedirect: "/inst/select"
     }));
+    
+
+    //角色检查过滤器
+    filter.use(security.LocalRoleHandler({
+        validRole: function (req, item, done) {
+            var instInfo = req["inst"];
+            if (item && item.role && item.role.length > 0) {
+                if (instInfo && instInfo.roles) {
+                    var hasRoles = [];
+                    for (var i = 0;i < instInfo.roles.length;i++) {
+                        hasRoles.push(instInfo.roles[i].no);
+                    }
+                    var pass = false;
+                    for (var i = 0;i < hasRoles.length;i++) {
+                        for (var j = 0;j < item.role.length;j++) {
+                            if (typeof item.role[j] == 'function') {
+                                pass = item.role[j](hasRoles);
+                            } else if (hasRoles[i] == item.role[j]){
+                                pass = true;
+                            }
+                        }
+                    }
+                    done(pass);
+                } else {
+                    done(false);
+                }
+            } else {
+                //当前页面没有限定访问角色
+                done(true);
+            }
+        }
+    }));
+
 
     //载入过滤配置
     filter.store(filterStore);
