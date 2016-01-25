@@ -52,12 +52,22 @@ module.exports = function (app) {
         validRole: function (req, item, done) {
             var instInfo = req["inst"];
             if (item && item.role && item.role.length > 0) {
-                if (instInfo && instInfo.role) {
-                    if (y9util.Array.contains(item.role, instInfo.role)) {
-                        done(true);
-                    } else {
-                        done(false);
+                if (instInfo && instInfo.roles) {
+                    var hasRoles = [];
+                    for (var i = 0;i < instInfo.roles.length;i++) {
+                        hasRoles.push(instInfo.roles[i].no);
                     }
+                    var pass = false;
+                    for (var i = 0;i < hasRoles.length;i++) {
+                        for (var j = 0;j < item.role.length;j++) {
+                            if (typeof item.role[j] == 'function') {
+                                pass = item.role[j](hasRoles);
+                            } else if (hasRoles[i] == item.role[j]){
+                                pass = true;
+                            }
+                        }
+                    }
+                    done(pass);
                 } else {
                     done(false);
                 }

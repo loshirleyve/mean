@@ -71,9 +71,11 @@ block content
                     div.btn-group.btn-group-justified
                         div.btn-group(ng-repeat="orderState in vm.orderDetail.data.orderLogs")
                             a.btn(href="")
-                                img(src="/image/money@3x.png")
+                                img(ng-if="orderState.imgno === '2'",src="/image/dingdang2@3x.png")
+                                img(ng-if="orderState.imgno === '1'",src="/image/dingdang1@3x.png")
+                                img(ng-if="orderState.imgno === '0'",src="/image/dingdang3@3x.png")
                                 p.font-small(ng-bind="orderState.orderstatecode")
-                                span.font-small(ng-bind="orderState.handledate | timestampFilter")
+                                p.font-small(ng-bind="orderState.handledate | timeAgoFilter")
 
                 span.small.padding-left 付款详情
                 div.body-orderDetail
@@ -81,7 +83,7 @@ block content
                         div.media-body
                             h4.padding-left.font-red.small(ng-bind="(vm.orderDetail.data.order.paystate) | ctrlCodeFilter:'orderpaystate':'name':'no'",
                             ng-click="vm.toPayInfo(vm.orderDetail.data.order.id)")
-                        a.media-right.media-middle
+                        a.media-right
                             span.glyphicon.glyphicon-chevron-right
                 div(ng-if="vm.orderDetail.data.order.adviser !== null && vm.orderDetail.data.order.adviser !== ''")
                     span.small.padding-left 专属顾问

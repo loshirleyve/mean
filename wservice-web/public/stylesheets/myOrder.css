@@ -115,3 +115,14 @@ p {
   background-color: #fff;
   color: #E94B35;
 }
+.body-orderDetail .btn-group {
+  text-align: top;
+}
+.body-orderDetail .btn-group img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+.body-orderDetail .btn-group p {
+  line-height: 0.5em;
+}
