@@ -18,7 +18,7 @@ angular.module("rouletteApp", ["ui.neptune",
             "大吉大利",
             "平平安安",
             "恭贺新春"];// 参赛者
-        vm.theRoulette = TheRoultte(vm.entrys);// 先绘制一个轮盘
+        vm.theRoulette = TheRoultte(vm.entrys,$scope);// 先绘制一个轮盘
 
         // 查询主题
         vm.queryTopics = function () {
