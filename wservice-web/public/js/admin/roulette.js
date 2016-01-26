@@ -212,6 +212,11 @@ angular.module("rouletteApp", ["ui.neptune",
         var seconds = 10000;  // how long animation runs
         var colorArrow = ["#000000", "#000000", 4]; // [fill color, border color, border width]
 
+        //错开颜色
+        if (prizes.length%2 === 1) {
+            color.push(color[1]);
+        }
+
         /*
          *
          * DO NOT MODIFY
