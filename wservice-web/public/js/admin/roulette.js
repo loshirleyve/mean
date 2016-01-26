@@ -154,9 +154,12 @@ angular.module("rouletteApp", ["ui.neptune",
             return QueryMsgBySceneRepo.loading() || QueryTopicsRepo.loading() || QueryMsgCardInfoByIdRepo.loading();
         };
 
+        // 设置中奖人
         vm.setupWinner = function(userName) {
-            vm.winners[userName] = vm.msgCard.topic.replace(";","");
-            vm.dealWithEntrys();
+            if (vm.msgCard) {
+                vm.winners[userName] = vm.msgCard.topic.replace(";","");
+                vm.dealWithEntrys();
+            }
         };
 
 
