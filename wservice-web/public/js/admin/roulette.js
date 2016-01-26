@@ -283,8 +283,8 @@ angular.module("rouletteApp", ["ui.neptune",
 
         var getFontScale = function (_size) {
             var scaleSource = _size;
-            fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
+            //fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
+            fontSize = 25.7; // 固定字体
         };
 
         window.drawSections = function () {

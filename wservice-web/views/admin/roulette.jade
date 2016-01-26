@@ -10,15 +10,16 @@ block content
    script(src="/js/admin/raphael.js")
    script(src="/js/admin/roulette.js")
    div(ng-app="rouletteApp",ng-controller="rouletteController as vm",style="position:relative;z-index: 999;" npt-loading="vm.isLoading()")
-      div.col-md-2(style="float:right;margin-right:10px;")
-         button(style="opacity:0.8;float:right;" ng-click="vm.queryTopics()",ng-disabled="spining").btn.btn-danger 选择抽奖项
-         button(style="opacity:0.8;" ng-click="vm.spin()",ng-disabled="spining").btn.btn-danger 开始抽奖
-         br
-         div(style="margin-top:20px;",ng-repeat="(key, value) in vm.winners")
-            p.alert.alert-danger
-               span {{value}}：
-               br
-               | {{key}}
+      div(style="float:right;")
+         div.col-md-12(style="")
+            div
+               button(style="opacity:0.8;" ng-click="vm.spin()",ng-disabled="spining").btn.btn-danger 开始抽奖
+               button(style="opacity:0.8;margin-left:10px;" ng-click="vm.queryTopics()",ng-disabled="spining").btn.btn-danger 选择抽奖项
+            div(style="margin-top:10px;" ng-repeat="(key, value) in vm.winners")
+               p.alert.alert-danger
+                  span {{value}}：
+                  br
+                  | {{key}}
       div
          div.col-md-3
             div.alert.alert-danger(style="opacity:0.9",ng-show="vm.msgCard.content") {{vm.msgCard.content}}
