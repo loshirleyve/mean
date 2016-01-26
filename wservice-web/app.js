@@ -91,8 +91,8 @@ app.use(function (err, req, res, next) {
 function errorHandler(err, req, res, next) {
     res.status(err.status || 500);
     res.render('sys/error', {
-        message: err.message,
-        error: {}
+        status:err.status || 500,
+        message: err.message
     });
 }
 
