@@ -55,7 +55,7 @@ block content
                             h4.media-heading 订单详情
                             a.pull-right(href="", role="button", ng-click="vm.toComplaint(vm.orderDetail.data.order.id)")
                                 span 投诉
-                div.body-orderDetail
+                div#orderLogs.body-orderDetail
                     div.media
                         a.media-left(href="")
                             img.media-object.img-rounded(npt-image="vm.orderDetail.data.order.imgid", npt-image-options="vm.imageOptions")
@@ -71,9 +71,11 @@ block content
                     div.btn-group.btn-group-justified
                         div.btn-group(ng-repeat="orderState in vm.orderDetail.data.orderLogs")
                             a.btn(href="")
-                                img(src="/image/money@3x.png")
+                                img(ng-if="orderState.imgno === '2'",src="/image/dingdang2@3x.png")
+                                img(ng-if="orderState.imgno === '1'",src="/image/dingdang1@3x.png")
+                                img(ng-if="orderState.imgno === '0'",src="/image/dingdang3@3x.png")
                                 p.font-small(ng-bind="orderState.orderstatecode")
-                                span.font-small(ng-bind="orderState.handledate | timestampFilter")
+                                p.font-small(ng-bind="orderState.handledate | timeAgoFilter")
 
                 span.small.padding-left 付款详情
                 div.body-orderDetail
@@ -152,12 +154,12 @@ block content
                                 span.sr-only
                         div.media-body.text-center.media-middle
                             h4.media-heading(ng-bind="vm.orderDetail.data.order.paystate==complete?'支付完成':'等待支付'")
-                div.body-orderDetail
+                div.body-orderDetail.payMode
                     div.media
                         p.padding-left
                             span 支付方式
                             span.pull-right(ng-bind="vm.payInfo.data.payMode.name")
-                    hr
+                div.body-orderDetail
                     div.media
                         p.padding-left
                             span 支付总额

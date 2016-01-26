@@ -110,8 +110,30 @@ p {
   color: #000000;
   font-size: 50%;
 }
+#orderLogs {
+  margin-bottom: 0;
+}
 .body-orderDetail button {
   border-color: #E94B35;
   background-color: #fff;
   color: #E94B35;
+}
+.body-orderDetail .btn-group {
+  text-align: top;
+}
+.body-orderDetail .btn-group img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+.body-orderDetail .btn-group p {
+  line-height: 0.5em;
+}
+.payMode {
+  margin: 10px 0;
+  padding: 10px 0;
+}
+.payMode ~ hr {
+  margin: 0;
+  padding: 0;
 }

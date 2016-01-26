@@ -26,10 +26,6 @@ block content
                             span.icon-bar
                             span.icon-bar
                         a.navbar-brand(href="#") 导航管理
-                    div#navbar-collapse.collapse.navbar-collapse.navbar-right
-                        ul.nav.navbar-nav.navbar-left
-                            li
-                                a(href="#/add/0") 添加顶级导航
 
             div.page-header
                 div.row
@@ -77,7 +73,8 @@ block content
                     div.col-xs-6.col-md-6
                         h4 基础导航
                     div.col-xs-6.col-md-6
-                        button.btn.btn-primary.pull-right(type="button",data-toggle="collapse",data-target="#relateInstNavi",aria-expanded="false",aria-controls="collapseExample") 关联机构
+                        a.btn.btn-primary.pull-right(href="#/add/0") 添加顶级导航
+                        a.btn.btn-primary.pull-right(type="button",data-toggle="collapse",data-target="#relateInstNavi",aria-expanded="false",aria-controls="collapseExample") 关联机构
             div.page-body(ng-if="vm.navis")
                 div.container-fluid
                     div#relateInstNavi.collapse
