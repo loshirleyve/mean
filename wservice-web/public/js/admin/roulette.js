@@ -158,7 +158,7 @@ angular.module("rouletteApp", ["ui.neptune",
         vm.setupWinner = function(userName) {
             if (vm.msgCard) {
                 vm.winners[userName] = vm.msgCard.topic.replace(";","");
-                vm.dealWithEntrys();
+                //vm.dealWithEntrys();
             }
         };
 
