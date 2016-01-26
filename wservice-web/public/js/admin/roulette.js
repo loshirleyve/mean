@@ -22,6 +22,7 @@ angular.module("rouletteApp", ["ui.neptune",
 
         // 查询主题
         vm.queryTopics = function () {
+            $scope.spining = false;
             QueryTopicsRepo.post({name: vm.topicTemplate})
                 .then(function (response) {
                     if (response.data && response.data.length > 0) {
@@ -442,7 +443,6 @@ angular.module("rouletteApp", ["ui.neptune",
             var section = document.elementFromPoint(center.x + rInner + 2, center.y);
 
             if (section.raphael) {
-                $scope.spining = false;
                 selected = section.raphael;
                 //section.raphael.toBack();
                 var label = document.getElementById("label" + section.id.split("section")[1]);

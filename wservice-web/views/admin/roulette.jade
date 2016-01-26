@@ -14,7 +14,7 @@ block content
          div.col-md-12(style="")
             div
                button(style="opacity:0.8;" ng-click="vm.spin()",ng-disabled="spining").btn.btn-danger 开始抽奖
-               button(style="opacity:0.8;margin-left:10px;" ng-click="vm.queryTopics()",ng-disabled="spining").btn.btn-danger 选择抽奖项
+               button(style="opacity:0.8;margin-left:10px;" ng-click="vm.queryTopics()").btn.btn-danger 选择抽奖项
             div(style="margin-top:10px;" ng-repeat="(key, value) in vm.winners")
                p.alert.alert-danger
                   span {{value}}：
